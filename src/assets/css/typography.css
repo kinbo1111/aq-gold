@@ -1,0 +1,105 @@
+.h1 {
+    font-size: 96px;
+    font-weight: bold;
+}
+
+.h2 {
+    font-size: 84px;
+    font-weight: bold;
+}
+
+.h3 {
+    font-size: 72px;
+    font-weight: bold;
+}
+
+.h4 {
+    font-size: 64px;
+    font-weight: bold;
+}
+
+.h5 {
+    font-size: 56px;
+    font-weight: bold;
+}
+
+.h6 {
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.h7 {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.sub-1b {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.sub-1r {
+    font-size: 24px;
+    font-weight: 300;
+}
+
+.sub-2b {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.sub-2r {
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.body-1b {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.body-1r {
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.body-2b {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.body-2r {
+    font-size: 12px;
+    font-weight: 300;
+}
+
+.label-1b {
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.label-1r {
+    font-size: 10px;
+    font-weight: 300;
+}
+
+.button-1b {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.button-2b {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.button-3b {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.button-4b {
+    font-weight: 600;
+    font-size: 12px;
+}
+

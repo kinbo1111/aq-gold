@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    font-family: "Roboto";
+    background-color: #191b1c;
+    letter-spacing: 0.6px;
+}

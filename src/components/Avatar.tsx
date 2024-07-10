@@ -1,0 +1,42 @@
+import React from "react";
+import { IconType } from "react-icons";
+import placeholder from "../assets/images/placeholder.png";
+
+interface AvatarProps {
+  src?: string | null | undefined;
+  name: string;
+  intro?: string;
+  icon?: IconType;
+  buttonName?: string;
+}
+
+const Avatar: React.FC<AvatarProps> = ({
+  src,
+  name,
+  intro,
+  icon: Icon,
+  buttonName,
+}) => {
+  return (
+    <div className="flex items-center justify-start gap-4">
+      <img
+        className="rounded-full w-[100px] h-[100px]"
+        alt="Avatar"
+        src={src || placeholder} 
+        style={{ objectFit: "cover" }}
+      />
+      <div>
+        <h6 className="text-white font-semibold text-4xl">{name}</h6>
+        {intro && <p className="text-base text-[#CBCBCB] mb-[2px] mt-[2px]">{intro}</p>}
+        {buttonName && (
+          <button className="flex items-center justify-center gap-1 border border-[#c7a76b] text-[12px] text-[#c7a76b] font-semibold rounded py-1 px-2">
+            {Icon && <Icon size={12} className="text-[#c7a76b]" />}
+            {buttonName}
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Avatar;

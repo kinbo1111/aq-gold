@@ -1,0 +1,50 @@
+import React, { useRef, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import MovieItem from "./MovieItem";
+import { MovieData } from "../../utils/content";
+
+import "swiper/css";
+import "swiper/css/navigation";
+
+import { Navigation } from "swiper/modules";
+
+interface MovieListProp {
+  label: string;
+}
+
+const MovieList: React.FC<MovieListProp> = ({ label }) => {
+  return (
+    <div className="py-12 px-4 border-b-4 border-[#2a2d2e]">
+      <h5 className="text-white sub-1b pl-8 mb-6">{label}</h5>
+      <Swiper
+        navigation={true}
+        modules={[Navigation]}
+        className="mySwiper"
+        spaceBetween={32}
+        slidesPerView={7.5}
+        breakpoints={{
+          640: {
+            slidesPerView: 2,
+          },
+          768: {
+            slidesPerView: 3,
+          },
+          1024: {
+            slidesPerView: 4,
+          },
+          1440: {
+            slidesPerView: 5.5,
+          },
+        }}
+      >
+        {MovieData.map((item, index) => (
+          <SwiperSlide>
+            <MovieItem key={index} imgSrc={item.imgSrc} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
+  );
+};
+
+export default MovieList;

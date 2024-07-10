@@ -1,0 +1,106 @@
+.app {
+    border: none !important;
+    padding: 0 16px;
+    background-color: #212324;
+}
+
+.app .ps-sidebar-container {
+    background-color: transparent !important;
+}
+
+.ps-menuitem-root {
+    margin-bottom: 4px;
+}
+
+.ps-menu-button {
+    background-color: transparent !important;
+    padding: 10px 4px !important;
+    border-radius: 4px !important;
+}
+
+.ps-menu-button.link {
+    flex-direction: row-reverse;
+}
+
+.ps-menu-button:hover {
+    background-color: #585a5c !important;
+}
+
+.ps-menuitem-root.css-1tqrhto:hover {
+    background-color: transparent !important;
+}
+
+
+.ps-menuitem-root:hover .ps-menu-label {
+    color: white;
+}
+
+.ps-menu-label {
+    color: #9fa0a1;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.menu1 {
+    padding: 0 !important;
+    gap: 10px;
+}
+
+.menu1 .ps-menu-button {
+    padding: 5px 0 !important;
+}
+
+.css-1t8x7v1>.ps-menu-button {
+    height: unset !important;
+}
+
+.menu1 .ps-menu-button:hover {
+    background-color: transparent !important;
+}
+
+.menu1 .ps-menu-icon {
+    margin-right: 0 !important;
+}
+
+.menu1 .ps-menu-icon svg path {
+    fill: white;
+}
+
+.ps-submenu-content {
+    background-color: transparent !important;
+}
+
+.css-jn69v9,
+.css-honxw6 {
+    width: 6px !important;
+    height: 6px !important;
+    border-right: 1px solid white !important;
+    border-bottom: 1px solid white !important;
+    margin-right: 5px;
+}
+
+.submenu .ps-menu-button {
+    padding-left: 35px !important;
+}
+
+.css-1tqrhto>.ps-menu-button {
+    height: unset !important;
+}
+
+.ps-sidebar-container {
+    scrollbar-width: thin;
+    scrollbar-color: #9fa0a1 #212324;
+}
+
+.ps-sidebar-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.ps-sidebar-container::-webkit-scrollbar-thumb {
+    background-color: #9fa0a1;
+    border-radius: 4px;
+}
+
+.ps-sidebar-container::-webkit-scrollbar-track {
+    background-color: #212324;
+}
