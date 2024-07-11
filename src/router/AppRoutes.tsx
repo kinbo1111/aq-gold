@@ -8,6 +8,7 @@ import { useAuth } from "../context/AuthContext";
 const UnauthorizedPage = React.lazy(() => import("../pages/UnAuthorizedPage"));
 const NotFoundPage = React.lazy(() => import("../pages/NotFoundPage"));
 const HomePage = React.lazy(() => import("../pages/Homepage/Homepage"));
+const SignIn = React.lazy(() => import("../pages/auth/signin/index"));
 const CreateAccount = React.lazy(() => import("../pages/auth/signup/CreateAccount"));
 const ConfirmEmail = React.lazy(() => import("../pages/auth/signup/ConfirmEmail"));
 const AuthenticateCode = React.lazy(() => import("../pages/auth/signup/AuthenticateCode"));
@@ -21,14 +22,13 @@ const CreateChannel = React.lazy(() => import("../pages/Dashboard/aqChannel/Crea
 const ChannelHome = React.lazy(() => import("../pages/Dashboard/aqChannel"));
 const VideoUpload = React.lazy(() => import("../pages/Dashboard/videoUpload"));
 
-
 const AppRoutes: React.FC = () => {
   const { isLoggedIn } = useAuth();
 
   return (
     <Suspense fallback={<Loading />}>
       <Routes>
-        {isLoggedIn ? (
+        {!isLoggedIn ? (
           <Route path="/">
             <Route path="/" element={<HomePage />} />
             <Route path="dashboard" element={<Dashboard />} />
@@ -45,6 +45,7 @@ const AppRoutes: React.FC = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="unauthorized" element={<UnauthorizedPage />} />
             <Route path="auth">
+              <Route path="signin" element={<SignIn />} />
               <Route path="signup/create-account" element={<CreateAccount />} />
               <Route path="signup/confirm-email" element={<ConfirmEmail />} />
               <Route path="signup/authenticate-code" element={<AuthenticateCode />} />

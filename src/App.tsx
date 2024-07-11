@@ -27,9 +27,6 @@ function App() {
           <ProSidebarProvider>
             <Router>
               <Header onToggleModal={handleToggleModal} />
-              {showModal && (
-                <LoginModal onClose={handleToggleModal} />
-              )}
               <AppRoutes />
             </Router>
             </ProSidebarProvider>

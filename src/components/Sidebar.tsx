@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Sidebar,
   Menu,
@@ -8,7 +8,7 @@ import {
   ProSidebarProvider,
 } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
-
+import AgeConfirmModal from "./AgeConfirmModal";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import { GoHome } from "react-icons/go";
 import { AiFillHeart } from "react-icons/ai";
@@ -16,7 +16,7 @@ import ReceiptRoundedIcon from "@mui/icons-material/ReceiptRounded";
 import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
 import TimelineRoundedIcon from "@mui/icons-material/TimelineRounded";
 import BubbleChartRoundedIcon from "@mui/icons-material/BubbleChartRounded";
-import { MdFilterList } from "react-icons/md";
+import { MdFilterList, MdVideoLibrary, MdAddToQueue } from "react-icons/md";
 import WalletRoundedIcon from "@mui/icons-material/WalletRounded";
 import AccountBalanceRoundedIcon from "@mui/icons-material/AccountBalanceRounded";
 import SavingsRoundedIcon from "@mui/icons-material/SavingsRounded";
@@ -24,16 +24,19 @@ import MonetizationOnRoundedIcon from "@mui/icons-material/MonetizationOnRounded
 import SettingsApplicationsRoundedIcon from "@mui/icons-material/SettingsApplicationsRounded";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import ShieldRoundedIcon from "@mui/icons-material/ShieldRounded";
-import { MdVideoLibrary } from "react-icons/md";
-
-import { MdAddToQueue } from "react-icons/md";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import { IoSettingsSharp } from "react-icons/io5";
 
 import Logo from "./header/Logo";
 
 const SidebarMenu = () => {
-  const { collapseSidebar, rtl } = useProSidebar();
+  const { collapseSidebar } = useProSidebar();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleToggleModal = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div className="flex h-screen fixed bottom-0 left-0 top-10 sidebar z-50">
       <Sidebar className="app" rtl={false}>
@@ -76,7 +79,7 @@ const SidebarMenu = () => {
             <MenuItem className="submenu">Variety Entertainment</MenuItem>
             <MenuItem className="submenu">AQvr</MenuItem>
             <MenuItem className="submenu">Kids & Family</MenuItem>
-            <MenuItem className="submenu">AQ18+</MenuItem>
+            <MenuItem onClick={handleToggleModal} className="submenu">AQ18+</MenuItem>
           </SubMenu>
           <MenuItem component={<Link to="/dashboard/my-list" />} icon={<MdAddToQueue size={24} className="text-white" />}>
             My List
@@ -89,6 +92,7 @@ const SidebarMenu = () => {
           </MenuItem>
         </Menu>
       </Sidebar>
+      {isOpen && <AgeConfirmModal isOpen={isOpen} onClose={handleToggleModal} />}
     </div>
   );
 };

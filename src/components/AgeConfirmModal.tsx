@@ -3,18 +3,18 @@ import React from "react";
 import Button from "./Button";
 import SettingsModalHeader from "../pages/Dashboard/settings/SettingsModalHeader";
 
-interface DeleteAccountProps {
+interface AgeConfirmModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const DeleteAccount: React.FC<DeleteAccountProps> = ({ isOpen, onClose }) => {
+const AgeConfirmModal: React.FC<AgeConfirmModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-85">
       <div className="relative flex items-center justify-center w-full">
-        <div className="max-w-[420px] w-full b-gray-600 rounded-[10px] flex items-center justify-center flex-col">
+        <div className="max-w-[480px] w-full b-gray-600 rounded-[10px] flex items-center justify-center flex-col">
           <SettingsModalHeader
             onClose={onClose}
             showCloseButton={true}
@@ -44,4 +44,4 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({ isOpen, onClose }) => {
   );
 };
 
-export default DeleteAccount;
+export default AgeConfirmModal;

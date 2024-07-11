@@ -29,8 +29,8 @@ const CreateChannel = () => {
   };
 
   return (
-    <div className="relative w-full flex items-center justify-center py-20">
-      <div className="w-11/12 md:w-5/6 lg:w-3/5 b-brand-50 rounded-lg p-12">
+    <div className="relative w-full flex items-center justify-center py-24">
+      <div className="max-w-[800px] w-11/12 md:w-5/6 lg:w-3/5 b-brand-50 rounded-lg p-12">
         <h6 className="sub-1b gray-800 mb-7 text-center">
           Create your AQvr channel
         </h6>

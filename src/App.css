@@ -238,3 +238,11 @@
     border-bottom: 1px solid #212324;
     transform: translateY(-50%) rotate(45deg);
 }
+
+.loginPage {
+    position: relative;
+    background-image: url(./assets/images/banner.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}

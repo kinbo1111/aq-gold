@@ -8,11 +8,7 @@ import Input from '../inputs/Input';
 import Button from '../Button';
 import { Link } from 'react-router-dom';
 
-interface LoginModalProps {
-    onClose: () => void;
-  }
-
-const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
+const LoginModal = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const { login } = useAuth();
   const dispatch = useDispatch();
@@ -20,7 +16,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
 
   const onSubmit = (data: { email: string; password: string }) => {
     login();
-    onClose();
   };
 
   return (

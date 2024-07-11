@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import Container from "../Container";
 import SupportNav from "./SupportNav";
 import Logo from "./Logo";
@@ -10,13 +11,14 @@ import UserNav from "./UserNav";
 
 
 const Header: React.FC<{ onToggleModal: () => void }> = ({ onToggleModal }) => {
+    const navigate = useNavigate();
     const { isLoggedIn, logout } = useAuth();
     return(
        <div className="fixed w-full top-0 left-0 z-[888]">
         <Container>
             <SupportNav/>
         </Container>
-        {isLoggedIn ? (
+        {!isLoggedIn ? (
             <>
                <SidebarMenu/>
                 <div className="fixed top-10 right-0 w-full">
@@ -34,7 +36,7 @@ const Header: React.FC<{ onToggleModal: () => void }> = ({ onToggleModal }) => {
                         <Logo/>
                         <Button
                             label="Sign in"
-                            onClick={onToggleModal}
+                            onClick={() => navigate('/auth/signin')}
                             small
                             full
                         />
