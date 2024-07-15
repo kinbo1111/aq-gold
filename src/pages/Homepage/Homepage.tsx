@@ -7,6 +7,7 @@ import { SlArrowRight } from "react-icons/sl";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Video02 from "../../assets/images/movie02.png"
 import Footer from "../../components/footer/Footer";
+import { useTranslation } from "react-i18next";
 
 const Homepage = () => {
   const {
@@ -18,6 +19,8 @@ const Homepage = () => {
       password: "",
     },
   });
+
+  const { t } = useTranslation();
   const onSubmit: SubmitHandler<FieldValues> = data => {
     console.log(data);
   };
@@ -27,9 +30,9 @@ const Homepage = () => {
         className="relative w-full mainvisual h-[610px] flex items-center justify-center border-b-4 border-[#2a2d2e]"
         >
           <Container>
-            <h6 className="h6 text-center text-white mb-6">Unlimited 360° video contents</h6>
-            <p className="sub-1r text-center text-white mb-6">Watch anywhere anytime with Free.</p>
-            <p className="sub-1r text-center text-white">Ready to watch? Enter your email to create or restart your AQ account.</p>
+          <h6 className="h6 text-center text-white mb-6">{t("Unlimited 360° video contents")}</h6>
+          <p className="sub-1r text-center text-white mb-6">{t("Watch anywhere anytime with Free.")}</p>
+            <p className="sub-1r text-center text-white">{t("Ready to watch? Enter your email to create or restart your AQ account.")}</p>
             <form onSubmit={handleSubmit(onSubmit)} className="flex items-center justify-center flex-col md:flex-row gap-4 mt-9">
               <Input
                 register={register}
@@ -40,12 +43,12 @@ const Homepage = () => {
                 errors={errors}
                 success
                 standard
-                placeholder="tamdt03@gmail.com"
+                placeholder={t("tamdt03@gmail.com")}
                 full
                 required
               />
                 <Button
-                  label="Get Started"
+                  label={t("Get Started")}
                   onClick={() => {}}
                   iconExist
                   icon={SlArrowRight }
@@ -58,8 +61,8 @@ const Homepage = () => {
         <Container>
           <div className="py-[84px] flex items-center justify-center md:justify-between flex-col-reverse md:flex-row">
             <div className="w-full md:w-[48%]">
-              <h6 className="h7 brand-600 mb-4">Enjoy 360° video contents</h6>
-              <p className="sub-2r text-white">Watch 360° video contents such as Natural view, relaxation, travel adventure, sport, games and more.</p>
+              <h6 className="h7 brand-600 mb-4">{t("Enjoy 360° video contents")}</h6>
+              <p className="sub-2r text-white">{t("Watch 360° video contents such as Natural view, relaxation, travel adventure, sport, games and more.")}</p>
             </div>
             <div className="w-full md:w-[48%] rounded-3xl">
               <Slider/>
@@ -70,14 +73,14 @@ const Homepage = () => {
               <img src={Video02} alt="" />
             </div>
             <div className="w-full md:w-[48%]">
-              <h6 className="h7 brand-600 mb-4">Free for watch all contents</h6>
-              <p className="sub-2r text-white">Enjoy all contents for Free.</p>
+              <h6 className="h7 brand-600 mb-4">{t("Free for watch all contents")}</h6>
+              <p className="sub-2r text-white">{t("Enjoy all contents for Free.")}</p>
             </div>
           </div>
           <div className="py-[84px] flex items-center justify-center md:justify-between flex-col-reverse md:flex-row">
             <div className="w-full md:w-[48%]">
-              <h6 className="h7 brand-600 mb-4">Upload your 360° video contents</h6>
-              <p className="sub-2r text-white">Be AQvr to upload and share your 360° video contents.</p>
+              <h6 className="h7 brand-600 mb-4">{t("Upload your 360° video contents")}</h6>
+              <p className="sub-2r text-white">{t("Be AQvr to upload and share your 360° video contents.")}</p>
             </div>
             <div className="w-full md:w-[48%] rounded-3xl">
               <Slider/>
@@ -88,8 +91,8 @@ const Homepage = () => {
               <img src={Video02} alt="" />
             </div>
             <div className="w-full md:w-[48%]">
-              <h6 className="h7 brand-600 mb-4">Watch everywhere</h6>
-              <p className="sub-2r text-white">Stream unlimited 360° video contents on your phone, tablet, laptop, and VR goggle.</p>
+              <h6 className="h7 brand-600 mb-4">{t("Watch everywhere")}</h6>
+              <p className="sub-2r text-white">{t("Stream unlimited 360° video contents on your phone, tablet, laptop, and VR goggle.")}</p>
             </div>
           </div>
         </Container>
@@ -97,7 +100,7 @@ const Homepage = () => {
       <div className="relative py-[80px] border-b-4 border-[#2a2d2e]">
         <Container>
           <FaqList />
-          <p className="sub-1r text-center text-white mt-12">Ready to watch? Enter your email to create or restart your AQ account.</p>
+          <p className="sub-1r text-center text-white mt-12">{t("Ready to watch? Enter your email to create or restart your AQ account.")}</p>
           <form onSubmit={handleSubmit(onSubmit)} className="flex items-center justify-center flex-col md:flex-row gap-4 mt-9">
             <Input
               register={register}
@@ -108,12 +111,12 @@ const Homepage = () => {
               errors={errors}
               success
               standard
-              placeholder="tamdt03@gmail.com"
+              placeholder={t("tamdt03@gmail.com")}
               full
               required
             />
               <Button
-                label="Get Started"
+                label={t("Get Started")}
                 onClick={() => {}}
                 iconExist
                 icon={SlArrowRight }

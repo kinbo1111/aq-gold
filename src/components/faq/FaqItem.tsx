@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 interface FaqItemProps {
     question: string;
@@ -9,6 +10,7 @@ const FaqItem: React.FC<FaqItemProps> = ({ question, answer }) => {
     const [isActive, setIsActive] = useState(false);
     const contentRef = useRef<HTMLDivElement>(null);
     const [height, setHeight] = useState('0px');
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (isActive) {
@@ -21,7 +23,7 @@ const FaqItem: React.FC<FaqItemProps> = ({ question, answer }) => {
     return (
         <div className="py-8 cursor-pointer border-b border-[#585a5c]">
             <div className="flex items-center justify-between" onClick={() => setIsActive(!isActive)}>
-                <h1 className="font-medium text-[28px] text-white">{question}</h1>
+                <h1 className="font-medium text-[28px] text-white">{t(question)}</h1>
                 <div className="text-[16px] text-white font-normal flex items-center justify-center w-[24px] h-[24px] rounded-full border border-white">
                     {isActive ? '-' : '+'}
                 </div>
@@ -32,7 +34,7 @@ const FaqItem: React.FC<FaqItemProps> = ({ question, answer }) => {
                 className="text-white text-[16px] font-normal"
             >
                 <div className="py-2">
-                    {answer}
+                    {t(answer)}
                 </div>
             </div>
         </div>

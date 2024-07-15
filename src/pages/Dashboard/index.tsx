@@ -7,8 +7,10 @@ import MainBanner from '../../assets/images/main.png'
 import Button from "../../components/Button";
 import MainContainer from "../../components/MainContainer";
 import MovieList from "./MoiveList";
+import { useTranslation } from "react-i18next";
 
 const Dashboard = () => {
+    const { t } = useTranslation();
     return (
         <MainContainer>
             <div className="relative main-video w-full">
@@ -35,28 +37,28 @@ const Dashboard = () => {
             </div>
             <div>
                 <MovieList
-                    label="Recommend Contents"
+                    label={t("Recommend Contents")}
                 />
                  <MovieList
-                    label="Continue Watching"
+                    label={t("Continue Watching")}
                 />
                  <MovieList
-                    label="New on AQ Gold"
+                    label={t("New on AQ Gold")}
                 />
                  <MovieList
-                    label="Top 10 Contents in AQ GOLD"
+                    label={t("Top 10 Contents in AQ GOLD")}
                 />
                  <MovieList
-                    label="AQ Original Contents"
+                    label={t("AQ Original Contents")}
                 />
                  <MovieList
-                    label="Top 10 Contents in AQvr"
+                    label={t("Top 10 Contents in AQvr")}
                 />
                  <MovieList
-                    label="New on AQvr"
+                    label={t("New on AQvr")}
                 />
                  <MovieList
-                    label="Popular on AQ Gold"
+                    label={t("Popular on AQ Gold")}
                 />
             </div>
         </MainContainer>

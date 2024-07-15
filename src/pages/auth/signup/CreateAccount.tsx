@@ -5,9 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import Input from "../../../components/inputs/Input";
 import Button from "../../../components/Button";
 import SelectBox from '../../../components/inputs/Select';
+import { useTranslation } from "react-i18next";
 
 const CreateAccount = () => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [gender, setGender] = useState<string>("yes");
     const [selectedYear, setSelectedYear] = useState<string>("");
@@ -40,13 +42,13 @@ const CreateAccount = () => {
     return (
         <div className="relative w-full h-screen flex items-center justify-center py-20">
             <div className="max-w-[600px] w-full b-brand-50 rounded-lg p-12">
-                <p className="body-2r gray-400 mb-4">Step<span className="body-1b gray-800 ml-1">1/3</span></p>
-                <h6 className="sub-1r gray-800 mb-10">Creat your AQ Account</h6>
+                <p className="body-2r gray-400 mb-4">{t("Step")}<span className="body-1b gray-800 ml-1">1/3</span></p>
+                <h6 className="sub-1r gray-800 mb-10">{t("Creat your AQ Account")}</h6>
                 <form onSubmit={() => {}} className="flex flex-col gap-8">
                 <Input
                     id="username"
                     type='email'
-                    label="Username"
+                    label={t("Username")}
                     placeholder="Maruko"
                     register={register}
                     errors={errors}
@@ -55,7 +57,7 @@ const CreateAccount = () => {
                     required
                 />
                 <div>
-                    <h6 className='body-1b gray-700 mb-[2px]'>Your Birthday</h6>
+                    <h6 className='body-1b gray-700 mb-[2px]'>{t("Your Birthday")}</h6>
                     <div className='grid grid-cols-3 gap-4'>
                         <SelectBox
                             options={yearOptions}
@@ -78,7 +80,7 @@ const CreateAccount = () => {
                     </div>
                 </div>
                 <div>
-                    <h6 className='body-1b gray-700 mb-[2px]'>Gender</h6>
+                    <h6 className='body-1b gray-700 mb-[2px]'>{t("Gender")}</h6>
                     <div className='flex items-center justify-start gap-4'>
                         <div className="flex items-center">
                             <input
@@ -94,7 +96,7 @@ const CreateAccount = () => {
                             htmlFor="male"
                             className="ms-2 text-[16px] font-normal gray-800"
                             >
-                            Male
+                            {t("Male")}
                             </label>
                         </div>
                         <div className="flex items-center">
@@ -111,7 +113,7 @@ const CreateAccount = () => {
                             htmlFor="female"
                             className="ms-2 text-[16px] font-normal gray-800"
                             >
-                            Female
+                            {t("Female")}
                             </label>
                         </div>
                     </div>
@@ -119,7 +121,7 @@ const CreateAccount = () => {
                 <Input
                 id="email"
                 type='email'
-                label="Email address"
+                label={t("Email address")}
                 placeholder="Email"
                 register={register}
                 errors={errors}
@@ -129,9 +131,9 @@ const CreateAccount = () => {
                 />
                 <Input
                 id="password"
-                label="Password"
+                label={t("Password")}
                 type="password"
-                placeholder="Use 6~20 characters with numbers"
+                placeholder={t("Use 6~20 characters with numbers")}
                 register={register}
                 errors={errors}
                 small
@@ -140,9 +142,9 @@ const CreateAccount = () => {
                 />
                <Input
                 id="password"
-                label=" Password Confirm"
+                label={t("Password Confirm")}
                 type="password"
-                placeholder="Use 6~20 characters with numbers"
+                placeholder={t("Use 6~20 characters with numbers")}
                 register={register}
                 errors={errors}
                 small
@@ -151,7 +153,7 @@ const CreateAccount = () => {
                 />
                 <div className='flex items-center justify-center'>
                     <Button 
-                        label='Next' 
+                        label={t('Next')} 
                         onClick={() => navigate('/auth/signup/confirm-email')}
                     />
                 </div>

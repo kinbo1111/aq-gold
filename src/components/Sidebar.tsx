@@ -26,13 +26,14 @@ import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import ShieldRoundedIcon from "@mui/icons-material/ShieldRounded";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import { IoSettingsSharp } from "react-icons/io5";
+import { useTranslation } from 'react-i18next';
 
 import Logo from "./header/Logo";
 
 const SidebarMenu = () => {
   const { collapseSidebar } = useProSidebar();
   const [isOpen, setIsOpen] = useState(false);
-
+  const { t } = useTranslation();
   const handleToggleModal = () => {
     setIsOpen(!isOpen);
   };
@@ -57,38 +58,38 @@ const SidebarMenu = () => {
           </MenuItem>
           <hr className="mb-6" />
           <MenuItem component={<Link to="/dashboard/" />} icon={<GoHome size={24} className="text-white" />}>
-            Home
+            {t("Home")}
           </MenuItem>
           <MenuItem icon={<AiFillHeart size={24} className="text-white" />}>
-            New & Popular
+            {t("New & Popular")}
           </MenuItem>
           <SubMenu
-            label="Categories"
+            label={t("Categories")}
             icon={<MdFilterList size={24} className="text-white" />}
           >
-            <MenuItem className="submenu">Natural</MenuItem>
-            <MenuItem className="submenu">Relaxation</MenuItem>
-            <MenuItem className="submenu">Music & Musicals</MenuItem>
-            <MenuItem className="submenu">Travel & Adventure</MenuItem>
-            <MenuItem className="submenu">Sport</MenuItem>
-            <MenuItem className="submenu">VR＆Games</MenuItem>
-            <MenuItem className="submenu">Romance</MenuItem>
-            <MenuItem className="submenu">Horror</MenuItem>
-            <MenuItem className="submenu">Documentaries</MenuItem>
-            <MenuItem className="submenu">Animal</MenuItem>
-            <MenuItem className="submenu">Variety Entertainment</MenuItem>
-            <MenuItem className="submenu">AQvr</MenuItem>
-            <MenuItem className="submenu">Kids & Family</MenuItem>
-            <MenuItem onClick={handleToggleModal} className="submenu">AQ18+</MenuItem>
+            <MenuItem className="submenu">{t("Natural")}</MenuItem>
+            <MenuItem className="submenu">{t("Relaxation")}</MenuItem>
+            <MenuItem className="submenu">{t("Music & Musicals")}</MenuItem>
+            <MenuItem className="submenu">{t("Travel & Adventure")}</MenuItem>
+            <MenuItem className="submenu">{t("Sport")}</MenuItem>
+            <MenuItem className="submenu">{t("VR＆Games")}</MenuItem>
+            <MenuItem className="submenu">{t("Romance")}</MenuItem>
+            <MenuItem className="submenu">{t("Horror")}</MenuItem>
+            <MenuItem className="submenu">{t("Documentaries")}</MenuItem>
+            <MenuItem className="submenu">{t("Animal")}</MenuItem>
+            <MenuItem className="submenu">{t("Variety Entertainment")}</MenuItem>
+            <MenuItem className="submenu">{t("AQvr")}</MenuItem>
+            <MenuItem className="submenu">{t("Kids & Family")}</MenuItem>
+            <MenuItem onClick={handleToggleModal} className="submenu">{t("AQ18+")}</MenuItem>
           </SubMenu>
           <MenuItem component={<Link to="/dashboard/my-list" />} icon={<MdAddToQueue size={24} className="text-white" />}>
-            My List
+            {t("My List")}
           </MenuItem>
           <MenuItem component={<Link to="/dashboard/aq-studio" />} icon={<MdVideoLibrary size={24} className="text-white" />}>
-            AQ Studio
+            {t("AQ Studio")}
           </MenuItem>
           <MenuItem component={<Link to="/dashboard/settings" />} icon={<IoSettingsSharp size={24} className="text-white" />}>
-            Settings
+            {t("Settings")}
           </MenuItem>
         </Menu>
       </Sidebar>
