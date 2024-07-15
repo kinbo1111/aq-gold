@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { RootState } from '../../redux/store';
@@ -11,6 +12,8 @@ import { Link } from 'react-router-dom';
 const LoginModal = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const { login } = useAuth();
+  const { t } = useTranslation();
+  
   const dispatch = useDispatch();
   const { isLoading, error } = useSelector((state: RootState) => state.auth);
 
@@ -21,13 +24,13 @@ const LoginModal = () => {
   return (
     <div className='fixed top-0 left-0 bottom-0 right-0 flex items-center justify-center z-50'>
         <div className='bg-[rgba(19,21,21,0.95)] rounded-2xl max-w-[420px] p-12 border border-[#737576]'>
-            <h6 className='sub-1b text-white mb-6'>Sign In to AQ Gold</h6>
+            <h6 className='sub-1b text-white mb-6'>{t("sign in to aq gold")}</h6>
             {error && <div>{error}</div>}
             <form onSubmit={() => {}} className="flex flex-col gap-4">
                 <Input
                 id="email"
                 type='email'
-                label="Email"
+                label={t("email")}
                 placeholder="Email address"
                 register={register}
                 errors={errors}
@@ -36,7 +39,7 @@ const LoginModal = () => {
                 />
                 <Input
                 id="password"
-                label="Password"
+                label={t("password")}
                 type="password"
                 placeholder="Password"
                 register={register}
@@ -60,19 +63,19 @@ const LoginModal = () => {
                         </span>
                     </label>
                     <label className="body-1r ml-2 light-50 cursor-pointer select-none" htmlFor="check">
-                        Remember Me
+                        {t("remember me")}
                     </label>
                 </div> 
                 <Button 
-                    label='Sign In' 
+                    label={t('sign in' )}
                     disabled={isLoading}
                     small
                     onClick={() => {}}
                 />
-                <Link to="/auth/forgot-password" className='body-1r text-[#1570EF] underline'>Forgot Password?</Link>
+                <Link to="/auth/forgot-password" className='body-1r text-[#1570EF] underline'>{t("Forgot Password?")}</Link>
                 <div className="flex items-start">
-                    <p className='body-1r text-white mr-1'>New to AQ Gold?</p>
-                    <Link to="/auth/signup/create" className='body-1r text-[#1570EF] underline'>Forgot Password?</Link>
+                    <p className='body-1r text-white mr-1'>{t("New to AQ Gold?")}</p>
+                    <Link to="/auth/signup/create" className='body-1r text-[#1570EF] underline'>{t("Sign up now")}</Link>
                 </div>
             </form>
         </div>

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
+import { useTranslation } from "react-i18next";
 
 interface SearchBoxProps {
   initialHistory?: string[];
 }
 
 const SearchBox: React.FC<SearchBoxProps> = ({ initialHistory = [] }) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const { t } = useTranslation();
   const [keyword, setKeyword] = useState<string>("");
   const [history, setHistory] = useState<string[]>(initialHistory);
   const [filteredHistory, setFilteredHistory] = useState<string[]>([]);
@@ -47,7 +49,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ initialHistory = [] }) => {
           type="text"
           value={keyword}
           onChange={handleInputChange}
-          placeholder="Enter a keyword"
+          placeholder={t("search")}
           className="w-[424px] h-[52px] b-gray-700 border border-[#c7a76b] rounded-[74px] px-[18px] body-1b text-white"
         />
         <button
