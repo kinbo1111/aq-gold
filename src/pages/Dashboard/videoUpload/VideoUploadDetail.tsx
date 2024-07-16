@@ -12,6 +12,7 @@ import Input from "../../../components/inputs/Input";
 import Textarea from "../../../components/inputs/Textarea";
 import DetailImg from "../../../assets/images/detailVideo.png";
 import SelectBox from "../../../components/inputs/Select";
+import { useTranslation } from 'react-i18next';
 
 interface VideoUploadDetailProps {
   isOpen: boolean;
@@ -41,6 +42,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
     { value: "playlist03", label: "playlist03" },
     { value: "playlist04", label: "playlist04" },
   ];
+  const { t } = useTranslation();
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [thumbnails, setThumbnails] = useState<Thumbnail[]>([]);
   const [vthumbnails, setVThumbnails] = useState<Thumbnail[]>([]);
@@ -107,7 +109,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
         <SettingsModalHeader
           onClose={onClose}
           showCloseButton={true}
-          label="Video upload Title"
+          label={t("Video upload Title")}
         />
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <div className="p-6">
@@ -125,7 +127,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                     </div>
                   </div>
                   <p className="text-[14px] brand-600 font-semibold mt-4 text-center tracking-widest">
-                    Details
+                    {t("Details")}
                   </p>
                 </div>
                 <div className="visibility-step flex items-center justify-center flex-col">
@@ -140,12 +142,12 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                     </div>
                   </div>
                   <p className="text-[14px] gray-200 font-semibold mt-4 text-center tracking-widest">
-                    Visibility
+                    {t("Visibility")}
                   </p>
                 </div>
               </div>
             </div>
-            <h6 className="sub-2b text-white my-6">Details</h6>
+            <h6 className="sub-2b text-white my-6">{t("Details")}</h6>
             <div className="flex items-start justify-between gap-6 flex-col-reverse md:flex-row">
               <div className="w-full md:w-2/3 mt-6 md:mt-0">
                 <div className="flex flex-col gap-6">
@@ -169,10 +171,10 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                   />
                 </div>
                 <div className="mt-8 flex flex-col gap-2">
-                  <h6 className="body-1b text-white">Thumbnail</h6>
+                  <h6 className="body-1b text-white">{t("Thumbnail")}</h6>
                   <p className="body-1r gray-200">
-                    Select or upload a picture that shows what's in your video.
-                    A good thumbnail stands out and draws viewers' attention.
+                    {t("Select or upload a picture that shows what's in your video.")}
+                    {t("A good thumbnail stands out and draws viewers' attention.")}
                   </p>
                   <div className="flex items-start justify-start gap-4">
                     {thumbnails.map((thumbnail, index) => (
@@ -197,7 +199,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                           className="gray-200 mb-2"
                         />
                         <p className="body-2r gray-200 text-center">
-                          Upload image
+                          {t("Upload image")}
                         </p>
                       </div>
                     </label>
@@ -225,17 +227,16 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                           className="gray-200 mb-2"
                         />
                         <p className="body-2r gray-200 text-center">
-                          Upload image
+                          {t("Upload image")}
                         </p>
                       </div>
                     </label>
                   </div>
                 </div>
                 <div className="mt-6 flex flex-col gap-4">
-                  <h6 className="body-1b text-white">Playlists</h6>
+                  <h6 className="body-1b text-white">{("Playlists")}</h6>
                   <p className="body-1r gray-200">
-                    Add your video to one or more playlists to organize your
-                    content for viewers.
+                    {t("Add your video to one or more playlists to organize your content for viewers.")}
                   </p>
                   <SelectBox
                     options={options}
@@ -247,20 +248,17 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                   />
                 </div>
                 <div className="mt-6 flex flex-col gap-4">
-                  <h6 className="body-1b text-white">Audience</h6>
+                  <h6 className="body-1b text-white">{t("Audience")}</h6>
                   <p className="body-1r text-white">
-                    Is this video made for kids? (required)
+                    {t("Is this video made for kids? (required)")}
                   </p>
                   <p className="body-1r gray-200">
-                    Regardless of your location, you're legally required to
-                    comply with the Children's Online Privacy Protection Act
-                    (COPPA) and/or other laws. You're required to tell us
-                    whether your videos are made for kids.{" "}
+                  {t("forth")}
                     <Link
                       to="https://support.google.com/youtube/answer/9528076?hl=en"
                       className="underline"
                     >
-                      What's content made for kids?
+                      {("What's content made for kids?")}
                     </Link>
                   </p>
                   <div className="px-3 py-1 border border-[#9fa0a1] rounded flex items-center justify-start">
@@ -269,15 +267,12 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                       className="body-1r gray-200"
                       style={{ width: "calc(100% - 24px)" }}
                     >
-                      Regardless of your location, you're legally required to
-                      comply with the Children's Online Privacy Protection Act
-                      (COPPA) and/or other laws. You're required to tell us
-                      whether your videos are made for kids.{" "}
+                      {t("forth")}
                       <Link
                         to="https://support.google.com/youtube/answer/9528076?hl=en"
                         className="underline"
                       >
-                        What's content made for kids?
+                        {t("What's content made for kids?")}
                       </Link>
                     </div>
                   </div>
@@ -295,7 +290,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                       htmlFor="audience-yes"
                       className="ms-2 text-[16px] font-normal text-white"
                     >
-                      Yes, it's made for kids.
+                      {t("Yes, it's made for kids.")}
                     </label>
                   </div>
                   <div className="flex items-center">
@@ -312,7 +307,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                       htmlFor="audience-no"
                       className="ms-2 text-[16px] font-normal text-white"
                     >
-                      No, it's not made for kids.
+                      {t("No, it's not made for kids.")}
                     </label>
                   </div>
                 </div>
@@ -323,7 +318,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                   >
                     <IoMdArrowDropdown className="brand-600" size={14} />
                     <p className="brand-600 text-[12px] font-bold">
-                      Age restriction{" "}
+                      {t("Age restriction")}
                     </p>
                   </div>
                   <div
@@ -331,15 +326,15 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                     style={{ opacity: isDescriptionVisible ? 1 : 0, maxHeight: isDescriptionVisible ? '100%' : '0', overflow: 'hidden', transition: 'max-height 0.3s ease-out, opacity 0.3s ease-out' }}
                   >
                     <p className="body-1r text-white">
-                      Do you want to restrict your video to an adult audience?
+                      {t("Do you want to restrict your video to an adult audience?")}
                     </p>
                     <p className="body-1r gray-200">
-                      Age-restricted videos are shown only in AQ18+.
+                      {t("Age-restricted videos are shown only in AQ18+.")}
                       <Link
                         to="https://support.google.com/youtube/answer/2950063?hl=en"
                         className="underline text-[#1570EF]"
                       >
-                        Learn more
+                        {t("Learn more")}
                       </Link>
                     </p>
                     <div className="flex items-center">
@@ -356,7 +351,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                         htmlFor="age-yes"
                         className="ms-2 text-[16px] font-normal text-white"
                       >
-                        Yes, restrict my video to viewers over 18
+                        {t("Yes, restrict my video to viewers over 18")}
                       </label>
                     </div>
                     <div className="flex items-center">
@@ -373,7 +368,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                         htmlFor="age-no"
                         className="ms-2 text-[16px] font-normal text-white"
                       >
-                        No, don't restrict my video to viewers over 18 only
+                        {t("No, don't restrict my video to viewers over 18 only")}
                       </label>
                     </div>
                   </div>

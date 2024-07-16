@@ -6,12 +6,14 @@ interface SettingsFooterProps {
   activeChannel?: string;
   activeSection?: string;
   isDelete?: boolean; 
+  isDisable?: boolean;
 }
 
 const SettingsFooter: React.FC<SettingsFooterProps> = ({
   onClose,
   activeChannel,
   isDelete = false, 
+  isDisable = true
 }) => {
   let leftButtonLabel = activeChannel === "channel" ? "Back" : "Cancel";
   let rightButtonLabel = activeChannel === "channel" ? "Publish" : "Save";
@@ -23,8 +25,8 @@ const SettingsFooter: React.FC<SettingsFooterProps> = ({
 
   return (
     <div className="w-full relative flex items-center justify-end px-6 py-2 gap-2 border-t border-[#585a5c]">
-      <Button onClick={onClose} label={leftButtonLabel} outline full small />
-      <Button onClick={() => {}} label={rightButtonLabel} full small />
+      <Button disabled={isDisable} onClick={onClose} label={leftButtonLabel} outline full small />
+      <Button disabled={isDisable} onClick={() => {}} label={rightButtonLabel} full small />
     </div>
   );
 };

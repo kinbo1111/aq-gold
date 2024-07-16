@@ -39,7 +39,7 @@ const SidebarMenu = () => {
   };
 
   return (
-    <div className="flex h-screen fixed bottom-0 left-0 top-10 sidebar z-50">
+    <div className="flex h-screen fixed bottom-0 left-0 sidebar z-50">
       <Sidebar className="app" rtl={false}>
         <Menu>
           <MenuItem
