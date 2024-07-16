@@ -7,6 +7,7 @@ import VideoList from "../../../components/VideoList";
 import FilterList from "../aqChannel/FilterList";
 import ContentList from "./ContentList";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -40,6 +41,7 @@ function a11yProps(index: number) {
 export default function StudioTab() {
   const [value, setValue] = React.useState(0);
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
     if (newValue === 3) {
@@ -58,7 +60,7 @@ export default function StudioTab() {
           aria-label="primary tabs example"
         >
           <Tab
-            label="Home"
+            label={t("Home")}
             className="custom-tab"
             {...a11yProps(0)}
             sx={{ 
@@ -68,7 +70,7 @@ export default function StudioTab() {
             }}
           />
           <Tab
-            label="Videos"
+            label={t("Videos")}
             className="custom-tab"
             {...a11yProps(1)}
             sx={{ 
@@ -78,7 +80,7 @@ export default function StudioTab() {
             }}
           />
           <Tab
-            label="Contents"
+            label={t("Contents")}
             className="custom-tab"
             {...a11yProps(2)}
             sx={{ 
@@ -88,7 +90,7 @@ export default function StudioTab() {
             }}
           />
           <Tab
-            label="Upload Videos"
+            label={t("Upload Videos")}
             className="custom-tab"
             {...a11yProps(3)}
             sx={{ 

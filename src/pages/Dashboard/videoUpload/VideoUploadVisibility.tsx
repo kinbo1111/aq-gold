@@ -5,6 +5,7 @@ import SettingsModalHeader from "../settings/SettingsModalHeader";
 import { RiCheckboxBlankCircleFill } from "react-icons/ri";
 import { GiCheckMark } from "react-icons/gi";
 import { IoIosHelpCircle } from "react-icons/io";
+import { useTranslation } from 'react-i18next';
 
 import Button from "../../../components/Button";
 
@@ -37,6 +38,8 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
     setIsScheduled(!publishNow);
   };
 
+  const { t } = useTranslation();
+
   const onSubmit: SubmitHandler<FormData> = (data) => {
     console.log(data);
   };
@@ -63,7 +66,7 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
                     </div>
                   </div>
                   <p className="text-[14px] brand-600 font-semibold mt-4 text-center tracking-widest">
-                    Details
+                    {t("Details")}
                   </p>
                 </div>
                 <div className="visibility-step flex items-center justify-center flex-col">
@@ -78,14 +81,14 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
                     </div>
                   </div>
                   <p className="text-[14px] brand-600 font-semibold mt-4 text-center tracking-widest">
-                    Visibility
+                    {t("Visibility")}
                   </p>
                 </div>
               </div>
             </div>
             <div className="mt-6">
-              <h6 className="sub-2b text-white mb-2">Visibility</h6>
-              <p className="body-1r text-white mb-2">Choose when to publish your video</p>
+              <h6 className="sub-2b text-white mb-2">{t("Visibility")}</h6>
+              <p className="body-1r text-white mb-2">{t("Choose when to publish your video")}</p>
               <div className="mb-4">
                 <label className="flex items-center mb-2">
                   <input
@@ -95,7 +98,7 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
                     onChange={() => handleVisibilityChange(true)}
                     className="mr-2"
                   />
-                  <span className="text-white text-[16px] font-normal">Public Now</span>
+                  <span className="text-white text-[16px] font-normal">{t("Public Now")}</span>
                 </label>
                 <label className="flex items-center">
                   <input
@@ -105,7 +108,7 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
                     onChange={() => handleVisibilityChange(false)}
                     className="mr-2"
                   />
-                  <span className="text-white text-[16px] font-normal">Schedule</span>
+                  <span className="text-white text-[16px] font-normal">{t("Schedule")}</span>
                 </label>
               </div>
               {!watch("publishNow") && (
@@ -124,21 +127,20 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
                         />
                     </div>
                     <h6 className="flex items-center gap-2 gray-200 body-1r">
-                        TIME ZONE
+                        {t("TIME ZONE")}
                         <IoIosHelpCircle size={16} className="gray-200" />
                     </h6>
-                    <p className="body-1r gray-200">Video will be private before publishing</p>
+                    <p className="body-1r gray-200">{t("Video will be private before publishing")}</p>
                 </div>
               )}
             </div>
             <div className="b-gray-700 p-6 rounded-lg mt-4">
               <p className="mb-2">
-                <strong className="body-1r text-white">Before you publish, check the following:</strong>
+                <strong className="body-1r text-white">{t("Before you publish, check the following:")}</strong>
               </p>
-              <p className="mb-2 body-2r text-white">Do kids appear in this video?</p>
+              <p className="mb-2 body-2r text-white">{t("Do kids appear in this video?")}</p>
               <p className="mb-4 gray-200 body-2r">
-                Make sure you follow our policies to protect minors from harm,
-                exploitation, bullying, and violations of labor law.
+               {t("seven")}
                 <Link to="https://support.google.com/youtube/answer/2801999?hl=en" className="underline ml-1">
                   Learn more
                 </Link>
