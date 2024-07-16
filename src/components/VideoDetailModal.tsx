@@ -5,6 +5,7 @@ import { MdFavorite } from "react-icons/md";
 import Button from './Button';
 import VideoItem from './VideoItem';
 import { videoData } from '../utils/content';
+import { useTranslation } from 'react-i18next';
 
 interface VideoDetailModalProps {
   isOpen: boolean;
@@ -22,7 +23,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
   videoDescription,
 }) => {
   const [isDescriptionVisible, setDescriptionVisible] = useState(false);
-
+  const { t } = useTranslation();
   const toggleDescription = () => {
     setDescriptionVisible(!isDescriptionVisible);
   };
@@ -38,7 +39,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
             <h6 className='h6 text-white mb-4'>{videoTitle}</h6>
             <div className='flex items-center justify-start gap-4'>
               <Button 
-                label='Play'
+                label={t('Play')}
                 icon={FaPlay}
                 onClick={() => {}}
                 iconExist
@@ -63,16 +64,18 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
           <div className='flex items-center justify-start gap-4'>
             <h6 className='sub-2b text-white'>handle @~~~</h6>
             <button className='relative w-fit px-3 py-2 rounded border border-[#c7a76b] flex items-center justify-center button-4b brand-600 gap-1'>
-              <IoMdAdd className='text-[#c7a76b]' size={16} /> My Favorite
+              <IoMdAdd className='text-[#c7a76b]' size={16} /> {t("My Favorite")}
             </button>
           </div>
           <p className='text-white body-1r flex items-center gap-4 mt-4 mb-2'><span>2005</span><span>1h 54m</span></p>
+          <p className='text-white text-4xl'>Movie Name</p>
+          <p className='text-white my-2'>This is movie descriptioon. This is movie descriptioon. This is movie descriptioon. This is movie descriptioon.</p>
           <div
             className='flex items-center justify-start gap-4 mb-2 cursor-pointer'
             onClick={toggleDescription}
           >
             <IoMdArrowDropdown className='brand-600' size={14}/>
-            <p className='brand-600 text-[12px] font-bold'>{isDescriptionVisible ? 'less details' : 'more details'}</p>
+            <p className='brand-600 text-[12px] font-bold'>{isDescriptionVisible ? t('less details') : t('more details')}</p>
           </div>
           <p
             className={`text-white body-1r transition-opacity duration-300 mb-4`}
@@ -81,7 +84,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
             {videoDescription}
           </p>
           <div>
-            <h6 className='text-white sub-2b mb-4'>More Like This</h6>
+            <h6 className='text-white sub-2b mb-4'>{t("More Like This")}</h6>
             <div className="video-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {videoData.map((item, index) => (
               <VideoItem

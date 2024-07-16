@@ -1,5 +1,8 @@
 import SettingsFooter from "./SettingsFooter";
 import SettingsModalHeader from "./SettingsModalHeader";
+import { Checkbox } from "@mui/material";
+import { useState } from "react";
+import { useTranslation } from 'react-i18next';
 
 interface DeleteChannelProps {
   isOpen: boolean;
@@ -7,7 +10,13 @@ interface DeleteChannelProps {
 }
 
 const DeleteChannel: React.FC<DeleteChannelProps> = ({ isOpen, onClose }) => {
+  const [check, setCheck] = useState(true);
+  const { t } = useTranslation();
   if (!isOpen) return null;
+
+  const handleChange = () => {
+    setCheck(!check)
+  }
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-[999] bg-black bg-opacity-70">
@@ -18,16 +27,17 @@ const DeleteChannel: React.FC<DeleteChannelProps> = ({ isOpen, onClose }) => {
             showCloseButton={true}
             label="Confirm delete AQvr channel"
           />
-          <div className="p-6">
+          <div className="p-3">
             <p className="text-white body-1r">
-              Are you sure you want to delete your AQvr channel?
+              <Checkbox sx={{ color: '#9fa0a1', borderRadius: '4px', '&.Mui-checked': { color: '#9fa0a1' } }} value={check} onChange={handleChange} /> {t("Are you sure you want to delete your AQvr channel?")}
               <br />
               <br />
-              All data on your AQvr channel including uploaded videos are
-              completely deleted.
+              <div className="pl-3">
+              {t("All data on your AQvr channel including uploaded videos are completely deleted.")}
+              </div>
             </p>
           </div>
-          <SettingsFooter onClose={onClose} isDelete />
+          <SettingsFooter onClose={onClose} isDelete isDisable={check} />
         </div>
       </div>
     </div>

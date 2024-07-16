@@ -1,5 +1,8 @@
 import SettingsFooter from "./SettingsFooter";
 import SettingsModalHeader from "./SettingsModalHeader";
+import { useState } from "react";
+import { Checkbox } from "@mui/material";
+import { useTranslation } from 'react-i18next';
 
 interface DeleteAccountProps {
   isOpen: boolean;
@@ -7,7 +10,12 @@ interface DeleteAccountProps {
 }
 
 const DeleteAccount: React.FC<DeleteAccountProps> = ({ isOpen, onClose }) => {
+  const { t } = useTranslation();
+  const [check, setCheck] = useState(true);
   if (!isOpen) return null;
+  const handleChange = () => {
+    setCheck(!check)
+  }
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-[999] bg-black bg-opacity-70">
@@ -18,15 +26,18 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({ isOpen, onClose }) => {
             showCloseButton={true}
             label="Confirm delete AQ account"
           />
-          <div className="p-6">
+          <div className="p-3">
             <p className="text-white body-1r">
-              Are you sure you want to delete your AQ account?
+              <Checkbox sx={{ color: '#9fa0a1', borderRadius: '4px', '&.Mui-checked': { color: '#9fa0a1' } }} value={check} onChange={handleChange} />
+              {t("Are you sure you want to delete your AQ account?")}
               <br />
               <br />
-              All data on your AQ account including AQvr channel are completely deleted.
+              <div className="pl-3">
+                {t("All data on your AQ account including AQvr channel are completely deleted.")}
+              </div>
             </p>
           </div>
-          <SettingsFooter onClose={onClose} isDelete />
+          <SettingsFooter onClose={onClose} isDelete isDisable={check} />
         </div>
       </div>
     </div>
