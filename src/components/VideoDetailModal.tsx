@@ -62,7 +62,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
         </button>
         <div className="px-4 md:px-8 lg:px-12 pt-5 pb-12">
           <div className='flex items-center justify-start gap-4'>
-            <h6 className='sub-2b text-white'>handle @~~~</h6>
+            <h6 className='sub-2b text-white'>{t("handle")} @~~~</h6>
             <button className='relative w-fit px-3 py-2 rounded border border-[#c7a76b] flex items-center justify-center button-4b brand-600 gap-1'>
               <IoMdAdd className='text-[#c7a76b]' size={16} /> {t("My Favorite")}
             </button>

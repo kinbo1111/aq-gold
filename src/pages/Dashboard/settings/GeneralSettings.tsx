@@ -4,6 +4,7 @@ import SelectBox from "../../../components/inputs/Select";
 import BasicInfo from "./BasicInfo";
 import ChangeEmail from "./ChangeEmail";
 import ChangePassword from "./ChangePassword";
+import { useTranslation } from 'react-i18next';
 
 interface GeneralSettingsProps {
   activeSection: string;
@@ -52,6 +53,8 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({
     }
   };
 
+  const { t } = useTranslation();
+
   return (
     <div>
       {activeSection === "" && (
@@ -88,30 +91,30 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({
               </h6>
             </div>
             <h6 className="sub-2r text-white mb-3">
-              Your AQ account is only you can see.
+              {t("Your AQ account is only you can see.")}
             </h6>
-            <p className="body-1r gray-200">Signed in as xxx@gmail.com</p>
+            <p className="body-1r gray-200">{t("Signed in")} as xxx@gmail.com</p>
           </div>
           <div className="py-4 border-b border-[#585a5c]">
-            <h6 className="text-white sub-2r mb-3">Your Account</h6>
+            <h6 className="text-white sub-2r mb-3">{t("Your Account")}</h6>
             <div className="flex flex-col gap-3">
               <div
                 onClick={() => onSectionChange("basicInfo")}
                 className="body-1r text-[#1570EF] underline cursor-pointer"
               >
-                Change your account basic info.
+                {t("Change your account basic info.")}
               </div>
               <div
                 onClick={() => onSectionChange("changeEmail")}
                 className="body-1r text-[#1570EF] underline cursor-pointer"
               >
-                Change your Email address.
+                {t("Change your Email address.")}
               </div>
               <div
                 onClick={() => onSectionChange("changePassword")}
                 className="body-1r text-[#1570EF] underline cursor-pointer"
               >
-                Change your password.
+                {t("Change your password.")}
               </div>
             </div>
           </div>
@@ -120,7 +123,7 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({
               options={options}
               value={selectedOption}
               onChange={setSelectedOption}
-              label="Setting language"
+              label={t("Setting language")}
               border
               standard
             />

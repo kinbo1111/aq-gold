@@ -153,7 +153,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                 <div className="flex flex-col gap-6">
                   <Input
                     id="videoTitle"
-                    label="Title"
+                    label={t("Title")}
                     redRequired
                     placeholder="Add a title that describes your video"
                     type="text"
@@ -163,7 +163,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                   />
                   <Textarea
                     id="videoDescription"
-                    label="Description"
+                    label={t("Description")}
                     placeholder="Tell viewers about your video"
                     register={register}
                     errors={errors}
@@ -380,10 +380,10 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
             </div>
           </div>
           <div className="w-full relative flex items-center justify-end px-6 py-2 gap-2 border-t border-[#585a5c]">
-            <Button onClick={onClose} label="BACK" outline full small />
+            <Button onClick={onClose} label={t("back")} outline full small />
             <Button
               onClick={() => {}}
-              label="Next"
+              label={t("Next")}
               full
               small
               type="submit"
