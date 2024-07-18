@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { useForm } from 'react-hook-form';
 import DefaultAvatarUrl from "../../../assets/images/default_avatar.png";
 import Input from "../../../components/inputs/Input";
-
+import { useTranslation } from 'react-i18next';
 interface BasicInfoProps {
     currentAvatarUrl?: string;
     onAvatarChange: (file: File) => void;
@@ -16,7 +16,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
 }) => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
-
+    const { t } = useTranslation();
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
@@ -44,7 +44,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
 
     return (
         <div>
-            <h5 className="sub-1b text-white mb-4">Account basic info</h5>
+            <h5 className="sub-1b text-white mb-4">{t("Account basic info")}</h5>
             <div className="pb-6 border-b border-[#585a5c]">
                 <div>
                     <div className="flex items-center justify-start gap-6">
@@ -55,13 +55,13 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
                             style={{ maxWidth: '100px', maxHeight: '100px' }} 
                         />
                         <div>
-                            <p className="text-white body-1r mb-3">It’s recommended to use a picture that’s at least 98 x 98 pixels and 4MB or less. Use a PNG or GIF (no animations) file. </p>
+                            <p className="text-white body-1r mb-3">{t("It’s recommended to use a picture that’s at least 98 x 98 pixels and 4MB or less. Use a PNG or GIF (no animations) file.")} </p>
                             <div>
                                 <button onClick={handleChangeClick} className="py-3 px-4 brand-600 button-2b">
-                                    Change
+                                    {t("Change")}
                                 </button>
                                 <button onClick={handleRemoveClick} className="py-3 px-4 brand-600 button-2b">
-                                    Remove
+                                    {t("Remove")}
                                 </button>
                             </div>
                         </div>
@@ -78,7 +78,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
             <div className="py-3">
                 <Input
                     id="username"
-                    label="User Name"
+                    label={t("User Name")}
                     type="text"
                     placeholder="Maruko"
                     register={register}

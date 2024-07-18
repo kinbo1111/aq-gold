@@ -68,7 +68,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
             </button>
           </div>
           <p className='text-white body-1r flex items-center gap-4 mt-4 mb-2'><span>2005</span><span>1h 54m</span></p>
-          <p className='text-white text-4xl'>Movie Name</p>
+          <p className='text-white text-4xl'>{t("Movie Name")}</p>
           <p className='text-white my-2'>This is movie descriptioon. This is movie descriptioon. This is movie descriptioon. This is movie descriptioon.</p>
           <div
             className='flex items-center justify-start gap-4 mb-2 cursor-pointer'

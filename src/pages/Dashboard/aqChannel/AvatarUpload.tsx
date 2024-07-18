@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, forwardRef, useImperativeHandle } from 'react';
 import { Avatar } from '@mui/material';
 import DefaultAvatar from '../../../assets/images/default_avatar.png';
-
+import { useTranslation } from 'react-i18next';
 interface AvatarUploadProps {
   onFileSelect: (file: File | null) => void;
 }
@@ -27,6 +27,8 @@ const AvatarUpload = forwardRef(({ onFileSelect }: AvatarUploadProps, ref) => {
     }
   };
 
+  const { t } = useTranslation();
+
   return (
     <div className="avatar-upload mx-auto flex items-center justify-center flex-col">
       <div className="avatar-preview w-[210px] h-[210px] bg-white rounded-full flex items-center justify-center mb-6">
@@ -44,7 +46,7 @@ const AvatarUpload = forwardRef(({ onFileSelect }: AvatarUploadProps, ref) => {
         onChange={handleFileChange}
       />
       <label htmlFor="icon-button-file">
-        <p className="text-[20px] text-[#1570EF] underline cursor-pointer">Select picture</p>
+        <p className="text-[20px] text-[#1570EF] underline cursor-pointer">{t("Select picture")}</p>
       </label>
     </div>
   );

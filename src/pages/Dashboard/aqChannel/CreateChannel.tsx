@@ -4,9 +4,11 @@ import { useNavigate, Link } from "react-router-dom";
 import Input from "../../../components/inputs/Input";
 import Button from "../../../components/Button";
 import AvatarUpload from "./AvatarUpload";
+import { useTranslation } from 'react-i18next';
 
 const CreateChannel = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -32,14 +34,14 @@ const CreateChannel = () => {
     <div className="relative w-full flex items-center justify-center py-24">
       <div className="max-w-[800px] w-11/12 md:w-5/6 lg:w-3/5 b-brand-50 rounded-lg p-12">
         <h6 className="sub-1b gray-800 mb-7 text-center">
-          Create your AQvr channel
+          {t("Create your AQvr channel")}
         </h6>
         <AvatarUpload ref={avatarUploadRef} onFileSelect={onFileSelect} />
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8 mt-6">
           <Input
             id="name"
             type="text"
-            label="Channel name"
+            label={t("Channel name")}
             placeholder="マルコ"
             register={register}
             errors={errors}
@@ -50,7 +52,7 @@ const CreateChannel = () => {
           <Input
             id="handle"
             type="text"
-            label="Handle"
+            label={t("Handle")}
             placeholder="＠"
             register={register}
             errors={errors}
@@ -60,28 +62,27 @@ const CreateChannel = () => {
           />
           <div>
             <div className="flex items-center justify-center body-1r text-black">
-              By clicking Create Channel you agree to
+              {t("By clicking Create Channel you agree to")}
               <Link
                 to="/terms"
                 className="body-1r text-[#1570EF] underline ml-1"
               >
-                AQ GOLD’s Terms of Service.
+                {t("AQ GOLD’s Terms of Service.")}
               </Link>
             </div>
             <div className="flex items-center justify-center body-1r text-black">
-              Changes made to your name and profile picture are visible on AQ
-              GOLD.
+             {t("Changes made to your name and profile picture are visible on AQ GOLD.")}
               <Link
                 to="learn-more"
                 className="body-1r text-[#1570EF] underline ml-1"
               >
-                Learn more.
+                {t("Learn more")}
               </Link>
             </div>
           </div>
           <div className="flex items-center justify-center">
             <Button
-              label="Create Channel"
+              label={t("Create Channel")}
               onClick={handleSubmit(onSubmit)}
               disabled={!selectedFile}
             />

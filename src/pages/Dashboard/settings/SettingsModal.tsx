@@ -5,6 +5,7 @@ import GeneralSettings from "./GeneralSettings";
 import SettingsFooter from "./SettingsFooter";
 import ChannelSettings from "./ChannelSettings";
 import AdvancedSettings from "./AdvancedSettings";
+import { useTranslation } from "react-i18next";
 
 interface SettingsModalProps {
   isOpen: boolean;
@@ -13,7 +14,7 @@ interface SettingsModalProps {
 
 const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
   const [image, setImage] = useState<string | null>(null);
-
+  const { t } = useTranslation();
   const [activeChannel, setActiveChannel] = useState<string>("general");
   const [activeSection, setActiveSection] = useState<string>("");
 
@@ -52,7 +53,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
   return (
     <div className="relative flex items-center justify-center w-full mt-[60px]">
       <div className="max-w-[850px] w-full b-gray-600 rounded-[10px] flex items-center justify-center flex-col">
-        <SettingsModalHeader onClose={onClose} showCloseButton={false} label="Settings" />
+        <SettingsModalHeader onClose={onClose} showCloseButton={false} label={t("Settings")} />
         <div className="relative w-full flex justify-between">
           <div className="w-[30%]">
             <SettingsModalSidebar setActiveChannel={setActiveChannel} activeChannel={activeChannel} />
