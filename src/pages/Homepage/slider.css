@@ -4,6 +4,7 @@
 }
 
 .swiper-slide {
+    width: 200px;
     text-align: center;
     display: flex;
     justify-content: center;

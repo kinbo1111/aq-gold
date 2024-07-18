@@ -7,6 +7,7 @@ import MainBanner from '../../assets/images/main.png'
 import Button from "../../components/Button";
 import MainContainer from "../../components/MainContainer";
 import MovieList from "./MoiveList";
+import MovieTopList from "./MovieTopList";
 import { useTranslation } from "react-i18next";
 
 const Dashboard = () => {
@@ -49,13 +50,13 @@ const Dashboard = () => {
                  <MovieList
                     label={t("New on AQ Gold")}
                 />
-                 <MovieList
+                 <MovieTopList
                     label={t("Top 10 Contents in AQ GOLD")}
                 />
                  <MovieList
                     label={t("AQ Original Contents")}
                 />
-                 <MovieList
+                 <MovieTopList
                     label={t("Top 10 Contents in AQvr")}
                 />
                  <MovieList

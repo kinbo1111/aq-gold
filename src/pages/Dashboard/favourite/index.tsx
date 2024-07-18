@@ -8,6 +8,7 @@ import Button from "../../../components/Button";
 import MainContainer from "../../../components/MainContainer";
 import MovieList from "../MoiveList";
 import { useTranslation } from "react-i18next";
+import MovieTopList from "../MovieTopList";
 
 const Favourite = () => {
     const { t } = useTranslation();
@@ -43,13 +44,13 @@ const Favourite = () => {
                 <MovieList
                     label={t("New on AQGOLD")}
                 />
-                <MovieList
+                <MovieTopList
                     label={t("Top 10 Contents in AQ GOLD")}
                 />
                  <MovieList
                     label={t("Popular on AQGOLD")}
                 />
-                 <MovieList
+                 <MovieTopList
                     label={t("Top 10 Contents in AQvar")}
                 />
                  <MovieList
