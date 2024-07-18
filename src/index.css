@@ -7,3 +7,13 @@ body {
     background-color: #191b1c;
     letter-spacing: 0.6px;
 }
+
+.order-num{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    font-size: 15rem;
+    align-items: center;
+    color: transparent;
+    -webkit-text-stroke: 4px #2e3133
+}
