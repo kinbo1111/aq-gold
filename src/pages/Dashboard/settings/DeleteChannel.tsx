@@ -25,7 +25,7 @@ const DeleteChannel: React.FC<DeleteChannelProps> = ({ isOpen, onClose }) => {
           <SettingsModalHeader
             onClose={onClose}
             showCloseButton={true}
-            label="Confirm delete AQvr channel"
+            label={t("Confirm delete AQvr channel")}
           />
           <div className="p-3">
             <p className="text-white body-1r">

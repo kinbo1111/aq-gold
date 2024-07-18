@@ -1,5 +1,5 @@
 import * as React from "react";
-
+import { useTranslation } from 'react-i18next';
 interface SettingsModalHeaderProps {
   onClose: () => void;
   label: string;
@@ -11,9 +11,12 @@ const SettingsModalHeader: React.FC<SettingsModalHeaderProps> = ({
   label,
   showCloseButton = true,
 }) => {
+
+  const { t } = useTranslation();
+
   return (
     <div className="relative w-full py-[10px] px-6 flex items-center justify-start border-b border-[#585a5c]">
-      <h6 className="sub-1b text-white">{label}</h6>
+      <h6 className="sub-1b text-white">{t(label)}</h6>
       {showCloseButton && (
         <button
           onClick={onClose}

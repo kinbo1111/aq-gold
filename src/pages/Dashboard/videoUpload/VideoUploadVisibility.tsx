@@ -6,14 +6,12 @@ import { RiCheckboxBlankCircleFill } from "react-icons/ri";
 import { GiCheckMark } from "react-icons/gi";
 import { IoIosHelpCircle } from "react-icons/io";
 import { useTranslation } from 'react-i18next';
-
 import Button from "../../../components/Button";
 
 interface VideoUploadVisibilityProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
 interface FormData {
   publishNow: boolean;
   scheduleDate: string;
@@ -98,7 +96,7 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
                     onChange={() => handleVisibilityChange(true)}
                     className="mr-2"
                   />
-                  <span className="text-white text-[16px] font-normal">{t("Public Now")}</span>
+                  <span className="text-white text-[16px] font-normal">{t("Publish Now")}</span>
                 </label>
                 <label className="flex items-center">
                   <input
@@ -142,23 +140,23 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
               <p className="mb-4 gray-200 body-2r">
                {t("seven")}
                 <Link to="https://support.google.com/youtube/answer/2801999?hl=en" className="underline ml-1">
-                  Learn more
+                  {t("Learn more")}
                 </Link>
               </p>
-              <p className="mb-2 body-2r text-white">Looking for overall content guidance?</p>
+              <p className="mb-2 body-2r text-white">{t("Looking for overall content guidance?")}</p>
               <p className="mb-4 gray-200 body-2r">
-              Our Community Guidelines can help you avoid trouble and ensure that AQ GOLD remains a safe and vibrant community.
+              {t("Our Community Guidelines can help you avoid trouble and ensure that AQ GOLD remains a safe and vibrant community.")}
                 <Link to="https://www.youtube.com/yt/about/policies#community-guidelines" className="underline ml-1">
-                  Learn more
+                  {t("Learn more")}
                 </Link>
               </p>
             </div>
           </div>
           <div>
           <div className="w-full relative flex items-center justify-end px-6 py-2 gap-2 border-t border-[#585a5c]">
-              <Button label="BACK" onClick={onClose}  outline full small/>
+              <Button label={t("BACK")} onClick={onClose}  outline full small/>
               <Button
-                label={watch("publishNow") ? "Public Now" : "Schedule"}
+                label={watch("publishNow") ? t("Publish Now") : t("Schedule")}
                 onClick={() => {}}
                 full
                 small

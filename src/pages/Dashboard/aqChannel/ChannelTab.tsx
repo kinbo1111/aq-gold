@@ -4,7 +4,7 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import VideoList from "../../../components/VideoList";
 import FilterList from "./FilterList";
-
+import { useTranslation } from 'react-i18next';
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -13,7 +13,7 @@ interface TabPanelProps {
 
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
-
+ 
   return (
     <div
       role="tabpanel"
@@ -40,7 +40,7 @@ export default function ChannelTab() {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-
+ const { t } = useTranslation();
   return (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "#585a5c" }}>
@@ -52,7 +52,7 @@ export default function ChannelTab() {
           aria-label="primary tabs example"
         >
           <Tab
-            label="Home"
+            label={t("Home")}
             className="custom-tab"
             {...a11yProps(0)}
             sx={{ 
@@ -62,7 +62,7 @@ export default function ChannelTab() {
             }}
           />
           <Tab
-            label="Videos"
+            label={t("Videos")}
             className="custom-tab"
             {...a11yProps(1)}
             sx={{ 

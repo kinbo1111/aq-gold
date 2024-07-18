@@ -17,7 +17,11 @@ const Dashboard = () => {
                 <img src={MainBanner} alt="" className="w-full h-auto" />
                 <div className="absolute bottom-14 left-16 z-50" >
                     <h1 className="h4 text-white mb-4">One Piece</h1>
-                    <p className="sub-2r text-white mb-4">偉大なる航路（グランドライン）を航海したモンキー・D・ルフィと麦わらの一味。<br/>彼はワンピースの大秘宝を見つけて新しい海賊王になることを望んでいます。</p>
+                    <p className="sub-2r text-white mb-4">
+                        {t("ten")}
+                        <br />
+                        {t("nine")}
+                    </p>
                     <div className="score mb-4 flex items-center gap-3">
                         <FaStar className="text-[#FFEA2B]" size={30}/>
                         <FaStar className="text-[#FFEA2B]" size={30}/>

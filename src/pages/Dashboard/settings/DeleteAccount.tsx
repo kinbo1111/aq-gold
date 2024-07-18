@@ -24,7 +24,7 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({ isOpen, onClose }) => {
           <SettingsModalHeader
             onClose={onClose}
             showCloseButton={true}
-            label="Confirm delete AQ account"
+            label={t("Confirm delete AQ account")}
           />
           <div className="p-3">
             <p className="text-white body-1r">

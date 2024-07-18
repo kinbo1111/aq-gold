@@ -109,7 +109,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
         <SettingsModalHeader
           onClose={onClose}
           showCloseButton={true}
-          label={t("Video upload Title")}
+          label="Video upload Title"
         />
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <div className="p-6">
@@ -155,7 +155,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                     id="videoTitle"
                     label={t("Title")}
                     redRequired
-                    placeholder="Add a title that describes your video"
+                    placeholder={t("Add a title that describes your video")}
                     type="text"
                     register={register}
                     errors={errors}
@@ -164,7 +164,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                   <Textarea
                     id="videoDescription"
                     label={t("Description")}
-                    placeholder="Tell viewers about your video"
+                    placeholder={t("Tell viewers about your video")}
                     register={register}
                     errors={errors}
                     small

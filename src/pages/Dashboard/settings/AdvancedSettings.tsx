@@ -4,6 +4,7 @@ import Input from "../../../components/inputs/Input";
 import { HiClipboardDocument } from "react-icons/hi2";
 import DeleteChannel from "./DeleteChannel";
 import DeleteAccount from "./DeleteAccount";
+import { useTranslation } from "react-i18next";
 
 const AdvancedSettings = () => {
     const [isDeleteChannelOpen, setIsDeleteChannelOpen] = useState(false);
@@ -44,12 +45,14 @@ const AdvancedSettings = () => {
         setIsDeleteAccountOpen(false);
     };
 
+    const { t } = useTranslation();
+
     return (
         <div className="flex flex-col gap-4">
             <div className="relative">
                 <Input
                     id="userId"
-                    label="User ID"
+                    label={t("User ID")}
                     type="text"
                     placeholder="xbhbbdsbddmamsabc"
                     register={register}
@@ -66,7 +69,7 @@ const AdvancedSettings = () => {
             <div className="relative">
                 <Input
                     id="channelId"
-                    label="Channel ID"
+                    label={t("Channel ID")}
                     type="text"
                     placeholder="xbhbbdsbddmamsabc"
                     register={register}
@@ -81,21 +84,21 @@ const AdvancedSettings = () => {
                 />
             </div>
             <div>
-                <h6 className="sub-2r text-white mb-2">Delete Your AQvr Channel</h6>
+                <h6 className="sub-2r text-white mb-2">{t("Delete Your AQvr Channel")}</h6>
                 <div
                     onClick={handleOpenDeleteChannel}
                     className="body-1r text-[#1570EF] underline cursor-pointer"
                 >
-                    Delete your AQvr channel
+                    {t("Delete Your AQvr Channel")}
                 </div>
             </div>
             <div>
-                <h6 className="sub-2r text-white mb-2">Delete your Account</h6>
+                <h6 className="sub-2r text-white mb-2">{t("Delete your Account")}</h6>
                 <div
                     onClick={handleOpenDeleteAccount}
                     className="body-1r text-[#1570EF] underline cursor-pointer"
                 >
-                    Delete your account
+                    {t("Delete your Account")}
                 </div>
             </div>
             {isDeleteChannelOpen && <DeleteChannel isOpen={isDeleteChannelOpen} onClose={handleCloseDeleteChannel} />}

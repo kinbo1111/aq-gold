@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "../../../components/Button";
-
+import { useTranslation } from "react-i18next";
 interface SettingsFooterProps {
   onClose: () => void;
   activeChannel?: string;
@@ -15,12 +15,13 @@ const SettingsFooter: React.FC<SettingsFooterProps> = ({
   isDelete = false, 
   isDisable = true
 }) => {
-  let leftButtonLabel = activeChannel === "channel" ? "Back" : "Cancel";
-  let rightButtonLabel = activeChannel === "channel" ? "Publish" : "Save";
+  const { t } = useTranslation();
+  let leftButtonLabel = activeChannel === "channel" ? t("back") : t("cancel");
+  let rightButtonLabel = activeChannel === "channel" ? t("publish") : t("save");
 
   if (isDelete) {
-    leftButtonLabel = "Cancel";
-    rightButtonLabel = "Delete";
+    leftButtonLabel = t("Cancel");
+    rightButtonLabel = t("Delete");
   }
 
   return (
