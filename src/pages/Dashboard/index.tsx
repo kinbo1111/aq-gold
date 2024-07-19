@@ -53,7 +53,7 @@ const Dashboard = () => {
                  <MovieTopList
                     label={t("Top 10 Contents in AQ GOLD")}
                 />
-                 <MovieList
+                 <MovieTopList
                     label={t("AQ Original Contents")}
                 />
                  <MovieTopList
