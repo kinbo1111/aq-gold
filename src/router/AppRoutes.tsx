@@ -1,7 +1,9 @@
-import React, { Suspense } from "react";
+import React, { Suspense,useEffect,useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import Loading from "../components/Loading";
 import { useAuth } from "../context/AuthContext";
+import { useLocation } from 'react-router-dom';
+
 
 
 // Lazy load all pages
@@ -39,13 +41,19 @@ const Kids = React.lazy(() => import("../pages/Dashboard/category/Kids"));
 
 const AppRoutes: React.FC = () => {
   const { isLoggedIn } = useAuth();
+  const [token, setToken] = useState<any>(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    setToken(localStorage.getItem('token'))
+  }, [location]);
 
   return (
     <Suspense fallback={<Loading />}>
       <Routes>
-        {!isLoggedIn ? (
+        {
           <>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/home" element={<HomePage />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="dashboard/create-channel" element={<CreateChannel />} />
             <Route path="dashboard/aq-channel" element={<ChannelHome />} />
@@ -71,9 +79,7 @@ const AppRoutes: React.FC = () => {
               <Route path="kids" element={<Kids />} /> 
               <Route path="aq18" element={<AQ18 />} /> 
             </Route>
-          </>
-        ) : (
-          <>
+
             <Route path="/" element={<HomePage />} />
             <Route path="unauthorized" element={<UnauthorizedPage />} />
             <Route path="auth">
@@ -85,7 +91,7 @@ const AppRoutes: React.FC = () => {
             </Route>
             <Route path="*" element={<NotFoundPage />} />
           </>
-        )}
+        }
       </Routes>
     </Suspense>
   );

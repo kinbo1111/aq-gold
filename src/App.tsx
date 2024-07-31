@@ -1,6 +1,5 @@
-import React, { useContext } from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import { useState } from "react";
 import AppRoutes from "./router/AppRoutes";
 import Header from "./components/header/Header";
 import { I18nextProvider } from 'react-i18next';
