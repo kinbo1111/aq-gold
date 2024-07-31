@@ -1,19 +1,32 @@
+import React, {useState} from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Input from "../../../components/inputs/Input";
 import Button from "../../../components/Button";
 import { useTranslation } from "react-i18next";
+import { confirmSignUp } from '../../../services/authFunction';
 import SelectBox from "../../../components/inputs/Select";
 
 const ConfirmEmail = () => {
   const { t } = useTranslation();
+  const [username, setUsername] = useState('');
+  const [code, setCode] = useState('');
+  const [message, setMessage] = useState('');
+
+  const { register, formState: { errors } } = useForm();
+
+  const handleSend = () => {
+    confirmSignUp(username, code, (err, result) => {
+      if (err) {
+        setMessage(err.message);
+        return;
+      }
+      setMessage('User confirmed successfully.');
+      navigate("auth/signup/authenticate-code");
+    });
+  };
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
   return (
     <div className="relative w-full h-screen flex items-center justify-center py-20">
       <div className="max-w-[600px] w-full b-brand-50 rounded-lg p-12">
@@ -26,7 +39,7 @@ const ConfirmEmail = () => {
         <p className="text-[20px] text-black mb-10">
           {t("third")}
         </p>
-        <form onSubmit={() => {}} className="flex flex-col gap-10">
+        <div className="flex flex-col gap-10">
           <Input
             id="email"
             type="email"
@@ -34,6 +47,8 @@ const ConfirmEmail = () => {
             placeholder="Email"
             register={register}
             errors={errors}
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
             small
             background
             required
@@ -47,10 +62,10 @@ const ConfirmEmail = () => {
           <div className="flex items-center justify-center">
             <Button
               label={t("Send Code")}
-              onClick={() => navigate("/auth/signup/authenticate-code")}
+              onClick={handleSend}
             />
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );

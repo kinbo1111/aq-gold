@@ -1,51 +1,82 @@
-import React from 'react';
+import React, {useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { RootState } from '../../redux/store';
-import { login } from '../../redux/slices/authSlice';
-import { useAuth } from '../../context/AuthContext';
 import Input from '../inputs/Input';
-import Button from '../Button';
 import { Link } from 'react-router-dom';
+import { message, Button } from 'antd';
+import { signIn } from '../../services/authFunction';
+import { useNavigate } from 'react-router-dom';
 
 const LoginModal = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const { login } = useAuth();
+  const navigate = useNavigate();
   const { t } = useTranslation();
-  
-  const dispatch = useDispatch();
-  const { isLoading, error } = useSelector((state: RootState) => state.auth);
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const [error, setError] = useState<string>();
+  const [isLoading, setIsLoading] = useState(false);     
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [msg, setMessage] = useState('');
 
-  const onSubmit = (data: { email: string; password: string }) => {
-    login();
+  const handleLogIn = () => {
+    setIsLoading(true);
+    signIn(username, password, (err, accessToken) => {
+      if (err) {
+        setMessage(err.message);
+        message.warning(t(err.message));
+        setIsLoading(false);
+        return;
+      }
+      message.success(t("Login successful"));
+      setMessage(`Access Token: ${accessToken}`);
+      navigate('/dashboard');
+      setIsLoading(false);
+    });
   };
+
+  // const handleLogIn = async () => {
+  //     try {
+  //         setIsLoading(true);
+  //         await signIn({ username, password });
+  //         setError('');
+  //         setIsLoading(false);
+  //         message.success(t("Login successful"));
+  //   } catch (err: any) {
+  //         if (err.message.length > 40) setError(err.message.slice(0, 40) + '...')
+  //         else message.warning(err.message);
+  //         setIsLoading(false);
+  //   }
+  // };
+  
 
   return (
     <div className='fixed top-0 left-0 bottom-0 right-0 flex items-center justify-center z-50'>
         <div className='bg-[rgba(19,21,21,0.95)] rounded-2xl max-w-[420px] p-12 border border-[#737576]'>
             <h6 className='sub-1b text-white mb-6'>{t("sign in to aq gold")}</h6>
-            {error && <div>{error}</div>}
-            <form onSubmit={() => {}} className="flex flex-col gap-4">
-                <Input
-                id="email"
-                type='email'
-                label={t("email")}
-                placeholder="Email address"
-                register={register}
-                errors={errors}
-                small
-                required
+        <div className="flex flex-col gap-4">
+                  <Input
+                  id="email"
+                  type='email'
+                  label={t("email")}
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Email address"
+                  register={register}
+                  errors={errors}
+                  small
+                  required
                 />
                 <Input
-                id="password"
-                label={t("password")}
-                type="password"
-                placeholder="Password"
-                register={register}
-                errors={errors}
-                required
-                small
+                    id="password"
+                    label={t("password")}
+                    type="password"
+                    placeholder={t("password")}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    register={register}
+                    errors={errors}
+                    required
+                    small
                 />
                 <div className="inline-flex items-center mb-2">
                     <label className="relative flex items-center rounded-full cursor-pointer" htmlFor="check">
@@ -66,20 +97,21 @@ const LoginModal = () => {
                         {t("remember me")}
                     </label>
                 </div> 
-                <Button 
-                    label={t('sign in' )}
-                    disabled={isLoading}
-                    small
-                    onClick={() => {}}
-                />
+                  <Button 
+                    className='w-[320px] flex-row brand-gradient text-gray-200 border-none button-2b h-10 relative disabled:cursor-not-allowed rounded hover:opacity-80 transition px-4 py-2 flex items-center justify-center'
+                    loading={isLoading}
+                    onClick={handleLogIn}
+                  >
+                      {t('sign in')}
+            </Button>
                 <Link to="/auth/forgot-password" className='body-1r text-[#1570EF] underline'>{t("Forgot Password?")}</Link>
                 <div className="flex items-start">
                     <p className='body-1r text-white mr-1'>{t("New to AQ Gold?")}</p>
-                    <Link to="/auth/signup/create" className='body-1r text-[#1570EF] underline'>{t("Sign up now")}</Link>
-                </div>
-            </form>
+                    <Link to="/auth/signup/create-account" className='body-1r text-[#1570EF] underline'>{t("Sign up now")}</Link>
+                  </div>
+                  </div>     
+            </div>
         </div>
-    </div>
   );
 };
 

@@ -17,7 +17,9 @@ interface InputProps {
   full?: boolean;
   background?: boolean;
   redRequired?: boolean;
+  value?: string;
   register: UseFormRegister<FieldValues>;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -36,7 +38,9 @@ const Input: React.FC<InputProps> = ({
   full = false,
   background = false,
   redRequired,
-  register
+  value,
+  register,
+  onChange
 }) => {
   const getHeightClass = () => {
     if (small) return 'h-10';
@@ -84,6 +88,7 @@ const Input: React.FC<InputProps> = ({
         disabled={disabled}
         placeholder={placeholder}
         type={type}
+        value={value}
         {...register(id, { required })}
         className={`px-3 body-2r bg-transparent border rounded outline-none transition disabled:opacity-70
                     disabled:cursor-not-allowed 
@@ -95,6 +100,9 @@ const Input: React.FC<InputProps> = ({
                     ${error ? 'focus:border-[#F04438]' : 'focus:border-white'}`}
         onChange={(e) => {
           e.target.value = formatValue(e.target.value);
+          if (onChange) {
+            onChange(e);
+          }
         }}
       />
       {error && (
