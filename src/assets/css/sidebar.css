@@ -1,7 +1,7 @@
 .app {
     border: none !important;
     padding: 0 16px;
-    background-color: #212324;
+    background-color: #181A1B;
 }
 
 .app .ps-sidebar-container {
@@ -9,12 +9,13 @@
 }
 
 .ps-menuitem-root {
-    margin-bottom: 4px;
+    margin-bottom: 0px !important;
 }
 
 .ps-menu-button {
-    background-color: transparent !important;
+    background-color: #212324 !important;
     padding: 10px 4px !important;
+    margin: 10px 0px;
     border-radius: 4px !important;
 }
 
@@ -23,7 +24,58 @@
 }
 
 .ps-menu-button:hover {
-    background-color: #585a5c !important;
+    background-color: #2A2D2E !important;
+}
+
+ .ps-submenu-content ul{
+     margin-left: 50px;
+     background-color: #212324;
+     overflow: unset !important;
+ }
+
+ .ps-submenu-content li{
+    margin: 0px !important;
+    position: relative;
+ }
+
+.ps-submenu-content li::before, .ps-submenu-content li::after {
+    content: '';
+    position: absolute;
+    border-top: 1px solid #57595B !important;
+    width: 1px;
+    left: -20px;
+}
+
+.ps-submenu-content li::before {
+    content: '';
+    border-left: 1px solid #57595B;
+    bottom: 10px;
+    height: 130%;
+    top: 0;
+    width: 1px;
+}
+
+.ps-submenu-content li::after {
+    border-top: 1px solid ;
+    height: 1px;
+    margin-top: 10px;
+    background-color: #57595B;
+    top: 10px;
+    width: 15px;
+}
+
+.ps-submenu-content li a {
+    display: inline-block;
+    padding: 3px 8px;
+    text-decoration: none;
+}
+
+.ps-submenu-content li:last-child::before {
+    height: 30px;
+}
+
+.ps-submenu-content li:first-child::after, .ps-submenu-content li:last-child::after {
+    border-radius: 0;
 }
 
 .ps-menuitem-root.css-1tqrhto:hover {

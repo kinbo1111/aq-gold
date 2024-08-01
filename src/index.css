@@ -4,7 +4,7 @@
 
 body {
     font-family: "Roboto";
-    background-color: #191b1c;
+    background-color: #131515;
     letter-spacing: 0.6px;
 }
 
@@ -16,4 +16,41 @@ body {
     align-items: center;
     color: transparent;
     -webkit-text-stroke: 4px #2e3133
+}
+
+.ant-select-selector{
+    position: relative !important;
+    width: 170px !important;
+    height: 40px !important; 
+    text-align: start !important;
+    padding-left: 20px !important; 
+    padding-right: 8px !important; 
+    border-radius: 4px !important;
+    background-color: transparent !important;
+    color: white !important;
+    border: 1px solid #9fa0a1 !important;
+}
+
+.custom-dropdown .ant-select-item {
+  color: white; /* Item text color */
+}
+
+.custom-dropdown .ant-select-item-option-active {
+  background-color: #2e3133; /* Active item background */
+}
+
+.custom-dropdown .ant-select-item-option-selected {
+  background-color: #2e3133 !important; /* Selected item background */
+  color: white !important;
+  font-weight: bold; /* Selected item font weight */
+}
+
+.custom-dropdown .ant-select-item-option-selected::after {
+  content: '✓'; /* Tick mark content */
+  color: rgb(33, 118, 167); /* Tick mark color */
+  font-size: 16px; /* Tick mark size */
+  position: absolute; /* Absolute positioning */
+  right: 10px; /* Position from the right */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Adjust vertical positioning */
 }
