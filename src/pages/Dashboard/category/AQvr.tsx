@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { FaRegStar } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
 import { FaPlay } from "react-icons/fa";
@@ -7,15 +7,34 @@ import MainBanner from '../../../assets/images/main.png'
 import Button from "../../../components/Button";
 import MainContainer from "../../../components/MainContainer";
 import MovieList from "../MoiveList";
+import { IoCloseCircle } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
+import DeleteChannel from "../settings/DeleteChannel";
 
 const AQvr = () => {
+    const [isDeleteChannelOpen, setIsDeleteChannelOpen] = useState(false);
     const { t } = useTranslation();
+    
+    const handleOpenDeleteChannel = () => {
+        setIsDeleteChannelOpen(true);
+    };
+
+    const handleCloseDeleteChannel = () => {
+        setIsDeleteChannelOpen(false);
+    };
   return (
-        <MainContainer>
-            <div className="relative main-video w-full">
-                <img src={MainBanner} alt="" className="w-full h-auto" />
-                <div className="absolute bottom-14 left-16 z-50" >
+      <MainContainer>
+          
+          <div className="relative main-video w-full">
+           
+              <img src={MainBanner} alt="" className="w-full h-auto" />
+                <div className="absolute top-3 right-3">
+                <button onClick={handleOpenDeleteChannel}>
+                    <IoCloseCircle className="w-6 h-6"/>
+                  </button>
+              </div>  
+              <div className="absolute bottom-14 left-16 z-50" >
+        
                     <h1 className="h4 text-white mb-4">One Piece</h1>
                     <p className="sub-2r text-white mb-4">
                         {t("ten")}
@@ -62,7 +81,9 @@ const AQvr = () => {
                     label={t("My List")}
                 />
     
-            </div>
+          </div>
+                      {isDeleteChannelOpen && <DeleteChannel isOpen={isDeleteChannelOpen} onClose={handleCloseDeleteChannel} />}
+
         </MainContainer>
     );
 };

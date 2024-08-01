@@ -7,10 +7,13 @@ import { GiCheckMark } from "react-icons/gi";
 import { IoIosHelpCircle } from "react-icons/io";
 import { useTranslation } from 'react-i18next';
 import Button from "../../../components/Button";
+import { Select, Button as Btn, Input, Divider } from 'antd';
+import { GoTriangleDown } from "react-icons/go";
 
 interface VideoUploadVisibilityProps {
   isOpen: boolean;
   onClose: () => void;
+  onSchedule: () => void;
 }
 interface FormData {
   publishNow: boolean;
@@ -21,6 +24,7 @@ interface FormData {
 const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
   isOpen,
   onClose,
+  onSchedule
 }) => {
   const { register, handleSubmit, watch, setValue } = useForm<FormData>({
     defaultValues: {
@@ -36,10 +40,13 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
     setIsScheduled(!publishNow);
   };
 
+  const [selectedValue, setSelectedValue] = useState(null);
+  const options = ['Japan (GMT＋0700)','US (GMT＋0700)','UK (GMT＋0700)'];
+
   const { t } = useTranslation();
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log(data);
+    onSchedule();
   };
   if (!isOpen) return null;
 
@@ -124,10 +131,31 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
                             className="relative w-[140px] h-10 text-center date-input px-2 rounded bg-transparent text-white border border-[#9fa0a1]"
                         />
                     </div>
-                    <h6 className="flex items-center gap-2 gray-200 body-1r">
-                        {t("TIME ZONE")}
-                        <IoIosHelpCircle size={16} className="gray-200" />
-                    </h6>
+                    <div className="flex items-center gap-2 gray-200 body-1r">
+                    <Select                      
+                        defaultValue="japan"
+                      dropdownStyle={{ backgroundColor: '#212324', borderRadius: '10px', width: "300px", border: "1px #C7A76B solid" }}
+                      popupClassName="custom-dropdown"
+                        suffixIcon={<GoTriangleDown className="text-[#9fa0a1] text-sm"/>}
+                        options={[
+                          { value: 'japan', label: 'Japan (GMT＋0700)' },
+                          { value: 'us', label: 'US (GMT＋0700)' },
+                          { value: 'uk', label: 'UK (GMT＋0700)' },
+                      ]}
+                      
+                        >
+                          {options.map(option => (
+                              <Select.Option
+                                key={option}
+                                value={option}
+                                className={`custom-option ${selectedValue === option ? 'selected' : ''}`}
+                              >
+                                {option}
+                              </Select.Option>
+                            ))}
+                      </Select>
+                      <IoIosHelpCircle size={16} className="gray-200" />
+                    </div>
                     <p className="body-1r gray-200">{t("Video will be private before publishing")}</p>
                 </div>
               )}
