@@ -1,22 +1,71 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import { useForm } from 'react-hook-form';
 import DefaultAvatarUrl from "../../../assets/images/default_avatar.png";
 import Input from "../../../components/inputs/Input";
 import { useTranslation } from "react-i18next";
+import { UserContext } from '../../../contexts/UserContext'
 
 interface ChannelSettingsProps {
-    currentAvatarUrl?: string;
+    channelAvatar?: string;
+    onChannelHandle: (channelHandle: string) => void;
+    onChannelName: (channelName: string) => void;
     onAvatarChange: (file: File) => void;
     onAvatarRemove: () => void;
 }
 
 const ChannelSettings: React.FC<ChannelSettingsProps> = ({
-    currentAvatarUrl,
+    channelAvatar,
     onAvatarChange,
+    onChannelHandle,
+    onChannelName,
     onAvatarRemove
 }) => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+    const {
+        register,
+        formState: { errors },
+    } = useForm();
+
+    const userContext = useContext(UserContext);
+    if (!userContext) {
+        throw new Error("userContext must be used within an AuthProvider!")
+    }
+    const { user } = userContext;
+
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const { t } = useTranslation();
+    const [channelName, setChannelName] = useState<string>("")
+    const [channelHandle, setChannelHandle] = useState<string>("")
+    const [isLoaded, setIsLoaded] = useState<boolean>(false);
+    const [imageUrl, setImageUrl] = useState<string>('');
+    const [Avatar, setChannelAvatar] = useState<string>("")
+
+
+     
+    
+    const handleImageLoad = () => {
+        setIsLoaded(true);
+    };
+
+    const handleImageError = () => {
+        setIsLoaded(false);
+    }
+
+    useEffect(() => {
+        if (!isLoaded) {
+            setImageUrl(DefaultAvatarUrl)
+        }
+        setImageUrl(user?.channelUrl ?? DefaultAvatarUrl)
+    }, [isLoaded])
+
+
+    useEffect(() => {
+        console.log(user)
+        setChannelHandle(user?.channelHandle?? '');
+        setChannelName(user?.channelName?? '')
+    }, [])
+    
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -31,19 +80,21 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
         onAvatarRemove();
     };
 
-    const handleChangeClick = () => {
+        const handleChangeClick = () => {
         if (fileInputRef.current) {
             fileInputRef.current.click();
         }
     };
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm();
+    useEffect(() => {
+        setChannelHandle(channelHandle ? channelHandle : "");    
+        setChannelName(channelName? channelName: "");          
+    },[])
 
-    const { t } = useTranslation();
+    useEffect(() => {
+        onChannelHandle && onChannelHandle(channelHandle)
+        onChannelName && onChannelName(channelName)
+    },[channelName, channelHandle])
 
     return (
         <div>
@@ -54,10 +105,11 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
                 <div>
                     <div className="flex items-center justify-start gap-6">
                         <img 
-                            //   src={currentAvatarUrl || DefaultAvatarUrl} 
-                            src={DefaultAvatarUrl} 
+                            src={selectedFile ? channelAvatar : imageUrl} 
+                            onLoad={handleImageLoad}
+                            onError={handleImageError}
                             alt="Current Avatar" 
-                            style={{ maxWidth: '100px', maxHeight: '100px' }} 
+                            className="rounded-full w-[100px] h-[100px]"
                         />
                         <div>
                             <p className="text-white body-1r mb-3">{t("eleven")}</p>
@@ -86,6 +138,8 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
                     id="channelName"
                     label={t("Name")}
                     type="text"
+                    onChange={e => setChannelName(e.target.value)}
+                    value={channelName}
                     placeholder="HARUO GOLD"
                     register={register}
                     errors={errors}
@@ -97,6 +151,8 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
                     label={t("Handle")}
                     type="text"
                     placeholder="@HARUOGOLD"
+                    onChange={e => setChannelHandle(e.target.value)}
+                    value={channelHandle}
                     register={register}
                     errors={errors}
                     required

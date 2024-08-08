@@ -17,6 +17,9 @@ const DeleteChannel: React.FC<DeleteChannelProps> = ({ isOpen, onClose }) => {
   const handleChange = () => {
     setCheck(!check)
   }
+  const handleSave = () => {
+    console.log("deleted!")
+  }
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-[999] bg-black bg-opacity-70">
@@ -37,7 +40,7 @@ const DeleteChannel: React.FC<DeleteChannelProps> = ({ isOpen, onClose }) => {
               </div>
             </p>
           </div>
-          <SettingsFooter onClose={onClose} isDelete isDisable={check} />
+          <SettingsFooter onClose={onClose} isDelete isDisable={check} handleSave={handleSave} />
         </div>
       </div>
     </div>

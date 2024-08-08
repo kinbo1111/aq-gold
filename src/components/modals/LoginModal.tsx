@@ -1,14 +1,23 @@
-import React, {useState } from 'react';
+import React, {useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import Input from '../inputs/Input';
 import { Link } from 'react-router-dom';
 import { message, Button } from 'antd';
-import { signIn } from '../../services/authFunction';
 import { useNavigate } from 'react-router-dom';
+import { Auth } from 'aws-amplify';
+import { UserContext } from '../../contexts/UserContext'
+
 
 const LoginModal = () => {
+
+  const userContext = useContext(UserContext);
+  if (!userContext) {
+    throw new Error("userContext must be used within an AuthProvider!")
+  }
+  const { login } = userContext;
+
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -16,22 +25,47 @@ const LoginModal = () => {
   const [isLoading, setIsLoading] = useState(false);     
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [msg, setMessage] = useState('');
+  // const [msg, setMessage] = useState('');
 
-  const handleLogIn = () => {
-    setIsLoading(true);
-    signIn(username, password, (err, accessToken) => {
-      if (err) {
-        setMessage(err.message);
-        message.warning(t(err.message));
+   
+  // const handleLogIn = () => {
+  //   setIsLoading(true);
+  //   signIn(username, password, (err, accessToken) => {
+  //     if (err) {
+  //       message.error(t("Login successful"));
+  //       setIsLoading(false);
+  //        if (err.message.length > 40) message.warning(err.message.slice(0, 40) + '...')
+  //        else message.warning(err.message);
+  //     }
+  //     message.success(t("Login successful"));
+  //     setIsLoading(false);
+  //   });
+  // };
+
+    const handleLogIn = async () => {
+      setIsLoading(true);
+      try {
+      
+        if (!username) {
+          message.warning('Username is required.');
+          setIsLoading(false);
+          return;
+        }
+        if (!password) {
+          message.warning('Password is required.');
+          setIsLoading(false);
+          return;
+        }
+
+        await Auth.signIn(username, password);
+        login();
+        navigate('/dashboard');
         setIsLoading(false);
-        return;
-      }
-      message.success(t("Login successful"));
-      setMessage(`Access Token: ${accessToken}`);
-      navigate('/dashboard');
-      setIsLoading(false);
-    });
+
+      } catch (err) {
+        message.warning('Failed to login. Please check your username and password.');
+        setIsLoading(false);
+     }
   };
 
   // const handleLogIn = async () => {
@@ -57,10 +91,10 @@ const LoginModal = () => {
                   <Input
                   id="email"
                   type='email'
-                  label={t("email")}
+                  label={t("User Name")}
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Email address"
+                  placeholder="User Name"
                   register={register}
                   errors={errors}
                   small
@@ -86,10 +120,10 @@ const LoginModal = () => {
                         <span
                             className="absolute text-white transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"
-                            stroke="currentColor" stroke-width="1">
-                            <path fill-rule="evenodd"
+                            stroke="currentColor" strokeWidth="1">
+                            <path fillRule="evenodd"
                                 d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                clip-rule="evenodd"></path>
+                                clipRule="evenodd"></path>
                             </svg>
                         </span>
                     </label>

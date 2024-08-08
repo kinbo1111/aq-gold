@@ -56,7 +56,6 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
   };
 
   const onSubmit = (data: any) => {
-    console.log(data);
     onNext();
   };
 

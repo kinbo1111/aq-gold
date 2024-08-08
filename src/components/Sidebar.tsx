@@ -44,7 +44,7 @@ const SidebarMenu = () => {
         <Menu>
           <MenuItem
             component={<Link to="/" className="link" />}
-            className="menu1"
+            className="logo-menu menu1"
             icon={
               <MenuRoundedIcon
                 onClick={() => {
@@ -57,66 +57,66 @@ const SidebarMenu = () => {
             <Logo />
           </MenuItem>
           <hr className="mb-6" />
-          <MenuItem component={<Link to="/dashboard/" />} icon={<GoHome size={24} className="text-white" />}>
+          <MenuItem component={<Link to="/dashboard" />} icon={<GoHome size={24} className="text-white" />}>
             {t("Home")}
           </MenuItem>
-          <MenuItem component={ <Link to="dashboard/favourite"/>} icon={<AiFillHeart size={24} className="text-white" />}>
+          <MenuItem component={ <Link to="/favourite"/>} icon={<AiFillHeart size={24} className="text-white" />}>
             {t("New & Popular")}
           </MenuItem>
           <SubMenu
             label={t("Categories")}
             icon={<MdFilterList size={24} className="text-white" />}
           >
-            <MenuItem className="submenu" component={<Link to="/dashboard/category/natural" />}>
+            <MenuItem className="submenu" component={<Link to="/category/natural" />}>
               {t("Natural")}
             </MenuItem>
-            <MenuItem className="submenu" component={<Link to="/dashboard/category/relaxation" />}>
+            <MenuItem className="submenu" component={<Link to="/category/relaxation" />}>
               {t("Relaxation")}
             </MenuItem> 
-            <MenuItem className="submenu" component={<Link to="/dashboard/category/music" />}>
+            <MenuItem className="submenu" component={<Link to="/category/music" />}>
               {t("Music & Musicals")}
             </MenuItem>
-            <MenuItem className="submenu" component={<Link to="/dashboard/category/travel" />}>
+            <MenuItem className="submenu" component={<Link to="/category/travel" />}>
               {t("Travel & Adventure")}
             </MenuItem>
-            <MenuItem className="submenu" component={<Link to="/dashboard/category/sport" />}>
+            <MenuItem className="submenu" component={<Link to="/category/sport" />}>
               {t("Sport")}
             </MenuItem>
-            <MenuItem className="submenu" component={<Link to="/dashboard/category/game" />}>
+            <MenuItem className="submenu" component={<Link to="/category/game" />}>
               {t("VR＆Games")}
             </MenuItem>
-            <MenuItem className="submenu" component={<Link to="/dashboard/category/romance" />}>
+            <MenuItem className="submenu" component={<Link to="/category/romance" />}>
               {t("Romance")}
             </MenuItem>
-            <MenuItem className="submenu" component={<Link to="/dashboard/category/horror" />}>
+            <MenuItem className="submenu" component={<Link to="/category/horror" />}>
               {t("Horror")}
             </MenuItem>
-            <MenuItem className="submenu" component={<Link to="/dashboard/category/documentaries" />}>
+            <MenuItem className="submenu" component={<Link to="/category/documentaries" />}>
               {t("Documentaries")}
             </MenuItem>
-            <MenuItem className="submenu" component={<Link to="/dashboard/category/animal" />}>
+            <MenuItem className="submenu" component={<Link to="/category/animal" />}>
               {t("Animal")}
             </MenuItem>
-            <MenuItem className="submenu" component={<Link to="/dashboard/category/entertainment" />}>
+            <MenuItem className="submenu" component={<Link to="/category/entertainment" />}>
               {t("Variety Entertainment")}
             </MenuItem>
-            <MenuItem className="submenu" component={<Link to="/dashboard/category/AQvr" />}>
+            <MenuItem className="submenu" component={<Link to="/category/AQvr" />}>
               {t("AQvr")}
             </MenuItem>
-            <MenuItem className="submenu" component={<Link to="/dashboard/category/kids" />}>
+            <MenuItem className="submenu" component={<Link to="/category/kids" />}>
               {t("Kids & Family")}
             </MenuItem>
-            <MenuItem onClick={handleToggleModal} className="submenu" component={<Link to="/dashboard/AQ18" />}>
+            <MenuItem onClick={handleToggleModal} className="submenu" component={<Link to="/AQ18" />}>
               {t("AQ18+")}
             </MenuItem>
           </SubMenu>
-          <MenuItem component={<Link to="/dashboard/my-list" />} icon={<MdAddToQueue size={24} className="text-white" />}>
+          <MenuItem component={<Link to="/my-list" />} icon={<MdAddToQueue size={24} className="text-white" />}>
             {t("My List")}
           </MenuItem>
-          <MenuItem component={<Link to="/dashboard/aq-studio" />} icon={<MdVideoLibrary size={24} className="text-white" />}>
+          <MenuItem component={<Link to="/aq-studio" />} icon={<MdVideoLibrary size={24} className="text-white" />}>
             {t("AQ Studio")}
           </MenuItem>
-          <MenuItem component={<Link to="/dashboard/settings" />} icon={<IoSettingsSharp size={24} className="text-white" />}>
+          <MenuItem component={<Link to="/settings" />} icon={<IoSettingsSharp size={24} className="text-white" />}>
             {t("Settings")}
           </MenuItem>
         </Menu>

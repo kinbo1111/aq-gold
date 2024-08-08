@@ -17,6 +17,10 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({ isOpen, onClose }) => {
     setCheck(!check)
   }
 
+  const handleSave = () => {
+    console.log("deleted!")
+  }
+
   return (
     <div className="fixed inset-0 flex items-center justify-center z-[999] bg-black bg-opacity-70">
       <div className="relative flex items-center justify-center w-full">
@@ -37,7 +41,7 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({ isOpen, onClose }) => {
               </div>
             </p>
           </div>
-          <SettingsFooter onClose={onClose} isDelete isDisable={check} />
+          <SettingsFooter onClose={onClose} isDelete isDisable={check} handleSave={handleSave}/>
         </div>
       </div>
     </div>

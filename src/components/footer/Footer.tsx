@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Container from "../Container";
-import { useAuth } from "../../context/AuthContext";
 
 const Footer = () => {
   return (

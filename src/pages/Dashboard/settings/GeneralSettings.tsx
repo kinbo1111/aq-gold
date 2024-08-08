@@ -1,29 +1,67 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { MdCameraAlt } from "react-icons/md";
 import SelectBox from "../../../components/inputs/Select";
 import BasicInfo from "./BasicInfo";
 import ChangeEmail from "./ChangeEmail";
 import ChangePassword from "./ChangePassword";
+import { UserContext, CustomUser } from "../../../contexts/UserContext";
 import { useTranslation } from 'react-i18next';
 
-interface GeneralSettingsProps {
+
+export type GeneralSettingsProps = {
   activeSection: string;
+  nickname: string;
   onSectionChange: (section: string) => void;
   currentAvatarUrl: string | undefined;
   onAvatarChange: (file: File) => void;
   onAvatarRemove: () => void;
+  onChangNickname: (nickname: string) => void;
+  onNewPasswordChange: (newPassword: string) => void;
+  onPasswordChange: (password: string) => void;
+  onConfirmPasswordChange: (confirmPassword: string) => void;
+  onNewEmailChange: (newEmail: string) => void;
+  onEmailChange: (Email: string) => void;
+  onConfirmEmailChange: (confirmEmail: string) => void;
 }
 
 const GeneralSettings: React.FC<GeneralSettingsProps> = ({
   activeSection,
-  onSectionChange,
+  nickname,
   currentAvatarUrl,
+  onSectionChange,
   onAvatarChange,
   onAvatarRemove,
+  onChangNickname,
+  onNewPasswordChange,
+  onPasswordChange,
+  onConfirmPasswordChange,
+  onNewEmailChange,
+  onEmailChange,
+  onConfirmEmailChange,
 }) => {
+
+
+  const userContext = useContext(UserContext);
+   if (!userContext) {
+    throw new Error("UserContext must be used within a UserProvider");
+  }
+  const { i18n, t } = useTranslation();
+  const { user } = userContext;
   const [image, setImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedOption, setSelectedOption] = useState<string>("");
+
+  const handleLocaleChange = (locale: String) => {
+    if (locale === 'Japanese') {
+      i18n.changeLanguage('jap')
+      setSelectedOption('Japanese')
+
+    } else {
+      i18n.changeLanguage('en');
+      setSelectedOption('English')
+    }  
+  };
+
 
   const options = [
     {
@@ -52,8 +90,6 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({
       fileInputRef.current.click();
     }
   };
-
-  const { t } = useTranslation();
 
   return (
     <div>
@@ -87,13 +123,13 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({
                 style={{ display: "none" }}
               />
               <h6 className="text-3xl font-semibold text-white ml-3">
-                Anna Nguyen
+                {user?.nickname}
               </h6>
             </div>
             <h6 className="sub-2r text-white mb-3">
               {t("Your AQ account is only you can see.")}
             </h6>
-            <p className="body-1r gray-200">{t("Signed in")} as xxx@gmail.com</p>
+            <p className="body-1r gray-200">{t("Signed in")} as { user?.email}</p>
           </div>
           <div className="py-4 border-b border-[#585a5c]">
             <h6 className="text-white sub-2r mb-3">{t("Your Account")}</h6>
@@ -122,7 +158,7 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({
             <SelectBox
               options={options}
               value={selectedOption}
-              onChange={setSelectedOption}
+              onChange={handleLocaleChange}
               label={t("Setting language")}
               border
               standard
@@ -133,13 +169,29 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({
       )}
       {activeSection === "basicInfo" && (
         <BasicInfo
+          nickname={nickname}
           currentAvatarUrl={currentAvatarUrl}
           onAvatarChange={onAvatarChange}
           onAvatarRemove={onAvatarRemove}
+          onChangeNickname={onChangNickname}
         />
       )}
-      {activeSection === "changeEmail" && <ChangeEmail />}
-      {activeSection === "changePassword" && <ChangePassword />}
+      {
+        activeSection === "changeEmail" &&
+        <ChangeEmail
+          onNewEmailChange = {onNewEmailChange}
+          onEmailChange={onEmailChange}
+          onConfirmEmailChange = {onConfirmEmailChange}
+        />
+      }
+      {
+        activeSection === "changePassword" &&
+        <ChangePassword
+          onNewPasswordChange = {onNewPasswordChange}
+          onPasswordChange={onPasswordChange}
+          onConfirmPasswordChange = {onConfirmPasswordChange}
+        />
+      }
     </div>
   );
 };

@@ -18,29 +18,69 @@ const CreateAccount = () => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const [gender, setGender] = useState<string>('');
+  const [gender, setGender] = useState<string>('male');
   const [birthday, setBirthday] = useState<any>('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
+  const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+  };
+
   const handleCreateAccount = () => {
-    
     setIsLoading(true);
-    signUp(username, password, email, birthday, gender, (err, result) => {
-      if (err) {
-        message.warning(err.message);
-        setIsLoading(false);
-
-        return;
-      }
+        
+    if (!username) {
+          message.warning('Username is required for sign up.');
+          setIsLoading(false);
+          return;
+    }
+        
+    if (!password) {
+      message.warning('Please create a password for sign up.');
       setIsLoading(false);
-      localStorage.setItem('username', username);
-      message.success('User signed up successfully. Please check your email for the confirmation code.');
-      navigate('/auth/signup/authenticate-code');
+      return;
+    }
 
-    });
+    if (!email) {
+      message.warning('Email address is required for signup.');
+      setIsLoading(false);
+      return;
+    }
+    
+    if (!birthday) {
+      message.warning('Please enter your date of birth!');
+      setIsLoading(false);
+      return;
+    }
+    
+    if (password !== passwordConfirm) {
+      message.warning('Passwords do not match. Please confirm your password.');
+      setIsLoading(false);
+      return;
+    }
+    
+    if (!validateEmail(email)) {
+      message.warning('Invalid email address. Please enter a valid email.');
+      setIsLoading(false);
+      return;
+    }
+    else {
+      signUp(username, password, email, birthday, gender, (err, result) => {
+          if (err) {
+            message.warning(err.message);
+            setIsLoading(false);
+            return;
+          }
+          setIsLoading(false);
+          localStorage.setItem('username', username);
+          message.success('User signed up successfully. Please check your email for the confirmation code.');
+          navigate('/auth/signup/authenticate-code');
+        });
+    }
   };
 
   const onChange: DatePickerProps<Dayjs[]>['onChange'] = (date, dateString) => {
@@ -150,7 +190,7 @@ const CreateAccount = () => {
                 />
                 <div className='flex items-center justify-center'>
               <Button 
-                  className='w-[320px] flex-row brand-gradient text-gray-200 border-none button-2b h-10 relative disabled:cursor-not-allowed rounded hover:opacity-80 transition px-4 py-2 flex items-center justify-center'
+                  className='w-[320px] btnOk flex-row brand-gradient text-gray-200 border-none button-2b h-10 relative disabled:cursor-not-allowed rounded hover:opacity-80 transition px-4 py-2 flex items-center justify-center'
                   onClick={handleCreateAccount} 
                   loading={isLoading}
               >{t('Next')}</Button>

@@ -24,9 +24,7 @@ const CreateChannel = () => {
   const onSubmit = (data: any) => {
     if (avatarUploadRef.current) {
       const avatarFile = (avatarUploadRef.current as any).getSelectedFile();
-      console.log("Form Data:", data);
-      console.log("Avatar File:", avatarFile);
-      navigate("/dashboard/aq-channel");
+      navigate("/aq-channel");
     }
   };
 
