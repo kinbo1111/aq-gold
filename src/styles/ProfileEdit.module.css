@@ -1,0 +1,13 @@
+.profileEdit {
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+}
+
+.field {
+  margin-bottom: 15px;
+}
+
+.error {
+  color: red;
+}

@@ -84,16 +84,16 @@ const AuthenticateCode = () => {
                 />
                     <div className='flex items-center flex-col justify-center'>
                         <Button
-                             className='w-[320px] flex-row brand-gradient text-gray-200 border-none button-2b h-10 relative disabled:cursor-not-allowed rounded hover:opacity-80 transition px-4 py-2 flex items-center justify-center my-2'
+                             className='w-[320px] btnOk flex-row brand-gradient text-gray-200 border-none button-2b h-10 relative disabled:cursor-not-allowed rounded hover:opacity-80 transition px-4 py-2 flex items-center justify-center my-2'
                             onClick={handleResendCode}
                             loading={reSendLoading}
-                            icon={<IoIosSend />}
+                            icon={<IoIosSend className='w-6 h-6'/>}
                         >{t('Resend Code')}
                             </Button>
                         <Button 
-                            className='w-[320px] flex-row brand-gradient text-gray-200 border-none button-2b h-10 relative disabled:cursor-not-allowed rounded hover:opacity-80 transition px-4 py-2 flex items-center justify-center'
+                            className='w-[320px] btnOk flex-row brand-gradient text-gray-200 border-none button-2b h-10 relative disabled:cursor-not-allowed rounded hover:opacity-80 transition px-4 py-2 flex items-center justify-center'
                             loading={sendLoading}
-                            icon={<SiAuthelia />}
+                            icon={<SiAuthelia className='w-6 h-6'/>}
                             onClick={handleSend}
                         >{t('Authenticate Email')}
                             </Button>

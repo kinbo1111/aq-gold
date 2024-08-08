@@ -54,7 +54,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ initialHistory = [] }) => {
         />
         <button
           type="submit"
-          onClick={() => navigate('/dashboard/search')}
+          onClick={() => navigate('/search')}
           className="absolute top-1/2 right-1 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center brand-gradient"
         >
           <AiOutlineSearch size={20} className="text-white" />

@@ -45,7 +45,7 @@ export default function StudioTab() {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
     if (newValue === 3) {
-      navigate('/dashboard/video-upload');
+      navigate('/video-upload');
     }
   };
 

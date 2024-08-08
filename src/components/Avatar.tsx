@@ -20,7 +20,7 @@ const Avatar: React.FC<AvatarProps> = ({
 
    const { t } = useTranslation();
   return (
-    <div className="flex items-center justify-start gap-4">
+    <div className="flex items-center justify-start gap-4" >
       <img
         className="rounded-full w-[100px] h-[100px]"
         alt="Avatar"
