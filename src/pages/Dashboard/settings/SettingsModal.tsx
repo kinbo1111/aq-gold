@@ -12,6 +12,8 @@ import { uploadAvatar, getAvatarUrl } from '../../../services/storageService';
 import { updateProfile } from '../../../services/profileService';
 import { message } from "antd";
 import { UserContext } from "../../../contexts/UserContext";
+import { MdVerified } from "react-icons/md";
+import { Button } from 'antd';
 
 export type SettingsModalProps = {
   isOpen: boolean;
@@ -243,9 +245,24 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
 
     </div>
         <Modal
-          title="Verify Your Email"
+          title={<h2 className="text-xl my-4 mt-2">Verify Your Email</h2>}
           open={isModalVisible}
-          onOk={handleVerifyEmail}
+        onOk={handleVerifyEmail}
+        footer={
+          <div className="flex flex-row gap-5 justify-end mt-4">
+          <Button
+          className='btnClose w-[140px] bg-[#181A1B] border-[#DDB951] border-solid text-[#DDB951] button-1b h-10 relative disabled:cursor-not-allowed disabled:text-[#DDB951] rounded hover:bg-blue-500 transition px-4 py-2 flex items-center justify-center'
+          onClick={ModalUnvisible}
+      >Cancel
+      </Button>
+      <Button
+        className='btnOk w-[140px] brand-gradient text-white border-none button-2b h-10 relative disabled:cursor-not-allowed disabled:bg-[#ceac02] disabled:text-gray-00 rounded  transition px-4 py-2 flex items-center justify-center'
+        icon={<MdVerified />}
+        onClick={handleVerifyEmail}>
+        Verify Email
+            </Button>
+            </div>
+        }
           onCancel={() => ModalUnvisible()}
         >
         <Input

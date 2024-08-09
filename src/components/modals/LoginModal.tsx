@@ -132,7 +132,7 @@ const LoginModal = () => {
                     </label>
                 </div> 
                   <Button 
-                    className='w-[320px] flex-row brand-gradient text-gray-200 border-none button-2b h-10 relative disabled:cursor-not-allowed rounded hover:opacity-80 transition px-4 py-2 flex items-center justify-center'
+                    className='w-[320px] btnOk flex-row brand-gradient text-gray-200 border-none button-2b h-10 relative disabled:cursor-not-allowed rounded hover:opacity-80 transition px-4 py-2 flex items-center justify-center'
                     loading={isLoading}
                     onClick={handleLogIn}
                   >
