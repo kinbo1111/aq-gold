@@ -68,7 +68,7 @@ const AuthenticateCode = () => {
                    {t("and press the Start AQ GOLD button")}
                 </p>
                 <div className="flex flex-col gap-10">
-                <Link to="/auth/signup/confirm-email" className='body-1r text-[#1570EF] underline'>{t("I haven't received an authentication code")}</Link>
+                <a className='body-1r text-[#1570EF] underline cursor-pointer'onClick={handleResendCode}>{t("I haven't received an authentication code")}</a>
                 <Input
                     id="number"
                     type='number'
@@ -83,21 +83,13 @@ const AuthenticateCode = () => {
                     required
                 />
                     <div className='flex items-center flex-col justify-center'>
-                        <Button
-                             className='w-[320px] btnOk flex-row brand-gradient text-gray-200 border-none button-2b h-10 relative disabled:cursor-not-allowed rounded hover:opacity-80 transition px-4 py-2 flex items-center justify-center my-2'
-                            onClick={handleResendCode}
-                            loading={reSendLoading}
-                            icon={<IoIosSend className='w-6 h-6'/>}
-                        >{t('Resend Code')}
-                            </Button>
                         <Button 
                             className='w-[320px] btnOk flex-row brand-gradient text-gray-200 border-none button-2b h-10 relative disabled:cursor-not-allowed rounded hover:opacity-80 transition px-4 py-2 flex items-center justify-center'
                             loading={sendLoading}
                             icon={<SiAuthelia className='w-6 h-6'/>}
                             onClick={handleSend}
-                        >{t('Authenticate Email')}
+                        >{t('Start AQ GOLD')}
                             </Button>
-    
                 </div>
             </div>
             </div>

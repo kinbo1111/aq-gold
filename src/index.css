@@ -70,3 +70,17 @@ body {
 .logo-menu > a{
   background-color: transparent !important;
 }
+
+.ant-modal-content{
+  background-color: #2e3133 !important;
+}
+
+.ant-modal-body > input{
+  background-color: #475259 !important;
+  color: white !important;
+}
+
+.ant-modal-title {
+  background-color: #2e3133 !important;
+  color: #DDB951 !important;
+}
