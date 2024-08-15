@@ -2,7 +2,6 @@ import React, { useState, useRef } from "react";
 import Button from "../../../components/Button";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { useTranslation } from 'react-i18next';
-
 interface VideoUploadModalProps {
   isOpen: boolean;
   onClose: () => void;

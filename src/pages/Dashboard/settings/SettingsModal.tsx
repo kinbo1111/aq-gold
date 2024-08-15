@@ -8,7 +8,7 @@ import AdvancedSettings from "./AdvancedSettings";
 import { Modal, Input } from 'antd';
 import { useTranslation } from "react-i18next";
 import { Auth } from 'aws-amplify';
-import { uploadAvatar, getAvatarUrl } from '../../../services/storageService';
+import { uploadAvatar, getAvatarUrl } from '../../../services/avatarService';
 import { updateProfile } from '../../../services/profileService';
 import { message } from "antd";
 import { UserContext } from "../../../contexts/UserContext";

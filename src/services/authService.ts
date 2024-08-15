@@ -1,54 +1,44 @@
-// src/services/authService.ts
 import { Auth } from 'aws-amplify';
 
-export const signUp = async (username: string, password: string, email: string) => {
-  try {
-    const { user } = await Auth.signUp({
-      username,
-      password,
-      attributes: {
-        email, // Optional - E.164 number convention
-      },
-    });
-  } catch (error) {
-    console.error('Error signing up:', error);
-    throw error;
-  }
-};
-
-export const confirmSignUp = async (username: string, code: string) => {
-  try {
-    await Auth.confirmSignUp(username, code);
-  } catch (error) {
-    console.error('Error confirming sign up:', error);
-    throw error;
-  }
-};
-
-export const signIn = async (username: string, password: string) => {
+export async function signIn(username: string, password: string): Promise<any> {
   try {
     const user = await Auth.signIn(username, password);
+    return user;
   } catch (error) {
     console.error('Error signing in:', error);
     throw error;
   }
-};
+}
 
-export const signOut = async () => {
+export async function signUp(username: string, password: string, email: string): Promise<any> {
+  try {
+    const user = await Auth.signUp({
+      username,
+      password,
+      attributes: { email },
+    });
+    return user;
+  } catch (error) {
+    console.error('Error signing up:', error);
+    throw error;
+  }
+}
+
+export async function confirmSignUp(username: string, code: string): Promise<any> {
+  try {
+    const response = await Auth.confirmSignUp(username, code);
+    return response;
+  } catch (error) {
+    console.error('Error confirming sign up:', error);
+    throw error;
+  }
+}
+
+export async function signOut(): Promise<void> {
   try {
     await Auth.signOut();
   } catch (error) {
     console.error('Error signing out:', error);
     throw error;
   }
-};
-
-export const currentUser = async () => {
-  try {
-    const user = await Auth.currentAuthenticatedUser();
-    return user;
-  } catch (error) {
-    console.error('Error getting current user:', error);
-    throw error;
-  }
-};
+}

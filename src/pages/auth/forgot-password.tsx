@@ -78,6 +78,7 @@ const ForgotPassword: React.FC = () => {
             await Auth.forgotPasswordSubmit(email, verificationCode, newPassword);
             message.success('Password reset successfully. Please log in with your new password.');
             setIsResetLoading(false);
+            navigate('/auth/signin')
             setStep(1);
         } catch (error) {
             message.error(`Error resetting password: ${(error as Error).message}`);

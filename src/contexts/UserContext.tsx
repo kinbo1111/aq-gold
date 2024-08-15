@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect, ReactNode, useContext, useCallback } from 'react';
 import { Auth } from 'aws-amplify';
 import { message } from 'antd';
-import { getAvatarUrl } from '../services/storageService';
+import { getAvatarUrl } from '../services/avatarService';
 
 export type CustomUser = {
   username: string;

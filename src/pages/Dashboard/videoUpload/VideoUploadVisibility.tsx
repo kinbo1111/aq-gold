@@ -6,48 +6,75 @@ import { RiCheckboxBlankCircleFill } from "react-icons/ri";
 import { GiCheckMark } from "react-icons/gi";
 import { IoIosHelpCircle } from "react-icons/io";
 import { useTranslation } from 'react-i18next';
-import Button from "../../../components/Button";
+import {Button, message} from "antd";
 import { Select, Button as Btn, Input, Divider } from 'antd';
 import { GoTriangleDown } from "react-icons/go";
+import { ScheduleDataProps } from ".";
 
-interface VideoUploadVisibilityProps {
+export type VideoUploadVisibilityProps = {
   isOpen: boolean;
+  isLoading: boolean;
   onClose: () => void;
-  onSchedule: () => void;
+  onSchedule: (data: ScheduleDataProps | null) => void
 }
-interface FormData {
-  publishNow: boolean;
-  scheduleDate: string;
-  scheduleTime: string;
-}
+
 
 const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
   isOpen,
+  isLoading,
   onClose,
   onSchedule
 }) => {
-  const { register, handleSubmit, watch, setValue } = useForm<FormData>({
+
+  const { register, handleSubmit, watch, setValue } = useForm<ScheduleDataProps>({
     defaultValues: {
       publishNow: true,
       scheduleDate: "",
       scheduleTime: "",
     },
   });
-  const [isScheduled, setIsScheduled] = useState(false);
+  const [timezone, setTimeZone] = useState<string>('')
+  const [publishNow, setPublishNow] = useState<boolean>(true);
+  const [scheduleDate, setScheduleDate] = useState<string>('');
+  const [scheduleTime, setScheduleTime] = useState<string>('');
 
-  const handleVisibilityChange = (publishNow: boolean) => {
-    setValue("publishNow", publishNow);
-    setIsScheduled(!publishNow);
-  };
 
   const [selectedValue, setSelectedValue] = useState(null);
   const options = ['Japan (GMT＋0700)','US (GMT＋0700)','UK (GMT＋0700)'];
 
   const { t } = useTranslation();
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    onSchedule();
-  };
+  const handleClick = () => {
+    if (!publishNow) {
+      if (timezone === '') {
+        message.warning('please select timezone!')
+        return;      
+      }
+
+      if (scheduleDate === '') {
+        message.warning('please select schedule date!')
+        return;      
+      }
+
+      if (scheduleTime === '') {
+        message.warning('Please select schedule time!')
+        return;      
+      }
+    }
+    onSchedule({
+      publishNow: publishNow,
+      scheduleDate: scheduleDate,
+      scheduleTime: scheduleTime,
+      timezone: timezone
+    })
+  }
+
+  const handleChangeTimeZone = (value: string) => setTimeZone(value); 
+  const handleScheduleDate = (e: React.ChangeEvent<HTMLInputElement>) => setScheduleDate(e.target.value); 
+  const handleScheduleTime = (e: React.ChangeEvent<HTMLInputElement>) => setScheduleTime(e.target.value); 
+  const handlePublishNow = (value: boolean) => setPublishNow(value); 
+
+  
   if (!isOpen) return null;
 
   return (
@@ -58,7 +85,7 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
           showCloseButton={true}
           label="Video upload Title"
         />
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+        <form className="w-full">
           <div className="p-6">
             <div className="flex items-center justify-center">
               <div className="flex items-center justify-center">
@@ -99,8 +126,8 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
                   <input
                     type="radio"
                     value="publicNow"
-                    checked={watch("publishNow")}
-                    onChange={() => handleVisibilityChange(true)}
+                    checked={publishNow}
+                    onChange={() => handlePublishNow(true)}
                     className="mr-2"
                   />
                   <span className="text-white text-[16px] font-normal">{t("Publish Now")}</span>
@@ -109,35 +136,38 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
                   <input
                     type="radio"
                     value="schedule"
-                    checked={!watch("publishNow")}
-                    onChange={() => handleVisibilityChange(false)}
+                    checked={!publishNow}
+                    onChange={() => handlePublishNow(false)}
                     className="mr-2"
                   />
                   <span className="text-white text-[16px] font-normal">{t("Schedule")}</span>
                 </label>
               </div>
-              {!watch("publishNow") && (
+              {!publishNow && (
                 <div className="flex flex-col gap-4">
                     <div className="flex items-center justify-start gap-4">
                         <input
                             type="date"
                             {...register("scheduleDate")}
                             className="relative w-[170px] h-10 text-center date-input px-2 rounded bg-transparent text-white border border-[#9fa0a1]"
+                            onChange={handleScheduleDate}
                         />
               
                         <input
                             type="time"
-                            {...register("scheduleTime")}
-                            className="relative w-[140px] h-10 text-center date-input px-2 rounded bg-transparent text-white border border-[#9fa0a1]"
+                           {...register("scheduleTime")}
+                           onChange={handleScheduleTime}
+                           className="relative w-[140px] h-10 text-center date-input px-2 rounded bg-transparent text-white border border-[#9fa0a1]"
                         />
                     </div>
                     <div className="flex items-center gap-2 gray-200 body-1r">
                     <Select                      
-                        defaultValue="japan"
+                      onChange={handleChangeTimeZone}
+                      defaultValue="japan"
                       dropdownStyle={{ backgroundColor: '#212324', borderRadius: '10px', width: "300px", border: "1px #C7A76B solid" }}
                       popupClassName="custom-dropdown"
-                        suffixIcon={<GoTriangleDown className="text-[#9fa0a1] text-sm"/>}
-                        options={[
+                      suffixIcon={<GoTriangleDown className="text-[#9fa0a1] text-sm" />}
+                      options={[
                           { value: 'japan', label: 'Japan (GMT＋0700)' },
                           { value: 'us', label: 'US (GMT＋0700)' },
                           { value: 'uk', label: 'UK (GMT＋0700)' },
@@ -181,16 +211,21 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
             </div>
           </div>
           <div>
-          <div className="w-full relative flex items-center justify-end px-6 py-2 gap-2 border-t border-[#585a5c]">
-              <Button label={t("BACK")} onClick={onClose}  outline full small/>
+            <div className="w-full relative flex items-center justify-end px-6 py-2 gap-2 border-t border-[#585a5c]">
               <Button
-                label={watch("publishNow") ? t("Publish Now") : t("Schedule")}
-                onClick={() => {}}
-                full
-                small
-                type="submit"
-              />
+                className='btnClose w-[120px] flex-row bg-[#181A1B] border-[#DDB951] border-solid text-[#DDB951] button-1b h-10 relative disabled:cursor-not-allowed disabled:text-[#DDB951] rounded hover:bg-blue-500 transition px-4 py-2 flex items-center justify-center'
+                onClick={onClose}
+              >
+                {t("BACK")}
+              </Button>
+              <Button
+                className='btnOk w-[120px] flex-row brand-gradient text-white border-none button-2b h-10 relative disabled:cursor-not-allowed disabled:bg-[#ceac02] disabled:text-gray-00 rounded  transition px-4 py-2 flex items-center justify-center'
+                onClick={handleClick}
+                loading={isLoading} >
+                {publishNow ? t("Publish Now") : t("Schedule")}
+              </Button>
             </div>
+
           </div>
         </form>
       </div>

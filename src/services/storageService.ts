@@ -1,23 +1,46 @@
-// src/services/storageService.ts
+// src/services/StorageService.ts
 import { Storage } from 'aws-amplify';
 
-export const uploadAvatar = async (key: string, file: File): Promise<void> => {
+export async function uploadVideo(file: File): Promise<string> {
   try {
-    await Storage.put(key, file, {
-      contentType: file.type
-      // level: 'public',
+    const result = await Storage.put(`videos/${file.name}`, file, {
+      contentType: file.type,
+      acl: 'public-read',
     });
+    return result.key;
   } catch (error) {
-    console.error('Error uploading avatar:', error);
-    throw error;
+    console.error('Error uploading video', error);
+    throw new Error('Failed to upload video. Please try again.');
   }
-};
+}
 
-export const getAvatarUrl = async (key: string): Promise<string> => {
+export async function getVideoUrl(key: string): Promise<string> {
   try {
-    return await Storage.get(key, { level: 'public' });
+    return await Storage.get(key) as string;
   } catch (error) {
-    console.error('Error getting avatar URL:', error);
-    throw error;
+    console.error('Error getting video URL', error);
+    throw new Error('Failed to retrieve video URL.');
   }
-};
+}
+
+export async function uploadThumbnail(file: File): Promise<string> {
+  try {
+    const result = await Storage.put(`thumbnails/${file.name}`, file, {
+      contentType: file.type,
+      acl: 'public-read',
+    });
+    return result.key;
+  } catch (error) {
+    console.error('Error uploading thumbnail', error);
+    throw new Error('Failed to upload thumbnail. Please try again.');
+  }
+}
+
+export async function getThumbnailUrl(key: string): Promise<string> {
+  try {
+    return await Storage.get(key) as string;
+  } catch (error) {
+    console.error('Error getting thumbnail URL', error);
+    throw new Error('Failed to retrieve thumbnail URL.');
+  }
+}

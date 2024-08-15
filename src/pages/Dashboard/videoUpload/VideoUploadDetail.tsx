@@ -13,16 +13,12 @@ import Textarea from "../../../components/inputs/Textarea";
 import DetailImg from "../../../assets/images/detailVideo.png";
 import SelectBox from "../../../components/inputs/Select";
 import { useTranslation } from 'react-i18next';
+import { VideoDetailData, Thumbnail } from ".";
 
 interface VideoUploadDetailProps {
   isOpen: boolean;
   onClose: () => void;
-  onNext: () => void;
-}
-
-interface Thumbnail {
-  src: string;
-  alt: string;
+  onNext: (detail: VideoDetailData| null) => void;
 }
 
 const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
@@ -43,20 +39,23 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
     { value: "playlist04", label: "playlist04" },
   ];
   const { t } = useTranslation();
-  const [selectedOption, setSelectedOption] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [selectedPlaylist, setSelectedPlaylist] = useState<string>("");
   const [thumbnails, setThumbnails] = useState<Thumbnail[]>([]);
+  const [thumbnailFile, setThumbnailFile] = useState<File>();
   const [vthumbnails, setVThumbnails] = useState<Thumbnail[]>([]);
-  const [audience, setAudience] = useState<string>("yes");
-  const [age, setAge] = useState<string>("yes");
+  const [forKid, setForKid] = useState<boolean>(false);
+  const [restrict, setRestrict] = useState<boolean>(true);
   const [isDescriptionVisible, setDescriptionVisible] = useState(false);
-  const [isFormComplete, setIsFormComplete] = useState(false); // State to track form completion
+  const [isFormComplete, setIsFormComplete] = useState(false);
 
   const toggleDescription = () => {
     setDescriptionVisible(!isDescriptionVisible);
   };
 
-  const onSubmit = (data: any) => {
-    onNext();
+  const onSubmit = (data: VideoDetailData | null) => {
+    onNext(data);
   };
 
   const handleThumbnailUpload = (
@@ -64,6 +63,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
   ) => {
     const files = event.target.files;
     if (files && files.length > 0) {
+      setThumbnailFile(files[0])
       const newThumbnails = Array.from(files).map((file) => ({
         src: URL.createObjectURL(file),
         alt: file.name,
@@ -90,7 +90,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
     const isDescriptionFilled = !!register("videoDescription");
     const isThumbnailUploaded = thumbnails.length > 0;
     const isVThumbnailUploaded = vthumbnails.length > 0;
-    const isOptionSelected = selectedOption !== "";
+    const isOptionSelected = selectedPlaylist !== "";
 
     setIsFormComplete(
       isTitleFilled &&
@@ -99,6 +99,22 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
         isOptionSelected
     );
   };
+
+  const handleClick = () => {
+
+
+    onSubmit({
+      title: title,
+      description: description,
+      category: 'AQvar',
+      thumbnail: thumbnailFile,
+      isForKids: forKid,
+      isRestricted: restrict,
+      playlist: selectedPlaylist,
+    });
+    
+  }
+  
 
   if (!isOpen) return null;
 
@@ -110,7 +126,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
           showCloseButton={true}
           label="Video upload Title"
         />
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+        <form className="w-full">
           <div className="p-6">
             <div className="flex items-center justify-center">
               <div className="flex items-center justify-center">
@@ -156,6 +172,8 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                     redRequired
                     placeholder={t("Add a title that describes your video")}
                     type="text"
+                    value={title}
+                    onChange={e => setTitle(e.target.value)}
                     register={register}
                     errors={errors}
                     small
@@ -165,6 +183,8 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                     label={t("Description")}
                     placeholder={t("Tell viewers about your video")}
                     register={register}
+                    value={description}
+                    onChange={e => setDescription(e.target.value)}
                     errors={errors}
                     small
                   />
@@ -239,8 +259,8 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                   </p>
                   <SelectBox
                     options={options}
-                    value={selectedOption}
-                    onChange={setSelectedOption}
+                    value={selectedPlaylist}
+                    onChange={setSelectedPlaylist}
                     border
                     standard
                     detail
@@ -277,13 +297,13 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                   </div>
                   <div className="flex items-center">
                     <input
-                      checked={audience === "yes"}
+                      checked={forKid}
                       id="audience-yes"
                       type="radio"
                       value="yes"
                       name="audience"
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-                      onChange={() => setAudience("yes")}
+                      onChange={() => setForKid(true)}
                     />
                     <label
                       htmlFor="audience-yes"
@@ -294,13 +314,13 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                   </div>
                   <div className="flex items-center">
                     <input
-                      checked={audience === "no"}
+                      checked={!forKid}
                       id="audience-no"
                       type="radio"
                       value="no"
                       name="audience"
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-                      onChange={() => setAudience("no")}
+                      onChange={() => setForKid(false)}
                     />
                     <label
                       htmlFor="audience-no"
@@ -338,13 +358,13 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                     </p>
                     <div className="flex items-center">
                       <input
-                        checked={age === "yes"}
+                        checked={restrict}
                         id="age-yes"
                         type="radio"
                         value="yes"
                         name="age"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-                        onChange={() => setAge("yes")}
+                        onChange={() => setRestrict(true)}
                       />
                       <label
                         htmlFor="age-yes"
@@ -355,13 +375,13 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                     </div>
                     <div className="flex items-center">
                       <input
-                        checked={age === "no"}
+                        checked={!restrict}
                         id="age-no"
                         type="radio"
                         value="no"
                         name="age"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-                        onChange={() => setAge("no")}
+                        onChange={() => setRestrict(false)}
                       />
                       <label
                         htmlFor="age-no"
@@ -381,7 +401,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
           <div className="w-full relative flex items-center justify-end px-6 py-2 gap-2 border-t border-[#585a5c]">
             <Button onClick={onClose} label={t("back")} outline full small />
             <Button
-              onClick={() => {}}
+              onClick={handleClick}
               label={t("Next")}
               full
               small
