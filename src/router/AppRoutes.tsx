@@ -56,7 +56,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/profile" element={<PrivateRoute element={<ProfileEditPage />} />} />
         <Route path="/category">
           <Route path="natural"  element={<PrivateRoute element={<Natural />} />} />
-          <Route path="relaxation"  element={<PrivateRoute element={<Relaxation />}  />} />
+          <Route path="relaxation"  element={<PrivateRoute element={<Relaxation />}  />} /> 
           <Route path="music"  element={<PrivateRoute element={<Music />}  />} />
           <Route path="travel"  element={<PrivateRoute element={<Travel />} />} />
           <Route path="sport"  element={<PrivateRoute element={<Sport />}  />} />

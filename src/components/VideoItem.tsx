@@ -6,10 +6,12 @@ interface VideoItemProps {
   imageSrc: string;
   title: string;
   description: string;
-  icon?:boolean;
+  icon?: boolean;
+  videoUrl: string;
+  videos?: any[];
 }
 
-const VideoItem: React.FC<VideoItemProps> = ({ imageSrc, title, description, icon }) => {
+const VideoItem: React.FC<VideoItemProps> = ({ imageSrc, title, description, icon, videos, videoUrl }) => {
   const [isModalOpen, setModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -41,13 +43,10 @@ const VideoItem: React.FC<VideoItemProps> = ({ imageSrc, title, description, ico
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         imgSrc={imageSrc}
+        videoUrl={videoUrl}
         videoTitle={title}
-        videoDescription="
-          This content post has been published. Team members will be able to edit this post and republish changes.
-          This content post has been published. Team members will be able to edit this post and republish changes.This content post has been published. Team members will be able to edit this post and republish changes.
-          
-          This content post has been published. Team members will be able to edit this post and republish changes.
-          This content post has been published. Team members will be able to edit this post and republish changes.This content post has been published. Team members will be able to edit this post and republish changes."
+        videoDescription={description}
+        videos={videos?? []}
       />
     </div>
   );

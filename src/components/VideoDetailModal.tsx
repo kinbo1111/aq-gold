@@ -6,6 +6,7 @@ import Button from './Button';
 import VideoItem from './VideoItem';
 import { videoData } from '../utils/content';
 import { useTranslation } from 'react-i18next';
+import VideoModal from './VideoModal';
 
 interface VideoDetailModalProps {
   isOpen: boolean;
@@ -13,6 +14,8 @@ interface VideoDetailModalProps {
   videoTitle: string;
   videoDescription: string;
   imgSrc: string;
+  videoUrl: string;
+  videos: any[];
 }
 
 const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
@@ -21,9 +24,22 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
   imgSrc,
   videoTitle,
   videoDescription,
+  videos,
+  videoUrl
 }) => {
   const [isDescriptionVisible, setDescriptionVisible] = useState(false);
   const { t } = useTranslation();
+  
+  const [showModal, setShowModal] = useState(false);
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   const toggleDescription = () => {
     setDescriptionVisible(!isDescriptionVisible);
   };
@@ -41,7 +57,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
               <Button 
                 label={t('Play')}
                 icon={FaPlay}
-                onClick={() => {}}
+                onClick={handleOpenModal}
                 iconExist
                 full
               />
@@ -68,8 +84,8 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
             </button>
           </div>
           <p className='text-white body-1r flex items-center gap-4 mt-4 mb-2'><span>2005</span><span>1h 54m</span></p>
-          <p className='text-white text-4xl'>{t("Movie Name")}</p>
-          <p className='text-white my-2'>This is movie descriptioon. This is movie descriptioon. This is movie descriptioon. This is movie descriptioon.</p>
+          <p className='text-white text-4xl'>{videoTitle}</p>
+          <p className='text-white my-2'>{videoDescription}</p>
           <div
             className='flex items-center justify-start gap-4 mb-2 cursor-pointer'
             onClick={toggleDescription}
@@ -86,19 +102,20 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
           <div>
             <h6 className='text-white sub-2b mb-4'>{t("More Like This")}</h6>
             <div className="video-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {videoData.map((item, index) => (
+              {videos.map((item, index) => (
               <VideoItem
                   key={index}
-                  imageSrc={item.imageSrc}
+                  imageSrc={item.thumbnailUrl}
                   title={item.title}
                   description={item.description}
-                  icon
+                  videoUrl={item.videoUrl}
               />
               ))}
           </div>
           </div>
         </div>
       </div>
+      <VideoModal show={showModal} onClose={handleCloseModal} videoUrl={videoUrl} />
     </div>
   );
 };
