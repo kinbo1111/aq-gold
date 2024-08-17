@@ -45,7 +45,6 @@ const LoginModal = () => {
     const handleLogIn = async () => {
       setIsLoading(true);
       try {
-      
         if (!username) {
           message.warning('Username is required.');
           setIsLoading(false);

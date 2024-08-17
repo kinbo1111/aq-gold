@@ -87,12 +87,16 @@ const VideoUpload: React.FC = () => {
       }
     try {
       setIsLoading(true);
-        const scheduleTimeISO = scheduleData?.scheduleDate ? new Date(scheduleData?.scheduleDate + ' ' + scheduleData?.scheduleTime).toISOString() : '';
-
-        const videoKey = await uploadVideo(selectedFile);
-        const videoUrl = await getVideoUrl(videoKey);
-        const thumbnailKey = await uploadThumbnail(videoDetail?.thumbnail);
-        const thumbnailUrl = await getThumbnailUrl(thumbnailKey);
+      const scheduleTimeISO = scheduleData?.scheduleDate ? new Date(scheduleData?.scheduleDate + ' ' + scheduleData?.scheduleTime).toISOString() : '';
+      const videoKey = await uploadVideo(selectedFile);
+      const videoUrl = await getVideoUrl(videoKey);
+      const thumbnailKey = await uploadThumbnail(videoDetail?.thumbnail);
+      const thumbnailUrl = await getThumbnailUrl(thumbnailKey);
+      const videoElement = document.createElement('video');
+      videoElement.src = URL.createObjectURL(selectedFile); 
+      videoElement.onloadedmetadata = async () => {
+      const duration = Math.floor(videoElement.duration);
+      
         await saveVideoMetadata({
           title: videoDetail?.title,
           description: videoDetail?.description,
@@ -103,14 +107,18 @@ const VideoUpload: React.FC = () => {
           isRestricted: videoDetail?.isRestricted,
           playlist: videoDetail?.playlist,
           scheduleTime: scheduleTimeISO,
-          timezone: scheduleData?.timezone?? '',
+          timezone: scheduleData?.timezone ?? '',
+          duration,
+          viewCount: 0,
+          favoriteCount: 0,
         });
         message.success('Video and thumbnail uploaded successfully!');
-      } catch (error: any) {
-        message.warning(error.message || 'An unexpected error occurred.');
-        console.error('Error:', error);
-      } finally {
-        setIsUploadScheduleOpen(true);
+      }
+    } catch (error: any) {
+      message.warning(error.message || 'An unexpected error occurred.');
+      console.error('Error:', error);
+    } finally {
+      setIsUploadScheduleOpen(true);
       setIsUploadVisibilityOpen(false);
       setIsLoading(false);
       }

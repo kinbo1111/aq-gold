@@ -1,7 +1,7 @@
 // src/components/ProfileEdit.tsx
 import React, { useState, useEffect } from 'react';
 import { Auth } from 'aws-amplify';
-import { uploadAvatar, getAvatarUrl } from '../services/avatarService';
+import { uploadProfileAvatar, getProfileAvatarUrl } from '../services/StorageService';
 import { updateProfile } from '../services/profileService';
 import styles from '../styles/ProfileEdit.module.css';
 import { message } from 'antd';
@@ -18,9 +18,9 @@ const ProfileEdit: React.FC = () => {
       try {
         const user = await Auth.currentAuthenticatedUser();
         setNickname(user?.attributes?.nickname || '');
-        const avatarKey = `avatars/${user.attributes.sub}.png`;
-        const url = await getAvatarUrl(avatarKey);
-        setAvatarURL(url);
+        const avatarKey = `${user.attributes.sub}.png`;
+        const profileAvatar = await getProfileAvatarUrl(avatarKey);
+        setAvatarURL(profileAvatar);
       } catch (err) {
         console.error('Error fetching user data:', err);
         setError('You are not authenticated. Please log in.');
@@ -47,10 +47,10 @@ const ProfileEdit: React.FC = () => {
     try {
       const user = await Auth.currentAuthenticatedUser();
       await updateProfile({ 'nickname': nickname });
-
+    
       if (avatar) {
-        const avatarKey = `avatars/${user.attributes.sub}.png`;
-        await uploadAvatar(avatarKey, avatar);
+        const fileName = `${user.attributes.sub}.png`;
+        await uploadProfileAvatar(fileName, avatar);
       }
 
       message.success('Profile updated successfully');

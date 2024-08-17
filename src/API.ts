@@ -15,6 +15,9 @@ export type CreateVideoInput = {
   playlist?: string | null,
   scheduleTime?: string | null,
   timezone?: string | null,
+  duration: number,
+  viewCount: number,
+  favoriteCount: number,
   createdAt?: string | null,
   updatedAt?: string | null,
   owner?: string | null,
@@ -32,6 +35,9 @@ export type ModelVideoConditionInput = {
   playlist?: ModelStringInput | null,
   scheduleTime?: ModelStringInput | null,
   timezone?: ModelStringInput | null,
+  duration?: ModelIntInput | null,
+  viewCount?: ModelIntInput | null,
+  favoriteCount?: ModelIntInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   owner?: ModelStringInput | null,
@@ -87,6 +93,18 @@ export type ModelBooleanInput = {
   attributeType?: ModelAttributeTypes | null,
 };
 
+export type ModelIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
 export type Video = {
   __typename: "Video",
   id: string,
@@ -101,8 +119,29 @@ export type Video = {
   playlist?: string | null,
   scheduleTime?: string | null,
   timezone?: string | null,
+  duration: number,
+  viewCount: number,
+  favoriteCount: number,
   createdAt?: string | null,
   updatedAt?: string | null,
+  owner?: string | null,
+  favorites?: ModelFavoriteConnection | null,
+};
+
+export type ModelFavoriteConnection = {
+  __typename: "ModelFavoriteConnection",
+  items:  Array<Favorite | null >,
+  nextToken?: string | null,
+};
+
+export type Favorite = {
+  __typename: "Favorite",
+  id: string,
+  userId: string,
+  videoId: string,
+  video?: Video | null,
+  createdAt?: string | null,
+  updatedAt: string,
   owner?: string | null,
 };
 
@@ -119,6 +158,9 @@ export type UpdateVideoInput = {
   playlist?: string | null,
   scheduleTime?: string | null,
   timezone?: string | null,
+  duration?: number | null,
+  viewCount?: number | null,
+  favoriteCount?: number | null,
   createdAt?: string | null,
   updatedAt?: string | null,
   owner?: string | null,
@@ -128,25 +170,60 @@ export type DeleteVideoInput = {
   id: string,
 };
 
-export type ModelVideoFilterInput = {
-  id?: ModelIDInput | null,
-  title?: ModelStringInput | null,
-  description?: ModelStringInput | null,
-  tags?: ModelStringInput | null,
-  category?: ModelStringInput | null,
-  videoUrl?: ModelStringInput | null,
-  thumbnailUrl?: ModelStringInput | null,
-  isForKids?: ModelBooleanInput | null,
-  isRestricted?: ModelBooleanInput | null,
-  playlist?: ModelStringInput | null,
-  scheduleTime?: ModelStringInput | null,
-  timezone?: ModelStringInput | null,
+export type CreateUserInput = {
+  id?: string | null,
+  username: string,
+  email: string,
+};
+
+export type ModelUserConditionInput = {
+  username?: ModelStringInput | null,
+  email?: ModelStringInput | null,
+  and?: Array< ModelUserConditionInput | null > | null,
+  or?: Array< ModelUserConditionInput | null > | null,
+  not?: ModelUserConditionInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   owner?: ModelStringInput | null,
-  and?: Array< ModelVideoFilterInput | null > | null,
-  or?: Array< ModelVideoFilterInput | null > | null,
-  not?: ModelVideoFilterInput | null,
+};
+
+export type User = {
+  __typename: "User",
+  id: string,
+  username: string,
+  email: string,
+  favoriteVideos?: ModelFavoriteConnection | null,
+  createdAt: string,
+  updatedAt: string,
+  owner?: string | null,
+};
+
+export type UpdateUserInput = {
+  id: string,
+  username?: string | null,
+  email?: string | null,
+};
+
+export type DeleteUserInput = {
+  id: string,
+};
+
+export type CreateFavoriteInput = {
+  id?: string | null,
+  userId: string,
+  videoId: string,
+  createdAt?: string | null,
+};
+
+export type ModelFavoriteConditionInput = {
+  userId?: ModelIDInput | null,
+  videoId?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
+  and?: Array< ModelFavoriteConditionInput | null > | null,
+  or?: Array< ModelFavoriteConditionInput | null > | null,
+  not?: ModelFavoriteConditionInput | null,
+  updatedAt?: ModelStringInput | null,
+  owner?: ModelStringInput | null,
 };
 
 export type ModelIDInput = {
@@ -165,11 +242,92 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
+export type UpdateFavoriteInput = {
+  id: string,
+  userId?: string | null,
+  videoId?: string | null,
+  createdAt?: string | null,
+};
+
+export type DeleteFavoriteInput = {
+  id: string,
+};
+
+export type ModelVideoFilterInput = {
+  id?: ModelIDInput | null,
+  title?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  tags?: ModelStringInput | null,
+  category?: ModelStringInput | null,
+  videoUrl?: ModelStringInput | null,
+  thumbnailUrl?: ModelStringInput | null,
+  isForKids?: ModelBooleanInput | null,
+  isRestricted?: ModelBooleanInput | null,
+  playlist?: ModelStringInput | null,
+  scheduleTime?: ModelStringInput | null,
+  timezone?: ModelStringInput | null,
+  duration?: ModelIntInput | null,
+  viewCount?: ModelIntInput | null,
+  favoriteCount?: ModelIntInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  owner?: ModelStringInput | null,
+  and?: Array< ModelVideoFilterInput | null > | null,
+  or?: Array< ModelVideoFilterInput | null > | null,
+  not?: ModelVideoFilterInput | null,
+};
+
 export type ModelVideoConnection = {
   __typename: "ModelVideoConnection",
   items:  Array<Video | null >,
   nextToken?: string | null,
 };
+
+export type ModelUserFilterInput = {
+  id?: ModelIDInput | null,
+  username?: ModelStringInput | null,
+  email?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelUserFilterInput | null > | null,
+  or?: Array< ModelUserFilterInput | null > | null,
+  not?: ModelUserFilterInput | null,
+  owner?: ModelStringInput | null,
+};
+
+export type ModelUserConnection = {
+  __typename: "ModelUserConnection",
+  items:  Array<User | null >,
+  nextToken?: string | null,
+};
+
+export type ModelFavoriteFilterInput = {
+  id?: ModelIDInput | null,
+  userId?: ModelIDInput | null,
+  videoId?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelFavoriteFilterInput | null > | null,
+  or?: Array< ModelFavoriteFilterInput | null > | null,
+  not?: ModelFavoriteFilterInput | null,
+  owner?: ModelStringInput | null,
+};
+
+export type ModelIDKeyConditionInput = {
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+};
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
 
 export type ModelSubscriptionVideoFilterInput = {
   id?: ModelSubscriptionIDInput | null,
@@ -184,6 +342,9 @@ export type ModelSubscriptionVideoFilterInput = {
   playlist?: ModelSubscriptionStringInput | null,
   scheduleTime?: ModelSubscriptionStringInput | null,
   timezone?: ModelSubscriptionStringInput | null,
+  duration?: ModelSubscriptionIntInput | null,
+  viewCount?: ModelSubscriptionIntInput | null,
+  favoriteCount?: ModelSubscriptionIntInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionVideoFilterInput | null > | null,
@@ -226,6 +387,40 @@ export type ModelSubscriptionBooleanInput = {
   eq?: boolean | null,
 };
 
+export type ModelSubscriptionIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  in?: Array< number | null > | null,
+  notIn?: Array< number | null > | null,
+};
+
+export type ModelSubscriptionUserFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  username?: ModelSubscriptionStringInput | null,
+  email?: ModelSubscriptionStringInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionUserFilterInput | null > | null,
+  or?: Array< ModelSubscriptionUserFilterInput | null > | null,
+  owner?: ModelStringInput | null,
+};
+
+export type ModelSubscriptionFavoriteFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  userId?: ModelSubscriptionIDInput | null,
+  videoId?: ModelSubscriptionIDInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionFavoriteFilterInput | null > | null,
+  or?: Array< ModelSubscriptionFavoriteFilterInput | null > | null,
+  owner?: ModelStringInput | null,
+};
+
 export type CreateVideoMutationVariables = {
   input: CreateVideoInput,
   condition?: ModelVideoConditionInput | null,
@@ -246,9 +441,16 @@ export type CreateVideoMutation = {
     playlist?: string | null,
     scheduleTime?: string | null,
     timezone?: string | null,
+    duration: number,
+    viewCount: number,
+    favoriteCount: number,
     createdAt?: string | null,
     updatedAt?: string | null,
     owner?: string | null,
+    favorites?:  {
+      __typename: "ModelFavoriteConnection",
+      nextToken?: string | null,
+    } | null,
   } | null,
 };
 
@@ -272,9 +474,16 @@ export type UpdateVideoMutation = {
     playlist?: string | null,
     scheduleTime?: string | null,
     timezone?: string | null,
+    duration: number,
+    viewCount: number,
+    favoriteCount: number,
     createdAt?: string | null,
     updatedAt?: string | null,
     owner?: string | null,
+    favorites?:  {
+      __typename: "ModelFavoriteConnection",
+      nextToken?: string | null,
+    } | null,
   } | null,
 };
 
@@ -298,8 +507,192 @@ export type DeleteVideoMutation = {
     playlist?: string | null,
     scheduleTime?: string | null,
     timezone?: string | null,
+    duration: number,
+    viewCount: number,
+    favoriteCount: number,
     createdAt?: string | null,
     updatedAt?: string | null,
+    owner?: string | null,
+    favorites?:  {
+      __typename: "ModelFavoriteConnection",
+      nextToken?: string | null,
+    } | null,
+  } | null,
+};
+
+export type CreateUserMutationVariables = {
+  input: CreateUserInput,
+  condition?: ModelUserConditionInput | null,
+};
+
+export type CreateUserMutation = {
+  createUser?:  {
+    __typename: "User",
+    id: string,
+    username: string,
+    email: string,
+    favoriteVideos?:  {
+      __typename: "ModelFavoriteConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type UpdateUserMutationVariables = {
+  input: UpdateUserInput,
+  condition?: ModelUserConditionInput | null,
+};
+
+export type UpdateUserMutation = {
+  updateUser?:  {
+    __typename: "User",
+    id: string,
+    username: string,
+    email: string,
+    favoriteVideos?:  {
+      __typename: "ModelFavoriteConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type DeleteUserMutationVariables = {
+  input: DeleteUserInput,
+  condition?: ModelUserConditionInput | null,
+};
+
+export type DeleteUserMutation = {
+  deleteUser?:  {
+    __typename: "User",
+    id: string,
+    username: string,
+    email: string,
+    favoriteVideos?:  {
+      __typename: "ModelFavoriteConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type CreateFavoriteMutationVariables = {
+  input: CreateFavoriteInput,
+  condition?: ModelFavoriteConditionInput | null,
+};
+
+export type CreateFavoriteMutation = {
+  createFavorite?:  {
+    __typename: "Favorite",
+    id: string,
+    userId: string,
+    videoId: string,
+    video?:  {
+      __typename: "Video",
+      id: string,
+      title: string,
+      description?: string | null,
+      tags?: Array< string | null > | null,
+      category?: string | null,
+      videoUrl: string,
+      thumbnailUrl?: string | null,
+      isForKids?: boolean | null,
+      isRestricted?: boolean | null,
+      playlist?: string | null,
+      scheduleTime?: string | null,
+      timezone?: string | null,
+      duration: number,
+      viewCount: number,
+      favoriteCount: number,
+      createdAt?: string | null,
+      updatedAt?: string | null,
+      owner?: string | null,
+    } | null,
+    createdAt?: string | null,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type UpdateFavoriteMutationVariables = {
+  input: UpdateFavoriteInput,
+  condition?: ModelFavoriteConditionInput | null,
+};
+
+export type UpdateFavoriteMutation = {
+  updateFavorite?:  {
+    __typename: "Favorite",
+    id: string,
+    userId: string,
+    videoId: string,
+    video?:  {
+      __typename: "Video",
+      id: string,
+      title: string,
+      description?: string | null,
+      tags?: Array< string | null > | null,
+      category?: string | null,
+      videoUrl: string,
+      thumbnailUrl?: string | null,
+      isForKids?: boolean | null,
+      isRestricted?: boolean | null,
+      playlist?: string | null,
+      scheduleTime?: string | null,
+      timezone?: string | null,
+      duration: number,
+      viewCount: number,
+      favoriteCount: number,
+      createdAt?: string | null,
+      updatedAt?: string | null,
+      owner?: string | null,
+    } | null,
+    createdAt?: string | null,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type DeleteFavoriteMutationVariables = {
+  input: DeleteFavoriteInput,
+  condition?: ModelFavoriteConditionInput | null,
+};
+
+export type DeleteFavoriteMutation = {
+  deleteFavorite?:  {
+    __typename: "Favorite",
+    id: string,
+    userId: string,
+    videoId: string,
+    video?:  {
+      __typename: "Video",
+      id: string,
+      title: string,
+      description?: string | null,
+      tags?: Array< string | null > | null,
+      category?: string | null,
+      videoUrl: string,
+      thumbnailUrl?: string | null,
+      isForKids?: boolean | null,
+      isRestricted?: boolean | null,
+      playlist?: string | null,
+      scheduleTime?: string | null,
+      timezone?: string | null,
+      duration: number,
+      viewCount: number,
+      favoriteCount: number,
+      createdAt?: string | null,
+      updatedAt?: string | null,
+      owner?: string | null,
+    } | null,
+    createdAt?: string | null,
+    updatedAt: string,
     owner?: string | null,
   } | null,
 };
@@ -323,9 +716,16 @@ export type GetVideoQuery = {
     playlist?: string | null,
     scheduleTime?: string | null,
     timezone?: string | null,
+    duration: number,
+    viewCount: number,
+    favoriteCount: number,
     createdAt?: string | null,
     updatedAt?: string | null,
     owner?: string | null,
+    favorites?:  {
+      __typename: "ModelFavoriteConnection",
+      nextToken?: string | null,
+    } | null,
   } | null,
 };
 
@@ -352,8 +752,162 @@ export type ListVideosQuery = {
       playlist?: string | null,
       scheduleTime?: string | null,
       timezone?: string | null,
+      duration: number,
+      viewCount: number,
+      favoriteCount: number,
       createdAt?: string | null,
       updatedAt?: string | null,
+      owner?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetUserQueryVariables = {
+  id: string,
+};
+
+export type GetUserQuery = {
+  getUser?:  {
+    __typename: "User",
+    id: string,
+    username: string,
+    email: string,
+    favoriteVideos?:  {
+      __typename: "ModelFavoriteConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type ListUsersQueryVariables = {
+  filter?: ModelUserFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListUsersQuery = {
+  listUsers?:  {
+    __typename: "ModelUserConnection",
+    items:  Array< {
+      __typename: "User",
+      id: string,
+      username: string,
+      email: string,
+      createdAt: string,
+      updatedAt: string,
+      owner?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetFavoriteQueryVariables = {
+  id: string,
+};
+
+export type GetFavoriteQuery = {
+  getFavorite?:  {
+    __typename: "Favorite",
+    id: string,
+    userId: string,
+    videoId: string,
+    video?:  {
+      __typename: "Video",
+      id: string,
+      title: string,
+      description?: string | null,
+      tags?: Array< string | null > | null,
+      category?: string | null,
+      videoUrl: string,
+      thumbnailUrl?: string | null,
+      isForKids?: boolean | null,
+      isRestricted?: boolean | null,
+      playlist?: string | null,
+      scheduleTime?: string | null,
+      timezone?: string | null,
+      duration: number,
+      viewCount: number,
+      favoriteCount: number,
+      createdAt?: string | null,
+      updatedAt?: string | null,
+      owner?: string | null,
+    } | null,
+    createdAt?: string | null,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type ListFavoritesQueryVariables = {
+  filter?: ModelFavoriteFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListFavoritesQuery = {
+  listFavorites?:  {
+    __typename: "ModelFavoriteConnection",
+    items:  Array< {
+      __typename: "Favorite",
+      id: string,
+      userId: string,
+      videoId: string,
+      createdAt?: string | null,
+      updatedAt: string,
+      owner?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type FavoritesByUserIdAndVideoIdQueryVariables = {
+  userId: string,
+  videoId?: ModelIDKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelFavoriteFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type FavoritesByUserIdAndVideoIdQuery = {
+  favoritesByUserIdAndVideoId?:  {
+    __typename: "ModelFavoriteConnection",
+    items:  Array< {
+      __typename: "Favorite",
+      id: string,
+      userId: string,
+      videoId: string,
+      createdAt?: string | null,
+      updatedAt: string,
+      owner?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type FavoritesByVideoIdAndUserIdQueryVariables = {
+  videoId: string,
+  userId?: ModelIDKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelFavoriteFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type FavoritesByVideoIdAndUserIdQuery = {
+  favoritesByVideoIdAndUserId?:  {
+    __typename: "ModelFavoriteConnection",
+    items:  Array< {
+      __typename: "Favorite",
+      id: string,
+      userId: string,
+      videoId: string,
+      createdAt?: string | null,
+      updatedAt: string,
       owner?: string | null,
     } | null >,
     nextToken?: string | null,
@@ -380,9 +934,16 @@ export type OnCreateVideoSubscription = {
     playlist?: string | null,
     scheduleTime?: string | null,
     timezone?: string | null,
+    duration: number,
+    viewCount: number,
+    favoriteCount: number,
     createdAt?: string | null,
     updatedAt?: string | null,
     owner?: string | null,
+    favorites?:  {
+      __typename: "ModelFavoriteConnection",
+      nextToken?: string | null,
+    } | null,
   } | null,
 };
 
@@ -406,9 +967,16 @@ export type OnUpdateVideoSubscription = {
     playlist?: string | null,
     scheduleTime?: string | null,
     timezone?: string | null,
+    duration: number,
+    viewCount: number,
+    favoriteCount: number,
     createdAt?: string | null,
     updatedAt?: string | null,
     owner?: string | null,
+    favorites?:  {
+      __typename: "ModelFavoriteConnection",
+      nextToken?: string | null,
+    } | null,
   } | null,
 };
 
@@ -432,8 +1000,192 @@ export type OnDeleteVideoSubscription = {
     playlist?: string | null,
     scheduleTime?: string | null,
     timezone?: string | null,
+    duration: number,
+    viewCount: number,
+    favoriteCount: number,
     createdAt?: string | null,
     updatedAt?: string | null,
+    owner?: string | null,
+    favorites?:  {
+      __typename: "ModelFavoriteConnection",
+      nextToken?: string | null,
+    } | null,
+  } | null,
+};
+
+export type OnCreateUserSubscriptionVariables = {
+  filter?: ModelSubscriptionUserFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnCreateUserSubscription = {
+  onCreateUser?:  {
+    __typename: "User",
+    id: string,
+    username: string,
+    email: string,
+    favoriteVideos?:  {
+      __typename: "ModelFavoriteConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type OnUpdateUserSubscriptionVariables = {
+  filter?: ModelSubscriptionUserFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnUpdateUserSubscription = {
+  onUpdateUser?:  {
+    __typename: "User",
+    id: string,
+    username: string,
+    email: string,
+    favoriteVideos?:  {
+      __typename: "ModelFavoriteConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type OnDeleteUserSubscriptionVariables = {
+  filter?: ModelSubscriptionUserFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnDeleteUserSubscription = {
+  onDeleteUser?:  {
+    __typename: "User",
+    id: string,
+    username: string,
+    email: string,
+    favoriteVideos?:  {
+      __typename: "ModelFavoriteConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type OnCreateFavoriteSubscriptionVariables = {
+  filter?: ModelSubscriptionFavoriteFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnCreateFavoriteSubscription = {
+  onCreateFavorite?:  {
+    __typename: "Favorite",
+    id: string,
+    userId: string,
+    videoId: string,
+    video?:  {
+      __typename: "Video",
+      id: string,
+      title: string,
+      description?: string | null,
+      tags?: Array< string | null > | null,
+      category?: string | null,
+      videoUrl: string,
+      thumbnailUrl?: string | null,
+      isForKids?: boolean | null,
+      isRestricted?: boolean | null,
+      playlist?: string | null,
+      scheduleTime?: string | null,
+      timezone?: string | null,
+      duration: number,
+      viewCount: number,
+      favoriteCount: number,
+      createdAt?: string | null,
+      updatedAt?: string | null,
+      owner?: string | null,
+    } | null,
+    createdAt?: string | null,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type OnUpdateFavoriteSubscriptionVariables = {
+  filter?: ModelSubscriptionFavoriteFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnUpdateFavoriteSubscription = {
+  onUpdateFavorite?:  {
+    __typename: "Favorite",
+    id: string,
+    userId: string,
+    videoId: string,
+    video?:  {
+      __typename: "Video",
+      id: string,
+      title: string,
+      description?: string | null,
+      tags?: Array< string | null > | null,
+      category?: string | null,
+      videoUrl: string,
+      thumbnailUrl?: string | null,
+      isForKids?: boolean | null,
+      isRestricted?: boolean | null,
+      playlist?: string | null,
+      scheduleTime?: string | null,
+      timezone?: string | null,
+      duration: number,
+      viewCount: number,
+      favoriteCount: number,
+      createdAt?: string | null,
+      updatedAt?: string | null,
+      owner?: string | null,
+    } | null,
+    createdAt?: string | null,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type OnDeleteFavoriteSubscriptionVariables = {
+  filter?: ModelSubscriptionFavoriteFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnDeleteFavoriteSubscription = {
+  onDeleteFavorite?:  {
+    __typename: "Favorite",
+    id: string,
+    userId: string,
+    videoId: string,
+    video?:  {
+      __typename: "Video",
+      id: string,
+      title: string,
+      description?: string | null,
+      tags?: Array< string | null > | null,
+      category?: string | null,
+      videoUrl: string,
+      thumbnailUrl?: string | null,
+      isForKids?: boolean | null,
+      isRestricted?: boolean | null,
+      playlist?: string | null,
+      scheduleTime?: string | null,
+      timezone?: string | null,
+      duration: number,
+      viewCount: number,
+      favoriteCount: number,
+      createdAt?: string | null,
+      updatedAt?: string | null,
+      owner?: string | null,
+    } | null,
+    createdAt?: string | null,
+    updatedAt: string,
     owner?: string | null,
   } | null,
 };

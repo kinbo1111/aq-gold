@@ -2,7 +2,6 @@ import React, {useContext} from 'react';
 import Avatar from '../../../components/Avatar';
 import { UserListData } from '../../../utils/content';
 import { UserContext } from '../../../contexts/UserContext';
-import DefaultAvatarUrl from "../../../assets/images/default_avatar.png";
 
 const UserList = () => {
      
@@ -16,7 +15,7 @@ const UserList = () => {
         {UserListData.map((item, index) => (
           <Avatar
             key={index}
-            src={user?.url ?? DefaultAvatarUrl} 
+            src={user?.profileAvatar} 
             name={item.name}
         />
         ))}

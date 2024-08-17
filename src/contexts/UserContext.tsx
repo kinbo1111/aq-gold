@@ -1,12 +1,12 @@
 import React, { createContext, useState, useEffect, ReactNode, useContext, useCallback } from 'react';
 import { Auth } from 'aws-amplify';
 import { message } from 'antd';
-import { getAvatarUrl } from '../services/avatarService';
+import { getChannelAvatarUrl, getProfileAvatarUrl } from '../services/StorageService';
 
 export type CustomUser = {
   username: string;
   email?: string;
-  url?: string;
+  profileAvatar?: string;
   sub?: string;
   nickname?: string | undefined;
   channelAvatar?: string;
@@ -48,10 +48,10 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     try {
       setLoading(true);
       const currentUser = await Auth.currentAuthenticatedUser();
-      const avatarKey = await `avatars/${currentUser.attributes.sub}.png`;
-      const url = await getAvatarUrl(avatarKey);
-      const channelKey = await `avatars/channel/${currentUser.attributes.sub}.png`;
-      const channelUrl = await getAvatarUrl(channelKey);
+      const avatarKey = await `avatar/profile/${currentUser.attributes.sub}.png`;
+      const profileUrl = await getProfileAvatarUrl(avatarKey);
+      const channelKey = await `avatar/channel/${currentUser.attributes.sub}.png`;
+      const channelUrl = await getChannelAvatarUrl(channelKey);
       
       const customUser: CustomUser =  await {
         username: currentUser.username,
@@ -59,14 +59,14 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         channelHandle: currentUser['custom:channelHandle'] || null,
         channelName: currentUser['custom?.channelName'] || null,
         sub: currentUser.attributes.sub,
-        channelAvatar: currentUser.attributes.channelAvatar,
         nickname: currentUser.attributes.nickname,
-        url: url,
-        channelUrl: channelUrl,
+        profileAvatar: profileUrl,
+        channelAvatar: channelUrl,
+        favoriteCount: currentUser.favoriteCount
       };
 
-      setUser(customUser);
-      setIsAuthenticated(true);
+      await setUser(customUser);
+      await setIsAuthenticated(true);
     } catch (error) {
       setUser(null);
       setIsAuthenticated(false);

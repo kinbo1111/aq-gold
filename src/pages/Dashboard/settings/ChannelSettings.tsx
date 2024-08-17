@@ -1,6 +1,6 @@
 import React, { useState, useRef, useContext, useEffect } from "react";
 import { useForm } from 'react-hook-form';
-import DefaultAvatarUrl from "../../../assets/images/default_avatar.png";
+import { DefaultAvatar } from '../../../const';
 import Input from "../../../components/inputs/Input";
 import { useTranslation } from "react-i18next";
 import { UserContext } from '../../../contexts/UserContext'
@@ -38,12 +38,8 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
     const [channelName, setChannelName] = useState<string>("")
     const [channelHandle, setChannelHandle] = useState<string>("")
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
-    const [imageUrl, setImageUrl] = useState<string>('');
-    const [Avatar, setChannelAvatar] = useState<string>("")
+    const [imageUrl, setImageUrl] = useState<string | undefined>(channelAvatar);
 
-
-     
-    
     const handleImageLoad = () => {
         setIsLoaded(true);
     };
@@ -53,15 +49,13 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
     }
 
     useEffect(() => {
-        if (!isLoaded) {
-            setImageUrl(DefaultAvatarUrl)
+        if (!isLoaded && selectedFile) {
+            setImageUrl(DefaultAvatar)
         }
-        setImageUrl(user?.channelUrl ?? DefaultAvatarUrl)
     }, [isLoaded])
 
 
     useEffect(() => {
-        console.log(user)
         setChannelHandle(user?.channelHandle?? '');
         setChannelName(user?.channelName?? '')
     }, [])

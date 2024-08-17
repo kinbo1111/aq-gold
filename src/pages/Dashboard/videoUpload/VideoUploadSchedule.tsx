@@ -1,10 +1,9 @@
 import React, { useState, useRef } from "react";
 import Button from "../../../components/Button";
-import { FaCloudUploadAlt } from "react-icons/fa";
 import uploadedImg from '../../../assets/images/Image.png'
 import { useTranslation } from 'react-i18next';
 
-interface VideoUploadScheduleProps {
+export type VideoUploadScheduleProps = {
   isOpen: boolean;
   onClose: () => void;
 }
@@ -31,8 +30,6 @@ const VideoUploadSchedule: React.FC<VideoUploadScheduleProps> = ({
   const handleFileInputClick = () => {
     setSelectedFile(null);
   };
-
-
 
   if (!isOpen) {
     return null;

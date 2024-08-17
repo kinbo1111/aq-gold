@@ -3,7 +3,6 @@ import Avatar from "../../../components/Avatar";
 import DashboardContainer from "../../../components/DashboardContainer";
 import ListTab from './ListTab';
 import { UserContext } from '../../../contexts/UserContext';
-import DefaultAvatarUrl from "../../../assets/images/default_avatar.png";
 
 const MyList = () => {
    
@@ -16,7 +15,7 @@ const MyList = () => {
         <DashboardContainer>
             <div className='mb-6'>
                 <Avatar
-                    src={user?.url ?? DefaultAvatarUrl} 
+                    src={user?.profileAvatar} 
                     name={user?.nickname ?? 'No Name'}
                 />
             </div>

@@ -4,7 +4,7 @@ import Avatar from "../../../components/Avatar";
 import Input from "../../../components/inputs/Input";
 import { useTranslation } from 'react-i18next';
 import { UserContext } from '../../../contexts/UserContext';
-import DefaultAvatarUrl from "../../../assets/images/default_avatar.png";
+import { DefaultAvatar } from '../../../const';
 
 export type ChangePasswordProps = {
   onNewPasswordChange: (newPassword: string) => void;
@@ -46,7 +46,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
     <div>
       <div className="px-9 pb-6 border-b border-[#585a5c]">
         <Avatar
-          src={user?.url ?? DefaultAvatarUrl} 
+          src={user?.profileAvatar} 
           name={user?.nickname ?? 'No Name'}
         />
       </div>

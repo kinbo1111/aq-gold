@@ -8,7 +8,7 @@ import AdvancedSettings from "./AdvancedSettings";
 import { Modal, Input } from 'antd';
 import { useTranslation } from "react-i18next";
 import { Auth } from 'aws-amplify';
-import { uploadAvatar, getAvatarUrl } from '../../../services/avatarService';
+import { uploadProfileAvatar, getProfileAvatarUrl, uploadChannelAvatar, getChannelAvatarUrl } from '../../../services/StorageService';
 import { updateProfile } from '../../../services/profileService';
 import { message } from "antd";
 import { UserContext } from "../../../contexts/UserContext";
@@ -71,11 +71,12 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
     const fetchUserData = async () => {
       try {
         setNickname(user?.nickname || '');
-        const avatarKey = `avatars/${user?.sub}.png`;
-        const channelAvatarKey = `avatars/${user?.channelAvatar}.png`;
-        const url = await getAvatarUrl(avatarKey);
-        const channelUrl = await getAvatarUrl(channelAvatarKey);
-        setAvatarURL(url);
+        const profielAvatarKey = `avatar/profile/${user?.sub}.png`;
+        const channelAvatarKey = `avatar/channel/${user?.sub}.png`;
+        const profileUrl = await getProfileAvatarUrl(profielAvatarKey);
+        const channelUrl = await getChannelAvatarUrl(channelAvatarKey);
+        console.log(channelUrl, profileUrl)
+        setAvatarURL(profileUrl);
         setChannelAvatarURL(channelUrl)
       } catch (err) {
         console.error('Error fetching user data:', err);
@@ -131,8 +132,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
       try {
         await updateProfile({ 'nickname': nickname });
         if (avatar) {
-          const avatarKey = `avatars/${user?.sub}.png`;
-          await uploadAvatar(avatarKey, avatar);
+          const avatarKey = `${user?.sub}.png`;
+          await uploadProfileAvatar(avatarKey, avatar);
         }
         message.success('Profile updated successfully');
         updateUserData()
@@ -177,20 +178,17 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
         }
     } else {
       try {
-          if (channelAvatar) {
-            const avatarKey = `avatars/channel/${user?.sub}.png`;
-            await uploadAvatar(avatarKey, channelAvatar);
+        if (channelAvatar) {
+            const avatarKey = `${user?.sub}.png`;
+            await uploadChannelAvatar(avatarKey, channelAvatar);
             message.success('Your AQVar Channel Info updated successfully');
-
         }
         } catch (error) {
           message.error(`Error changing password: ${(error as Error).message}`);
         } finally {
          setLoading(false);
         }
-      
     }
-
   };
 
   if (!isOpen) {
@@ -244,9 +242,9 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
       </div>
 
     </div>
-        <Modal
-          title={<h2 className="text-xl my-4 mt-2">Verify Your Email</h2>}
-          open={isModalVisible}
+      <Modal
+        title={<h2 className="text-xl my-4 mt-2">Verify Your Email</h2>}
+        open={isModalVisible}
         onOk={handleVerifyEmail}
         footer={
           <div className="flex flex-row gap-5 justify-end mt-4">

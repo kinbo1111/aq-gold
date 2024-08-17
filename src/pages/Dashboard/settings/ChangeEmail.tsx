@@ -4,7 +4,6 @@ import Avatar from "../../../components/Avatar";
 import Input from "../../../components/inputs/Input";
 import { useTranslation } from 'react-i18next';
 import { UserContext } from '../../../contexts/UserContext';
-import DefaultAvatarUrl from "../../../assets/images/default_avatar.png";
 
 export type ChangeEmailProps = {
   onNewEmailChange: (newEmail: string) => void;
@@ -43,7 +42,7 @@ const ChangeEmail: React.FC<ChangeEmailProps> = ({
     <div>
       <div className="px-9 pb-6 border-b border-[#585a5c]">
         <Avatar
-          src={user?.url ?? DefaultAvatarUrl} 
+          src={user?.profileAvatar} 
           name={user?.nickname ?? 'Default Name'}
         />
       </div>
