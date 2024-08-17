@@ -25,9 +25,16 @@ export const onCreateVideo = /* GraphQL */ `subscription OnCreateVideo(
     playlist
     scheduleTime
     timezone
+    duration
+    viewCount
+    favoriteCount
     createdAt
     updatedAt
     owner
+    favorites {
+      nextToken
+      __typename
+    }
     __typename
   }
 }
@@ -52,9 +59,16 @@ export const onUpdateVideo = /* GraphQL */ `subscription OnUpdateVideo(
     playlist
     scheduleTime
     timezone
+    duration
+    viewCount
+    favoriteCount
     createdAt
     updatedAt
     owner
+    favorites {
+      nextToken
+      __typename
+    }
     __typename
   }
 }
@@ -79,6 +93,35 @@ export const onDeleteVideo = /* GraphQL */ `subscription OnDeleteVideo(
     playlist
     scheduleTime
     timezone
+    duration
+    viewCount
+    favoriteCount
+    createdAt
+    updatedAt
+    owner
+    favorites {
+      nextToken
+      __typename
+    }
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteVideoSubscriptionVariables,
+  APITypes.OnDeleteVideoSubscription
+>;
+export const onCreateUser = /* GraphQL */ `subscription OnCreateUser(
+  $filter: ModelSubscriptionUserFilterInput
+  $owner: String
+) {
+  onCreateUser(filter: $filter, owner: $owner) {
+    id
+    username
+    email
+    favoriteVideos {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     owner
@@ -86,6 +129,167 @@ export const onDeleteVideo = /* GraphQL */ `subscription OnDeleteVideo(
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnDeleteVideoSubscriptionVariables,
-  APITypes.OnDeleteVideoSubscription
+  APITypes.OnCreateUserSubscriptionVariables,
+  APITypes.OnCreateUserSubscription
+>;
+export const onUpdateUser = /* GraphQL */ `subscription OnUpdateUser(
+  $filter: ModelSubscriptionUserFilterInput
+  $owner: String
+) {
+  onUpdateUser(filter: $filter, owner: $owner) {
+    id
+    username
+    email
+    favoriteVideos {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateUserSubscriptionVariables,
+  APITypes.OnUpdateUserSubscription
+>;
+export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser(
+  $filter: ModelSubscriptionUserFilterInput
+  $owner: String
+) {
+  onDeleteUser(filter: $filter, owner: $owner) {
+    id
+    username
+    email
+    favoriteVideos {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteUserSubscriptionVariables,
+  APITypes.OnDeleteUserSubscription
+>;
+export const onCreateFavorite = /* GraphQL */ `subscription OnCreateFavorite(
+  $filter: ModelSubscriptionFavoriteFilterInput
+  $owner: String
+) {
+  onCreateFavorite(filter: $filter, owner: $owner) {
+    id
+    userId
+    videoId
+    video {
+      id
+      title
+      description
+      tags
+      category
+      videoUrl
+      thumbnailUrl
+      isForKids
+      isRestricted
+      playlist
+      scheduleTime
+      timezone
+      duration
+      viewCount
+      favoriteCount
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateFavoriteSubscriptionVariables,
+  APITypes.OnCreateFavoriteSubscription
+>;
+export const onUpdateFavorite = /* GraphQL */ `subscription OnUpdateFavorite(
+  $filter: ModelSubscriptionFavoriteFilterInput
+  $owner: String
+) {
+  onUpdateFavorite(filter: $filter, owner: $owner) {
+    id
+    userId
+    videoId
+    video {
+      id
+      title
+      description
+      tags
+      category
+      videoUrl
+      thumbnailUrl
+      isForKids
+      isRestricted
+      playlist
+      scheduleTime
+      timezone
+      duration
+      viewCount
+      favoriteCount
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateFavoriteSubscriptionVariables,
+  APITypes.OnUpdateFavoriteSubscription
+>;
+export const onDeleteFavorite = /* GraphQL */ `subscription OnDeleteFavorite(
+  $filter: ModelSubscriptionFavoriteFilterInput
+  $owner: String
+) {
+  onDeleteFavorite(filter: $filter, owner: $owner) {
+    id
+    userId
+    videoId
+    video {
+      id
+      title
+      description
+      tags
+      category
+      videoUrl
+      thumbnailUrl
+      isForKids
+      isRestricted
+      playlist
+      scheduleTime
+      timezone
+      duration
+      viewCount
+      favoriteCount
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteFavoriteSubscriptionVariables,
+  APITypes.OnDeleteFavoriteSubscription
 >;

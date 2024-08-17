@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { useForm } from 'react-hook-form';
-import DefaultAvatarUrl from "../../../assets/images/default_avatar.png";
 import Input from "../../../components/inputs/Input";
+import { DefaultAvatar } from '../../../const';
 import { useTranslation } from 'react-i18next';
 import { UserContext } from '../../../contexts/UserContext';
 
@@ -27,7 +27,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
     }
     const { user } = userContext;
     const [name, setNickname] = useState<string>('');
-    const [imageUrl, setImageUrl] = useState<string>('');
+    const [imageUrl, setImageUrl] = useState<string | undefined>(currentAvatarUrl);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [isLoaded, setIsLoaded] = useState<boolean>(false); // null: loading, true: loaded, false: error
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -40,6 +40,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
     const handleImageError = () => {
         setIsLoaded(false);
     };
+
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
@@ -50,7 +51,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
 
     const handleRemoveClick = () => {
         setSelectedFile(null);
-        setImageUrl(DefaultAvatarUrl)
+        setImageUrl(DefaultAvatar)
         onAvatarRemove();
     };
 
@@ -63,10 +64,9 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
     }, [name])
     
     useEffect(() => {
-        if (!isLoaded) {
-            setImageUrl(DefaultAvatarUrl)
+        if (!isLoaded && selectedFile) {
+            setImageUrl(DefaultAvatar)
         }
-        setImageUrl(user?.url ?? DefaultAvatarUrl)
     }, [isLoaded])
     
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setNickname(e.target.value);
@@ -90,7 +90,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
                 <div>
                     <div className="flex items-center justify-start gap-6">
                         <img 
-                            src={selectedFile ? currentAvatarUrl : imageUrl} 
+                            src={selectedFile? currentAvatarUrl : imageUrl} 
                             onLoad={handleImageLoad}
                             onError={handleImageError}
                             alt="Current Avatar" 

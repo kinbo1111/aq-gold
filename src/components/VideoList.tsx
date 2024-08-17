@@ -22,11 +22,16 @@ const VideoList = () => {
         {videos.map((item, index) => (
         <VideoItem
             key={index}
+            owner={item.owner}
+            id={item.id}
             videoUrl={item.videoUrl}
             imageSrc={item.thumbnailUrl}
             videos={videos}
             title={item.title}
             description={item.description}
+            viewCount={item.viewCount}
+            duration={item.duration}
+            favoriteCount={item.favoriteCount}
         />
         ))}
     </div>

@@ -25,9 +25,16 @@ export const createVideo = /* GraphQL */ `mutation CreateVideo(
     playlist
     scheduleTime
     timezone
+    duration
+    viewCount
+    favoriteCount
     createdAt
     updatedAt
     owner
+    favorites {
+      nextToken
+      __typename
+    }
     __typename
   }
 }
@@ -52,9 +59,16 @@ export const updateVideo = /* GraphQL */ `mutation UpdateVideo(
     playlist
     scheduleTime
     timezone
+    duration
+    viewCount
+    favoriteCount
     createdAt
     updatedAt
     owner
+    favorites {
+      nextToken
+      __typename
+    }
     __typename
   }
 }
@@ -79,9 +93,16 @@ export const deleteVideo = /* GraphQL */ `mutation DeleteVideo(
     playlist
     scheduleTime
     timezone
+    duration
+    viewCount
+    favoriteCount
     createdAt
     updatedAt
     owner
+    favorites {
+      nextToken
+      __typename
+    }
     __typename
   }
 }
@@ -89,3 +110,204 @@ export const deleteVideo = /* GraphQL */ `mutation DeleteVideo(
   APITypes.DeleteVideoMutationVariables,
   APITypes.DeleteVideoMutation
 >;
+export const createUser = /* GraphQL */ `mutation CreateUser(
+  $input: CreateUserInput!
+  $condition: ModelUserConditionInput
+) {
+  createUser(input: $input, condition: $condition) {
+    id
+    username
+    email
+    favoriteVideos {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateUserMutationVariables,
+  APITypes.CreateUserMutation
+>;
+export const updateUser = /* GraphQL */ `mutation UpdateUser(
+  $input: UpdateUserInput!
+  $condition: ModelUserConditionInput
+) {
+  updateUser(input: $input, condition: $condition) {
+    id
+    username
+    email
+    favoriteVideos {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateUserMutationVariables,
+  APITypes.UpdateUserMutation
+>;
+export const deleteUser = /* GraphQL */ `mutation DeleteUser(
+  $input: DeleteUserInput!
+  $condition: ModelUserConditionInput
+) {
+  deleteUser(input: $input, condition: $condition) {
+    id
+    username
+    email
+    favoriteVideos {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteUserMutationVariables,
+  APITypes.DeleteUserMutation
+>;
+export const createFavorite = /* GraphQL */ `mutation CreateFavorite(
+  $input: CreateFavoriteInput!
+  $condition: ModelFavoriteConditionInput
+) {
+  createFavorite(input: $input, condition: $condition) {
+    id
+    userId
+    videoId
+    video {
+      id
+      title
+      description
+      tags
+      category
+      videoUrl
+      thumbnailUrl
+      isForKids
+      isRestricted
+      playlist
+      scheduleTime
+      timezone
+      duration
+      viewCount
+      favoriteCount
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateFavoriteMutationVariables,
+  APITypes.CreateFavoriteMutation
+>;
+export const updateFavorite = /* GraphQL */ `mutation UpdateFavorite(
+  $input: UpdateFavoriteInput!
+  $condition: ModelFavoriteConditionInput
+) {
+  updateFavorite(input: $input, condition: $condition) {
+    id
+    userId
+    videoId
+    video {
+      id
+      title
+      description
+      tags
+      category
+      videoUrl
+      thumbnailUrl
+      isForKids
+      isRestricted
+      playlist
+      scheduleTime
+      timezone
+      duration
+      viewCount
+      favoriteCount
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateFavoriteMutationVariables,
+  APITypes.UpdateFavoriteMutation
+>;
+export const deleteFavorite = /* GraphQL */ `mutation DeleteFavorite(
+  $input: DeleteFavoriteInput!
+  $condition: ModelFavoriteConditionInput
+) {
+  deleteFavorite(input: $input, condition: $condition) {
+    id
+    userId
+    videoId
+    video {
+      id
+      title
+      description
+      tags
+      category
+      videoUrl
+      thumbnailUrl
+      isForKids
+      isRestricted
+      playlist
+      scheduleTime
+      timezone
+      duration
+      viewCount
+      favoriteCount
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteFavoriteMutationVariables,
+  APITypes.DeleteFavoriteMutation
+  >;
+
+  export const incrementViewCount = /* GraphQL */ `
+  mutation IncrementViewCount($id: ID!, $viewCount: Int!) {
+    updateVideo(input: { id: $id, viewCount: $viewCount }) {
+      id
+      viewCount
+    }
+  }
+`;
+
+//   export const incrementFavoriteCount = /* GraphQL */ `
+//   mutation IncrementFavoriteCount($id: ID!, $favoriteCount: Int!) {
+//     updateVideo(input: { id: $id, favoriteCount: $favoriteCount }) {
+//       id
+//       favoriteCount
+//     }
+//   }
+// `;

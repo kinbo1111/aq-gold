@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IconType } from "react-icons";
 import placeholder from "../assets/images/placeholder.png";
 import { useTranslation } from 'react-i18next';
+import { DefaultAvatar } from "../const";
 interface AvatarProps {
   src?: string | null | undefined;
   name: string;
@@ -18,13 +19,21 @@ const Avatar: React.FC<AvatarProps> = ({
   buttonName,
 }) => {
 
-   const { t } = useTranslation();
+  const { t } = useTranslation();
+
+  const [image, setImage] = useState(src);
+
+  const handleError = () => {
+    setImage(DefaultAvatar)
+  }
+
   return (
     <div className="flex items-center justify-start gap-4" >
       <img
         className="rounded-full w-[100px] h-[100px]"
         alt="Avatar"
-        src={src || placeholder} 
+        onError={handleError}
+        src={image ?? DefaultAvatar} 
         style={{ objectFit: "cover" }}
       />
       <div>
