@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect, ReactNode, useContext, useCallback } from 'react';
 import { Auth } from 'aws-amplify';
 import { message } from 'antd';
-import { getChannelAvatarUrl, getProfileAvatarUrl } from '../services/StorageService';
+import { getChannelAvatarUrl, getProfileAvatarUrl } from '../services/storageService';
 
 export type CustomUser = {
   username: string;

@@ -58,8 +58,6 @@ export async function uploadProfileAvatar(fileName: string, file: File): Promise
 }
 
 
-
-
 export async function getProfileAvatarUrl(key: string): Promise<string> {
   try {
     return `${cloudFrontDomain}/${key}`;
@@ -68,7 +66,6 @@ export async function getProfileAvatarUrl(key: string): Promise<string> {
     throw new Error('Failed to retrieve profile avatar URL.');
   }
 }
-
 
 export async function uploadChannelAvatar(fileName: string, file: File): Promise<string> {
   try {
@@ -82,9 +79,6 @@ export async function uploadChannelAvatar(fileName: string, file: File): Promise
     throw new Error('Failed to upload avatar. Please try again.');
   }
 }
-
-
-
 
 export async function getChannelAvatarUrl(key: string): Promise<string> {
   try {

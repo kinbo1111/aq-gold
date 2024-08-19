@@ -12,6 +12,7 @@ import { GoTriangleDown } from "react-icons/go";
 import { ScheduleDataProps } from ".";
 
 export type VideoUploadVisibilityProps = {
+  videoTitle: string,
   isOpen: boolean;
   isLoading: boolean;
   onClose: () => void;
@@ -20,6 +21,7 @@ export type VideoUploadVisibilityProps = {
 
 
 const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
+  videoTitle,
   isOpen,
   isLoading,
   onClose,
@@ -83,7 +85,7 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
         <SettingsModalHeader
           onClose={onClose}
           showCloseButton={true}
-          label="Video upload Title"
+          label={videoTitle}
         />
         <form className="w-full">
           <div className="p-6">
@@ -219,7 +221,7 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
                 {t("BACK")}
               </Button>
               <Button
-                className='btnOk w-[120px] flex-row brand-gradient text-white border-none button-2b h-10 relative disabled:cursor-not-allowed disabled:bg-[#ceac02] disabled:text-gray-00 rounded  transition px-4 py-2 flex items-center justify-center'
+                className='btnOk w-[130px] flex-row brand-gradient text-white border-none button-2b h-10 relative disabled:cursor-not-allowed disabled:bg-[#ceac02] disabled:text-gray-00 rounded  transition px-4 py-2 flex items-center justify-center'
                 onClick={handleClick}
                 loading={isLoading} >
                 {publishNow ? t("Publish Now") : t("Schedule")}

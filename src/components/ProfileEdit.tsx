@@ -1,7 +1,7 @@
 // src/components/ProfileEdit.tsx
 import React, { useState, useEffect } from 'react';
 import { Auth } from 'aws-amplify';
-import { uploadProfileAvatar, getProfileAvatarUrl } from '../services/StorageService';
+import { uploadProfileAvatar, getProfileAvatarUrl } from '../services/storageService';
 import { updateProfile } from '../services/profileService';
 import styles from '../styles/ProfileEdit.module.css';
 import { message } from 'antd';
