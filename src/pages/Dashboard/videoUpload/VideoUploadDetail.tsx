@@ -124,7 +124,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
         <SettingsModalHeader
           onClose={onClose}
           showCloseButton={true}
-          label="Video upload Title"
+          label={title}
         />
         <form className="w-full">
           <div className="p-6">

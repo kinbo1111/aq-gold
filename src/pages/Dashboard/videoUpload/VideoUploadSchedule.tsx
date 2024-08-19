@@ -4,11 +4,19 @@ import uploadedImg from '../../../assets/images/Image.png'
 import { useTranslation } from 'react-i18next';
 
 export type VideoUploadScheduleProps = {
+  videoUrl: string;
+  videoScheduleTime: string;
+  videoTitle: string;
+  thumbnailUrl: string;
   isOpen: boolean;
   onClose: () => void;
 }
 
 const VideoUploadSchedule: React.FC<VideoUploadScheduleProps> = ({
+  videoUrl,
+  thumbnailUrl,
+  videoScheduleTime,
+  videoTitle,
   isOpen,
   onClose,
 }) => {
@@ -40,7 +48,7 @@ const VideoUploadSchedule: React.FC<VideoUploadScheduleProps> = ({
       <div className="relative flex items-center justify-center w-full mt-[180px]">
           <div className="max-w-[530px] w-full b-gray-600 rounded-[10px] flex items-start justify-start flex-col">
               <div className="relative w-full py-[10px] px-6 flex items-center justify-start border-b border-[#585a5c]">
-                  <h6 className="sub-1b text-white">{t("Title")}</h6>
+                  <h6 className="sub-1b text-white">{videoTitle}</h6>
                   <button
                       onClick={onClose}
                       className="close-button gray-200 absolute top-1/2 right-6 -translate-y-1/2 text-3xl font-normal"          
@@ -49,19 +57,19 @@ const VideoUploadSchedule: React.FC<VideoUploadScheduleProps> = ({
                   </button>
               </div>
               <div className="py-4 flex items-start justify-start flex-col px-5 w-full">
-                  <p className="text-white justify-start">この動画は2024年7月16日に公開に設定されます</p> 
+                  <p className="text-white justify-start">この動画は{videoScheduleTime.slice(0,4)}年 {videoScheduleTime.slice(5,7)}月{videoScheduleTime.slice(8,10)}日に公開に設定されます</p> 
                   <div className="p-5 flex flex-row gap-10 bg-[#57595B] w-full rounded-md my-2">
                       <div className="">
-                          <img src={uploadedImg} className="max-h-20" />
+                          <img src={thumbnailUrl} className="max-h-20" />
                       </div>
                       <div className="flex flex-col text-white">
-                              <p className="text-sm">Video Title</p>
-                              <p className="text-[#A0A1A2] text-sm">アップロード日:2024年7月16日</p>
+              <p className="text-sm">{videoTitle}</p>
+                              <p className="text-[#A0A1A2] text-sm">アップロード日:{videoScheduleTime.slice(0,4)}年 {videoScheduleTime.slice(5,7)}月{videoScheduleTime.slice(8,10)}日</p>
                       </div>
                   </div>
                   <div className="bg-[#2E3133] w-full rounded-md my-2 text-white p-5 text-sm" >
                       <p>動画リンク</p>
-                      <a className="text-blue-500 underline">Here is a link.</a>  
+                      <a className="text-blue-500 underline" href={videoUrl}>Here is a link.</a>  
                   </div>
               </div>
               <div className="w-full relative flex items-center justify-end px-6 py-2 gap-2 border-t border-[#585a5c]">
