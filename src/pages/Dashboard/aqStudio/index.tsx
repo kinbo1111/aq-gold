@@ -12,7 +12,6 @@ const AQStudioHome = () => {
         throw new Error("userContext must be used within an AuthProvider!")
     }
     const { user } = userContext;
-    console.log(user)
     return (
         <DashboardContainer>
             <div className='mb-6'>

@@ -31,8 +31,8 @@ const ContentList: React.FC = () => {
           description={item.description}
           visibility="show"
           date={item.createdAt.slice(0,10)}
-          views={item.views}
-          likes={item.likes}
+          views={item.viewCount}
+          likes={item.favoriteCount}
         />
       ))}
     </Box>
