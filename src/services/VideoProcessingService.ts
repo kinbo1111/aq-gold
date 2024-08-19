@@ -8,7 +8,7 @@ export async function processVideo(inputKey: string, outputKeyPrefix: string): P
     Settings: {
       Inputs: [
         {
-          FileInput: `s3://360-video-storage33f5c-dev/${inputKey}`,
+          FileInput: `s3://360-video-storage8fb3d-develop/${inputKey}`,
         },
       ],
       OutputGroups: [
@@ -16,7 +16,7 @@ export async function processVideo(inputKey: string, outputKeyPrefix: string): P
           OutputGroupSettings: {
             Type: OutputGroupType.FILE_GROUP_SETTINGS, // Use the correct enum for the OutputGroupSettings.Type
             FileGroupSettings: {
-              Destination: `s3://360-video-storage33f5c-dev/${outputKeyPrefix}`,
+              Destination: `s3://360-video-storage8fb3d-develop/${outputKeyPrefix}`,
             },
           },
           Outputs: [
