@@ -103,7 +103,6 @@ const VideoUpload: React.FC = () => {
       const videoElement = document.createElement('video');
       setTimeZone(scheduleData?.timezone ?? 'Japan (GMT＋0700)')
       videoElement.src = URL.createObjectURL(selectedFile); 
-      console.log(scheduleTimeISO, timezone)
       videoElement.onloadedmetadata = async () => {
         const duration = Math.floor(videoElement.duration);
         setVideoScheduleTime(scheduleTimeISO);
@@ -120,6 +119,7 @@ const VideoUpload: React.FC = () => {
           playlist: videoDetail?.playlist,
           scheduleTime: scheduleTimeISO,
           timezone: timezone,
+          isPublic: scheduleData?.publishNow ??  false,
           duration,
           viewCount: 0,
           favoriteCount: 0,

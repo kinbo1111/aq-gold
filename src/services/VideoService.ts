@@ -18,6 +18,7 @@ export type VideoData =  {
   duration: number, 
   viewCount: number, 
   favoriteCount: number; 
+  isPublic: boolean;
 }
 
 export type GetVideoResponse = {
