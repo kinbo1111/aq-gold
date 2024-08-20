@@ -41,7 +41,8 @@ export async function createNewVideo(videoData: any): Promise<Video> {
 export async function fetchVideos(): Promise<Video[]> {
   try {
     const response = await API.graphql({
-          query: listVideos, 
+          query: listVideos,
+          variables: { filter: { isPublic: { eq: true } } },
           authMode: 'AMAZON_COGNITO_USER_POOLS',
         }) as { data: ListVideosResponse };
     if (response.data && response.data.listVideos) {
