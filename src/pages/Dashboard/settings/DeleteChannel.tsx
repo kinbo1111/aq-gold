@@ -1,6 +1,7 @@
 import SettingsFooter from "./SettingsFooter";
 import SettingsModalHeader from "./SettingsModalHeader";
 import { Checkbox } from "@mui/material";
+import { message } from "antd";
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 
@@ -18,7 +19,8 @@ const DeleteChannel: React.FC<DeleteChannelProps> = ({ isOpen, onClose }) => {
     setCheck(!check)
   }
   const handleSave = () => {
-    console.log("deleted!")
+    message.success("All data on your AQvr channel including uploaded videos are completely deleted.")
+    onClose()
   }
 
   return (
