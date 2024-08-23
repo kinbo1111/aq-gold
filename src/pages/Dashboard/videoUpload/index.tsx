@@ -146,7 +146,8 @@ const VideoUpload: React.FC = () => {
                 onUpload={handleUpload}
               />
 
-              <VideoUploadDetail
+        <VideoUploadDetail
+                file={selectedFile}
                 isOpen={isUploadDetailOpen}
                 onClose={handleCloseUploadDetail}
                 onNext={handleNextUploadDetail} 
