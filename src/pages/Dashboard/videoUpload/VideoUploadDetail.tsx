@@ -10,19 +10,21 @@ import { CiCircleInfo } from "react-icons/ci";
 import { IoMdArrowDropdown } from "react-icons/io";
 import Input from "../../../components/inputs/Input";
 import Textarea from "../../../components/inputs/Textarea";
-import DetailImg from "../../../assets/images/detailVideo.png";
+import DetailImg from "../../../assets/images/default_image.png";
 import SelectBox from "../../../components/inputs/Select";
 import { useTranslation } from 'react-i18next';
 import { VideoDetailData, Thumbnail } from ".";
 
 interface VideoUploadDetailProps {
   isOpen: boolean;
+  file: File | null;
   onClose: () => void;
   onNext: (detail: VideoDetailData| null) => void;
 }
 
 const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
   isOpen,
+  file,
   onClose,
   onNext
 }) => {
@@ -101,8 +103,6 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
   };
 
   const handleClick = () => {
-
-
     onSubmit({
       title: title,
       description: description,
@@ -124,7 +124,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
         <SettingsModalHeader
           onClose={onClose}
           showCloseButton={true}
-          label={title}
+          label={title?.length ? title : 'NO TITLE'}
         />
         <form className="w-full">
           <div className="p-6">
@@ -393,8 +393,14 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                   </div>
                 </div>
               </div>
-              <div className="w-full md:w-1/3 flex items-center justify-center">
-                <img src={DetailImg} alt="Video Thumbnail" className="w-full" />
+              <div className="w-full md:w-[350px] h-[450px] flex flex-col bg-zinc-950 text-white rounded-md">
+                <img src={thumbnails[0]?.src ?? DetailImg } alt="Video Thumbnail" className="w-full h-3/5" />
+                <div className="flex flex-col justify-start pl-2 pt-5">
+                  <h3 className="text-gray-400">video link</h3>
+                  <a href='https://aq-gold.net/5iekeu.net/' className="text-blue-400 underline">https://aq-gold.net/5iekeu.net/</a>
+                  <h3 className="text-gray-400">File name</h3>
+                  <h3 className="text-white">{file?.name ? file?.name : 'NO Name'}</h3>
+                </div>
               </div>
             </div>
           </div>
