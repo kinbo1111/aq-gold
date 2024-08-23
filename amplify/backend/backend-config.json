@@ -63,6 +63,21 @@
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "checkScheduleFunction": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "360videoplatform"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "parameters": {
@@ -79,6 +94,22 @@
         {
           "category": "function",
           "resourceName": "S3Trigger932c9093"
+        }
+      ]
+    },
+    "AMPLIFY_function_checkScheduleFunction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "checkScheduleFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_checkScheduleFunction_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "checkScheduleFunction"
         }
       ]
     }
