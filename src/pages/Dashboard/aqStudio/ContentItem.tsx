@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Box, Typography, IconButton, Checkbox } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteContent from './deleteContent';
 
 interface ContentItemProps {
   image: string;
@@ -14,6 +15,10 @@ interface ContentItemProps {
 }
 
 const ContentItem: React.FC<ContentItemProps> = ({ image, title, description, visibility, date, views, likes }) => {
+
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
+  const handleDeleteConfirmClose = () => setIsOpenDelete(false);
+  const handleDeleteConfirmOpen = () => setIsOpenDelete(true);
   return (
     <Box display="flex" alignItems="center" py={2} px={1} borderBottom="1px solid #333">
       <Checkbox sx={{ color: '#9fa0a1', borderRadius: '4px', '&.Mui-checked': { color: '#9fa0a1' } }} />
@@ -34,10 +39,11 @@ const ContentItem: React.FC<ContentItemProps> = ({ image, title, description, vi
         </IconButton>
       </Box>
       <Box sx={{ width: 150 }}>
-        <IconButton>
+        <IconButton  onClick={handleDeleteConfirmOpen}>
           <DeleteIcon className='text-[#9fa0a1]' />
         </IconButton>
       </Box>
+      <DeleteContent isOpen={isOpenDelete} title={'"' + title + '"'} onClose={handleDeleteConfirmClose}/>
     </Box>
   );
 };
