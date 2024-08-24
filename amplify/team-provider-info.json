@@ -28,5 +28,39 @@
         "360VideoStorage": {}
       }
     }
+  },
+  "develop": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-360videoplatform-develop-8fb3d-authRole",
+      "UnauthRoleArn": "arn:aws:iam::730335659882:role/amplify-360videoplatform-develop-8fb3d-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::730335659882:role/amplify-360videoplatform-develop-8fb3d-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-360videoplatform-develop-8fb3d-deployment",
+      "UnauthRoleName": "amplify-360videoplatform-develop-8fb3d-unauthRole",
+      "StackName": "amplify-360videoplatform-develop-8fb3d",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:730335659882:stack/amplify-360videoplatform-develop-8fb3d/df71d4b0-5df3-11ef-abb8-0e26e56fc70b",
+      "AmplifyAppId": "d1mp501lun5kw8"
+    },
+    "categories": {
+      "auth": {
+        "360videoplatformd4f3d92d": {}
+      },
+      "function": {
+        "S3Trigger932c9093": {
+          "deploymentBucketName": "amplify-360videoplatform-develop-8fb3d-deployment",
+          "s3Key": "amplify-builds/S3Trigger932c9093-62452f5a3050544c6442-build.zip"
+        },
+        "checkScheduleFunction": {
+          "deploymentBucketName": "amplify-360videoplatform-develop-8fb3d-deployment",
+          "s3Key": "amplify-builds/checkScheduleFunction-584a566438356337614c-build.zip"
+        }
+      },
+      "api": {
+        "360videoplatform": {}
+      },
+      "storage": {
+        "360VideoStorage": {}
+      }
+    }
   }
 }

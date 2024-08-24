@@ -17,11 +17,12 @@ type Video @model
   playlist: String
   scheduleTime: AWSDateTime
   timezone: String
-  duration: Int!            # Duration in seconds
-  viewCount: Int!           # Number of views
-  favoriteCount: Int!       # Number of times favorited
+  duration: Int!            
+  viewCount: Int!           
+  favoriteCount: Int!       
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
+  isPublic: Boolean!
   owner: String
   favorites: [Favorite] @hasMany(indexName: "byVideo", fields: ["id"])  # Establish the relationship
 }
