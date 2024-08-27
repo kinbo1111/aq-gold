@@ -1,4 +1,8 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
+import videojs from 'video.js';
+import 'videojs-vr';
+import 'videojs-vr/dist/videojs-vr.css';
+import 'video.js/dist/video-js.css';
 
 interface VideoModalProps {
   show: boolean;
@@ -7,18 +11,51 @@ interface VideoModalProps {
 }
 
 const VideoModal: React.FC<VideoModalProps> = ({ show, onClose, videoUrl }) => {
-  if (!show) {
-    return null;
-  }
+const videoRef = useRef<HTMLVideoElement>(null);
+  const playerRef = useRef<videojs.Player | null>(null);
 
-  return (
-    <div style={styles.modalOverlay}>
-      <div style={styles.modalContent}>
-        <button onClick={onClose} style={styles.closeButton}>X</button>
-        <video controls autoPlay src={videoUrl} style={styles.video as React.CSSProperties} />
-      </div>
+  useEffect(() => {
+    if (!show || !videoRef.current) return;
+
+    if (!playerRef.current) {
+      const player = videojs(videoRef.current, {
+        controls: true,
+        autoplay: false,
+        preload: 'auto',
+      });
+
+      player.vr({
+        projection: 'AUTO',
+        debug: true,
+      });
+
+      player.src(videoUrl)
+
+      playerRef.current = player;
+    }
+
+    return () => {
+      if (playerRef.current) {
+        playerRef.current.dispose();
+        playerRef.current = null;
+      }
+    };
+  }, [show, videoUrl]);
+ 
+return show ? (
+  <div style={styles.modalOverlay}>
+    <div style={styles.modalContent}>
+      <button onClick={onClose} style={styles.closeButton}>X</button>
+      <video 
+        ref={videoRef} 
+        className="video-js vjs-default-skin" 
+        playsInline 
+        autoPlay 
+      />
     </div>
-  );
+  </div>
+) : null;
+
 };
 
 const styles = {
@@ -28,7 +65,7 @@ const styles = {
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.9)', // Darker background for better fullscreen effect
+    backgroundColor: 'rgba(0, 0, 0, 0.9)', 
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -45,7 +82,7 @@ const styles = {
   video: {
     width: '100%',
     height: '100%',
-    objectFit: 'cover', // Makes sure the video covers the entire area
+    objectFit: 'cover', 
   },
   closeButton: {
     position: 'absolute' as 'absolute',
