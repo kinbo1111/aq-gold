@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Checkbox } from "@mui/material";
 import { useTranslation } from 'react-i18next';
 import { message } from "antd";
+import { API } from "aws-amplify";
+import { deleteVideoByID } from "../../../../graphql/mutations";
 
 interface DeleteContentProps {
   isOpen: boolean;
@@ -20,13 +22,26 @@ const DeleteContent: React.FC<DeleteContentProps> = ({ isOpen, id, title, onClos
     setCheck(!check)
   }
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    if (id === '') {
+      message.warning('Error deleting this video.');
+      return;
+    }
 
-    message.success(title + t(" is completely deleted."))
-    console.log("deleted!")
-    onClose()
+    try {
+      await API.graphql({
+        query: deleteVideoByID,
+        variables: { id },
+        authMode: 'AMAZON_COGNITO_USER_POOLS',
+      });
+      message.success(title + t(" is completely deleted."))
+    } catch (error) {
+      message.warning('Error deleting this video.');
+    } finally {
+      onClose();
+    }
   }
-
+  
   return (
     <div className="fixed inset-0 flex items-center justify-center z-[999] bg-black bg-opacity-70">
       <div className="relative flex items-center justify-center w-full">

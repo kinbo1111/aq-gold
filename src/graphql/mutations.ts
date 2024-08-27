@@ -321,4 +321,12 @@ export const editVideoTitle = /* GraphQL */ `
   }
 `;
 
+export const deleteVideoByID = /* GraphQL */ `
+  mutation DeleteVideoByID($id: ID!) {
+    deleteVideo(input: { id: $id }) {
+      id
+    }
+  }
+`;
+
 
