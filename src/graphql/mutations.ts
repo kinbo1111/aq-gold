@@ -303,11 +303,22 @@ export const deleteFavorite = /* GraphQL */ `mutation DeleteFavorite(
   }
 `;
 
-//   export const incrementFavoriteCount = /* GraphQL */ `
-//   mutation IncrementFavoriteCount($id: ID!, $favoriteCount: Int!) {
-//     updateVideo(input: { id: $id, favoriteCount: $favoriteCount }) {
-//       id
-//       favoriteCount
-//     }
-//   }
-// `;
+  export const managementFavoriteCount = /* GraphQL */ `
+  mutation ManagementFavoriteCount($id: ID!, $favoriteCount: Int!) {
+    updateVideo(input: { id: $id, favoriteCount: $favoriteCount }) {
+      id
+      favoriteCount
+    }
+  }
+`;
+
+export const editVideoTitle = /* GraphQL */ `
+  mutation EditVideoTitle($id: ID!, $title: String) {
+    updateVideo(input: { id: $id, title: $title }) {
+      id
+      title
+    }
+  }
+`;
+
+

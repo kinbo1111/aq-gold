@@ -8,10 +8,11 @@ import { message } from "antd";
 interface DeleteContentProps {
   isOpen: boolean;
   title: string;
+  id: string;
   onClose: () => void;
 }
 
-const DeleteContent: React.FC<DeleteContentProps> = ({ isOpen, title, onClose }) => {
+const DeleteContent: React.FC<DeleteContentProps> = ({ isOpen, id, title, onClose }) => {
   const { t } = useTranslation();
   const [check, setCheck] = useState(true);
   if (!isOpen) return null;
@@ -20,6 +21,7 @@ const DeleteContent: React.FC<DeleteContentProps> = ({ isOpen, title, onClose })
   }
 
   const handleSave = () => {
+
     message.success(title + t(" is completely deleted."))
     console.log("deleted!")
     onClose()
