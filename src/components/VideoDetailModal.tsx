@@ -50,6 +50,9 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
   const [hasIncremented, setHasIncremented] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isMyVideo, setIsMyVideo] = useState<boolean>(false);
+  const [favCnt, setFavCnt] = useState<number>(favoriteCount);
+  const [viewCnt, setViewCnt] = useState<number>(viewCount);
+
   const { t } = useTranslation();
 
   const userContext = useContext(UserContext);
@@ -71,6 +74,10 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
     setIsMyVideo(owner === user?.username);
     checkIfFavorited(id)
   }, [])
+
+  useEffect(() => {
+    console.log(favCnt)
+  }, [favCnt,viewCnt])
 
   const checkIfFavorited = async (videoId: string) => {
      if (!user) return;
@@ -119,7 +126,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
           });
 
           setIsFavorited(false);
-          // Update favorite count in the backend
+          setFavCnt(favCnt - 1);
           await API.graphql({
             query: managementFavoriteCount,
             variables: {
@@ -130,8 +137,6 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
           });
         }
       } else {
-        console.log('Adding to favorites');
-        // Add to favorites
         await API.graphql({
           query: createFavorite,
           variables: {
@@ -143,7 +148,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
           authMode: 'AMAZON_COGNITO_USER_POOLS',
         });
         setIsFavorited(true);
-        // Update favorite count in the backend
+        setFavCnt(favCnt + 1)
         await API.graphql({
           query: managementFavoriteCount,
             variables: {
@@ -160,7 +165,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
 
   const incrementVideoViewCount = async () => {
     if (hasIncremented || viewCount === undefined) return;
-
+    setViewCnt(viewCnt + 1)
     try {
       await API.graphql({
         query: incrementViewCount,
@@ -227,7 +232,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
                   <FaRegEye className='text-[#c7a76b]' size={12} />
                 </span>
                 <span className='text-[#c7a76b] flex items-center justify-center'>
-                {viewCount}
+                {viewCnt}
                 </span>
               </div>
               <div className='flex flex-row'>
@@ -235,7 +240,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
                   <MdOutlineFavorite className='text-[#be2727]' size={12} />
                 </span>
                 <span className='text-[#be2727] flex items-center justify-center'>
-                {favoriteCount}
+                {favCnt}
                 </span>
               </div>
             </div>
