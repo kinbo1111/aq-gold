@@ -7,6 +7,7 @@ import Item from "../../../assets/images/content.png"
 
 const ContentList: React.FC = () => {
   const [videos, setVideos] = useState<any[]>([]);
+  const [isReload, setIsReload] = useState(false);
 
   useEffect(() => {
     const loadVideos = async () => {
@@ -19,17 +20,19 @@ const ContentList: React.FC = () => {
     };
 
     loadVideos();
-  }, []);
+  }, [isReload]);
   return (
     <Box>
       <ContentHeader />
       {videos.map((item, index) => (
         <ContentItem
+          id={item.id}
           key={index}
           image={item.thumbnailUrl}
           title={item.title}
           description={item.description}
           visibility="show"
+          onReload={() => setIsReload(!isReload)}
           date={item.createdAt.slice(0,10)}
           views={item.viewCount}
           likes={item.favoriteCount}

@@ -107,8 +107,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
       isForKids: forKid,
       isRestricted: restrict,
       playlist: selectedPlaylist,
-    });
-    
+    }); 
   }
   
 
