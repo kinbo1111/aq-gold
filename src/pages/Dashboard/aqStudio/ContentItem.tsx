@@ -1,24 +1,43 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Box, Typography, IconButton, Checkbox } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteContent from './deleteContent';
+import EditContent from './editContent';
 
 interface ContentItemProps {
+  onReload: () => void;
   image: string;
   title: string;
   description: string;
   visibility: string;
   date: string;
+  id: string;
   views: string;
   likes: string;
 }
 
-const ContentItem: React.FC<ContentItemProps> = ({ image, title, description, visibility, date, views, likes }) => {
+const ContentItem: React.FC<ContentItemProps> = ({ id, image, title, description, visibility, date, views, likes, onReload }) => {
 
   const [isOpenDelete, setIsOpenDelete] = useState(false);
+  const [isOpenEdit, setIsOpenEdit] = useState(false);
   const handleDeleteConfirmClose = () => setIsOpenDelete(false);
   const handleDeleteConfirmOpen = () => setIsOpenDelete(true);
+  const handleEditOpen = () => setIsOpenEdit(true);
+  const handleEditClose = () => setIsOpenEdit(false);
+
+  useEffect(() => {
+    if (isOpenDelete) {
+      document.body.style.overflow = 'hidden';  // Add this line
+    } else {
+      document.body.style.overflow = 'auto';  // Add this line
+    }   
+  }, [isOpenDelete]);
+
+  useEffect(() => {
+    onReload && onReload();
+  }, [isOpenEdit]);
+
   return (
     <Box display="flex" alignItems="center" py={2} px={1} borderBottom="1px solid #333">
       <Checkbox sx={{ color: '#9fa0a1', borderRadius: '4px', '&.Mui-checked': { color: '#9fa0a1' } }} />
@@ -34,7 +53,7 @@ const ContentItem: React.FC<ContentItemProps> = ({ image, title, description, vi
       <Typography variant="body2" sx={{ width: 150, textAlign: 'left', fontWeight: 'regular', color: '#9fa0a1', fontSize: '14px'  }}>{views}</Typography>
       <Typography variant="body2" sx={{ width: 150, textAlign: 'left', fontWeight: 'regular', color: '#9fa0a1', fontSize: '14px'  }}>{likes}</Typography>
       <Box sx={{ width: 150 }}>
-        <IconButton>
+        <IconButton onClick={handleEditOpen}>
           <EditIcon className='text-[#9fa0a1]'/>
         </IconButton>
       </Box>
@@ -43,7 +62,8 @@ const ContentItem: React.FC<ContentItemProps> = ({ image, title, description, vi
           <DeleteIcon className='text-[#9fa0a1]' />
         </IconButton>
       </Box>
-      <DeleteContent isOpen={isOpenDelete} title={'"' + title + '"'} onClose={handleDeleteConfirmClose}/>
+      <DeleteContent isOpen={isOpenDelete} id={id} title={'"' + title + '"'} onClose={handleDeleteConfirmClose}/>
+      <EditContent isOpen={isOpenEdit} id={id} title={title} onClose={handleEditClose}/>
     </Box>
   );
 };

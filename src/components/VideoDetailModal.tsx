@@ -5,8 +5,8 @@ import VideoItem from './VideoItem';
 import { videoData } from '../utils/content';
 import { useTranslation } from 'react-i18next';
 import VideoModal from './VideoModal';
-import { incrementViewCount, createFavorite, deleteFavorite } from '../graphql/mutations';
-import { getVideo, listFavorites } from '../graphql/queries';
+import { managementFavoriteCount, incrementViewCount, createFavorite, deleteFavorite } from '../graphql/mutations';
+import { listFavorites } from '../graphql/queries';
 import { UserContext } from '../contexts/UserContext';
 import { FaPlay } from "react-icons/fa";
 import { IoMdAdd, IoMdArrowDropdown } from "react-icons/io";
@@ -14,6 +14,7 @@ import { MdFavoriteBorder } from "react-icons/md";
 import { MdFavorite } from "react-icons/md";
 import { MdOutlineFavorite } from "react-icons/md";
 import { FaRegEye } from "react-icons/fa";
+import { idText } from 'typescript';
 
 export type VideoDetailModalProps = {
   id: string;
@@ -69,7 +70,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
   useEffect(() => {
     setIsMyVideo(owner === user?.username);
     checkIfFavorited(id)
-  },[])
+  }, [])
 
   const checkIfFavorited = async (videoId: string) => {
      if (!user) return;
@@ -95,6 +96,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
     if (!user) return;
     try {
       if (isFavorited) {
+        console.log('Removing from favorites');
         // Remove from favorites
         const favoritesData = await API.graphql({
           query: listFavorites,
@@ -106,16 +108,29 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
           },
           authMode: 'AMAZON_COGNITO_USER_POOLS',
         }) as { data: { listFavorites: { items: any[] } } };
+
         if (favoritesData.data.listFavorites.items.length > 0) {
           const favoriteId = favoritesData.data.listFavorites.items[0].id;
+          console.log(`Deleting favorite with id: ${favoriteId}`);
           await API.graphql({
             query: deleteFavorite,
             variables: { input: { id: favoriteId } },
             authMode: 'AMAZON_COGNITO_USER_POOLS',
           });
+
           setIsFavorited(false);
+          // Update favorite count in the backend
+          await API.graphql({
+            query: managementFavoriteCount,
+            variables: {
+                id: id,
+                favoriteCount: favoriteCount - 1,
+            },
+            authMode: 'AMAZON_COGNITO_USER_POOLS',
+          });
         }
       } else {
+        console.log('Adding to favorites');
         // Add to favorites
         await API.graphql({
           query: createFavorite,
@@ -128,6 +143,15 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
           authMode: 'AMAZON_COGNITO_USER_POOLS',
         });
         setIsFavorited(true);
+        // Update favorite count in the backend
+        await API.graphql({
+          query: managementFavoriteCount,
+            variables: {
+              id: id,
+              favoriteCount: favoriteCount + 1,
+          },
+          authMode: 'AMAZON_COGNITO_USER_POOLS',
+        });
       }
     } catch (error) {
       console.error('Error handling favorite:', error);
@@ -245,6 +269,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
                   description={item.description}
                   viewCount={item.viewCount}
                   duration={item?.duration}
+                  favoriteCount={item?.favoriteCount}
               />
               ))}
           </div>
