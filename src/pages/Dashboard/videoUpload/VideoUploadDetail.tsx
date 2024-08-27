@@ -14,6 +14,7 @@ import DetailImg from "../../../assets/images/default_image.png";
 import SelectBox from "../../../components/inputs/Select";
 import { useTranslation } from 'react-i18next';
 import { VideoDetailData, Thumbnail } from ".";
+import { categories, playlist } from '../../../constant/SelectItems';
 
 interface VideoUploadDetailProps {
   isOpen: boolean;
@@ -33,17 +34,12 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const options = [
-    { value: "", label: "Select" },
-    { value: "playlist01", label: "playlist01" },
-    { value: "playlist02", label: "playlist02" },
-    { value: "playlist03", label: "playlist03" },
-    { value: "playlist04", label: "playlist04" },
-  ];
+  
   const { t } = useTranslation();
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [selectedPlaylist, setSelectedPlaylist] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [thumbnails, setThumbnails] = useState<Thumbnail[]>([]);
   const [thumbnailFile, setThumbnailFile] = useState<File>();
   const [vthumbnails, setVThumbnails] = useState<Thumbnail[]>([]);
@@ -106,7 +102,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
     onSubmit({
       title: title,
       description: description,
-      category: 'AQvar',
+      category: selectedCategory,
       thumbnail: thumbnailFile,
       isForKids: forKid,
       isRestricted: restrict,
@@ -258,9 +254,23 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                     {t("Add your video to one or more playlists to organize your content for viewers.")}
                   </p>
                   <SelectBox
-                    options={options}
+                    options={playlist}
                     value={selectedPlaylist}
                     onChange={setSelectedPlaylist}
+                    border
+                    standard
+                    detail
+                  />
+                </div>
+                <div className="mt-6 flex flex-col gap-4">
+                  <h6 className="body-1b text-white">{("Category")}</h6>
+                  <p className="body-1r gray-200">
+                    {t("Please choose the category that best describes your video.")}
+                  </p>
+                  <SelectBox
+                    options={categories}
+                    value={selectedCategory}
+                    onChange={setSelectedCategory}
                     border
                     standard
                     detail
