@@ -38,7 +38,7 @@ const EditContent: React.FC<EditContentProps> = ({ isOpen, id, title, onClose })
 
       message.success(`${videoTitle} ${t("is completely Edited.")}`);
     } catch (error) {
-      message.warning('Error incrementing view count.');
+      message.warning('Error editing this video.');
     } finally {
       onClose();
     }

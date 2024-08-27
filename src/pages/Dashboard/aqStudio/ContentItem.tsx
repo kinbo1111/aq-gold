@@ -36,7 +36,7 @@ const ContentItem: React.FC<ContentItemProps> = ({ id, image, title, description
 
   useEffect(() => {
     onReload && onReload();
-  }, [isOpenEdit]);
+  }, [isOpenEdit, isOpenDelete]);
 
   return (
     <Box display="flex" alignItems="center" py={2} px={1} borderBottom="1px solid #333">
