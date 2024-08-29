@@ -19,12 +19,14 @@ type Video @model
   timezone: String
   duration: Int!            
   viewCount: Int!           
-  favoriteCount: Int!       
+  favoriteCount: Int!  
+  isAQOriginal: Boolean     
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
   isPublic: Boolean!
   owner: String
   favorites: [Favorite] @hasMany(indexName: "byVideo", fields: ["id"])  # Establish the relationship
+  userActivity: [UserActivity] @hasMany(indexName: "byVideo", fields: ["id"])  # Establish the relationship
 }
 
 type User @model @auth(rules: [{ allow: owner }]) {
@@ -43,5 +45,16 @@ type Favorite @model
   userId: ID! @index(name: "byUser", sortKeyFields: ["videoId"])
   videoId: ID! @index(name: "byVideo", sortKeyFields: ["userId"])
   video: Video @belongsTo(fields: ["videoId"])
+  createdAt: AWSDateTime
+}
+
+type UserActivity @model
+  @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  userId: ID! @index(name: "byUser", sortKeyFields: ["videoId"])
+  videoId: ID! @index(name: "byVideo", sortKeyFields: ["userId"])
+  video: Video @belongsTo(fields: ["videoId"])
+  progress: Int              # Progress in seconds
+  lastWatchedAt: AWSDateTime
   createdAt: AWSDateTime
 }
