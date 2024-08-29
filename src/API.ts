@@ -18,8 +18,10 @@ export type CreateVideoInput = {
   duration: number,
   viewCount: number,
   favoriteCount: number,
+  isAQOriginal?: boolean | null,
   createdAt?: string | null,
   updatedAt?: string | null,
+  isPublic: boolean,
   owner?: string | null,
 };
 
@@ -38,8 +40,10 @@ export type ModelVideoConditionInput = {
   duration?: ModelIntInput | null,
   viewCount?: ModelIntInput | null,
   favoriteCount?: ModelIntInput | null,
+  isAQOriginal?: ModelBooleanInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
+  isPublic?: ModelBooleanInput | null,
   owner?: ModelStringInput | null,
   and?: Array< ModelVideoConditionInput | null > | null,
   or?: Array< ModelVideoConditionInput | null > | null,
@@ -122,10 +126,13 @@ export type Video = {
   duration: number,
   viewCount: number,
   favoriteCount: number,
+  isAQOriginal?: boolean | null,
   createdAt?: string | null,
   updatedAt?: string | null,
+  isPublic: boolean,
   owner?: string | null,
   favorites?: ModelFavoriteConnection | null,
+  userActivity?: ModelUserActivityConnection | null,
 };
 
 export type ModelFavoriteConnection = {
@@ -140,6 +147,25 @@ export type Favorite = {
   userId: string,
   videoId: string,
   video?: Video | null,
+  createdAt?: string | null,
+  updatedAt: string,
+  owner?: string | null,
+};
+
+export type ModelUserActivityConnection = {
+  __typename: "ModelUserActivityConnection",
+  items:  Array<UserActivity | null >,
+  nextToken?: string | null,
+};
+
+export type UserActivity = {
+  __typename: "UserActivity",
+  id: string,
+  userId: string,
+  videoId: string,
+  video?: Video | null,
+  progress?: number | null,
+  lastWatchedAt?: string | null,
   createdAt?: string | null,
   updatedAt: string,
   owner?: string | null,
@@ -161,8 +187,10 @@ export type UpdateVideoInput = {
   duration?: number | null,
   viewCount?: number | null,
   favoriteCount?: number | null,
+  isAQOriginal?: boolean | null,
   createdAt?: string | null,
   updatedAt?: string | null,
+  isPublic?: boolean | null,
   owner?: string | null,
 };
 
@@ -253,6 +281,41 @@ export type DeleteFavoriteInput = {
   id: string,
 };
 
+export type CreateUserActivityInput = {
+  id?: string | null,
+  userId: string,
+  videoId: string,
+  progress?: number | null,
+  lastWatchedAt?: string | null,
+  createdAt?: string | null,
+};
+
+export type ModelUserActivityConditionInput = {
+  userId?: ModelIDInput | null,
+  videoId?: ModelIDInput | null,
+  progress?: ModelIntInput | null,
+  lastWatchedAt?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  and?: Array< ModelUserActivityConditionInput | null > | null,
+  or?: Array< ModelUserActivityConditionInput | null > | null,
+  not?: ModelUserActivityConditionInput | null,
+  updatedAt?: ModelStringInput | null,
+  owner?: ModelStringInput | null,
+};
+
+export type UpdateUserActivityInput = {
+  id: string,
+  userId?: string | null,
+  videoId?: string | null,
+  progress?: number | null,
+  lastWatchedAt?: string | null,
+  createdAt?: string | null,
+};
+
+export type DeleteUserActivityInput = {
+  id: string,
+};
+
 export type ModelVideoFilterInput = {
   id?: ModelIDInput | null,
   title?: ModelStringInput | null,
@@ -269,8 +332,10 @@ export type ModelVideoFilterInput = {
   duration?: ModelIntInput | null,
   viewCount?: ModelIntInput | null,
   favoriteCount?: ModelIntInput | null,
+  isAQOriginal?: ModelBooleanInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
+  isPublic?: ModelBooleanInput | null,
   owner?: ModelStringInput | null,
   and?: Array< ModelVideoFilterInput | null > | null,
   or?: Array< ModelVideoFilterInput | null > | null,
@@ -329,6 +394,20 @@ export enum ModelSortDirection {
 }
 
 
+export type ModelUserActivityFilterInput = {
+  id?: ModelIDInput | null,
+  userId?: ModelIDInput | null,
+  videoId?: ModelIDInput | null,
+  progress?: ModelIntInput | null,
+  lastWatchedAt?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelUserActivityFilterInput | null > | null,
+  or?: Array< ModelUserActivityFilterInput | null > | null,
+  not?: ModelUserActivityFilterInput | null,
+  owner?: ModelStringInput | null,
+};
+
 export type ModelSubscriptionVideoFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   title?: ModelSubscriptionStringInput | null,
@@ -345,8 +424,10 @@ export type ModelSubscriptionVideoFilterInput = {
   duration?: ModelSubscriptionIntInput | null,
   viewCount?: ModelSubscriptionIntInput | null,
   favoriteCount?: ModelSubscriptionIntInput | null,
+  isAQOriginal?: ModelSubscriptionBooleanInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
+  isPublic?: ModelSubscriptionBooleanInput | null,
   and?: Array< ModelSubscriptionVideoFilterInput | null > | null,
   or?: Array< ModelSubscriptionVideoFilterInput | null > | null,
   owner?: ModelStringInput | null,
@@ -421,6 +502,19 @@ export type ModelSubscriptionFavoriteFilterInput = {
   owner?: ModelStringInput | null,
 };
 
+export type ModelSubscriptionUserActivityFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  userId?: ModelSubscriptionIDInput | null,
+  videoId?: ModelSubscriptionIDInput | null,
+  progress?: ModelSubscriptionIntInput | null,
+  lastWatchedAt?: ModelSubscriptionStringInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionUserActivityFilterInput | null > | null,
+  or?: Array< ModelSubscriptionUserActivityFilterInput | null > | null,
+  owner?: ModelStringInput | null,
+};
+
 export type CreateVideoMutationVariables = {
   input: CreateVideoInput,
   condition?: ModelVideoConditionInput | null,
@@ -444,11 +538,17 @@ export type CreateVideoMutation = {
     duration: number,
     viewCount: number,
     favoriteCount: number,
+    isAQOriginal?: boolean | null,
     createdAt?: string | null,
     updatedAt?: string | null,
+    isPublic: boolean,
     owner?: string | null,
     favorites?:  {
       __typename: "ModelFavoriteConnection",
+      nextToken?: string | null,
+    } | null,
+    userActivity?:  {
+      __typename: "ModelUserActivityConnection",
       nextToken?: string | null,
     } | null,
   } | null,
@@ -477,11 +577,17 @@ export type UpdateVideoMutation = {
     duration: number,
     viewCount: number,
     favoriteCount: number,
+    isAQOriginal?: boolean | null,
     createdAt?: string | null,
     updatedAt?: string | null,
+    isPublic: boolean,
     owner?: string | null,
     favorites?:  {
       __typename: "ModelFavoriteConnection",
+      nextToken?: string | null,
+    } | null,
+    userActivity?:  {
+      __typename: "ModelUserActivityConnection",
       nextToken?: string | null,
     } | null,
   } | null,
@@ -510,11 +616,17 @@ export type DeleteVideoMutation = {
     duration: number,
     viewCount: number,
     favoriteCount: number,
+    isAQOriginal?: boolean | null,
     createdAt?: string | null,
     updatedAt?: string | null,
+    isPublic: boolean,
     owner?: string | null,
     favorites?:  {
       __typename: "ModelFavoriteConnection",
+      nextToken?: string | null,
+    } | null,
+    userActivity?:  {
+      __typename: "ModelUserActivityConnection",
       nextToken?: string | null,
     } | null,
   } | null,
@@ -611,8 +723,10 @@ export type CreateFavoriteMutation = {
       duration: number,
       viewCount: number,
       favoriteCount: number,
+      isAQOriginal?: boolean | null,
       createdAt?: string | null,
       updatedAt?: string | null,
+      isPublic: boolean,
       owner?: string | null,
     } | null,
     createdAt?: string | null,
@@ -649,8 +763,10 @@ export type UpdateFavoriteMutation = {
       duration: number,
       viewCount: number,
       favoriteCount: number,
+      isAQOriginal?: boolean | null,
       createdAt?: string | null,
       updatedAt?: string | null,
+      isPublic: boolean,
       owner?: string | null,
     } | null,
     createdAt?: string | null,
@@ -687,10 +803,138 @@ export type DeleteFavoriteMutation = {
       duration: number,
       viewCount: number,
       favoriteCount: number,
+      isAQOriginal?: boolean | null,
       createdAt?: string | null,
       updatedAt?: string | null,
+      isPublic: boolean,
       owner?: string | null,
     } | null,
+    createdAt?: string | null,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type CreateUserActivityMutationVariables = {
+  input: CreateUserActivityInput,
+  condition?: ModelUserActivityConditionInput | null,
+};
+
+export type CreateUserActivityMutation = {
+  createUserActivity?:  {
+    __typename: "UserActivity",
+    id: string,
+    userId: string,
+    videoId: string,
+    video?:  {
+      __typename: "Video",
+      id: string,
+      title: string,
+      description?: string | null,
+      tags?: Array< string | null > | null,
+      category?: string | null,
+      videoUrl: string,
+      thumbnailUrl?: string | null,
+      isForKids?: boolean | null,
+      isRestricted?: boolean | null,
+      playlist?: string | null,
+      scheduleTime?: string | null,
+      timezone?: string | null,
+      duration: number,
+      viewCount: number,
+      favoriteCount: number,
+      isAQOriginal?: boolean | null,
+      createdAt?: string | null,
+      updatedAt?: string | null,
+      isPublic: boolean,
+      owner?: string | null,
+    } | null,
+    progress?: number | null,
+    lastWatchedAt?: string | null,
+    createdAt?: string | null,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type UpdateUserActivityMutationVariables = {
+  input: UpdateUserActivityInput,
+  condition?: ModelUserActivityConditionInput | null,
+};
+
+export type UpdateUserActivityMutation = {
+  updateUserActivity?:  {
+    __typename: "UserActivity",
+    id: string,
+    userId: string,
+    videoId: string,
+    video?:  {
+      __typename: "Video",
+      id: string,
+      title: string,
+      description?: string | null,
+      tags?: Array< string | null > | null,
+      category?: string | null,
+      videoUrl: string,
+      thumbnailUrl?: string | null,
+      isForKids?: boolean | null,
+      isRestricted?: boolean | null,
+      playlist?: string | null,
+      scheduleTime?: string | null,
+      timezone?: string | null,
+      duration: number,
+      viewCount: number,
+      favoriteCount: number,
+      isAQOriginal?: boolean | null,
+      createdAt?: string | null,
+      updatedAt?: string | null,
+      isPublic: boolean,
+      owner?: string | null,
+    } | null,
+    progress?: number | null,
+    lastWatchedAt?: string | null,
+    createdAt?: string | null,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type DeleteUserActivityMutationVariables = {
+  input: DeleteUserActivityInput,
+  condition?: ModelUserActivityConditionInput | null,
+};
+
+export type DeleteUserActivityMutation = {
+  deleteUserActivity?:  {
+    __typename: "UserActivity",
+    id: string,
+    userId: string,
+    videoId: string,
+    video?:  {
+      __typename: "Video",
+      id: string,
+      title: string,
+      description?: string | null,
+      tags?: Array< string | null > | null,
+      category?: string | null,
+      videoUrl: string,
+      thumbnailUrl?: string | null,
+      isForKids?: boolean | null,
+      isRestricted?: boolean | null,
+      playlist?: string | null,
+      scheduleTime?: string | null,
+      timezone?: string | null,
+      duration: number,
+      viewCount: number,
+      favoriteCount: number,
+      isAQOriginal?: boolean | null,
+      createdAt?: string | null,
+      updatedAt?: string | null,
+      isPublic: boolean,
+      owner?: string | null,
+    } | null,
+    progress?: number | null,
+    lastWatchedAt?: string | null,
     createdAt?: string | null,
     updatedAt: string,
     owner?: string | null,
@@ -719,11 +963,17 @@ export type GetVideoQuery = {
     duration: number,
     viewCount: number,
     favoriteCount: number,
+    isAQOriginal?: boolean | null,
     createdAt?: string | null,
     updatedAt?: string | null,
+    isPublic: boolean,
     owner?: string | null,
     favorites?:  {
       __typename: "ModelFavoriteConnection",
+      nextToken?: string | null,
+    } | null,
+    userActivity?:  {
+      __typename: "ModelUserActivityConnection",
       nextToken?: string | null,
     } | null,
   } | null,
@@ -755,8 +1005,10 @@ export type ListVideosQuery = {
       duration: number,
       viewCount: number,
       favoriteCount: number,
+      isAQOriginal?: boolean | null,
       createdAt?: string | null,
       updatedAt?: string | null,
+      isPublic: boolean,
       owner?: string | null,
     } | null >,
     nextToken?: string | null,
@@ -832,8 +1084,10 @@ export type GetFavoriteQuery = {
       duration: number,
       viewCount: number,
       favoriteCount: number,
+      isAQOriginal?: boolean | null,
       createdAt?: string | null,
       updatedAt?: string | null,
+      isPublic: boolean,
       owner?: string | null,
     } | null,
     createdAt?: string | null,
@@ -914,6 +1168,125 @@ export type FavoritesByVideoIdAndUserIdQuery = {
   } | null,
 };
 
+export type GetUserActivityQueryVariables = {
+  id: string,
+};
+
+export type GetUserActivityQuery = {
+  getUserActivity?:  {
+    __typename: "UserActivity",
+    id: string,
+    userId: string,
+    videoId: string,
+    video?:  {
+      __typename: "Video",
+      id: string,
+      title: string,
+      description?: string | null,
+      tags?: Array< string | null > | null,
+      category?: string | null,
+      videoUrl: string,
+      thumbnailUrl?: string | null,
+      isForKids?: boolean | null,
+      isRestricted?: boolean | null,
+      playlist?: string | null,
+      scheduleTime?: string | null,
+      timezone?: string | null,
+      duration: number,
+      viewCount: number,
+      favoriteCount: number,
+      isAQOriginal?: boolean | null,
+      createdAt?: string | null,
+      updatedAt?: string | null,
+      isPublic: boolean,
+      owner?: string | null,
+    } | null,
+    progress?: number | null,
+    lastWatchedAt?: string | null,
+    createdAt?: string | null,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type ListUserActivitiesQueryVariables = {
+  filter?: ModelUserActivityFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListUserActivitiesQuery = {
+  listUserActivities?:  {
+    __typename: "ModelUserActivityConnection",
+    items:  Array< {
+      __typename: "UserActivity",
+      id: string,
+      userId: string,
+      videoId: string,
+      progress?: number | null,
+      lastWatchedAt?: string | null,
+      createdAt?: string | null,
+      updatedAt: string,
+      owner?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type UserActivitiesByUserIdAndVideoIdQueryVariables = {
+  userId: string,
+  videoId?: ModelIDKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelUserActivityFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type UserActivitiesByUserIdAndVideoIdQuery = {
+  userActivitiesByUserIdAndVideoId?:  {
+    __typename: "ModelUserActivityConnection",
+    items:  Array< {
+      __typename: "UserActivity",
+      id: string,
+      userId: string,
+      videoId: string,
+      progress?: number | null,
+      lastWatchedAt?: string | null,
+      createdAt?: string | null,
+      updatedAt: string,
+      owner?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type UserActivitiesByVideoIdAndUserIdQueryVariables = {
+  videoId: string,
+  userId?: ModelIDKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelUserActivityFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type UserActivitiesByVideoIdAndUserIdQuery = {
+  userActivitiesByVideoIdAndUserId?:  {
+    __typename: "ModelUserActivityConnection",
+    items:  Array< {
+      __typename: "UserActivity",
+      id: string,
+      userId: string,
+      videoId: string,
+      progress?: number | null,
+      lastWatchedAt?: string | null,
+      createdAt?: string | null,
+      updatedAt: string,
+      owner?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type OnCreateVideoSubscriptionVariables = {
   filter?: ModelSubscriptionVideoFilterInput | null,
   owner?: string | null,
@@ -937,11 +1310,17 @@ export type OnCreateVideoSubscription = {
     duration: number,
     viewCount: number,
     favoriteCount: number,
+    isAQOriginal?: boolean | null,
     createdAt?: string | null,
     updatedAt?: string | null,
+    isPublic: boolean,
     owner?: string | null,
     favorites?:  {
       __typename: "ModelFavoriteConnection",
+      nextToken?: string | null,
+    } | null,
+    userActivity?:  {
+      __typename: "ModelUserActivityConnection",
       nextToken?: string | null,
     } | null,
   } | null,
@@ -970,11 +1349,17 @@ export type OnUpdateVideoSubscription = {
     duration: number,
     viewCount: number,
     favoriteCount: number,
+    isAQOriginal?: boolean | null,
     createdAt?: string | null,
     updatedAt?: string | null,
+    isPublic: boolean,
     owner?: string | null,
     favorites?:  {
       __typename: "ModelFavoriteConnection",
+      nextToken?: string | null,
+    } | null,
+    userActivity?:  {
+      __typename: "ModelUserActivityConnection",
       nextToken?: string | null,
     } | null,
   } | null,
@@ -1003,11 +1388,17 @@ export type OnDeleteVideoSubscription = {
     duration: number,
     viewCount: number,
     favoriteCount: number,
+    isAQOriginal?: boolean | null,
     createdAt?: string | null,
     updatedAt?: string | null,
+    isPublic: boolean,
     owner?: string | null,
     favorites?:  {
       __typename: "ModelFavoriteConnection",
+      nextToken?: string | null,
+    } | null,
+    userActivity?:  {
+      __typename: "ModelUserActivityConnection",
       nextToken?: string | null,
     } | null,
   } | null,
@@ -1104,8 +1495,10 @@ export type OnCreateFavoriteSubscription = {
       duration: number,
       viewCount: number,
       favoriteCount: number,
+      isAQOriginal?: boolean | null,
       createdAt?: string | null,
       updatedAt?: string | null,
+      isPublic: boolean,
       owner?: string | null,
     } | null,
     createdAt?: string | null,
@@ -1142,8 +1535,10 @@ export type OnUpdateFavoriteSubscription = {
       duration: number,
       viewCount: number,
       favoriteCount: number,
+      isAQOriginal?: boolean | null,
       createdAt?: string | null,
       updatedAt?: string | null,
+      isPublic: boolean,
       owner?: string | null,
     } | null,
     createdAt?: string | null,
@@ -1180,10 +1575,138 @@ export type OnDeleteFavoriteSubscription = {
       duration: number,
       viewCount: number,
       favoriteCount: number,
+      isAQOriginal?: boolean | null,
       createdAt?: string | null,
       updatedAt?: string | null,
+      isPublic: boolean,
       owner?: string | null,
     } | null,
+    createdAt?: string | null,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type OnCreateUserActivitySubscriptionVariables = {
+  filter?: ModelSubscriptionUserActivityFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnCreateUserActivitySubscription = {
+  onCreateUserActivity?:  {
+    __typename: "UserActivity",
+    id: string,
+    userId: string,
+    videoId: string,
+    video?:  {
+      __typename: "Video",
+      id: string,
+      title: string,
+      description?: string | null,
+      tags?: Array< string | null > | null,
+      category?: string | null,
+      videoUrl: string,
+      thumbnailUrl?: string | null,
+      isForKids?: boolean | null,
+      isRestricted?: boolean | null,
+      playlist?: string | null,
+      scheduleTime?: string | null,
+      timezone?: string | null,
+      duration: number,
+      viewCount: number,
+      favoriteCount: number,
+      isAQOriginal?: boolean | null,
+      createdAt?: string | null,
+      updatedAt?: string | null,
+      isPublic: boolean,
+      owner?: string | null,
+    } | null,
+    progress?: number | null,
+    lastWatchedAt?: string | null,
+    createdAt?: string | null,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type OnUpdateUserActivitySubscriptionVariables = {
+  filter?: ModelSubscriptionUserActivityFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnUpdateUserActivitySubscription = {
+  onUpdateUserActivity?:  {
+    __typename: "UserActivity",
+    id: string,
+    userId: string,
+    videoId: string,
+    video?:  {
+      __typename: "Video",
+      id: string,
+      title: string,
+      description?: string | null,
+      tags?: Array< string | null > | null,
+      category?: string | null,
+      videoUrl: string,
+      thumbnailUrl?: string | null,
+      isForKids?: boolean | null,
+      isRestricted?: boolean | null,
+      playlist?: string | null,
+      scheduleTime?: string | null,
+      timezone?: string | null,
+      duration: number,
+      viewCount: number,
+      favoriteCount: number,
+      isAQOriginal?: boolean | null,
+      createdAt?: string | null,
+      updatedAt?: string | null,
+      isPublic: boolean,
+      owner?: string | null,
+    } | null,
+    progress?: number | null,
+    lastWatchedAt?: string | null,
+    createdAt?: string | null,
+    updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type OnDeleteUserActivitySubscriptionVariables = {
+  filter?: ModelSubscriptionUserActivityFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnDeleteUserActivitySubscription = {
+  onDeleteUserActivity?:  {
+    __typename: "UserActivity",
+    id: string,
+    userId: string,
+    videoId: string,
+    video?:  {
+      __typename: "Video",
+      id: string,
+      title: string,
+      description?: string | null,
+      tags?: Array< string | null > | null,
+      category?: string | null,
+      videoUrl: string,
+      thumbnailUrl?: string | null,
+      isForKids?: boolean | null,
+      isRestricted?: boolean | null,
+      playlist?: string | null,
+      scheduleTime?: string | null,
+      timezone?: string | null,
+      duration: number,
+      viewCount: number,
+      favoriteCount: number,
+      isAQOriginal?: boolean | null,
+      createdAt?: string | null,
+      updatedAt?: string | null,
+      isPublic: boolean,
+      owner?: string | null,
+    } | null,
+    progress?: number | null,
+    lastWatchedAt?: string | null,
     createdAt?: string | null,
     updatedAt: string,
     owner?: string | null,

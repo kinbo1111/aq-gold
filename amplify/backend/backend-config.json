@@ -78,6 +78,36 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "getUserProgress": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "360videoplatform"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "updateUserProgress": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "360videoplatform"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "parameters": {
@@ -110,6 +140,38 @@
         {
           "category": "function",
           "resourceName": "checkScheduleFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_getUserProgress_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getUserProgress"
+        }
+      ]
+    },
+    "AMPLIFY_function_getUserProgress_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getUserProgress"
+        }
+      ]
+    },
+    "AMPLIFY_function_updateUserProgress_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "updateUserProgress"
+        }
+      ]
+    },
+    "AMPLIFY_function_updateUserProgress_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "updateUserProgress"
         }
       ]
     }
