@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import VideoItem from './VideoItem';
 import { fetchVideos } from '../services/ApiService';
 
-const VideoList = () => {
+const VideoList: React.FC<{ className?: string }> = ({ className }) => {
   const [videos, setVideos] = useState<any[]>([]);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const VideoList = () => {
     loadVideos();
   }, []);
   return (
-    <div className="video-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
+    <div className={`video-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7  ${className ?? ''}`}>
         {videos.map((item, index) => (
         <VideoItem
             key={index}
