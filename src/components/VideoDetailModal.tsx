@@ -281,7 +281,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
           </div>
         </div>
       </div>
-      <VideoModal show={showModal} onClose={handleCloseModal} videoUrl={videoUrl} />
+      <VideoModal show={showModal} onClose={handleCloseModal} videoUrl={videoUrl} videoId={id} />
     </div>
   );
 };
