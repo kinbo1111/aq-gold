@@ -329,4 +329,53 @@ export const deleteVideoByID = /* GraphQL */ `
   }
 `;
 
+export const updateUserProgressMutation = /* GraphQL */ `
+  mutation UpdateUserProgress($userId: ID!, $videoId: ID!, $progress: Int!) {
+    updateUserProgress(userId: $userId, videoId: $videoId, progress: $progress) {
+      id
+      userId
+      videoId
+      progress
+      lastWatchedAt
+    }
+  }
+`;
+
+
+export const getUserProgressQuery = /* GraphQL */ `
+query GetUserProgress($userId: ID!, $videoId: ID!) {
+  listUserActivities(filter: {
+    userId: { eq: $userId }
+    videoId: { eq: $videoId }
+  }) {
+    items {
+      id
+      progress
+      lastWatchedAt
+    }
+  }
+}
+`;
+
+export const updateUserProgress = /* GraphQL */ `
+mutation UpdateUserProgress($input: UpdateUserActivityInput!) {
+  updateUserActivity(input: $input) {
+    id
+    progress
+    lastWatchedAt
+  }
+}
+`;
+
+export const createUserProgress = /* GraphQL */ `
+mutation CreateUserProgress($input: CreateUserActivityInput!) {
+  createUserActivity(input: $input) {
+    id
+    userId
+    videoId
+    progress
+    lastWatchedAt
+  }
+}
+`;
 

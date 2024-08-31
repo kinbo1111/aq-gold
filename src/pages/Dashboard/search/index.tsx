@@ -5,9 +5,9 @@ import VideoList from '../../../components/VideoList';
 const Search = () => {
     return (
         <DashboardContainer>
-            <div className='b-gray-800'>
+            <div className='b-gray-800 m-3'>
                 <SearchKeywordResult />
-                <VideoList/>
+                <VideoList className='p-5'/>
             </div>
         </DashboardContainer>
     );
