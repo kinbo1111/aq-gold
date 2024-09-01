@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Loading from "../components/Loading";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
+import ContinueWatching from '../components/ContinueWatching';
 
 // Lazy load all pages
 const UnauthorizedPage = React.lazy(() => import("../pages/UnAuthorizedPage"));
@@ -37,6 +38,7 @@ const Sport = React.lazy(() => import("../pages/Dashboard/category/Sport"));
 const Travel = React.lazy(() => import("../pages/Dashboard/category/Travel"));
 const Animal = React.lazy(() => import("../pages/Dashboard/category/Animal"));
 const Kids = React.lazy(() => import("../pages/Dashboard/category/Kids"));
+const ContinueWatchingPage = React.lazy(() => import("../components/ContinueWatching"));
 
 const AppRoutes: React.FC = () => {
 
@@ -54,6 +56,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/settings" element={<PrivateRoute element={<Settings />} />} />
         <Route path="/video-upload" element={<PrivateRoute element={<VideoUpload />} />} />
         <Route path="/profile" element={<PrivateRoute element={<ProfileEditPage />} />} />
+        <Route path="/continue-watching" element={<PrivateRoute element={<ContinueWatchingPage />} />} />
         <Route path="/category">
           <Route path="natural"  element={<PrivateRoute element={<Natural />} />} />
           <Route path="relaxation"  element={<PrivateRoute element={<Relaxation />}  />} /> 

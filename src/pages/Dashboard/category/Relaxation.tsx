@@ -40,26 +40,33 @@ const Relaxation = () => {
                 <div className="bg-border"></div>
             </div>
             <div>
-                 <MovieList
+                <MovieList
+                    movieData={[]}
                     label={t("Recommend Contents")}
                 />
                 <MovieList
+                    movieData={[]}
                     label={t("New on AQ Gold")}
                 />
-                 <MovieList
+                <MovieList
+                    movieData={[]}
                     label={t("AQ Original Contents")}
                 />
                
-                 <MovieList
+                <MovieList
+                    movieData={[]}
                     label={t("Popular on AQ Gold")}
                 />
-                 <MovieList
+                <MovieList
+                    movieData={[]}
                     label={t("Continue Watching")}
                 />
-                 <MovieList
+                <MovieList
+                    movieData={[]}
                     label={t("AQvar Contents")}
                 />
-                 <MovieList
+                <MovieList
+                    movieData={[]}
                     label={t("My List")}
                 />
             </div>
