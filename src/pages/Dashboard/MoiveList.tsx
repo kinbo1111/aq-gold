@@ -1,18 +1,20 @@
 import React, { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import MovieItem from "./MovieItem";
-import { MovieData } from "../../utils/content";
+// import { MovieData } from "../../utils/content";
 
 import "swiper/css";
 import "swiper/css/navigation";
 
 import { Navigation } from "swiper/modules";
+import { VideoData, VideoProps } from "../../types/index";
 
-interface MovieListProp {
+export type MovieListProp = {
   label: string;
+  movieData: VideoProps[] | VideoData[];
 }
 
-const MovieList: React.FC<MovieListProp> = ({ label }) => {
+const MovieList: React.FC<MovieListProp> = ({ label, movieData}) => {
   return (
     <div className="py-12 px-4 border-b-4 border-[#2a2d2e]">
       <h5 className="text-white sub-1b pl-8 mb-6">{label}</h5>
@@ -37,9 +39,9 @@ const MovieList: React.FC<MovieListProp> = ({ label }) => {
           },
         }}
       >
-        {MovieData.map((item, index) => (
+        {movieData.map((item, index) => (
           <SwiperSlide>
-            <MovieItem key={index} imgSrc={item.imgSrc} />
+            <MovieItem key={index} imgSrc={item.thumbnailUrl ?? ''} />
           </SwiperSlide>
         ))}
       </Swiper>

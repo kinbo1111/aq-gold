@@ -1,6 +1,17 @@
 import { API } from 'aws-amplify';
-import { getUserProgressQuery, updateUserProgressMutation } from '../graphql/mutations';
+import { listUserActivities, updateUserProgressMutation } from '../graphql/mutations';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
+import { VideoProps } from '../types';
+
+export type ContinueWatchingVideo = {
+  id: string;
+  userId: string;
+  videoId: string;
+  progress: number;
+  lastWatchedAt: string;
+  createdAt: string;
+  video: VideoProps;
+}
 
 
 export async function updateUserProgress(userId: string, videoId: string, progress: number): Promise<void> {
@@ -19,8 +30,8 @@ export async function updateUserProgress(userId: string, videoId: string, progre
 export async function getUserProgress(userId: string): Promise<any[]> {
   try {
     const result = (await API.graphql({
-      query: getUserProgressQuery,
-      variables: { userId },
+      query: listUserActivities,
+      variables: { userId},
       authMode: 'AMAZON_COGNITO_USER_POOLS',
     })) as GraphQLResult<{ getUserProgress: any[] }>; 
     if (result.data && result.data.getUserProgress) {
@@ -33,3 +44,33 @@ export async function getUserProgress(userId: string): Promise<any[]> {
     throw error;
   }
 }
+
+export const getContinueWatchingVideos = async (userId: string): Promise<ContinueWatchingVideo[]> => {
+  try {
+    const result = await API.graphql({
+      query: listUserActivities,
+      variables: { userId },
+      authMode: 'AMAZON_COGNITO_USER_POOLS',
+    }) as { data: { listUserActivities: { items: ContinueWatchingVideo[] } } };
+
+    const continueWatchingVideos = result.data.listUserActivities.items.filter(
+      (activity) => activity.progress > 0 && activity.progress < activity.video.duration
+    );
+
+    const uniqueVideos = Array.from(
+      continueWatchingVideos.reduce((map, item) => {
+        if (!map.has(item.videoId)) {
+          map.set(item.videoId, item);
+        }
+        return map;
+      }, new Map<string, ContinueWatchingVideo>()).values()
+    );
+
+    return uniqueVideos;
+
+    return continueWatchingVideos;
+  } catch (error) {
+    console.error('Error fetching continue watching videos:', error);
+    throw new Error('Failed to fetch continue watching videos.');
+  }
+};

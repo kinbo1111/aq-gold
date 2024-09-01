@@ -87,6 +87,7 @@ export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
   }
 }
 ` as GeneratedQuery<APITypes.GetUserQueryVariables, APITypes.GetUserQuery>;
+
 export const listUsers = /* GraphQL */ `query ListUsers(
   $filter: ModelUserFilterInput
   $limit: Int
@@ -231,4 +232,38 @@ export const favoritesByVideoIdAndUserId = /* GraphQL */ `query FavoritesByVideo
 ` as GeneratedQuery<
   APITypes.FavoritesByVideoIdAndUserIdQueryVariables,
   APITypes.FavoritesByVideoIdAndUserIdQuery
->;
+  >;
+
+export const videosByFavoriteCount = /* GraphQL */`
+  query VideosByFavoriteCount(
+    $limit: Int = 10
+  ) {
+    listVideos(
+      limit: $limit
+    ) {
+      items {
+        id
+        title
+        description
+        tags
+        category
+        videoUrl
+        thumbnailUrl
+        isForKids
+        isRestricted
+        playlist
+        scheduleTime
+        timezone
+        duration
+        viewCount
+        favoriteCount
+        isAQOriginal
+        isPublic
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
