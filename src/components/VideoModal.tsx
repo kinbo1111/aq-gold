@@ -5,7 +5,7 @@ import videojs from 'video.js';
 import 'videojs-vr';
 import 'videojs-vr/dist/videojs-vr.css';
 import 'video.js/dist/video-js.css';
-import { getUserProgressQuery, createUserProgress, updateUserProgress } from '../graphql/mutations';
+import { getUserActivity, createUserProgress, updateUserProgress } from '../graphql/mutations';
 import { UserContext } from '../contexts/UserContext';
 
 export type VideoModalProps = {
@@ -60,7 +60,7 @@ const VideoModal: React.FC<VideoModalProps> = ({ show, onClose, videoUrl, videoI
 
       try {
         const progressData = await API.graphql({
-          query: getUserProgressQuery,
+          query: getUserActivity,
           variables: { userId: user.sub, videoId },
           authMode: 'AMAZON_COGNITO_USER_POOLS',
         }) as { data: { listUserActivities: { items: any[] } } };
@@ -91,7 +91,7 @@ const VideoModal: React.FC<VideoModalProps> = ({ show, onClose, videoUrl, videoI
 
       try {
         const progressData = await API.graphql({
-          query: getUserProgressQuery,
+          query: getUserActivity,
           variables: { userId: user?.sub, videoId },
           authMode: 'AMAZON_COGNITO_USER_POOLS',
         }) as { data: { listUserActivities: { items: any[] } } };

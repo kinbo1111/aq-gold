@@ -342,8 +342,8 @@ export const updateUserProgressMutation = /* GraphQL */ `
 `;
 
 
-export const getUserProgressQuery = /* GraphQL */ `
-query GetUserProgress($userId: ID!, $videoId: ID!) {
+export const getUserActivity = /* GraphQL */ `
+query GetUserActivity($userId: ID!, $videoId: ID!) {
   listUserActivities(filter: {
     userId: { eq: $userId }
     videoId: { eq: $videoId }
@@ -356,6 +356,30 @@ query GetUserProgress($userId: ID!, $videoId: ID!) {
   }
 }
 `;
+
+export const listUserActivities = /* GraphQL */ `
+  query ListUserActivities($userId: ID!) {
+    listUserActivities(filter: { userId: { eq: $userId } }) {
+      items {
+        id
+        userId
+        videoId
+        progress
+        lastWatchedAt
+        createdAt
+        video {
+          id
+          title
+          videoUrl
+          thumbnailUrl
+          duration
+        }
+      }
+      nextToken
+    }
+  }
+`;
+
 
 export const updateUserProgress = /* GraphQL */ `
 mutation UpdateUserProgress($input: UpdateUserActivityInput!) {
@@ -379,3 +403,12 @@ mutation CreateUserProgress($input: CreateUserActivityInput!) {
 }
 `;
 
+export const videosByFavoriteCount = /* GraphQL */`
+  query VideosByFavoriteCount() {
+    listVideos(limit: 3) {
+      items {
+        id
+      }
+    }
+  }
+`;

@@ -42,21 +42,27 @@ const Favourite = () => {
             </div>
             <div>
                 <MovieList
+                    movieData={[]}
                     label={t("New on AQGOLD")}
                 />
                 <MovieTopList
+                    movieData={[]}
                     label={t("Top 10 Contents in AQ GOLD")}
                 />
-                 <MovieList
+                <MovieList
+                    movieData={[]}
                     label={t("Popular on AQGOLD")}
                 />
-                 <MovieTopList
+                <MovieTopList
+                    movieData={[]}
                     label={t("Top 10 Contents in AQvar")}
                 />
-                 <MovieList
+                <MovieList
+                    movieData={[]}
                     label={t("New on AQvr")}
                 />
-                 <MovieList
+                <MovieList
+                    movieData={[]}
                     label={t("Popular on AQ Gold")}
                 />
             </div>
