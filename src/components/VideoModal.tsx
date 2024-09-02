@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useContext, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { API } from 'aws-amplify';
 import { useParams } from 'react-router-dom';
 import videojs from 'video.js';
@@ -6,7 +6,7 @@ import 'videojs-vr';
 import 'videojs-vr/dist/videojs-vr.css';
 import 'video.js/dist/video-js.css';
 import { getUserActivity, createUserProgress, updateUserProgress } from '../graphql/mutations';
-import { UserContext } from '../contexts/UserContext';
+import { useUser } from '../contexts/UserContext';
 
 export type VideoModalProps = {
   show: boolean;
@@ -18,13 +18,8 @@ export type VideoModalProps = {
 const VideoModal: React.FC<VideoModalProps> = ({ show, onClose, videoUrl, videoId }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const playerRef = useRef<videojs.Player | null>(null);
-  const userContext = useContext(UserContext);
 
-  if (!userContext) {
-    throw new Error("UserContext must be used within an AuthProvider!");
-  }
-
-  const { user } = userContext;
+  const { user } = useUser();
   const [progress, setProgress] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import Button from './Button';
 import VideoItem from './VideoItem';
@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import VideoModal from './VideoModal';
 import { managementFavoriteCount, incrementViewCount, createFavorite, deleteFavorite } from '../graphql/mutations';
 import { listFavorites } from '../graphql/queries';
-import { UserContext } from '../contexts/UserContext';
+import { useUser } from '../contexts/UserContext';
 import { FaPlay } from "react-icons/fa";
 import { IoMdAdd, IoMdArrowDropdown } from "react-icons/io";
 import { MdFavoriteBorder } from "react-icons/md";
@@ -45,6 +45,9 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
   videoUrl,
   favoriteCount
 }) => {
+  const { t } = useTranslation();
+  const { user } = useUser();
+  
   const [isDescriptionVisible, setDescriptionVisible] = useState<boolean>(false);
   const [isFavorited, setIsFavorited] = useState<boolean>(false);
   const [hasIncremented, setHasIncremented] = useState<boolean>(false);
@@ -52,17 +55,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
   const [isMyVideo, setIsMyVideo] = useState<boolean>(false);
   const [favCnt, setFavCnt] = useState<number>(favoriteCount);
   const [viewCnt, setViewCnt] = useState<number>(viewCount);
-
-  const { t } = useTranslation();
-
-  const userContext = useContext(UserContext);
   
-  if (!userContext) {
-    throw new Error("userContext must be used within an AuthProvider!")
-  }
-    
-  const { user } = userContext;
-
   const handleOpenModal = () => {
     incrementVideoViewCount();
     setShowModal(true);
@@ -190,7 +183,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
           <img src={imgSrc} alt={videoTitle} className='w-full h-auto rounded-t-lg' />
           <div className='video-info absolute bottom-9 left-12 z-10'>
             <h6 className='h6 text-white mb-4'>{videoTitle}</h6>
-            <div className='flex items-center justify-start gap-4'>
+            <div className='flex items-center justify-start gap-4 flex-row'>
               <Button 
                 label={t('Play')}
                 icon={FaPlay}
@@ -198,7 +191,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
                 iconExist
                 full
               />
-              <button className='w-12 h-12 border border-[#c7a76b] rounded-full flex items-center justify-center'>
+              <button className='w-12 h-12 border border-[#c7a76b] rounded-full flex items-center justify-center '>
                 <IoMdAdd className='text-[#c7a76b]' size={20} />
               </button>
               {!isMyVideo &&
@@ -206,6 +199,9 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
                   {isFavorited ? <MdFavorite className='text-[#c7a76b]' size={20} /> : <MdFavoriteBorder className='text-[#c7a76b]' size={20} />}
                 </button>
               }
+              <button className='p-3 border-[2px] border-[#c7a76b] bg-transparent absolute ml-[1000px]'>
+                <span className='text-[#c7a76b] text-nowrap'>違反報告</span>
+              </button>
             </div>
           </div>
         </div>

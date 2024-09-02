@@ -1,14 +1,10 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { UserContext } from '../contexts/UserContext';
+import React, { useEffect, useState } from 'react';
+import { useUser } from '../contexts/UserContext';
 import { getUserProgress } from '../services/UserActivityService';
 import VideoPlayer from './VideoPlayer';
 
 const ContinueWatching: React.FC = () => {
-     const userContext = useContext(UserContext);
-    if (!userContext) {
-        throw new Error("userContext must be used within an AuthProvider!")
-    }
-    const { user } = userContext;
+    const { user } = useUser();
   const [videos, setVideos] = useState<any[]>([]);
 
   useEffect(() => {

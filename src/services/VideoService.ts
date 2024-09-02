@@ -4,13 +4,13 @@ import { createVideo } from '../graphql/mutations';
 import { videosByFavoriteCount } from '../graphql/queries';
 import { listVideos } from '../graphql/queries';
 import { getVideo } from '../graphql/queries';
-import { VideoData } from '../types';
+import { VideoData, VideoInputData } from '../types';
 
 export type GetVideoResponse = {
-  getVideo: VideoData;
+  getVideo: VideoInputData;
 }
 
-export async function saveVideoMetadata(videoData: VideoData): Promise<void> {
+export async function saveVideoMetadata(videoData: VideoInputData): Promise<void> {
   try {
 
     const response = await API.graphql({
@@ -25,7 +25,7 @@ export async function saveVideoMetadata(videoData: VideoData): Promise<void> {
   }
 }
 
-export async function fetchVideoById(id: string): Promise<VideoData> {
+export async function fetchVideoById(id: string): Promise<VideoInputData> {
   try {
     const response = await API.graphql({
       query: getVideo,
@@ -46,7 +46,7 @@ export async function fetchVideoById(id: string): Promise<VideoData> {
   }
 }
 
-export const fetchTopContent = async (limit: number = 10): Promise<VideoData[]> => {
+export const fetchTopContent = async (limit: number = 10): Promise<VideoInputData[]> => {
   try {
     const response = await API.graphql({
       query: videosByFavoriteCount,
@@ -54,7 +54,7 @@ export const fetchTopContent = async (limit: number = 10): Promise<VideoData[]> 
         limit,
       },
       authMode: 'AMAZON_COGNITO_USER_POOLS',
-    }) as { data: { listVideos: { items: VideoData[] } } };
+    }) as { data: { listVideos: { items: VideoInputData[] } } };
 
     return response.data.listVideos.items;
   } catch (error) {

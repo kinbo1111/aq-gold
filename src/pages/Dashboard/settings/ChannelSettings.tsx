@@ -1,9 +1,9 @@
-import React, { useState, useRef, useContext, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useForm } from 'react-hook-form';
 import { DefaultAvatar } from '../../../const';
 import Input from "../../../components/inputs/Input";
 import { useTranslation } from "react-i18next";
-import { UserContext } from '../../../contexts/UserContext'
+import { useUser } from '../../../contexts/UserContext'
 
 interface ChannelSettingsProps {
     channelAvatar?: string;
@@ -27,14 +27,10 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
         formState: { errors },
     } = useForm();
 
-    const userContext = useContext(UserContext);
-    if (!userContext) {
-        throw new Error("userContext must be used within an AuthProvider!")
-    }
-    const { user } = userContext;
+    const { t } = useTranslation();
+    const { user } = useUser();
 
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const { t } = useTranslation();
     const [channelName, setChannelName] = useState<string>("")
     const [channelHandle, setChannelHandle] = useState<string>("")
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
@@ -54,12 +50,10 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
         }
     }, [isLoaded])
 
-
     useEffect(() => {
         setChannelHandle(user?.channelHandle?? '');
         setChannelName(user?.channelName?? '')
     }, [])
-    
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];

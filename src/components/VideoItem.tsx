@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import VideoDetailModal from './VideoDetailModal';
 import { IoMdAdd, IoMdArrowDropdown } from "react-icons/io";
 import { MdOutlineFavorite } from "react-icons/md";
@@ -6,7 +6,7 @@ import { FaRegEye } from "react-icons/fa";
 import { incrementViewCount, createFavorite, deleteFavorite } from '../graphql/mutations';
 import { getVideo, listFavorites } from '../graphql/queries';
 import { API } from 'aws-amplify';
-import { UserContext } from '../contexts/UserContext';
+import { useUser } from '../contexts/UserContext';
 
 export type VideoItemProps = {
   id: string;
@@ -27,11 +27,7 @@ const VideoItem: React.FC<VideoItemProps> = ({ id, imageSrc, title, description,
   const [isFavorited, setIsFavorited] = useState<boolean>(false);
   const [hasIncremented, setHasIncremented] = useState(false);
 
-   const userContext = useContext(UserContext);
-    if (!userContext) {
-        throw new Error("userContext must be used within an AuthProvider!")
-    }
-    const { user } = userContext;
+  const { user } = useUser();
 
   const handleOpenModal = () => {
     setModalOpen(true);
