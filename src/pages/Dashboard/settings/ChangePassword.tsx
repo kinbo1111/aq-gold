@@ -3,8 +3,7 @@ import { useForm } from "react-hook-form";
 import Avatar from "../../../components/Avatar";
 import Input from "../../../components/inputs/Input";
 import { useTranslation } from 'react-i18next';
-import { UserContext } from '../../../contexts/UserContext';
-import { DefaultAvatar } from '../../../const';
+import { UserContext, useUser } from '../../../contexts/UserContext';
 
 export type ChangePasswordProps = {
   onNewPasswordChange: (newPassword: string) => void;
@@ -27,11 +26,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const { t } = useTranslation();
-  const userContext = useContext(UserContext);
-  if (!userContext) {
-      throw new Error("userContext must be used within an AuthProvider!")
-  }
-  const { user } = userContext;
+  const { user } = useUser();
 
 
   useEffect(() => {

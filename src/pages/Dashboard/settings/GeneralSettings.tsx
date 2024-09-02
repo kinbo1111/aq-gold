@@ -55,13 +55,11 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({
     if (locale === 'Japanese') {
       i18n.changeLanguage('jap')
       setSelectedOption('Japanese')
-
     } else {
       i18n.changeLanguage('en');
       setSelectedOption('English')
     }  
   };
-
 
   const options = [
     {

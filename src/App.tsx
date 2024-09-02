@@ -3,6 +3,7 @@ import { BrowserRouter as Router, RouterProvider } from "react-router-dom";
 import AppRoutes from "./router/AppRoutes";
 import Header from "./components/header/Header";
 import { UserProvider } from './contexts/UserContext';
+import { VideoProvider } from './contexts/VideoContext';
 import { Provider } from 'react-redux';
 import { ProSidebarProvider } from "react-pro-sidebar";
 import { I18nextProvider } from 'react-i18next';
@@ -24,14 +25,16 @@ function App() {
     return (
       <Provider store={store}>
         <UserProvider>
-          <ProSidebarProvider>
-            <I18nextProvider i18n={i18n}>
-            <Router>
-              <Header onToggleModal={handleToggleModal} />
-              <AppRoutes />
-              </Router>
-              </I18nextProvider>
-            </ProSidebarProvider>
+          <VideoProvider>
+            <ProSidebarProvider>
+              <I18nextProvider i18n={i18n}>
+              <Router>
+                <Header onToggleModal={handleToggleModal} />
+                <AppRoutes />
+                </Router>
+                </I18nextProvider>
+              </ProSidebarProvider>
+            </VideoProvider>
           </UserProvider>
         </Provider>
     );

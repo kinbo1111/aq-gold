@@ -1,41 +1,36 @@
-import React, {useEffect, useState, useContext} from "react";
+import React, {useEffect, useState} from "react";
 import { FaRegStar } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
 import { FaPlay } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
-import { UserContext } from '../../contexts/UserContext';
+import { useVideo } from "../../contexts/VideoContext";
 import { getContinueWatchingVideos, ContinueWatchingVideo } from '../../services/UserActivityService';
-import { fetchAllVideos, fetchTopContent } from "../../services/VideoService";
+import { fetchTopContent } from "../../services/VideoService";
 import MainBanner from '../../assets/images/main.png'
 import Button from "../../components/Button";
 import MainContainer from "../../components/MainContainer";
-import MovieList from "./MoiveList";
+import MovieList from "./MovieList";
 import MovieTopList from "./MovieTopList";
 import { VideoData } from "../../types";
+import { useUser } from "../../contexts/UserContext";
 
 const Dashboard = () => {
     const { t } = useTranslation();
-    const userContext = useContext(UserContext);
-    if (!userContext) {
-        throw new Error("userContext must be used within an AuthProvider!")
-    }
-      
-    const { user } = userContext;
+    const { videos, topVideos, recommendVideos, newVideos, popularVideos } = useVideo();
+    const { user } = useUser();
     const [continueVideos, setContinueVideos] = useState<ContinueWatchingVideo[]>([]);
-    const [topVideos, setTopVideos] = useState<VideoData[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchContinueWatchingVideos = async () => {
-            if (!user) return; // Ensure user is authenticated
+            if (!user) return; 
             if (user.sub === undefined) return;
 
         setLoading(true);
         try {
             const continueWatchingVideos = await getContinueWatchingVideos(user.sub);
-            const videos = await fetchTopContent(1);
-            setTopVideos(videos);
+            const videos = await fetchTopContent(10);
             setContinueVideos(continueWatchingVideos);
         } catch (err) {
             console.error('Error fetching continue watching videos:', err);
@@ -80,7 +75,7 @@ const Dashboard = () => {
             <div>
                 <MovieList
                     label={t("Recommend Contents")}
-                    movieData={ []}
+                    movieData={recommendVideos}
                 />
                  <MovieList
                     label={t("Continue Watching")}
@@ -88,7 +83,7 @@ const Dashboard = () => {
                 />
                  <MovieList
                     label={t("New on AQ Gold")}
-                    movieData={[]}
+                    movieData={newVideos}
 
                 />
                  <MovieTopList
@@ -105,15 +100,17 @@ const Dashboard = () => {
                 />
                  <MovieList
                     label={t("New on AQvr")}
-                    movieData={[]}
+                    movieData={newVideos}
                 />
                  <MovieList
                     label={t("Popular on AQ Gold")}
-                    movieData={[]}
+                    movieData={popularVideos}
                 />
             </div>
         </MainContainer>
     );
 };
+
+
 
 export default Dashboard;
