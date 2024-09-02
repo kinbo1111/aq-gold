@@ -41,26 +41,33 @@ const AQ18 = () => {
             </div>
            <div>
                <MovieList
-                    label={t("Recommend Contents")}
+                   label={t("Recommend Contents")}
+                   movieData={[]}
                />
                 <MovieList
                     label={t("New on AQ Gold")}
+                    movieData={[]}
                 />
                  <MovieList
                     label={t("AQ Original Contents")}
-                />
+                    movieData={[]} 
+               />
                
-                 <MovieList
-                    label={t("Popular on AQ Gold")}
+                 <MovieList                   
+                   label={t("Popular on AQ Gold")}
+                   movieData={[]}
                 />
                  <MovieList
                     label={t("Continue Watching")}
+                    movieData={[]}
                 />
                  <MovieList
                     label={t("AQvar Contents")}
+                    movieData={[]}
                 />
                  <MovieList
                     label={t("My List")}
+                    movieData={[]}
                 />
             </div>
         </MainContainer>

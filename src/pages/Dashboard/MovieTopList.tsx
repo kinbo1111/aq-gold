@@ -1,18 +1,19 @@
 import React, { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { MovieData } from "../../utils/content";
-
 import "swiper/css";
 import "swiper/css/navigation";
-
 import { Navigation } from "swiper/modules";
 import MovieTopItem from "./MovieTopItem";
+import { VideoProps, VideoData } from "../../types/index";
 
-interface MovieTopListProp {
+export type MovieTopListProp = {
   label: string;
+  movieData: VideoProps[] | VideoData[];
+  
 }
 
-const MovieTopList: React.FC<MovieTopListProp> = ({ label }) => {
+const MovieTopList: React.FC<MovieTopListProp> = ({ label, movieData }) => {
   return (
     <div className="py-12 px-4 border-b-4 border-[#2a2d2e]">
       <h5 className="text-white sub-1b pl-8 mb-6">{label}</h5>
@@ -38,16 +39,14 @@ const MovieTopList: React.FC<MovieTopListProp> = ({ label }) => {
         }}
       >
         <div className="flex flex-row">
-        {MovieData.map((item, index) => (
+        {movieData.map((item, index) => (
           <>
-      <SwiperSlide>
-            {/* <SwiperSlide className="w-[400px]"> */}
-             <div className="flex flex-row">
-                <span className="order-num">{index + 1}</span>
-                 <MovieTopItem key={index} imgSrc={item.imgSrc} />
-            </div>
-               </SwiperSlide >
-          {/* </SwiperSlide > */}
+            <SwiperSlide>
+              <div className="flex flex-row">
+                  <span className="order-num">{index + 1}</span>
+                  <MovieTopItem key={index} imgSrc={item.thumbnailUrl ?? ''} />
+              </div>
+            </SwiperSlide >
           </>
         ))}
           </div>
