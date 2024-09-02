@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useForm } from 'react-hook-form';
 import Input from "../../../components/inputs/Input";
 import { DefaultAvatar } from '../../../const';
 import { useTranslation } from 'react-i18next';
-import { UserContext } from '../../../contexts/UserContext';
+import { useUser } from '../../../contexts/UserContext';
 
 export type BasicInfoProps = {
     nickname?: string;
@@ -21,11 +21,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
     onChangeNickname
 }) => {
 
-    const userContext = useContext(UserContext);
-    if (!userContext) {
-        throw new Error("userContext must be used within an AuthProvider!")
-    }
-    const { user } = userContext;
+    const { user } = useUser();
     const [name, setNickname] = useState<string>('');
     const [imageUrl, setImageUrl] = useState<string | undefined>(currentAvatarUrl);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);

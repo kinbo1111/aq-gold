@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import Button from './Button';
 import VideoItem from './VideoItem';
@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import VideoModal from './VideoModal';
 import { managementFavoriteCount, incrementViewCount, createFavorite, deleteFavorite } from '../graphql/mutations';
 import { listFavorites } from '../graphql/queries';
-import { UserContext } from '../contexts/UserContext';
+import { useUser } from '../contexts/UserContext';
 import { FaPlay } from "react-icons/fa";
 import { IoMdAdd, IoMdArrowDropdown } from "react-icons/io";
 import { MdFavoriteBorder } from "react-icons/md";
@@ -45,6 +45,9 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
   videoUrl,
   favoriteCount
 }) => {
+  const { t } = useTranslation();
+  const { user } = useUser();
+  
   const [isDescriptionVisible, setDescriptionVisible] = useState<boolean>(false);
   const [isFavorited, setIsFavorited] = useState<boolean>(false);
   const [hasIncremented, setHasIncremented] = useState<boolean>(false);
@@ -52,17 +55,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
   const [isMyVideo, setIsMyVideo] = useState<boolean>(false);
   const [favCnt, setFavCnt] = useState<number>(favoriteCount);
   const [viewCnt, setViewCnt] = useState<number>(viewCount);
-
-  const { t } = useTranslation();
-
-  const userContext = useContext(UserContext);
   
-  if (!userContext) {
-    throw new Error("userContext must be used within an AuthProvider!")
-  }
-    
-  const { user } = userContext;
-
   const handleOpenModal = () => {
     incrementVideoViewCount();
     setShowModal(true);

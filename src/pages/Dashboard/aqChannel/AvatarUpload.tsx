@@ -1,7 +1,7 @@
-import React, { useState, useContext, ChangeEvent, forwardRef, useImperativeHandle } from 'react';
+import React, { useState, ChangeEvent, forwardRef, useImperativeHandle } from 'react';
 import { Avatar } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { UserContext } from '../../../contexts/UserContext';
+import { useUser } from '../../../contexts/UserContext';
 
 interface AvatarUploadProps {
   onFileSelect: (file: File | null) => void;
@@ -11,12 +11,7 @@ const AvatarUpload = forwardRef(({ onFileSelect }: AvatarUploadProps, ref) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   
-
-  const userContext = useContext(UserContext);
-  if (!userContext) {
-      throw new Error("userContext must be used within an AuthProvider!")
-  }
-  const { user } = userContext;
+  const { user } = useUser();
 
   useImperativeHandle(ref, () => ({
     getSelectedFile: () => selectedFile,

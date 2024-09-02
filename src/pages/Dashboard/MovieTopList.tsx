@@ -40,14 +40,12 @@ const MovieTopList: React.FC<MovieTopListProp> = ({ label, movieData }) => {
       >
         <div className="flex flex-row">
         {movieData.map((item, index) => (
-          <>
-            <SwiperSlide>
+            <SwiperSlide  key={index}>
               <div className="flex flex-row">
                   <span className="order-num">{index + 1}</span>
-                  <MovieTopItem key={index} imgSrc={item.thumbnailUrl ?? ''} />
+                  <MovieTopItem imgSrc={item.thumbnailUrl ?? ''} />
               </div>
             </SwiperSlide >
-          </>
         ))}
           </div>
       </Swiper>
