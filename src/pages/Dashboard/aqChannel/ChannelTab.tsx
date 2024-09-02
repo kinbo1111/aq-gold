@@ -74,11 +74,11 @@ export default function ChannelTab() {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <VideoList/>
+        <VideoList videoData={[]}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <FilterList/>
-        <VideoList/>
+        <VideoList videoData={[]}/>
       </CustomTabPanel>
     </Box>
   );

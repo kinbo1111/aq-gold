@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useState } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
@@ -102,11 +101,11 @@ export default function StudioTab() {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <VideoList />
+        <VideoList videoData={[]} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <FilterList />
-        <VideoList />
+        <VideoList videoData={[]} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         <ContentList />

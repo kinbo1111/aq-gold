@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useTranslation } from "react-i18next";
+import { useVideo } from "../contexts/VideoContext";
 
 interface SearchBoxProps {
   initialHistory?: string[];
@@ -10,6 +11,7 @@ interface SearchBoxProps {
 const SearchBox: React.FC<SearchBoxProps> = ({ initialHistory = [] }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { searchVideo } = useVideo();
   const [keyword, setKeyword] = useState<string>("");
   const [history, setHistory] = useState<string[]>(initialHistory);
   const [filteredHistory, setFilteredHistory] = useState<string[]>([]);
@@ -33,18 +35,13 @@ const SearchBox: React.FC<SearchBoxProps> = ({ initialHistory = [] }) => {
     setResults([...results, selectedKeyword]);
   };
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (keyword && !history.includes(keyword)) {
-      setHistory([keyword, ...history]);
-    }
-    setResults([...results, keyword]);
-    setKeyword("");
-  };
+  const handleSearch = async () => {
+    await searchVideo(keyword)
+    navigate('/search')
+  }
 
   return (
     <div className="relative">
-      <form onSubmit={handleFormSubmit} className="relative">
         <input
           type="text"
           value={keyword}
@@ -54,12 +51,11 @@ const SearchBox: React.FC<SearchBoxProps> = ({ initialHistory = [] }) => {
         />
         <button
           type="submit"
-          onClick={() => navigate('/search')}
+          onClick={handleSearch}
           className="absolute top-1/2 right-1 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center brand-gradient"
         >
           <AiOutlineSearch size={20} className="text-white" />
         </button>
-      </form>
       {filteredHistory.length > 0 && (
         <div className="search-history overflow-y-scroll b-gray-700 border border-[#c7a76b] rounded-lg mt-1 p-1 h-[240px] relative">
           <ul>
