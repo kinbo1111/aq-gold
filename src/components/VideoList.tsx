@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import VideoItem from './VideoItem';
 import { fetchVideos } from '../services/ApiService';
+import { VideoData } from '../types';
+import { useVideo } from '../contexts/VideoContext';
 
-const VideoList: React.FC<{ className?: string }> = ({ className }) => {
+const VideoList: React.FC<{ className?: string, videoData: VideoData[] }> = ({ className, videoData }) => {
   const [videos, setVideos] = useState<any[]>([]);
 
   useEffect(() => {
@@ -19,16 +21,16 @@ const VideoList: React.FC<{ className?: string }> = ({ className }) => {
   }, []);
   return (
     <div className={`video-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7  ${className ?? ''}`}>
-        {videos.map((item, index) => (
+        {videoData.map((item, index) => (
         <VideoItem
             key={index}
             owner={item.owner}
             id={item.id}
             videoUrl={item.videoUrl}
-            imageSrc={item.thumbnailUrl}
+            imageSrc={item.thumbnailUrl ?? ''}
             videos={videos}
             title={item.title}
-            description={item.description}
+            description={item.description ?? ''}
             viewCount={item.viewCount}
             duration={item.duration}
             favoriteCount={item.favoriteCount}

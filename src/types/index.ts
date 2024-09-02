@@ -17,7 +17,8 @@ export type VideoProps = {
     updatedAt: string;
 };
   
-export type VideoData =  {
+export type VideoData = {
+  id: string;
   title: string;
   description?: string;
   tags?: string[];
@@ -29,6 +30,7 @@ export type VideoData =  {
   playlist: string;
   scheduleTime: string;
   timezone: string;
+  owner: string;
   duration: number, 
   viewCount: number, 
   favoriteCount: number; 
