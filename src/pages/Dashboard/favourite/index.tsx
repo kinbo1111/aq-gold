@@ -6,12 +6,14 @@ import { FaPlay } from "react-icons/fa";
 import MainBanner from '../../../assets/images/main.png'
 import Button from "../../../components/Button";
 import MainContainer from "../../../components/MainContainer";
-import MovieList from "../MoiveList";
+import MovieList from "../MovieList";
 import { useTranslation } from "react-i18next";
 import MovieTopList from "../MovieTopList";
+import { useVideo } from "../../../contexts/VideoContext";
 
 const Favourite = () => {
     const { t } = useTranslation();
+    const { videos, topVideos, recommendVideos, popularVideos, newVideos  } = useVideo();
     return (
         <MainContainer>
             <div className="relative main-video w-full">
@@ -42,27 +44,27 @@ const Favourite = () => {
             </div>
             <div>
                 <MovieList
-                    movieData={[]}
+                    movieData={newVideos}
                     label={t("New on AQGOLD")}
                 />
                 <MovieTopList
-                    movieData={[]}
+                    movieData={topVideos}
                     label={t("Top 10 Contents in AQ GOLD")}
                 />
                 <MovieList
-                    movieData={[]}
+                    movieData={popularVideos}
                     label={t("Popular on AQGOLD")}
                 />
                 <MovieTopList
-                    movieData={[]}
+                    movieData={topVideos}
                     label={t("Top 10 Contents in AQvar")}
                 />
                 <MovieList
-                    movieData={[]}
+                    movieData={newVideos}
                     label={t("New on AQvr")}
                 />
                 <MovieList
-                    movieData={[]}
+                    movieData={popularVideos}
                     label={t("Popular on AQ Gold")}
                 />
             </div>

@@ -1,9 +1,9 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import { useForm } from "react-hook-form";
 import Avatar from "../../../components/Avatar";
 import Input from "../../../components/inputs/Input";
 import { useTranslation } from 'react-i18next';
-import { UserContext } from '../../../contexts/UserContext';
+import { useUser } from '../../../contexts/UserContext';
 
 export type ChangeEmailProps = {
   onNewEmailChange: (newEmail: string) => void;
@@ -26,11 +26,7 @@ const ChangeEmail: React.FC<ChangeEmailProps> = ({
   const [newEmail, setNewEmail] = useState<string>("");
   const [confirmEmail, setConfirmEmail] = useState<string>("");
   const { t } = useTranslation();
-  const userContext = useContext(UserContext);
-  if (!userContext) {
-      throw new Error("userContext must be used within an AuthProvider!")
-  }
-  const { user } = userContext;
+  const { user } = useUser();
 
   useEffect(() => {
     onNewEmailChange && onNewEmailChange(newEmail)

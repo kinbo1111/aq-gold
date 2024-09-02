@@ -1,18 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Avatar from "../../../components/Avatar";
 import DashboardContainer from "../../../components/DashboardContainer";
 import {IoMdAdd} from "react-icons/io";
 import ChannelTab from './ChannelTab';
-import { UserContext } from '../../../contexts/UserContext';
+import { useUser } from '../../../contexts/UserContext';
 import { useTranslation } from 'react-i18next';
 
 const ChannelHome = () => {
     const { t } = useTranslation();
-    const userContext = useContext(UserContext);
-    if (!userContext) {
-        throw new Error("userContext must be used within an AuthProvider!")
-    }
-    const { user } = userContext;
+    const { user } = useUser();
     
     return (
         <DashboardContainer>

@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState, useContext } from 'react';
-import { UserContext } from '../contexts/UserContext';
+import React, { useEffect, useRef, useState } from 'react';
+import { useUser } from '../contexts/UserContext';
 import { updateUserProgress, getUserProgress } from '../services/UserActivityService';
 
 interface VideoPlayerProps {
@@ -8,11 +8,8 @@ interface VideoPlayerProps {
 }
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoId, videoUrl }) => {
-       const userContext = useContext(UserContext);
-    if (!userContext) {
-        throw new Error("userContext must be used within an AuthProvider!")
-    }
-    const { user } = userContext;
+   
+  const { user } = useUser();
   const [progress, setProgress] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
 

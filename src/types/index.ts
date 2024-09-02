@@ -33,4 +33,23 @@ export type VideoData =  {
   viewCount: number, 
   favoriteCount: number; 
   isPublic: boolean;
+  createdAt: string;
+}
+
+export type VideoInputData =  {
+  title: string;
+  description?: string;
+  tags?: string[];
+  category?: string;
+  videoUrl: string;
+  thumbnailUrl?: string;
+  isForKids: boolean;
+  isRestricted: boolean;
+  playlist: string;
+  scheduleTime: string;
+  timezone: string;
+  duration: number, 
+  viewCount: number, 
+  favoriteCount: number; 
+  isPublic: boolean;
 }

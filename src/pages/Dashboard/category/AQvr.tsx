@@ -6,7 +6,7 @@ import { FaPlay } from "react-icons/fa";
 import MainBanner from '../../../assets/images/main.png'
 import Button from "../../../components/Button";
 import MainContainer from "../../../components/MainContainer";
-import MovieList from "../MoiveList";
+import MovieList from "../MovieList";
 import { IoCloseCircle } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 import DeleteChannel from "../settings/DeleteChannel";
