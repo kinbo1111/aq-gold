@@ -88,9 +88,9 @@ const CreateAccount = () => {
   };
   
     return (
-        <div className="relative w-full h-screen flex items-center justify-center py-20">
+        <div className="relative w-full h-screen flex items-center justify-center py-20 bg-[#EDEDED]">
             <div className="max-w-[600px] w-full b-brand-50 rounded-lg p-12">
-                <p className="body-2r gray-400 mb-4">{t("Step")}<span className="body-1b gray-800 ml-1">1/3</span></p>
+                <p className="body-2r gray-400 mb-4">{t("Step")}<span className="body-1b gray-800 ml-1">1/2</span></p>
                 <h6 className="sub-1r gray-800 mb-10">{t("Creat your AQ Account")}</h6>
                 <form onSubmit={() => {}} className="flex flex-col gap-8">
                 <Input
