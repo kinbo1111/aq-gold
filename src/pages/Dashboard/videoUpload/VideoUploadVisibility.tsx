@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import SettingsModalHeader from "../settings/SettingsModalHeader";
 import { RiCheckboxBlankCircleFill } from "react-icons/ri";
@@ -7,7 +7,7 @@ import { GiCheckMark } from "react-icons/gi";
 import { IoIosHelpCircle } from "react-icons/io";
 import { useTranslation } from 'react-i18next';
 import {Button, message} from "antd";
-import { Select, Button as Btn, Input, Divider } from 'antd';
+import { Select, Button as Btn, Input, Divider, DatePicker } from 'antd';
 import { GoTriangleDown } from "react-icons/go";
 import { ScheduleDataProps } from ".";
 
@@ -38,7 +38,7 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
   const [timezone, setTimeZone] = useState<string>('')
   const [publishNow, setPublishNow] = useState<boolean>(true);
   const [scheduleDate, setScheduleDate] = useState<string>('');
-  const [scheduleTime, setScheduleTime] = useState<string>('');
+  const [scheduleTime, setScheduleTime] = useState<string>('10:00');
 
 
   const [selectedValue, setSelectedValue] = useState(null);
@@ -72,9 +72,10 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
   }
 
   const handleChangeTimeZone = (value: string) => setTimeZone(value); 
-  const handleScheduleDate = (e: React.ChangeEvent<HTMLInputElement>) => setScheduleDate(e.target.value); 
+  // const handleScheduleDate = (e: React.ChangeEvent<HTMLInputElement>) => setScheduleDate(e.target.value); 
   const handleScheduleTime = (e: React.ChangeEvent<HTMLInputElement>) => setScheduleTime(e.target.value); 
   const handlePublishNow = (value: boolean) => setPublishNow(value); 
+  const onChange = (dateString: string) => setScheduleDate(dateString);
 
   
   if (!isOpen) return null;
@@ -147,13 +148,12 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
               </div>
               {!publishNow && (
                 <div className="flex flex-col gap-4">
-                    <div className="flex items-center justify-start gap-4">
-                        <input
-                            type="date"
-                            {...register("scheduleDate")}
-                            className="relative w-[170px] h-10 text-center date-input px-2 rounded bg-transparent text-white border border-[#9fa0a1]"
-                            onChange={handleScheduleDate}
-                        />
+                  <div className="flex items-center justify-start gap-4">
+                    <DatePicker
+                      onChange={onChange}
+                      className="relative w-[170px] h-10 text-center date-input px-2 rounded bg-transparent text-white border border-[#9fa0a1]"
+                      placeholder="Select Date"
+                    />
               
                         <input
                             type="time"
