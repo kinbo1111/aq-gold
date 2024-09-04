@@ -25,7 +25,7 @@ const SupportNav = () => {
 
   return (
     <div className="py-2 flex items-center justify-end bg-transparent gap-4">
-      <Link to="/" className="body-2b text-white">{t("help")}</Link>
+      {/* <Link to="/" className="body-2b text-white">{t("help")}</Link> */}
       <div className="relative inline-block text-left">
         <div>
           <button

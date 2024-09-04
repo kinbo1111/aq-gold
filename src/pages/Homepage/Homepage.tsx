@@ -1,17 +1,20 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from "../../components/Button";
 import Input from "../../components/inputs/Input";
 import Container from "../../components/Container";
 import FaqList from "../../components/faq/FaqList";
 import Slider from "./Slider";
 import { SlArrowRight } from "react-icons/sl";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import Video02 from "../../assets/images/movie02.png"
 import Footer from "../../components/footer/Footer";
 import { useTranslation } from "react-i18next";
+import { ReactHTMLElement } from "react";
 
 const Homepage = () => {
   const {
-    register, handleSubmit,
+    register,
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
@@ -21,9 +24,12 @@ const Homepage = () => {
   });
 
   const { t } = useTranslation();
-  const onSubmit: SubmitHandler<FieldValues> = data => {
-    console.log(data);
-  };
+  const [email, setEmail] = useState('');
+  const navigate = useNavigate();
+
+  const handleStart = () => {
+    navigate('/auth/signin');
+  }
   
   return (
     <div>
@@ -34,7 +40,7 @@ const Homepage = () => {
           <h6 className="h6 text-center text-white mb-6">{t("Unlimited 360° video contents")}</h6>
           <p className="sub-1r text-center text-white mb-6">{t("Watch anywhere anytime with Free.")}</p>
             <p className="sub-1r text-center text-white">{t("Ready to watch? Enter your email to create or restart your AQ account.")}</p>
-            <form onSubmit={handleSubmit(onSubmit)} className="flex items-center justify-center flex-col md:flex-row gap-4 mt-9">
+            <div className="flex items-center justify-center flex-col md:flex-row gap-4 mt-9">
               <Input
                 register={register}
                 id="email"
@@ -43,19 +49,21 @@ const Homepage = () => {
                 disabled={false}
                 errors={errors}
                 success
-                standard
+              standard
+              onChange={e => setEmail(e.target.value)}
+              value={email}
                 placeholder={t("tamdt03@gmail.com")}
                 full
                 required
               />
                 <Button
                   label={t("Get Started")}
-                  onClick={() => {}}
+                  onClick={handleStart}
                   iconExist
                   icon={SlArrowRight }
                   full
                 />
-            </form>
+            </div>
           </Container>
       </div>
       <div className="relative border-b-4 border-[#2a2d2e]">
@@ -102,7 +110,7 @@ const Homepage = () => {
         <Container>
           <FaqList />
           <p className="sub-1r text-center text-white mt-12">{t("Ready to watch? Enter your email to create or restart your AQ account.")}</p>
-          <form onSubmit={handleSubmit(onSubmit)} className="flex items-center justify-center flex-col md:flex-row gap-4 mt-9">
+          <div className="flex items-center justify-center flex-col md:flex-row gap-4 mt-9">
             <Input
               register={register}
               id="email"
@@ -110,6 +118,8 @@ const Homepage = () => {
               label=""
               disabled={false}
               errors={errors}
+              onChange={e => setEmail(e.target.value)}
+              value={email}
               success
               standard
               placeholder={t("tamdt03@gmail.com")}
@@ -118,12 +128,12 @@ const Homepage = () => {
             />
               <Button
                 label={t("Get Started")}
-                onClick={() => {}}
+                onClick={handleStart}
                 iconExist
                 icon={SlArrowRight }
                 full
               />
-          </form>
+          </div>
         </Container>
       </div>
       <Footer/>

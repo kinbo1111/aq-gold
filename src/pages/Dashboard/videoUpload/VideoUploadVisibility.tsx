@@ -159,7 +159,7 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
                             type="time"
                            {...register("scheduleTime")}
                            onChange={handleScheduleTime}
-                           className="relative w-[140px] h-10 text-center date-input px-2 rounded bg-transparent text-white border border-[#9fa0a1]"
+                           className="relative w-[140px] h-10 text-center date-input px-2 rounded bg-transparent text-white border border-[#9fa0a1] "
                         />
                     </div>
                     <div className="flex items-center gap-2 gray-200 body-1r">
@@ -221,7 +221,7 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
                 {t("BACK")}
               </Button>
               <Button
-                className='btnOk w-[130px] flex-row brand-gradient text-white border-none button-2b h-10 relative disabled:cursor-not-allowed disabled:bg-[#ceac02] disabled:text-gray-00 rounded  transition px-4 py-2 flex items-center justify-center'
+                className={`btnOk flex-row brand-gradient text-white border-none button-2b h-10 relative disabled:cursor-not-allowed disabled:bg-[#ceac02] disabled:text-gray-00 rounded  transition px-4 py-2 flex items-center justify-center ${publishNow ? 'w-30' : 'w-40'}`}
                 onClick={handleClick}
                 loading={isLoading} >
                 {publishNow ? t("Publish Now") : t("Schedule")}
