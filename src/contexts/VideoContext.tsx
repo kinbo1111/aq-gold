@@ -46,7 +46,7 @@ export const VideoProvider: React.FC<{ children: ReactNode }> = ({ children }) =
           await setTopVideos([...videos].sort((a, b) => a.favoriteCount - b.favoriteCount).slice(0, 5)) 
           await setRecommendVideos([...videos].sort((a, b) => a.duration - b.duration).slice(0, 5))
       } catch (error) {
-          message.warning("Error!")
+          console.error("Error:", error)
       } finally {
           setLoading(false);
       }
