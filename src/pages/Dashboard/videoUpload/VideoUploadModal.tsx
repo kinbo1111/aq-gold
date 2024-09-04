@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef,useEffect } from "react";
 import Button from "../../../components/Button";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { useTranslation } from 'react-i18next';
@@ -25,19 +25,26 @@ const VideoUploadModal: React.FC<VideoUploadModalProps> = ({
   const handleUploadClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
+   
     }
   };
+
+  useEffect(() => {
+       if (selectedFile) {
+        onUpload(selectedFile);
+      }
+  },[selectedFile])
 
   const handleFileInputClick = () => {
     setSelectedFile(null);
   };
 
-  const handleSelectFile = () => {
-    if (selectedFile) {
-      console.log(selectedFile)
-      onUpload(selectedFile);
-    }
-  };
+  // const handleSelectFile = () => {
+  //   if (selectedFile) {
+  //     console.log(selectedFile)
+      
+  //   }
+  // };
 
   if (!isOpen) {
     return null;
@@ -66,8 +73,8 @@ const VideoUploadModal: React.FC<VideoUploadModalProps> = ({
             {t("Your videos will be private until you publish them")}
           </p>
           <Button
-            label={selectedFile ? t("Next") : t("Select files")}
-            onClick={selectedFile ? handleSelectFile : handleUploadClick}
+            label={t("Select files")}
+            onClick={handleUploadClick}
             full
             small
           />

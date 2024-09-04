@@ -28,7 +28,7 @@ const Homepage = () => {
   const navigate = useNavigate();
 
   const handleStart = () => {
-    navigate('/auth/signin');
+    navigate('/auth/signup/create-account');
   }
   
   return (
