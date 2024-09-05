@@ -18,6 +18,7 @@ export type CreateVideoInput = {
   duration: number,
   viewCount: number,
   favoriteCount: number,
+  channelId: string,
   isAQOriginal?: boolean | null,
   createdAt?: string | null,
   updatedAt?: string | null,
@@ -40,6 +41,7 @@ export type ModelVideoConditionInput = {
   duration?: ModelIntInput | null,
   viewCount?: ModelIntInput | null,
   favoriteCount?: ModelIntInput | null,
+  channelId?: ModelIDInput | null,
   isAQOriginal?: ModelBooleanInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
@@ -109,6 +111,22 @@ export type ModelIntInput = {
   attributeType?: ModelAttributeTypes | null,
 };
 
+export type ModelIDInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  size?: ModelSizeInput | null,
+};
+
 export type Video = {
   __typename: "Video",
   id: string,
@@ -126,6 +144,8 @@ export type Video = {
   duration: number,
   viewCount: number,
   favoriteCount: number,
+  channelId: string,
+  channel?: Channel | null,
   isAQOriginal?: boolean | null,
   createdAt?: string | null,
   updatedAt?: string | null,
@@ -133,6 +153,25 @@ export type Video = {
   owner?: string | null,
   favorites?: ModelFavoriteConnection | null,
   userActivity?: ModelUserActivityConnection | null,
+};
+
+export type Channel = {
+  __typename: "Channel",
+  id: string,
+  name: string,
+  description?: string | null,
+  owner?: string | null,
+  avatarUrl?: string | null,
+  subscribersCount: number,
+  createdAt?: string | null,
+  updatedAt?: string | null,
+  videos?: ModelVideoConnection | null,
+};
+
+export type ModelVideoConnection = {
+  __typename: "ModelVideoConnection",
+  items:  Array<Video | null >,
+  nextToken?: string | null,
 };
 
 export type ModelFavoriteConnection = {
@@ -187,6 +226,7 @@ export type UpdateVideoInput = {
   duration?: number | null,
   viewCount?: number | null,
   favoriteCount?: number | null,
+  channelId?: string | null,
   isAQOriginal?: boolean | null,
   createdAt?: string | null,
   updatedAt?: string | null,
@@ -195,6 +235,45 @@ export type UpdateVideoInput = {
 };
 
 export type DeleteVideoInput = {
+  id: string,
+};
+
+export type CreateChannelInput = {
+  id?: string | null,
+  name: string,
+  description?: string | null,
+  owner?: string | null,
+  avatarUrl?: string | null,
+  subscribersCount: number,
+  createdAt?: string | null,
+  updatedAt?: string | null,
+};
+
+export type ModelChannelConditionInput = {
+  name?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  owner?: ModelStringInput | null,
+  avatarUrl?: ModelStringInput | null,
+  subscribersCount?: ModelIntInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelChannelConditionInput | null > | null,
+  or?: Array< ModelChannelConditionInput | null > | null,
+  not?: ModelChannelConditionInput | null,
+};
+
+export type UpdateChannelInput = {
+  id: string,
+  name?: string | null,
+  description?: string | null,
+  owner?: string | null,
+  avatarUrl?: string | null,
+  subscribersCount?: number | null,
+  createdAt?: string | null,
+  updatedAt?: string | null,
+};
+
+export type DeleteChannelInput = {
   id: string,
 };
 
@@ -252,22 +331,6 @@ export type ModelFavoriteConditionInput = {
   not?: ModelFavoriteConditionInput | null,
   updatedAt?: ModelStringInput | null,
   owner?: ModelStringInput | null,
-};
-
-export type ModelIDInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  size?: ModelSizeInput | null,
 };
 
 export type UpdateFavoriteInput = {
@@ -332,6 +395,7 @@ export type ModelVideoFilterInput = {
   duration?: ModelIntInput | null,
   viewCount?: ModelIntInput | null,
   favoriteCount?: ModelIntInput | null,
+  channelId?: ModelIDInput | null,
   isAQOriginal?: ModelBooleanInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
@@ -342,9 +406,39 @@ export type ModelVideoFilterInput = {
   not?: ModelVideoFilterInput | null,
 };
 
-export type ModelVideoConnection = {
-  __typename: "ModelVideoConnection",
-  items:  Array<Video | null >,
+export type ModelStringKeyConditionInput = {
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+};
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
+
+export type ModelChannelFilterInput = {
+  id?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  owner?: ModelStringInput | null,
+  avatarUrl?: ModelStringInput | null,
+  subscribersCount?: ModelIntInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelChannelFilterInput | null > | null,
+  or?: Array< ModelChannelFilterInput | null > | null,
+  not?: ModelChannelFilterInput | null,
+};
+
+export type ModelChannelConnection = {
+  __typename: "ModelChannelConnection",
+  items:  Array<Channel | null >,
   nextToken?: string | null,
 };
 
@@ -388,12 +482,6 @@ export type ModelIDKeyConditionInput = {
   beginsWith?: string | null,
 };
 
-export enum ModelSortDirection {
-  ASC = "ASC",
-  DESC = "DESC",
-}
-
-
 export type ModelUserActivityFilterInput = {
   id?: ModelIDInput | null,
   userId?: ModelIDInput | null,
@@ -424,6 +512,7 @@ export type ModelSubscriptionVideoFilterInput = {
   duration?: ModelSubscriptionIntInput | null,
   viewCount?: ModelSubscriptionIntInput | null,
   favoriteCount?: ModelSubscriptionIntInput | null,
+  channelId?: ModelSubscriptionIDInput | null,
   isAQOriginal?: ModelSubscriptionBooleanInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
@@ -478,6 +567,19 @@ export type ModelSubscriptionIntInput = {
   between?: Array< number | null > | null,
   in?: Array< number | null > | null,
   notIn?: Array< number | null > | null,
+};
+
+export type ModelSubscriptionChannelFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  name?: ModelSubscriptionStringInput | null,
+  description?: ModelSubscriptionStringInput | null,
+  avatarUrl?: ModelSubscriptionStringInput | null,
+  subscribersCount?: ModelSubscriptionIntInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionChannelFilterInput | null > | null,
+  or?: Array< ModelSubscriptionChannelFilterInput | null > | null,
+  owner?: ModelStringInput | null,
 };
 
 export type ModelSubscriptionUserFilterInput = {
@@ -538,6 +640,18 @@ export type CreateVideoMutation = {
     duration: number,
     viewCount: number,
     favoriteCount: number,
+    channelId: string,
+    channel?:  {
+      __typename: "Channel",
+      id: string,
+      name: string,
+      description?: string | null,
+      owner?: string | null,
+      avatarUrl?: string | null,
+      subscribersCount: number,
+      createdAt?: string | null,
+      updatedAt?: string | null,
+    } | null,
     isAQOriginal?: boolean | null,
     createdAt?: string | null,
     updatedAt?: string | null,
@@ -577,6 +691,18 @@ export type UpdateVideoMutation = {
     duration: number,
     viewCount: number,
     favoriteCount: number,
+    channelId: string,
+    channel?:  {
+      __typename: "Channel",
+      id: string,
+      name: string,
+      description?: string | null,
+      owner?: string | null,
+      avatarUrl?: string | null,
+      subscribersCount: number,
+      createdAt?: string | null,
+      updatedAt?: string | null,
+    } | null,
     isAQOriginal?: boolean | null,
     createdAt?: string | null,
     updatedAt?: string | null,
@@ -616,6 +742,18 @@ export type DeleteVideoMutation = {
     duration: number,
     viewCount: number,
     favoriteCount: number,
+    channelId: string,
+    channel?:  {
+      __typename: "Channel",
+      id: string,
+      name: string,
+      description?: string | null,
+      owner?: string | null,
+      avatarUrl?: string | null,
+      subscribersCount: number,
+      createdAt?: string | null,
+      updatedAt?: string | null,
+    } | null,
     isAQOriginal?: boolean | null,
     createdAt?: string | null,
     updatedAt?: string | null,
@@ -627,6 +765,75 @@ export type DeleteVideoMutation = {
     } | null,
     userActivity?:  {
       __typename: "ModelUserActivityConnection",
+      nextToken?: string | null,
+    } | null,
+  } | null,
+};
+
+export type CreateChannelMutationVariables = {
+  input: CreateChannelInput,
+  condition?: ModelChannelConditionInput | null,
+};
+
+export type CreateChannelMutation = {
+  createChannel?:  {
+    __typename: "Channel",
+    id: string,
+    name: string,
+    description?: string | null,
+    owner?: string | null,
+    avatarUrl?: string | null,
+    subscribersCount: number,
+    createdAt?: string | null,
+    updatedAt?: string | null,
+    videos?:  {
+      __typename: "ModelVideoConnection",
+      nextToken?: string | null,
+    } | null,
+  } | null,
+};
+
+export type UpdateChannelMutationVariables = {
+  input: UpdateChannelInput,
+  condition?: ModelChannelConditionInput | null,
+};
+
+export type UpdateChannelMutation = {
+  updateChannel?:  {
+    __typename: "Channel",
+    id: string,
+    name: string,
+    description?: string | null,
+    owner?: string | null,
+    avatarUrl?: string | null,
+    subscribersCount: number,
+    createdAt?: string | null,
+    updatedAt?: string | null,
+    videos?:  {
+      __typename: "ModelVideoConnection",
+      nextToken?: string | null,
+    } | null,
+  } | null,
+};
+
+export type DeleteChannelMutationVariables = {
+  input: DeleteChannelInput,
+  condition?: ModelChannelConditionInput | null,
+};
+
+export type DeleteChannelMutation = {
+  deleteChannel?:  {
+    __typename: "Channel",
+    id: string,
+    name: string,
+    description?: string | null,
+    owner?: string | null,
+    avatarUrl?: string | null,
+    subscribersCount: number,
+    createdAt?: string | null,
+    updatedAt?: string | null,
+    videos?:  {
+      __typename: "ModelVideoConnection",
       nextToken?: string | null,
     } | null,
   } | null,
@@ -723,6 +930,7 @@ export type CreateFavoriteMutation = {
       duration: number,
       viewCount: number,
       favoriteCount: number,
+      channelId: string,
       isAQOriginal?: boolean | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -763,6 +971,7 @@ export type UpdateFavoriteMutation = {
       duration: number,
       viewCount: number,
       favoriteCount: number,
+      channelId: string,
       isAQOriginal?: boolean | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -803,6 +1012,7 @@ export type DeleteFavoriteMutation = {
       duration: number,
       viewCount: number,
       favoriteCount: number,
+      channelId: string,
       isAQOriginal?: boolean | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -843,6 +1053,7 @@ export type CreateUserActivityMutation = {
       duration: number,
       viewCount: number,
       favoriteCount: number,
+      channelId: string,
       isAQOriginal?: boolean | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -885,6 +1096,7 @@ export type UpdateUserActivityMutation = {
       duration: number,
       viewCount: number,
       favoriteCount: number,
+      channelId: string,
       isAQOriginal?: boolean | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -927,6 +1139,7 @@ export type DeleteUserActivityMutation = {
       duration: number,
       viewCount: number,
       favoriteCount: number,
+      channelId: string,
       isAQOriginal?: boolean | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -963,6 +1176,18 @@ export type GetVideoQuery = {
     duration: number,
     viewCount: number,
     favoriteCount: number,
+    channelId: string,
+    channel?:  {
+      __typename: "Channel",
+      id: string,
+      name: string,
+      description?: string | null,
+      owner?: string | null,
+      avatarUrl?: string | null,
+      subscribersCount: number,
+      createdAt?: string | null,
+      updatedAt?: string | null,
+    } | null,
     isAQOriginal?: boolean | null,
     createdAt?: string | null,
     updatedAt?: string | null,
@@ -1005,11 +1230,98 @@ export type ListVideosQuery = {
       duration: number,
       viewCount: number,
       favoriteCount: number,
+      channelId: string,
       isAQOriginal?: boolean | null,
       createdAt?: string | null,
       updatedAt?: string | null,
       isPublic: boolean,
       owner?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type VideosByChannelIdAndCreatedAtQueryVariables = {
+  channelId: string,
+  createdAt?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelVideoFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type VideosByChannelIdAndCreatedAtQuery = {
+  videosByChannelIdAndCreatedAt?:  {
+    __typename: "ModelVideoConnection",
+    items:  Array< {
+      __typename: "Video",
+      id: string,
+      title: string,
+      description?: string | null,
+      tags?: Array< string | null > | null,
+      category?: string | null,
+      videoUrl: string,
+      thumbnailUrl?: string | null,
+      isForKids?: boolean | null,
+      isRestricted?: boolean | null,
+      playlist?: string | null,
+      scheduleTime?: string | null,
+      timezone?: string | null,
+      duration: number,
+      viewCount: number,
+      favoriteCount: number,
+      channelId: string,
+      isAQOriginal?: boolean | null,
+      createdAt?: string | null,
+      updatedAt?: string | null,
+      isPublic: boolean,
+      owner?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetChannelQueryVariables = {
+  id: string,
+};
+
+export type GetChannelQuery = {
+  getChannel?:  {
+    __typename: "Channel",
+    id: string,
+    name: string,
+    description?: string | null,
+    owner?: string | null,
+    avatarUrl?: string | null,
+    subscribersCount: number,
+    createdAt?: string | null,
+    updatedAt?: string | null,
+    videos?:  {
+      __typename: "ModelVideoConnection",
+      nextToken?: string | null,
+    } | null,
+  } | null,
+};
+
+export type ListChannelsQueryVariables = {
+  filter?: ModelChannelFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListChannelsQuery = {
+  listChannels?:  {
+    __typename: "ModelChannelConnection",
+    items:  Array< {
+      __typename: "Channel",
+      id: string,
+      name: string,
+      description?: string | null,
+      owner?: string | null,
+      avatarUrl?: string | null,
+      subscribersCount: number,
+      createdAt?: string | null,
+      updatedAt?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -1084,6 +1396,7 @@ export type GetFavoriteQuery = {
       duration: number,
       viewCount: number,
       favoriteCount: number,
+      channelId: string,
       isAQOriginal?: boolean | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -1195,6 +1508,7 @@ export type GetUserActivityQuery = {
       duration: number,
       viewCount: number,
       favoriteCount: number,
+      channelId: string,
       isAQOriginal?: boolean | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -1310,6 +1624,18 @@ export type OnCreateVideoSubscription = {
     duration: number,
     viewCount: number,
     favoriteCount: number,
+    channelId: string,
+    channel?:  {
+      __typename: "Channel",
+      id: string,
+      name: string,
+      description?: string | null,
+      owner?: string | null,
+      avatarUrl?: string | null,
+      subscribersCount: number,
+      createdAt?: string | null,
+      updatedAt?: string | null,
+    } | null,
     isAQOriginal?: boolean | null,
     createdAt?: string | null,
     updatedAt?: string | null,
@@ -1349,6 +1675,18 @@ export type OnUpdateVideoSubscription = {
     duration: number,
     viewCount: number,
     favoriteCount: number,
+    channelId: string,
+    channel?:  {
+      __typename: "Channel",
+      id: string,
+      name: string,
+      description?: string | null,
+      owner?: string | null,
+      avatarUrl?: string | null,
+      subscribersCount: number,
+      createdAt?: string | null,
+      updatedAt?: string | null,
+    } | null,
     isAQOriginal?: boolean | null,
     createdAt?: string | null,
     updatedAt?: string | null,
@@ -1388,6 +1726,18 @@ export type OnDeleteVideoSubscription = {
     duration: number,
     viewCount: number,
     favoriteCount: number,
+    channelId: string,
+    channel?:  {
+      __typename: "Channel",
+      id: string,
+      name: string,
+      description?: string | null,
+      owner?: string | null,
+      avatarUrl?: string | null,
+      subscribersCount: number,
+      createdAt?: string | null,
+      updatedAt?: string | null,
+    } | null,
     isAQOriginal?: boolean | null,
     createdAt?: string | null,
     updatedAt?: string | null,
@@ -1399,6 +1749,75 @@ export type OnDeleteVideoSubscription = {
     } | null,
     userActivity?:  {
       __typename: "ModelUserActivityConnection",
+      nextToken?: string | null,
+    } | null,
+  } | null,
+};
+
+export type OnCreateChannelSubscriptionVariables = {
+  filter?: ModelSubscriptionChannelFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnCreateChannelSubscription = {
+  onCreateChannel?:  {
+    __typename: "Channel",
+    id: string,
+    name: string,
+    description?: string | null,
+    owner?: string | null,
+    avatarUrl?: string | null,
+    subscribersCount: number,
+    createdAt?: string | null,
+    updatedAt?: string | null,
+    videos?:  {
+      __typename: "ModelVideoConnection",
+      nextToken?: string | null,
+    } | null,
+  } | null,
+};
+
+export type OnUpdateChannelSubscriptionVariables = {
+  filter?: ModelSubscriptionChannelFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnUpdateChannelSubscription = {
+  onUpdateChannel?:  {
+    __typename: "Channel",
+    id: string,
+    name: string,
+    description?: string | null,
+    owner?: string | null,
+    avatarUrl?: string | null,
+    subscribersCount: number,
+    createdAt?: string | null,
+    updatedAt?: string | null,
+    videos?:  {
+      __typename: "ModelVideoConnection",
+      nextToken?: string | null,
+    } | null,
+  } | null,
+};
+
+export type OnDeleteChannelSubscriptionVariables = {
+  filter?: ModelSubscriptionChannelFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnDeleteChannelSubscription = {
+  onDeleteChannel?:  {
+    __typename: "Channel",
+    id: string,
+    name: string,
+    description?: string | null,
+    owner?: string | null,
+    avatarUrl?: string | null,
+    subscribersCount: number,
+    createdAt?: string | null,
+    updatedAt?: string | null,
+    videos?:  {
+      __typename: "ModelVideoConnection",
       nextToken?: string | null,
     } | null,
   } | null,
@@ -1495,6 +1914,7 @@ export type OnCreateFavoriteSubscription = {
       duration: number,
       viewCount: number,
       favoriteCount: number,
+      channelId: string,
       isAQOriginal?: boolean | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -1535,6 +1955,7 @@ export type OnUpdateFavoriteSubscription = {
       duration: number,
       viewCount: number,
       favoriteCount: number,
+      channelId: string,
       isAQOriginal?: boolean | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -1575,6 +1996,7 @@ export type OnDeleteFavoriteSubscription = {
       duration: number,
       viewCount: number,
       favoriteCount: number,
+      channelId: string,
       isAQOriginal?: boolean | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -1615,6 +2037,7 @@ export type OnCreateUserActivitySubscription = {
       duration: number,
       viewCount: number,
       favoriteCount: number,
+      channelId: string,
       isAQOriginal?: boolean | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -1657,6 +2080,7 @@ export type OnUpdateUserActivitySubscription = {
       duration: number,
       viewCount: number,
       favoriteCount: number,
+      channelId: string,
       isAQOriginal?: boolean | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -1699,6 +2123,7 @@ export type OnDeleteUserActivitySubscription = {
       duration: number,
       viewCount: number,
       favoriteCount: number,
+      channelId: string,
       isAQOriginal?: boolean | null,
       createdAt?: string | null,
       updatedAt?: string | null,

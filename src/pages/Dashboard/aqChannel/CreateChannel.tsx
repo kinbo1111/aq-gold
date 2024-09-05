@@ -5,30 +5,61 @@ import Input from "../../../components/inputs/Input";
 import Button from "../../../components/Button";
 import AvatarUpload from "./AvatarUpload";
 import { useTranslation } from 'react-i18next';
+import { API, Storage } from 'aws-amplify';
+import { createChannel } from '../../../graphql/mutations';
+import { uploadChannelAvatar } from '../../../services/storageService';
+import { message } from "antd";
 
 const CreateChannel = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const {
     register,
-    handleSubmit,
     formState: { errors },
   } = useForm();
   const avatarUploadRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  
+  const onFileSelect = (file: File | null) => setSelectedFile(file);
+  const handleClose = () => navigate('/aq-channel');
 
-  const onFileSelect = (file: File | null) => {
-    setSelectedFile(file);
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setAvatarFile(e.target.files[0]);
+    }
   };
+  const handleCreateChannel = async () => {
+    try {
+      if (!name || !avatarFile) {
+        setError('Name and avatar are required.');
+        return;
+      }
 
-  const onSubmit = (data: any) => {
-    if (avatarUploadRef.current) {
-      const avatarFile = (avatarUploadRef.current as any).getSelectedFile();
-      navigate("/aq-channel");
+      const avatarUrl = await uploadChannelAvatar(avatarFile.name, avatarFile);
+
+      await API.graphql({
+        query: createChannel,
+        variables: {
+          input: {
+            name,
+            description,
+            avatarUrl,
+            subscribersCount: 0,
+          },
+        },
+        authMode: 'AMAZON_COGNITO_USER_POOLS',
+      });
+
+      message.success('Channel created successfully!');
+    } catch (error: any) {
+      message.warning('Error creating channel: ' + error.message);
     }
   };
 
-  const handleClose = () => navigate('/aq-channel');
 
   return (
     <div className="relative w-full flex items-center justify-center py-24">
@@ -43,10 +74,12 @@ const CreateChannel = () => {
           {t("Create your AQvr channel")}
         </h6>
         <AvatarUpload ref={avatarUploadRef} onFileSelect={onFileSelect} />
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8 mt-6">
+        <form className="flex flex-col gap-8 mt-6">
           <Input
             id="name"
             type="text"
+            onChange={(e) => setName(e.target.value)}
+            value={name}
             label={t("Channel name")}
             placeholder="マルコ"
             register={register}
@@ -62,6 +95,8 @@ const CreateChannel = () => {
             placeholder="＠"
             register={register}
             errors={errors}
+            onChange={(e) => setDescription(e.target.value)}
+            value={description}
             small
             background
             required
@@ -89,7 +124,7 @@ const CreateChannel = () => {
           <div className="flex items-center justify-center">
             <Button
               label={t("Create Channel")}
-              onClick={handleSubmit(onSubmit)}
+              onClick={handleCreateChannel}
               disabled={!selectedFile}
             />
           </div>

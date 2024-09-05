@@ -4,7 +4,8 @@ type Video @model
       { allow: owner },  # Allows the owner to create, update, delete, and read their own videos
       { allow: private, operations: [create, update, delete, read] } # Allow authenticated users to create, update, delete, and read videos
     ]
-  ) {
+  )
+    {
   id: ID!
   title: String!
   description: String
@@ -20,6 +21,8 @@ type Video @model
   duration: Int!            
   viewCount: Int!           
   favoriteCount: Int!  
+  channelId: ID!  @index(name: "byChannel", sortKeyFields: ["createdAt"])
+  channel: Channel @belongsTo(fields: ["channelId"]) # Relation to the channel
   isAQOriginal: Boolean     
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
@@ -27,6 +30,24 @@ type Video @model
   owner: String
   favorites: [Favorite] @hasMany(indexName: "byVideo", fields: ["id"])  # Establish the relationship
   userActivity: [UserActivity] @hasMany(indexName: "byVideo", fields: ["id"])  # Establish the relationship
+}
+
+type Channel @model
+  @auth(
+    rules: [
+      { allow: owner },  
+      { allow: public, operations: [read] } 
+    ]
+  ) {
+  id: ID!
+  name: String!
+  description: String
+  owner: String
+  avatarUrl: String
+  subscribersCount: Int! 
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+  videos: [Video] @hasMany(indexName: "byChannel", fields: ["id"]) 
 }
 
 type User @model @auth(rules: [{ allow: owner }]) {
@@ -49,7 +70,10 @@ type Favorite @model
 }
 
 type UserActivity @model
-  @auth(rules: [{ allow: owner }]) {
+  @auth(rules: [
+    { allow: owner },
+    { allow: private, operations: [create, update, delete, read]}
+  ]) {
   id: ID!
   userId: ID! @index(name: "byUser", sortKeyFields: ["videoId"])
   videoId: ID! @index(name: "byVideo", sortKeyFields: ["userId"])
