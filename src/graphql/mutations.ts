@@ -412,3 +412,21 @@ export const videosByFavoriteCount = /* GraphQL */`
     }
   }
 `;
+
+export const createChannel = /* GraphQL */ `
+  mutation CreateChannel(
+    $input: CreateChannelInput!
+    $condition: ModelChannelConditionInput
+  ) {
+    createChannel(input: $input, condition: $condition) {
+      id
+      name
+      description
+      owner
+      avatarUrl
+      subscribersCount
+      createdAt
+      updatedAt
+    }
+  }
+`;

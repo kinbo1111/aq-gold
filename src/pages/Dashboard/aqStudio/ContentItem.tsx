@@ -28,9 +28,9 @@ const ContentItem: React.FC<ContentItemProps> = ({ id, image, title, description
 
   useEffect(() => {
     if (isOpenDelete) {
-      document.body.style.overflow = 'hidden';  // Add this line
+      document.body.style.overflow = 'hidden'; 
     } else {
-      document.body.style.overflow = 'auto';  // Add this line
+      document.body.style.overflow = 'auto'; 
     }   
   }, [isOpenDelete]);
 
