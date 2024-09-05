@@ -50,19 +50,7 @@
           "deploymentBucketName": "amplify-360videoplatform-develop-8fb3d-deployment",
           "s3Key": "amplify-builds/S3Trigger932c9093-62452f5a3050544c6442-build.zip"
         },
-        "checkScheduleFunction": {
-          "deploymentBucketName": "amplify-360videoplatform-develop-8fb3d-deployment",
-          "s3Key": "amplify-builds/checkScheduleFunction-584a566438356337614c-build.zip"
-        },
-        "processVideoFunction": {},
-        "updateUserProgress": {
-          "deploymentBucketName": "amplify-360videoplatform-develop-8fb3d-deployment",
-          "s3Key": "amplify-builds/updateUserProgress-6a553673696f574e7636-build.zip"
-        },
-        "getUserProgress": {
-          "deploymentBucketName": "amplify-360videoplatform-develop-8fb3d-deployment",
-          "s3Key": "amplify-builds/getUserProgress-6f484f656379784c4639-build.zip"
-        }
+        "processVideoFunction": {}
       },
       "api": {
         "360videoplatform": {}
