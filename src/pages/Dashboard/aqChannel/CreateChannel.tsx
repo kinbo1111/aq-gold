@@ -1,14 +1,16 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect, ChangeEvent } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import Input from "../../../components/inputs/Input";
-import Button from "../../../components/Button";
+// import Button from "../../../components/Button";
+import { Button } from "antd";
 import AvatarUpload from "./AvatarUpload";
 import { useTranslation } from 'react-i18next';
 import { API, Storage } from 'aws-amplify';
 import { createChannel } from '../../../graphql/mutations';
 import { uploadChannelAvatar } from '../../../services/storageService';
 import { message } from "antd";
+import { DefaultAvatar } from '../../../const';
 
 const CreateChannel = () => {
   const navigate = useNavigate();
@@ -18,28 +20,53 @@ const CreateChannel = () => {
     formState: { errors },
   } = useForm();
   const avatarUploadRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [imageUrl, setImageUrl] = useState<string | undefined>('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const [avatarUrl, setAvatatarUrl] = useState('');
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
-  
-  const onFileSelect = (file: File | null) => setSelectedFile(file);
-  const handleClose = () => navigate('/aq-channel');
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setAvatarFile(e.target.files[0]);
+  const handleClose = () => navigate('/aq-channel');
+  const handleImageLoad = () => setIsLoaded(true);
+  const handleImageError = () => setIsLoaded(false);
+
+
+
+    useEffect(() => {
+      if (!isLoaded) {
+          setImageUrl(DefaultAvatar)
+      }
+    }, [isLoaded])
+  
+  const handleChangeClick = () => {
+    if (fileInputRef.current) {
+        fileInputRef.current.click();
     }
   };
+
+    const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      if (file) {
+          setSelectedFile(file);
+          const url = await URL.createObjectURL(file);
+          setImageUrl(url);
+        }
+  };
+
   const handleCreateChannel = async () => {
     try {
-      if (!name || !avatarFile) {
-        setError('Name and avatar are required.');
+      setIsLoading(true)
+      if (!name || !selectedFile) {
+        message.warning('Name and avatar are required.');
         return;
       }
 
-      const avatarUrl = await uploadChannelAvatar(avatarFile.name, avatarFile);
+      const avatarUrl = await uploadChannelAvatar(selectedFile.name, selectedFile);
 
       await API.graphql({
         query: createChannel,
@@ -53,13 +80,13 @@ const CreateChannel = () => {
         },
         authMode: 'AMAZON_COGNITO_USER_POOLS',
       });
-
       message.success('Channel created successfully!');
     } catch (error: any) {
       message.warning('Error creating channel: ' + error.message);
+    } finally{
+      setIsLoading(false);
     }
   };
-
 
   return (
     <div className="relative w-full flex items-center justify-center py-24">
@@ -73,8 +100,26 @@ const CreateChannel = () => {
         <h6 className="sub-1b gray-800 mb-7 text-center">
           {t("Create your AQvr channel")}
         </h6>
-        <AvatarUpload ref={avatarUploadRef} onFileSelect={onFileSelect} />
-        <form className="flex flex-col gap-8 mt-6">
+        <div>
+          <div className="flex items-center justify-center gap-6">
+              <img 
+                  src={selectedFile ? imageUrl : DefaultAvatar } 
+                  onLoad={handleImageLoad}
+                  onError={handleImageError}
+                  alt="Current Avatar" 
+                  className="rounded-full w-52 h-52 cursor-pointer"
+                  onClick={handleChangeClick}
+              />
+          </div>
+          <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              style={{ display: 'none' }}
+          />
+        </div>
+        <div className="flex flex-col gap-8 mt-6">
           <Input
             id="name"
             type="text"
@@ -122,13 +167,16 @@ const CreateChannel = () => {
             </div>
           </div>
           <div className="flex items-center justify-center">
-            <Button
-              label={t("Create Channel")}
-              onClick={handleCreateChannel}
+           <Button 
+              className='w-[320px] btnOk flex-row brand-gradient text-gray-200 border-none button-2b h-10 relative disabled:cursor-not-allowed rounded hover:opacity-80 transition px-4 py-2 flex items-center justify-center'
+              loading={isLoading}
               disabled={!selectedFile}
-            />
+              onClick={handleCreateChannel}
+            >
+              {t("Create Channel")}
+            </Button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );

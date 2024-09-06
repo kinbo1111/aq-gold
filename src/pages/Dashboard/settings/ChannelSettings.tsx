@@ -68,10 +68,10 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
         onAvatarRemove();
     };
 
-        const handleChangeClick = () => {
-        if (fileInputRef.current) {
-            fileInputRef.current.click();
-        }
+    const handleChangeClick = () => {
+    if (fileInputRef.current) {
+        fileInputRef.current.click();
+    }
     };
 
     useEffect(() => {
