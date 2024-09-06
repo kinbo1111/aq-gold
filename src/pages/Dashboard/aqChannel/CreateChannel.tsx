@@ -31,7 +31,7 @@ const CreateChannel = () => {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleClose = () => navigate('/aq-channel');
+  const handleClose = () => navigate('/');
   const handleImageLoad = () => setIsLoaded(true);
   const handleImageError = () => setIsLoaded(false);
 
@@ -90,10 +90,10 @@ const CreateChannel = () => {
 
   return (
     <div className="relative w-full flex items-center justify-center py-24">
-      <div className="max-w-[800px] w-11/12 md:w-5/6 lg:w-3/5 b-brand-50 rounded-lg p-12">
+      <div className="max-w-[800px] w-11/12 md:w-5/6 lg:w-3/5 b-brand-50 rounded-lg p-12 relative">
         <button
           onClick={handleClose}
-          className="text-white hover:opacity-90 focus:outline-none relative top-[-20px] left-[700px] w-8 h-8 rounded-full b-gray-300 z-20 flex items-center justify-center transition-opacity"
+          className="absolute top-3 right-3 text-white hover:opacity-90 focus:outline-none w-8 h-8 rounded-full b-gray-300 z-20 flex items-center justify-center transition-opacity"
         >
           &times;
         </button>
