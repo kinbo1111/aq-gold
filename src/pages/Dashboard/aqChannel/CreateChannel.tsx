@@ -2,11 +2,9 @@ import React, { useRef, useState, useEffect, ChangeEvent } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import Input from "../../../components/inputs/Input";
-// import Button from "../../../components/Button";
 import { Button } from "antd";
-import AvatarUpload from "./AvatarUpload";
 import { useTranslation } from 'react-i18next';
-import { API, Storage } from 'aws-amplify';
+import { API } from 'aws-amplify';
 import { createChannel } from '../../../graphql/mutations';
 import { uploadChannelAvatar } from '../../../services/storageService';
 import { message } from "antd";
@@ -19,15 +17,12 @@ const CreateChannel = () => {
     register,
     formState: { errors },
   } = useForm();
-  const avatarUploadRef = useRef(null);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string | undefined>('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [avatarUrl, setAvatatarUrl] = useState('');
-  const [avatarFile, setAvatarFile] = useState<File | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -35,13 +30,11 @@ const CreateChannel = () => {
   const handleImageLoad = () => setIsLoaded(true);
   const handleImageError = () => setIsLoaded(false);
 
-
-
-    useEffect(() => {
-      if (!isLoaded) {
-          setImageUrl(DefaultAvatar)
-      }
-    }, [isLoaded])
+  useEffect(() => {
+    if (!isLoaded) {
+        setImageUrl(DefaultAvatar)
+    }
+  }, [isLoaded])
   
   const handleChangeClick = () => {
     if (fileInputRef.current) {
@@ -49,13 +42,13 @@ const CreateChannel = () => {
     }
   };
 
-    const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-      const file = event.target.files?.[0];
-      if (file) {
-          setSelectedFile(file);
-          const url = await URL.createObjectURL(file);
-          setImageUrl(url);
-        }
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+        setSelectedFile(file);
+        const url = await URL.createObjectURL(file);
+        setImageUrl(url);
+      }
   };
 
   const handleCreateChannel = async () => {

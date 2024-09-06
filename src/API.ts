@@ -344,6 +344,47 @@ export type DeleteFavoriteInput = {
   id: string,
 };
 
+export type CreateFavoriteChannelInput = {
+  id?: string | null,
+  userId: string,
+  channelOwnerId: string,
+  createdAt?: string | null,
+  updatedAt?: string | null,
+};
+
+export type ModelFavoriteChannelConditionInput = {
+  userId?: ModelIDInput | null,
+  channelOwnerId?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelFavoriteChannelConditionInput | null > | null,
+  or?: Array< ModelFavoriteChannelConditionInput | null > | null,
+  not?: ModelFavoriteChannelConditionInput | null,
+  owner?: ModelStringInput | null,
+};
+
+export type FavoriteChannel = {
+  __typename: "FavoriteChannel",
+  id: string,
+  userId: string,
+  channelOwnerId: string,
+  createdAt?: string | null,
+  updatedAt?: string | null,
+  owner?: string | null,
+};
+
+export type UpdateFavoriteChannelInput = {
+  id: string,
+  userId?: string | null,
+  channelOwnerId?: string | null,
+  createdAt?: string | null,
+  updatedAt?: string | null,
+};
+
+export type DeleteFavoriteChannelInput = {
+  id: string,
+};
+
 export type CreateUserActivityInput = {
   id?: string | null,
   userId: string,
@@ -482,6 +523,24 @@ export type ModelIDKeyConditionInput = {
   beginsWith?: string | null,
 };
 
+export type ModelFavoriteChannelFilterInput = {
+  id?: ModelIDInput | null,
+  userId?: ModelIDInput | null,
+  channelOwnerId?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelFavoriteChannelFilterInput | null > | null,
+  or?: Array< ModelFavoriteChannelFilterInput | null > | null,
+  not?: ModelFavoriteChannelFilterInput | null,
+  owner?: ModelStringInput | null,
+};
+
+export type ModelFavoriteChannelConnection = {
+  __typename: "ModelFavoriteChannelConnection",
+  items:  Array<FavoriteChannel | null >,
+  nextToken?: string | null,
+};
+
 export type ModelUserActivityFilterInput = {
   id?: ModelIDInput | null,
   userId?: ModelIDInput | null,
@@ -601,6 +660,17 @@ export type ModelSubscriptionFavoriteFilterInput = {
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionFavoriteFilterInput | null > | null,
   or?: Array< ModelSubscriptionFavoriteFilterInput | null > | null,
+  owner?: ModelStringInput | null,
+};
+
+export type ModelSubscriptionFavoriteChannelFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  userId?: ModelSubscriptionIDInput | null,
+  channelOwnerId?: ModelSubscriptionIDInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionFavoriteChannelFilterInput | null > | null,
+  or?: Array< ModelSubscriptionFavoriteChannelFilterInput | null > | null,
   owner?: ModelStringInput | null,
 };
 
@@ -1021,6 +1091,57 @@ export type DeleteFavoriteMutation = {
     } | null,
     createdAt?: string | null,
     updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type CreateFavoriteChannelMutationVariables = {
+  input: CreateFavoriteChannelInput,
+  condition?: ModelFavoriteChannelConditionInput | null,
+};
+
+export type CreateFavoriteChannelMutation = {
+  createFavoriteChannel?:  {
+    __typename: "FavoriteChannel",
+    id: string,
+    userId: string,
+    channelOwnerId: string,
+    createdAt?: string | null,
+    updatedAt?: string | null,
+    owner?: string | null,
+  } | null,
+};
+
+export type UpdateFavoriteChannelMutationVariables = {
+  input: UpdateFavoriteChannelInput,
+  condition?: ModelFavoriteChannelConditionInput | null,
+};
+
+export type UpdateFavoriteChannelMutation = {
+  updateFavoriteChannel?:  {
+    __typename: "FavoriteChannel",
+    id: string,
+    userId: string,
+    channelOwnerId: string,
+    createdAt?: string | null,
+    updatedAt?: string | null,
+    owner?: string | null,
+  } | null,
+};
+
+export type DeleteFavoriteChannelMutationVariables = {
+  input: DeleteFavoriteChannelInput,
+  condition?: ModelFavoriteChannelConditionInput | null,
+};
+
+export type DeleteFavoriteChannelMutation = {
+  deleteFavoriteChannel?:  {
+    __typename: "FavoriteChannel",
+    id: string,
+    userId: string,
+    channelOwnerId: string,
+    createdAt?: string | null,
+    updatedAt?: string | null,
     owner?: string | null,
   } | null,
 };
@@ -1475,6 +1596,69 @@ export type FavoritesByVideoIdAndUserIdQuery = {
       videoId: string,
       createdAt?: string | null,
       updatedAt: string,
+      owner?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetFavoriteChannelQueryVariables = {
+  id: string,
+};
+
+export type GetFavoriteChannelQuery = {
+  getFavoriteChannel?:  {
+    __typename: "FavoriteChannel",
+    id: string,
+    userId: string,
+    channelOwnerId: string,
+    createdAt?: string | null,
+    updatedAt?: string | null,
+    owner?: string | null,
+  } | null,
+};
+
+export type ListFavoriteChannelsQueryVariables = {
+  filter?: ModelFavoriteChannelFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListFavoriteChannelsQuery = {
+  listFavoriteChannels?:  {
+    __typename: "ModelFavoriteChannelConnection",
+    items:  Array< {
+      __typename: "FavoriteChannel",
+      id: string,
+      userId: string,
+      channelOwnerId: string,
+      createdAt?: string | null,
+      updatedAt?: string | null,
+      owner?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type FavoriteChannelsByUserIdAndChannelOwnerIdQueryVariables = {
+  userId: string,
+  channelOwnerId?: ModelIDKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelFavoriteChannelFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type FavoriteChannelsByUserIdAndChannelOwnerIdQuery = {
+  favoriteChannelsByUserIdAndChannelOwnerId?:  {
+    __typename: "ModelFavoriteChannelConnection",
+    items:  Array< {
+      __typename: "FavoriteChannel",
+      id: string,
+      userId: string,
+      channelOwnerId: string,
+      createdAt?: string | null,
+      updatedAt?: string | null,
       owner?: string | null,
     } | null >,
     nextToken?: string | null,
@@ -2005,6 +2189,57 @@ export type OnDeleteFavoriteSubscription = {
     } | null,
     createdAt?: string | null,
     updatedAt: string,
+    owner?: string | null,
+  } | null,
+};
+
+export type OnCreateFavoriteChannelSubscriptionVariables = {
+  filter?: ModelSubscriptionFavoriteChannelFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnCreateFavoriteChannelSubscription = {
+  onCreateFavoriteChannel?:  {
+    __typename: "FavoriteChannel",
+    id: string,
+    userId: string,
+    channelOwnerId: string,
+    createdAt?: string | null,
+    updatedAt?: string | null,
+    owner?: string | null,
+  } | null,
+};
+
+export type OnUpdateFavoriteChannelSubscriptionVariables = {
+  filter?: ModelSubscriptionFavoriteChannelFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnUpdateFavoriteChannelSubscription = {
+  onUpdateFavoriteChannel?:  {
+    __typename: "FavoriteChannel",
+    id: string,
+    userId: string,
+    channelOwnerId: string,
+    createdAt?: string | null,
+    updatedAt?: string | null,
+    owner?: string | null,
+  } | null,
+};
+
+export type OnDeleteFavoriteChannelSubscriptionVariables = {
+  filter?: ModelSubscriptionFavoriteChannelFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnDeleteFavoriteChannelSubscription = {
+  onDeleteFavoriteChannel?:  {
+    __typename: "FavoriteChannel",
+    id: string,
+    userId: string,
+    channelOwnerId: string,
+    createdAt?: string | null,
+    updatedAt?: string | null,
     owner?: string | null,
   } | null,
 };
