@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import Button from './Button';
 import VideoItem from './VideoItem';
-import { videoData } from '../utils/content';
 import { useTranslation } from 'react-i18next';
 import VideoModal from './VideoModal';
 import { managementFavoriteCount, incrementViewCount, createFavorite, deleteFavorite } from '../graphql/mutations';
@@ -14,7 +13,7 @@ import { MdFavoriteBorder } from "react-icons/md";
 import { MdFavorite } from "react-icons/md";
 import { MdOutlineFavorite } from "react-icons/md";
 import { FaRegEye } from "react-icons/fa";
-import { idText } from 'typescript';
+import { useNavigate } from 'react-router-dom';
 
 export type VideoDetailModalProps = {
   id: string;
@@ -47,7 +46,8 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
 }) => {
   const { t } = useTranslation();
   const { user } = useUser();
-  
+  const navigate = useNavigate();
+
   const [isDescriptionVisible, setDescriptionVisible] = useState<boolean>(false);
   const [isFavorited, setIsFavorited] = useState<boolean>(false);
   const [hasIncremented, setHasIncremented] = useState<boolean>(false);
@@ -55,6 +55,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
   const [isMyVideo, setIsMyVideo] = useState<boolean>(false);
   const [favCnt, setFavCnt] = useState<number>(favoriteCount);
   const [viewCnt, setViewCnt] = useState<number>(viewCount);
+
   
   const handleOpenModal = () => {
     incrementVideoViewCount();
@@ -213,7 +214,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
         </button>
         <div className="px-4 md:px-8 lg:px-12 pt-5 pb-12">
           <div className='flex items-center justify-start gap-4'>
-            <h6 className='sub-2b text-white'>{t("handle")} @~~~</h6>
+            <h6 className='sub-2b text-white cursor-pointer' onClick={() => navigate('/aq-channel')}>{t("handle")} @~~~</h6>
             {!isMyVideo &&
               <button className='relative w-fit px-3 py-2 rounded border border-[#c7a76b] flex items-center justify-center button-4b brand-600 gap-1' onClick={handleFavoriteClick}>
                 <IoMdAdd className='text-[#c7a76b]' size={16} /> {t("My Favorite")}

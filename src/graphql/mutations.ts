@@ -430,3 +430,17 @@ export const createChannel = /* GraphQL */ `
     }
   }
 `;
+
+export const getUserChannel = /* GraphQL */ `
+  query GetUserChannel($userId: ID!) {
+    listChannels(filter: { owner: { eq: $userId } }) {
+      items {
+        id
+        name
+        description
+        avatarUrl
+      }
+    }
+  }
+`;
+
