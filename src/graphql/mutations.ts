@@ -28,10 +28,28 @@ export const createVideo = /* GraphQL */ `mutation CreateVideo(
     duration
     viewCount
     favoriteCount
+    channelId
+    channel {
+      id
+      name
+      description
+      owner
+      avatarUrl
+      subscribersCount
+      createdAt
+      updatedAt
+      __typename
+    }
+    isAQOriginal
     createdAt
     updatedAt
+    isPublic
     owner
     favorites {
+      nextToken
+      __typename
+    }
+    userActivity {
       nextToken
       __typename
     }
@@ -62,10 +80,28 @@ export const updateVideo = /* GraphQL */ `mutation UpdateVideo(
     duration
     viewCount
     favoriteCount
+    channelId
+    channel {
+      id
+      name
+      description
+      owner
+      avatarUrl
+      subscribersCount
+      createdAt
+      updatedAt
+      __typename
+    }
+    isAQOriginal
     createdAt
     updatedAt
+    isPublic
     owner
     favorites {
+      nextToken
+      __typename
+    }
+    userActivity {
       nextToken
       __typename
     }
@@ -96,10 +132,28 @@ export const deleteVideo = /* GraphQL */ `mutation DeleteVideo(
     duration
     viewCount
     favoriteCount
+    channelId
+    channel {
+      id
+      name
+      description
+      owner
+      avatarUrl
+      subscribersCount
+      createdAt
+      updatedAt
+      __typename
+    }
+    isAQOriginal
     createdAt
     updatedAt
+    isPublic
     owner
     favorites {
+      nextToken
+      __typename
+    }
+    userActivity {
       nextToken
       __typename
     }
@@ -109,6 +163,78 @@ export const deleteVideo = /* GraphQL */ `mutation DeleteVideo(
 ` as GeneratedMutation<
   APITypes.DeleteVideoMutationVariables,
   APITypes.DeleteVideoMutation
+>;
+export const createChannel = /* GraphQL */ `mutation CreateChannel(
+  $input: CreateChannelInput!
+  $condition: ModelChannelConditionInput
+) {
+  createChannel(input: $input, condition: $condition) {
+    id
+    name
+    description
+    owner
+    avatarUrl
+    subscribersCount
+    createdAt
+    updatedAt
+    videos {
+      nextToken
+      __typename
+    }
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateChannelMutationVariables,
+  APITypes.CreateChannelMutation
+>;
+export const updateChannel = /* GraphQL */ `mutation UpdateChannel(
+  $input: UpdateChannelInput!
+  $condition: ModelChannelConditionInput
+) {
+  updateChannel(input: $input, condition: $condition) {
+    id
+    name
+    description
+    owner
+    avatarUrl
+    subscribersCount
+    createdAt
+    updatedAt
+    videos {
+      nextToken
+      __typename
+    }
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateChannelMutationVariables,
+  APITypes.UpdateChannelMutation
+>;
+export const deleteChannel = /* GraphQL */ `mutation DeleteChannel(
+  $input: DeleteChannelInput!
+  $condition: ModelChannelConditionInput
+) {
+  deleteChannel(input: $input, condition: $condition) {
+    id
+    name
+    description
+    owner
+    avatarUrl
+    subscribersCount
+    createdAt
+    updatedAt
+    videos {
+      nextToken
+      __typename
+    }
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteChannelMutationVariables,
+  APITypes.DeleteChannelMutation
 >;
 export const createUser = /* GraphQL */ `mutation CreateUser(
   $input: CreateUserInput!
@@ -200,8 +326,11 @@ export const createFavorite = /* GraphQL */ `mutation CreateFavorite(
       duration
       viewCount
       favoriteCount
+      channelId
+      isAQOriginal
       createdAt
       updatedAt
+      isPublic
       owner
       __typename
     }
@@ -239,8 +368,11 @@ export const updateFavorite = /* GraphQL */ `mutation UpdateFavorite(
       duration
       viewCount
       favoriteCount
+      channelId
+      isAQOriginal
       createdAt
       updatedAt
+      isPublic
       owner
       __typename
     }
@@ -278,8 +410,11 @@ export const deleteFavorite = /* GraphQL */ `mutation DeleteFavorite(
       duration
       viewCount
       favoriteCount
+      channelId
+      isAQOriginal
       createdAt
       updatedAt
+      isPublic
       owner
       __typename
     }
@@ -293,6 +428,192 @@ export const deleteFavorite = /* GraphQL */ `mutation DeleteFavorite(
   APITypes.DeleteFavoriteMutationVariables,
   APITypes.DeleteFavoriteMutation
   >;
+export const createFavoriteChannel = /* GraphQL */ `mutation CreateFavoriteChannel(
+  $input: CreateFavoriteChannelInput!
+  $condition: ModelFavoriteChannelConditionInput
+) {
+  createFavoriteChannel(input: $input, condition: $condition) {
+    id
+    userId
+    channelOwnerId
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateFavoriteChannelMutationVariables,
+  APITypes.CreateFavoriteChannelMutation
+>;
+export const updateFavoriteChannel = /* GraphQL */ `mutation UpdateFavoriteChannel(
+  $input: UpdateFavoriteChannelInput!
+  $condition: ModelFavoriteChannelConditionInput
+) {
+  updateFavoriteChannel(input: $input, condition: $condition) {
+    id
+    userId
+    channelOwnerId
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateFavoriteChannelMutationVariables,
+  APITypes.UpdateFavoriteChannelMutation
+>;
+export const deleteFavoriteChannel = /* GraphQL */ `mutation DeleteFavoriteChannel(
+  $input: DeleteFavoriteChannelInput!
+  $condition: ModelFavoriteChannelConditionInput
+) {
+  deleteFavoriteChannel(input: $input, condition: $condition) {
+    id
+    userId
+    channelOwnerId
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteFavoriteChannelMutationVariables,
+  APITypes.DeleteFavoriteChannelMutation
+>;
+export const createUserActivity = /* GraphQL */ `mutation CreateUserActivity(
+  $input: CreateUserActivityInput!
+  $condition: ModelUserActivityConditionInput
+) {
+  createUserActivity(input: $input, condition: $condition) {
+    id
+    userId
+    videoId
+    video {
+      id
+      title
+      description
+      tags
+      category
+      videoUrl
+      thumbnailUrl
+      isForKids
+      isRestricted
+      playlist
+      scheduleTime
+      timezone
+      duration
+      viewCount
+      favoriteCount
+      channelId
+      isAQOriginal
+      createdAt
+      updatedAt
+      isPublic
+      owner
+      __typename
+    }
+    progress
+    lastWatchedAt
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateUserActivityMutationVariables,
+  APITypes.CreateUserActivityMutation
+>;
+export const updateUserActivity = /* GraphQL */ `mutation UpdateUserActivity(
+  $input: UpdateUserActivityInput!
+  $condition: ModelUserActivityConditionInput
+) {
+  updateUserActivity(input: $input, condition: $condition) {
+    id
+    userId
+    videoId
+    video {
+      id
+      title
+      description
+      tags
+      category
+      videoUrl
+      thumbnailUrl
+      isForKids
+      isRestricted
+      playlist
+      scheduleTime
+      timezone
+      duration
+      viewCount
+      favoriteCount
+      channelId
+      isAQOriginal
+      createdAt
+      updatedAt
+      isPublic
+      owner
+      __typename
+    }
+    progress
+    lastWatchedAt
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateUserActivityMutationVariables,
+  APITypes.UpdateUserActivityMutation
+>;
+export const deleteUserActivity = /* GraphQL */ `mutation DeleteUserActivity(
+  $input: DeleteUserActivityInput!
+  $condition: ModelUserActivityConditionInput
+) {
+  deleteUserActivity(input: $input, condition: $condition) {
+    id
+    userId
+    videoId
+    video {
+      id
+      title
+      description
+      tags
+      category
+      videoUrl
+      thumbnailUrl
+      isForKids
+      isRestricted
+      playlist
+      scheduleTime
+      timezone
+      duration
+      viewCount
+      favoriteCount
+      channelId
+      isAQOriginal
+      createdAt
+      updatedAt
+      isPublic
+      owner
+      __typename
+    }
+    progress
+    lastWatchedAt
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteUserActivityMutationVariables,
+  APITypes.DeleteUserActivityMutation
+>;
 
   export const incrementViewCount = /* GraphQL */ `
   mutation IncrementViewCount($id: ID!, $viewCount: Int!) {
@@ -413,23 +734,23 @@ export const videosByFavoriteCount = /* GraphQL */`
   }
 `;
 
-export const createChannel = /* GraphQL */ `
-  mutation CreateChannel(
-    $input: CreateChannelInput!
-    $condition: ModelChannelConditionInput
-  ) {
-    createChannel(input: $input, condition: $condition) {
-      id
-      name
-      description
-      owner
-      avatarUrl
-      subscribersCount
-      createdAt
-      updatedAt
-    }
-  }
-`;
+// export const createChannel = /* GraphQL */ `
+//   mutation CreateChannel(
+//     $input: CreateChannelInput!
+//     $condition: ModelChannelConditionInput
+//   ) {
+//     createChannel(input: $input, condition: $condition) {
+//       id
+//       name
+//       description
+//       owner
+//       avatarUrl
+//       subscribersCount
+//       createdAt
+//       updatedAt
+//     }
+//   }
+// `;
 
 export const getUserChannel = /* GraphQL */ `
   query GetUserChannel($userId: ID!) {

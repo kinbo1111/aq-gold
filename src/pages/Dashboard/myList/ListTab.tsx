@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
@@ -6,6 +6,10 @@ import VideoList from "../../../components/VideoList";
 import UserList from "./UserList";
 import AQStudioUploadModal from "./AQStudioUploadModal";
 import { useTranslation } from "react-i18next";
+import { API } from 'aws-amplify';
+import { listFavoriteChannels, userActivitiesByUserIdAndVideoId } from '../../../graphql/queries';
+import { useUser } from "../../../contexts/UserContext";
+
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -13,8 +17,37 @@ interface TabPanelProps {
   value: number;
 }
 
+interface FavoriteChannel {
+  id: string;
+  channelOwnerId: string;
+  createdAt: string;
+}
+
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
+  const { user } = useUser();
+
+  const [channels, setChannels] = useState<FavoriteChannel[]>([]);
+
+  useEffect(() => {
+    const fetchFavoriteChannels = async () => {
+      try {
+        const favoriteChannelsData = await API.graphql({
+          query: listFavoriteChannels,
+          variables: {
+            filter: { userId: { eq: user?.sub } },
+          },
+          authMode: 'AMAZON_COGNITO_USER_POOLS',
+        }) as { data: { listFavoriteChannels: { items: FavoriteChannel[] } } };
+
+        setChannels(favoriteChannelsData.data.listFavoriteChannels.items);
+      } catch (error) {
+        console.error('Error fetching favorite channels:', error);
+      }
+    };
+
+    fetchFavoriteChannels();
+  }, [user]);
 
   return (
     <div
