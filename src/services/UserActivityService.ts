@@ -67,8 +67,6 @@ export const getContinueWatchingVideos = async (userId: string): Promise<Continu
     );
 
     return uniqueVideos;
-
-    return continueWatchingVideos;
   } catch (error) {
     console.error('Error fetching continue watching videos:', error);
     throw new Error('Failed to fetch continue watching videos.');

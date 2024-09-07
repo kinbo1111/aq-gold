@@ -69,6 +69,16 @@ type Favorite @model
   createdAt: AWSDateTime
 }
 
+type FavoriteChannel @model
+  @auth(rules: [{ allow: owner }])
+{
+  id: ID!
+  userId: ID! @index(name: "byUser", sortKeyFields: ["channelOwnerId"])
+  channelOwnerId: ID!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
 type UserActivity @model
   @auth(rules: [
     { allow: owner },

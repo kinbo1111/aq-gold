@@ -25,10 +25,28 @@ export const getVideo = /* GraphQL */ `query GetVideo($id: ID!) {
     duration
     viewCount
     favoriteCount
+    channelId
+    channel {
+      id
+      name
+      description
+      owner
+      avatarUrl
+      subscribersCount
+      createdAt
+      updatedAt
+      __typename
+    }
+    isAQOriginal
     createdAt
     updatedAt
+    isPublic
     owner
     favorites {
+      nextToken
+      __typename
+    }
+    userActivity {
       nextToken
       __typename
     }
@@ -58,8 +76,11 @@ export const listVideos = /* GraphQL */ `query ListVideos(
       duration
       viewCount
       favoriteCount
+      channelId
+      isAQOriginal
       createdAt
       updatedAt
+      isPublic
       owner
       __typename
     }
@@ -70,6 +91,100 @@ export const listVideos = /* GraphQL */ `query ListVideos(
 ` as GeneratedQuery<
   APITypes.ListVideosQueryVariables,
   APITypes.ListVideosQuery
+>;
+export const videosByChannelIdAndCreatedAt = /* GraphQL */ `query VideosByChannelIdAndCreatedAt(
+  $channelId: ID!
+  $createdAt: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelVideoFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  videosByChannelIdAndCreatedAt(
+    channelId: $channelId
+    createdAt: $createdAt
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      title
+      description
+      tags
+      category
+      videoUrl
+      thumbnailUrl
+      isForKids
+      isRestricted
+      playlist
+      scheduleTime
+      timezone
+      duration
+      viewCount
+      favoriteCount
+      channelId
+      isAQOriginal
+      createdAt
+      updatedAt
+      isPublic
+      owner
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.VideosByChannelIdAndCreatedAtQueryVariables,
+  APITypes.VideosByChannelIdAndCreatedAtQuery
+>;
+export const getChannel = /* GraphQL */ `query GetChannel($id: ID!) {
+  getChannel(id: $id) {
+    id
+    name
+    description
+    owner
+    avatarUrl
+    subscribersCount
+    createdAt
+    updatedAt
+    videos {
+      nextToken
+      __typename
+    }
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetChannelQueryVariables,
+  APITypes.GetChannelQuery
+>;
+export const listChannels = /* GraphQL */ `query ListChannels(
+  $filter: ModelChannelFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listChannels(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      description
+      owner
+      avatarUrl
+      subscribersCount
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListChannelsQueryVariables,
+  APITypes.ListChannelsQuery
 >;
 export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
   getUser(id: $id) {
@@ -129,8 +244,11 @@ export const getFavorite = /* GraphQL */ `query GetFavorite($id: ID!) {
       duration
       viewCount
       favoriteCount
+      channelId
+      isAQOriginal
       createdAt
       updatedAt
+      isPublic
       owner
       __typename
     }
@@ -232,7 +350,217 @@ export const favoritesByVideoIdAndUserId = /* GraphQL */ `query FavoritesByVideo
 ` as GeneratedQuery<
   APITypes.FavoritesByVideoIdAndUserIdQueryVariables,
   APITypes.FavoritesByVideoIdAndUserIdQuery
+ >;
+export const getFavoriteChannel = /* GraphQL */ `query GetFavoriteChannel($id: ID!) {
+  getFavoriteChannel(id: $id) {
+    id
+    userId
+    channelOwnerId
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetFavoriteChannelQueryVariables,
+  APITypes.GetFavoriteChannelQuery
+>;
+export const listFavoriteChannels = /* GraphQL */ `query ListFavoriteChannels(
+  $filter: ModelFavoriteChannelFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listFavoriteChannels(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      userId
+      channelOwnerId
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListFavoriteChannelsQueryVariables,
+  APITypes.ListFavoriteChannelsQuery
+>;
+export const favoriteChannelsByUserIdAndChannelOwnerId = /* GraphQL */ `query FavoriteChannelsByUserIdAndChannelOwnerId(
+  $userId: ID!
+  $channelOwnerId: ModelIDKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelFavoriteChannelFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  favoriteChannelsByUserIdAndChannelOwnerId(
+    userId: $userId
+    channelOwnerId: $channelOwnerId
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      userId
+      channelOwnerId
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.FavoriteChannelsByUserIdAndChannelOwnerIdQueryVariables,
+  APITypes.FavoriteChannelsByUserIdAndChannelOwnerIdQuery
+>;
+export const getUserActivity = /* GraphQL */ `query GetUserActivity($id: ID!) {
+  getUserActivity(id: $id) {
+    id
+    userId
+    videoId
+    video {
+      id
+      title
+      description
+      tags
+      category
+      videoUrl
+      thumbnailUrl
+      isForKids
+      isRestricted
+      playlist
+      scheduleTime
+      timezone
+      duration
+      viewCount
+      favoriteCount
+      channelId
+      isAQOriginal
+      createdAt
+      updatedAt
+      isPublic
+      owner
+      __typename
+    }
+    progress
+    lastWatchedAt
+    createdAt
+    updatedAt
+    owner
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetUserActivityQueryVariables,
+  APITypes.GetUserActivityQuery
   >;
+
+export const listUserActivities = /* GraphQL */ `query ListUserActivities(
+  $filter: ModelUserActivityFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listUserActivities(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      userId
+      videoId
+      progress
+      lastWatchedAt
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListUserActivitiesQueryVariables,
+  APITypes.ListUserActivitiesQuery
+>;
+
+export const userActivitiesByUserIdAndVideoId = /* GraphQL */ `query UserActivitiesByUserIdAndVideoId(
+  $userId: ID!
+  $videoId: ModelIDKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelUserActivityFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  userActivitiesByUserIdAndVideoId(
+    userId: $userId
+    videoId: $videoId
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      userId
+      videoId
+      progress
+      lastWatchedAt
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.UserActivitiesByUserIdAndVideoIdQueryVariables,
+  APITypes.UserActivitiesByUserIdAndVideoIdQuery
+>;
+export const userActivitiesByVideoIdAndUserId = /* GraphQL */ `query UserActivitiesByVideoIdAndUserId(
+  $videoId: ID!
+  $userId: ModelIDKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelUserActivityFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  userActivitiesByVideoIdAndUserId(
+    videoId: $videoId
+    userId: $userId
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      userId
+      videoId
+      progress
+      lastWatchedAt
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.UserActivitiesByVideoIdAndUserIdQueryVariables,
+  APITypes.UserActivitiesByVideoIdAndUserIdQuery
+>;
+
 
 export const videosByFavoriteCount = /* GraphQL */`
   query VideosByFavoriteCount(
