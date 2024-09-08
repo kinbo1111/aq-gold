@@ -11,6 +11,7 @@ const VideoList: React.FC<{ className?: string, videoData: VideoData[] }> = ({ c
     const loadVideos = async () => {
       try {
         const videoList = await fetchVideos();
+        console.log(videoList)
         setVideos(videoList);
       } catch (error) {
         console.error('Error fetching videos:', error);
@@ -29,6 +30,7 @@ const VideoList: React.FC<{ className?: string, videoData: VideoData[] }> = ({ c
             videoUrl={item.videoUrl}
             imageSrc={item.thumbnailUrl ?? ''}
             videos={videos}
+            channelId={item.channelId}
             title={item.title}
             description={item.description ?? ''}
             viewCount={item.viewCount}

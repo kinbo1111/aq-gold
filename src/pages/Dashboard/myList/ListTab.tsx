@@ -1,54 +1,27 @@
 import React, { useState, useEffect } from "react";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Box from "@mui/material/Box";
-import VideoList from "../../../components/VideoList";
-import UserList from "./UserList";
-import AQStudioUploadModal from "./AQStudioUploadModal";
+import { Box, Tabs, Tab } from "@mui/material";
+import { API } from "aws-amplify";
 import { useTranslation } from "react-i18next";
-import { API } from 'aws-amplify';
-import { listFavoriteChannels, userActivitiesByUserIdAndVideoId } from '../../../graphql/queries';
+import { listFavoriteChannels } from "../../../graphql/queries";
 import { useUser } from "../../../contexts/UserContext";
+import { useVideo } from "../../../contexts/VideoContext";
+import VideoList from "../../../components/VideoList";
+import FavoriteChannelList from "./FavoriteChannelList";
+import AQStudioUploadModal from "./AQStudioUploadModal";
 
-
-interface TabPanelProps {
+type TabPanelProps = {
   children?: React.ReactNode;
   index: number;
   value: number;
-}
+};
 
-interface FavoriteChannel {
+type FavoriteChannel = {
   id: string;
   channelOwnerId: string;
   createdAt: string;
-}
+};
 
-function CustomTabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-  const { user } = useUser();
-
-  const [channels, setChannels] = useState<FavoriteChannel[]>([]);
-
-  useEffect(() => {
-    const fetchFavoriteChannels = async () => {
-      try {
-        const favoriteChannelsData = await API.graphql({
-          query: listFavoriteChannels,
-          variables: {
-            filter: { userId: { eq: user?.sub } },
-          },
-          authMode: 'AMAZON_COGNITO_USER_POOLS',
-        }) as { data: { listFavoriteChannels: { items: FavoriteChannel[] } } };
-
-        setChannels(favoriteChannelsData.data.listFavoriteChannels.items);
-      } catch (error) {
-        console.error('Error fetching favorite channels:', error);
-      }
-    };
-
-    fetchFavoriteChannels();
-  }, [user]);
-
+function CustomTabPanel({ children, value, index, ...other }: TabPanelProps) {
   return (
     <div
       role="tabpanel"
@@ -70,11 +43,40 @@ function a11yProps(index: number) {
 }
 
 export default function ListTab() {
-  const [value, setValue] = React.useState(0);
   const { t } = useTranslation();
+  const { user, continueVideos } = useUser();
+  const { favoriteVideos } = useVideo();
+
+  const [value, setValue] = useState(0);
+  const [channels, setChannels] = useState<FavoriteChannel[]>([]);
+
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    const fetchFavoriteChannels = async () => {
+      try {
+        const { data } = await API.graphql({
+          query: listFavoriteChannels,
+          variables: { filter: { userId: { eq: user?.sub } } },
+          authMode: "AMAZON_COGNITO_USER_POOLS",
+        }) as { data: { listFavoriteChannels: { items: FavoriteChannel[] } } };
+
+        setChannels(data.listFavoriteChannels.items);
+      } catch (error) {
+        console.error("Error fetching favorite channels:", error);
+      }
+    };
+
+    if (user) {
+      fetchFavoriteChannels();
+    }
+  }, [user]);
+
+  useEffect(() => {
+    console.log(channels)
+  },[channels])
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -84,61 +86,35 @@ export default function ListTab() {
           onChange={handleChange}
           textColor="primary"
           indicatorColor="primary"
-          aria-label="primary tabs example"
+          aria-label="tabs example"
         >
-          <Tab
-            label={t("Continue Watching")}
-            className="custom-tab"
-            {...a11yProps(0)}
-            sx={{ 
-              "&.Mui-selected": { 
-                color: "#fff", 
-              },
-            }}
-          />
-          <Tab
-            label={t("My Contents List")}
-            className="custom-tab"
-            {...a11yProps(1)}
-            sx={{ 
-              "&.Mui-selected": { 
-                color: "#fff", 
-              },
-            }}
-          />
-          <Tab
-            label={t("My Favorite AQvr")}
-            className="custom-tab"
-            {...a11yProps(2)}
-            sx={{ 
-              "&.Mui-selected": { 
-                color: "#fff", 
-              },
-            }}
-          />
-          <Tab
-            label={t("AQ Studio")}
-            className="custom-tab"
-            {...a11yProps(3)}
-            sx={{ 
-              "&.Mui-selected": { 
-                color: "#fff", 
-              },
-            }}
-          />
+          {[
+            t("Continue Watching"),
+            t("My Contents List"),
+            t("My Favorite AQvr"),
+            t("AQ Studio"),
+          ].map((label, index) => (
+            <Tab
+              key={index}
+              label={label}
+              {...a11yProps(index)}
+              className="custom-tab"
+              sx={{ "&.Mui-selected": { color: "#fff" } }}
+            />
+          ))}
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <VideoList videoData={[]}/>
+        <VideoList videoData={continueVideos} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <VideoList videoData={[]}/>
+        <VideoList videoData={favoriteVideos} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-         <UserList/>
+        <FavoriteChannelList channelList={channels} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
-        <AQStudioUploadModal/>
+        <AQStudioUploadModal />
       </CustomTabPanel>
     </Box>
   );

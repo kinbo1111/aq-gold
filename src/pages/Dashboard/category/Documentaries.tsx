@@ -8,13 +8,23 @@ import Button from "../../../components/Button";
 import MainContainer from "../../../components/MainContainer";
 import MovieList from "../MovieList";
 import { useTranslation } from "react-i18next";
+import { useVideo } from "../../../contexts/VideoContext";
+import { useUser } from "../../../contexts/UserContext";
 
 const Documentaries = () => {
+    const { filterVideosByCategory } = useVideo();
+    const { filteredNewVideos, filteredPopularVideos, filteredRecommendVideos, filteredMyList } = filterVideosByCategory('documentaries');
     const { t } = useTranslation();
+    const { continueVideos } = useUser();
+
+    const filterContinueWatching = () => {
+      return continueVideos.filter(video => video.category && video.category.toLowerCase() === 'documentaries');
+    };
+
    return (
         <MainContainer>
             <div className="relative main-video w-full">
-                <img src={MainBanner} alt="" className="w-full h-auto" />
+                <img src={MainBanner} alt="" className="w-full h-40" />
                 <div className="absolute bottom-14 left-16 z-50" >
                     <h1 className="h4 text-white mb-4">One Piece</h1>
                     <p className="sub-2r text-white mb-4">
@@ -39,35 +49,35 @@ const Documentaries = () => {
                 </div>
                 <div className="bg-border"></div>
             </div>
-            <div>
+         <div>
                 <MovieList
-                   label={t("Recommend Contents")}
-                   movieData={[]}
-               />
-                  <MovieList
-                   label={t("New on AQ Gold")}
-                   movieData={[]}
+                    label={t("Recommend Contents")}
+                    movieData={filteredRecommendVideos}
                 />
                  <MovieList
-                   label={t("AQ Original Contents")}
-                   movieData={[]}
-                />
-             
-                 <MovieList
-                   label={t("Popular on AQ Gold")}
-                   movieData={[]}
+                    label={t("New on AQ Gold")}
+                    movieData={filteredNewVideos}
                 />
                  <MovieList
-                   label={t("Continue Watching")}
-                   movieData={[]}
+                    label={t("AQ Original Contents")}
+                    movieData={[]}
+                />
+               
+                 <MovieList
+                    label={t("Popular on AQ Gold")}
+                    movieData={filteredPopularVideos}
                 />
                  <MovieList
-                   label={t("AQvar Contents")}
-                   movieData={[]}
+                    label={t("Continue Watching")}
+                    movieData={filterContinueWatching()}
                 />
                  <MovieList
-                   label={t("My List")}
-                   movieData={[]}
+                    label={t("AQvar Contents")}
+                    movieData={[]}
+                />
+                 <MovieList
+                    label={t("My List")}
+                    movieData={filteredMyList}
                 />
             </div>
         </MainContainer>
