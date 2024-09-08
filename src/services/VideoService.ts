@@ -1,10 +1,11 @@
 // src/services/VideoService.ts
 import { API, graphqlOperation } from 'aws-amplify';
 import { createVideo } from '../graphql/mutations';
-import { videosByFavoriteCount } from '../graphql/queries';
+import { videosByFavoriteCount } from '../graphql/mutations';
 import { listVideos } from '../graphql/queries';
 import { getVideo } from '../graphql/queries';
 import { VideoData, VideoInputData } from '../types';
+import { listFavorites } from '../graphql/queries';
 
 export type GetVideoResponse = {
   getVideo: VideoInputData;
@@ -74,5 +75,30 @@ export const fetchAllVideos = async () => {
   } catch (error) {
     console.error('Error fetching all videos:', error);
     throw new Error('Failed to fetch videos.');
+  }
+};
+
+export const getFavoriteVideos = async (): Promise<string[]> => {
+  try {
+    const { data } = await API.graphql<
+      { listFavorites: { items: { videoId: string }[] } }
+    >({
+      query: listFavorites,
+      authMode: 'AMAZON_COGNITO_USER_POOLS',
+    }) as {
+      data: {
+        listFavorites: {
+          items: Array<{
+            id: string,
+            userId: string,
+            videoId: string,
+            createdAt?: string | null,
+            updatedAt: string,
+            owner?: string | null
+          }> } } };
+
+    return data.listFavorites.items.map(item => item.videoId);
+  } catch (error) {
+    throw new Error('Error fetching favorite videos');
   }
 };

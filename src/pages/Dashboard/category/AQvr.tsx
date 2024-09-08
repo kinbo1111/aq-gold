@@ -10,10 +10,19 @@ import MovieList from "../MovieList";
 import { IoCloseCircle } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 import DeleteChannel from "../settings/DeleteChannel";
+import { useVideo } from "../../../contexts/VideoContext";
+import { useUser } from "../../../contexts/UserContext";
 
 const AQvr = () => {
     const [isDeleteChannelOpen, setIsDeleteChannelOpen] = useState(false);
     const { t } = useTranslation();
+    const { filterVideosByCategory } = useVideo();
+    const { filteredNewVideos, filteredPopularVideos, filteredRecommendVideos, filteredMyList } = filterVideosByCategory('aqvr');
+    const { continueVideos } = useUser();
+
+    const filterContinueWatching = () => {
+      return continueVideos.filter(video => video.category && video.category.toLowerCase() === 'aqvr');
+    };
     
     const handleOpenDeleteChannel = () => {
         setIsDeleteChannelOpen(true);
@@ -58,38 +67,38 @@ const AQvr = () => {
                 </div>
                 <div className="bg-border"></div>
             </div>
-            <div> 
+          <div>
                 <MovieList
-                  label={t("Recommend Contents")}
-                  movieData={[]}
+                    label={t("Recommend Contents")}
+                    movieData={filteredRecommendVideos}
                 />
                  <MovieList
-                  label={t("New on AQvar")}
-                  movieData={[]}
+                    label={t("New on AQ Gold")}
+                    movieData={filteredNewVideos}
                 />
                  <MovieList
                     label={t("AQ Original Contents")}
                     movieData={[]}
                 />
+               
                  <MovieList
-                  label={t("Popular on AQ Gold")}
-                  movieData={[]}
+                    label={t("Popular on AQ Gold")}
+                    movieData={filteredPopularVideos}
                 />
                  <MovieList
-                  label={t("Trend AQvar Contents")}
-                  movieData={[]}
+                    label={t("Continue Watching")}
+                    movieData={filterContinueWatching()}
                 />
                  <MovieList
-                  label={t("Continue Watching")}
-                  movieData={[]}
+                    label={t("AQvar Contents")}
+                    movieData={[]}
                 />
                  <MovieList
-                  label={t("My List")}
-                  movieData={[]}
+                    label={t("My List")}
+                    movieData={filteredMyList}
                 />
-    
-          </div>
-                      {isDeleteChannelOpen && <DeleteChannel isOpen={isDeleteChannelOpen} onClose={handleCloseDeleteChannel} />}
+            </div>
+            {isDeleteChannelOpen && <DeleteChannel isOpen={isDeleteChannelOpen} onClose={handleCloseDeleteChannel} />}
 
         </MainContainer>
     );

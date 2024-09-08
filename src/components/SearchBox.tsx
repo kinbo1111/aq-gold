@@ -18,7 +18,6 @@ const SearchBox: React.FC<SearchBoxProps> = ({ initialHistory = [] }) => {
   const [results, setResults] = useState<string[]>([]);
 
   useEffect(() => {
-    // Filter history based on the current keyword
     if (keyword) {       
       setFilteredHistory(history.filter((item) => item.includes(keyword)));
     } else {
@@ -37,7 +36,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ initialHistory = [] }) => {
 
   const handleSearch = async () => {
     await searchVideo(keyword)
-    navigate('/search')
+    navigate('/search/' + keyword)
   }
 
   return (

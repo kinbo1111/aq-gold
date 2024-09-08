@@ -1,21 +1,28 @@
 import React from 'react';
 import Avatar from '../../../components/Avatar';
-import { UserListData } from '../../../utils/content';
 import { useUser } from '../../../contexts/UserContext';
 
-const UserList = () => {
-  const { user } = useUser();
+export type channelProps = {
+  
+}
+
+export type FavoriteChannelListProps = {
+  channelList: channelProps[]
+}
+
+const FavoriteChannelList: React.FC<FavoriteChannelListProps> = ({channelList}) => {
+    const { user } = useUser();
   return (
     <div className="user-list grid grid-cols-1 md:grid-cols-2 gap-12">
-        {UserListData.map((item, index) => (
+        {channelList.map((item, index) => (
           <Avatar
             key={index}
             src={user?.profileAvatar} 
-            name={item.name}
+            name={''}
         />
         ))}
     </div>
   );
 };
 
-export default UserList;
+export default FavoriteChannelList;

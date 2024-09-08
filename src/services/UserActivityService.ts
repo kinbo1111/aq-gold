@@ -1,7 +1,7 @@
 import { API } from 'aws-amplify';
 import { listUserActivities, updateUserProgressMutation } from '../graphql/mutations';
 import { GraphQLResult } from '@aws-amplify/api-graphql';
-import { VideoProps } from '../types';
+import { VideoData } from '../types';
 
 export type ContinueWatchingVideo = {
   id: string;
@@ -10,7 +10,7 @@ export type ContinueWatchingVideo = {
   progress: number;
   lastWatchedAt: string;
   createdAt: string;
-  video: VideoProps;
+  video: VideoData;
 }
 
 
