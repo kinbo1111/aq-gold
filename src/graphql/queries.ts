@@ -154,6 +154,10 @@ export const getChannel = /* GraphQL */ `query GetChannel($id: ID!) {
       nextToken
       __typename
     }
+    favoriteChannels {
+      nextToken
+      __typename
+    }
     __typename
   }
 }
@@ -350,12 +354,23 @@ export const favoritesByVideoIdAndUserId = /* GraphQL */ `query FavoritesByVideo
 ` as GeneratedQuery<
   APITypes.FavoritesByVideoIdAndUserIdQueryVariables,
   APITypes.FavoritesByVideoIdAndUserIdQuery
- >;
+>;
 export const getFavoriteChannel = /* GraphQL */ `query GetFavoriteChannel($id: ID!) {
   getFavoriteChannel(id: $id) {
     id
     userId
-    channelOwnerId
+    channelId
+    channel {
+      id
+      name
+      description
+      owner
+      avatarUrl
+      subscribersCount
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
     owner
@@ -375,7 +390,7 @@ export const listFavoriteChannels = /* GraphQL */ `query ListFavoriteChannels(
     items {
       id
       userId
-      channelOwnerId
+      channelId
       createdAt
       updatedAt
       owner
@@ -389,17 +404,17 @@ export const listFavoriteChannels = /* GraphQL */ `query ListFavoriteChannels(
   APITypes.ListFavoriteChannelsQueryVariables,
   APITypes.ListFavoriteChannelsQuery
 >;
-export const favoriteChannelsByUserIdAndChannelOwnerId = /* GraphQL */ `query FavoriteChannelsByUserIdAndChannelOwnerId(
+export const favoriteChannelsByUserIdAndChannelId = /* GraphQL */ `query FavoriteChannelsByUserIdAndChannelId(
   $userId: ID!
-  $channelOwnerId: ModelIDKeyConditionInput
+  $channelId: ModelIDKeyConditionInput
   $sortDirection: ModelSortDirection
   $filter: ModelFavoriteChannelFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  favoriteChannelsByUserIdAndChannelOwnerId(
+  favoriteChannelsByUserIdAndChannelId(
     userId: $userId
-    channelOwnerId: $channelOwnerId
+    channelId: $channelId
     sortDirection: $sortDirection
     filter: $filter
     limit: $limit
@@ -408,7 +423,7 @@ export const favoriteChannelsByUserIdAndChannelOwnerId = /* GraphQL */ `query Fa
     items {
       id
       userId
-      channelOwnerId
+      channelId
       createdAt
       updatedAt
       owner
@@ -419,8 +434,41 @@ export const favoriteChannelsByUserIdAndChannelOwnerId = /* GraphQL */ `query Fa
   }
 }
 ` as GeneratedQuery<
-  APITypes.FavoriteChannelsByUserIdAndChannelOwnerIdQueryVariables,
-  APITypes.FavoriteChannelsByUserIdAndChannelOwnerIdQuery
+  APITypes.FavoriteChannelsByUserIdAndChannelIdQueryVariables,
+  APITypes.FavoriteChannelsByUserIdAndChannelIdQuery
+>;
+export const favoriteChannelsByChannelIdAndUserId = /* GraphQL */ `query FavoriteChannelsByChannelIdAndUserId(
+  $channelId: ID!
+  $userId: ModelIDKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelFavoriteChannelFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  favoriteChannelsByChannelIdAndUserId(
+    channelId: $channelId
+    userId: $userId
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      userId
+      channelId
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.FavoriteChannelsByChannelIdAndUserIdQueryVariables,
+  APITypes.FavoriteChannelsByChannelIdAndUserIdQuery
 >;
 export const getUserActivity = /* GraphQL */ `query GetUserActivity($id: ID!) {
   getUserActivity(id: $id) {
@@ -462,8 +510,7 @@ export const getUserActivity = /* GraphQL */ `query GetUserActivity($id: ID!) {
 ` as GeneratedQuery<
   APITypes.GetUserActivityQueryVariables,
   APITypes.GetUserActivityQuery
-  >;
-
+>;
 export const listUserActivities = /* GraphQL */ `query ListUserActivities(
   $filter: ModelUserActivityFilterInput
   $limit: Int
@@ -489,7 +536,6 @@ export const listUserActivities = /* GraphQL */ `query ListUserActivities(
   APITypes.ListUserActivitiesQueryVariables,
   APITypes.ListUserActivitiesQuery
 >;
-
 export const userActivitiesByUserIdAndVideoId = /* GraphQL */ `query UserActivitiesByUserIdAndVideoId(
   $userId: ID!
   $videoId: ModelIDKeyConditionInput
@@ -560,38 +606,3 @@ export const userActivitiesByVideoIdAndUserId = /* GraphQL */ `query UserActivit
   APITypes.UserActivitiesByVideoIdAndUserIdQueryVariables,
   APITypes.UserActivitiesByVideoIdAndUserIdQuery
 >;
-
-
-export const videosByFavoriteCount = /* GraphQL */`
-  query VideosByFavoriteCount(
-    $limit: Int = 10
-  ) {
-    listVideos(
-      limit: $limit
-    ) {
-      items {
-        id
-        title
-        description
-        tags
-        category
-        videoUrl
-        thumbnailUrl
-        isForKids
-        isRestricted
-        playlist
-        scheduleTime
-        timezone
-        duration
-        viewCount
-        favoriteCount
-        isAQOriginal
-        isPublic
-        createdAt
-        updatedAt
-        owner
-      }
-      nextToken
-    }
-  }
-`;

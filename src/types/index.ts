@@ -30,6 +30,7 @@ export type VideoData = {
   playlist: string;
   scheduleTime: string;
   timezone: string;
+  channelId: string;
   owner: string;
   duration: number, 
   viewCount: number, 
