@@ -8,9 +8,19 @@ import Button from "../../../components/Button";
 import MainContainer from "../../../components/MainContainer";
 import MovieList from "../MovieList";
 import { useTranslation } from "react-i18next";
+import { useVideo } from "../../../contexts/VideoContext";
+import { useUser } from "../../../contexts/UserContext";
 
-const Dashboard = () => {
+const Music = () => {
     const { t } = useTranslation();
+    const { filterVideosByCategory } = useVideo();
+    const { filteredNewVideos, filteredPopularVideos, filteredRecommendVideos, filteredMyList } = filterVideosByCategory('music');
+    const { continueVideos } = useUser();
+
+    const filterContinueWatching = () => {
+      return continueVideos.filter(video => video.category && video.category.toLowerCase() === 'music');
+    };
+
     return (
         <MainContainer>
             <div className="relative main-video w-full">
@@ -39,39 +49,39 @@ const Dashboard = () => {
                 </div>
                 <div className="bg-border"></div>
             </div>
-            <div>
-                 <MovieList
+     <div>
+                <MovieList
                     label={t("Recommend Contents")}
-                    movieData={[]}
+                    movieData={filteredRecommendVideos}
                 />
-                <MovieList
-                    movieData={[]}
+                 <MovieList
                     label={t("New on AQ Gold")}
+                    movieData={filteredNewVideos}
                 />
-                <MovieList
-                    movieData={[]}
+                 <MovieList
                     label={t("AQ Original Contents")}
-                />
-              
-                <MovieList
                     movieData={[]}
+                />
+               
+                 <MovieList
                     label={t("Popular on AQ Gold")}
+                    movieData={filteredPopularVideos}
                 />
-                <MovieList
-                    movieData={[]}
+                 <MovieList
                     label={t("Continue Watching")}
+                    movieData={filterContinueWatching()}
                 />
-                <MovieList
-                    movieData={[]}
+                 <MovieList
                     label={t("AQvar Contents")}
-                />
-                <MovieList
                     movieData={[]}
+                />
+                 <MovieList
                     label={t("My List")}
-                /> 
+                    movieData={filteredMyList}
+                />
             </div>
         </MainContainer>
     );
 };
 
-export default Dashboard;
+export default Music;

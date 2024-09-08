@@ -14,11 +14,13 @@ import { MdFavorite } from "react-icons/md";
 import { MdOutlineFavorite } from "react-icons/md";
 import { FaRegEye } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import { IoRemove, IoTrash } from 'react-icons/io5';
 
 export type VideoDetailModalProps = {
   id: string;
   isOpen: boolean;
   onClose: () => void;
+  onAddChannel: () => void;
   videoTitle: string;
   viewCount: number;
   videoDescription: string;
@@ -34,6 +36,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
   id,
   isOpen,
   onClose,
+  onAddChannel,
   imgSrc,
   videoTitle,
   videoDescription,
@@ -120,12 +123,13 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
           });
 
           setIsFavorited(false);
+
           setFavCnt(favCnt - 1);
           await API.graphql({
             query: managementFavoriteCount,
             variables: {
                 id: id,
-                favoriteCount: favoriteCount - 1,
+                favoriteCount: favCnt - 1,
             },
             authMode: 'AMAZON_COGNITO_USER_POOLS',
           });
@@ -147,7 +151,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
           query: managementFavoriteCount,
             variables: {
               id: id,
-              favoriteCount: favoriteCount + 1,
+              favoriteCount: favCnt + 1,
           },
           authMode: 'AMAZON_COGNITO_USER_POOLS',
         });
@@ -192,7 +196,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
                 iconExist
                 full
               />
-              <button className='w-12 h-12 border border-[#c7a76b] rounded-full flex items-center justify-center '>
+              <button className='w-12 h-12 border border-[#c7a76b] rounded-full flex items-center justify-center' onClick={onAddChannel}>
                 <IoMdAdd className='text-[#c7a76b]' size={20} />
               </button>
               {!isMyVideo &&
@@ -217,7 +221,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
             <h6 className='sub-2b text-white cursor-pointer' onClick={() => navigate('/aq-channel')}>{t("handle")} @~~~</h6>
             {!isMyVideo &&
               <button className='relative w-fit px-3 py-2 rounded border border-[#c7a76b] flex items-center justify-center button-4b brand-600 gap-1' onClick={handleFavoriteClick}>
-                <IoMdAdd className='text-[#c7a76b]' size={16} /> {t("My Favorite")}
+                {isFavorited ? <><IoTrash className='text-[#c7a76b]'/> {t("Remove from favorite")}</> : <><IoMdAdd className='text-[#c7a76b]' size={16} /> {t("My Favorite")}</>} 
               </button>
               }
           </div>

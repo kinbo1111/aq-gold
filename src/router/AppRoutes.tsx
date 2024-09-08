@@ -46,7 +46,7 @@ const AppRoutes: React.FC = () => {
     <Suspense fallback={<Loading />}>
       <Routes>
         <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
-        <Route path="/search" element={<PrivateRoute element={<Search />}  />} />
+        <Route path="/search/:keyword" element={<PrivateRoute element={<Search />}  />} />
         <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
         <Route path="/favourite" element={<PrivateRoute element={<Favourite />} />} />
         <Route path="/create-channel" element={<PrivateRoute element={<CreateChannel />} />} />

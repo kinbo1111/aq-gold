@@ -181,6 +181,10 @@ export const createChannel = /* GraphQL */ `mutation CreateChannel(
       nextToken
       __typename
     }
+    favoriteChannels {
+      nextToken
+      __typename
+    }
     __typename
   }
 }
@@ -205,6 +209,10 @@ export const updateChannel = /* GraphQL */ `mutation UpdateChannel(
       nextToken
       __typename
     }
+    favoriteChannels {
+      nextToken
+      __typename
+    }
     __typename
   }
 }
@@ -226,6 +234,10 @@ export const deleteChannel = /* GraphQL */ `mutation DeleteChannel(
     createdAt
     updatedAt
     videos {
+      nextToken
+      __typename
+    }
+    favoriteChannels {
       nextToken
       __typename
     }
@@ -427,7 +439,7 @@ export const deleteFavorite = /* GraphQL */ `mutation DeleteFavorite(
 ` as GeneratedMutation<
   APITypes.DeleteFavoriteMutationVariables,
   APITypes.DeleteFavoriteMutation
-  >;
+>;
 export const createFavoriteChannel = /* GraphQL */ `mutation CreateFavoriteChannel(
   $input: CreateFavoriteChannelInput!
   $condition: ModelFavoriteChannelConditionInput
@@ -435,7 +447,18 @@ export const createFavoriteChannel = /* GraphQL */ `mutation CreateFavoriteChann
   createFavoriteChannel(input: $input, condition: $condition) {
     id
     userId
-    channelOwnerId
+    channelId
+    channel {
+      id
+      name
+      description
+      owner
+      avatarUrl
+      subscribersCount
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
     owner
@@ -453,7 +476,18 @@ export const updateFavoriteChannel = /* GraphQL */ `mutation UpdateFavoriteChann
   updateFavoriteChannel(input: $input, condition: $condition) {
     id
     userId
-    channelOwnerId
+    channelId
+    channel {
+      id
+      name
+      description
+      owner
+      avatarUrl
+      subscribersCount
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
     owner
@@ -471,7 +505,18 @@ export const deleteFavoriteChannel = /* GraphQL */ `mutation DeleteFavoriteChann
   deleteFavoriteChannel(input: $input, condition: $condition) {
     id
     userId
-    channelOwnerId
+    channelId
+    channel {
+      id
+      name
+      description
+      owner
+      avatarUrl
+      subscribersCount
+      createdAt
+      updatedAt
+      __typename
+    }
     createdAt
     updatedAt
     owner
@@ -692,6 +737,9 @@ export const listUserActivities = /* GraphQL */ `
           id
           title
           videoUrl
+          favoriteCount
+          category
+          viewCount
           thumbnailUrl
           duration
         }
@@ -764,4 +812,3 @@ export const getUserChannel = /* GraphQL */ `
     }
   }
 `;
-

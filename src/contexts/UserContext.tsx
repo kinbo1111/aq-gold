@@ -2,6 +2,8 @@ import React, { createContext, useState, useEffect, ReactNode, useContext, useCa
 import { Auth } from 'aws-amplify';
 import { message } from 'antd';
 import { getChannelAvatarUrl, getProfileAvatarUrl } from '../services/storageService';
+import { getContinueWatchingVideos } from '../services/UserActivityService';
+import { VideoData } from '../types';
 
 export type CustomUser = {
   username: string;
@@ -21,6 +23,7 @@ export type UserContextType = {
   loading: boolean;
   isAuthenticated: boolean;
   isModalVisible: boolean;
+  continueVideos: VideoData[];
   login: () => void;
   logout: () => void;
   ModalUnvisible: () => void;
@@ -43,6 +46,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [continueVideos, setContinueVideos] = useState<VideoData[]>([]);
 
   const fetchUser = useCallback(async () => {
     try {
@@ -52,6 +56,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       const profileUrl = await getProfileAvatarUrl(avatarKey);
       const channelKey = await `avatar/channel/${currentUser.attributes.sub}.png`;
       const channelUrl = await getChannelAvatarUrl(channelKey);
+      const continueWatchingVideos = await getContinueWatchingVideos(currentUser.attributes.sub);   
+      setContinueVideos(continueWatchingVideos.map((v) => v.video))
       
       const customUser: CustomUser =  await {
         username: currentUser.username,
@@ -170,7 +176,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const updateUserData = () => fetchUser();
   
   return (
-    <UserContext.Provider value={{ user, setUser, loading, isAuthenticated, isModalVisible, login, logout, updateEmail, updatePassword, updateNickname, updateUserData, ModalUnvisible, updateChannelHandle, updateChannelName}}>
+    <UserContext.Provider value={{ user, setUser, loading, isAuthenticated, isModalVisible, continueVideos, login, logout, updateEmail, updatePassword, updateNickname, updateUserData, ModalUnvisible, updateChannelHandle, updateChannelName}}>
       {children}
     </UserContext.Provider>
   );

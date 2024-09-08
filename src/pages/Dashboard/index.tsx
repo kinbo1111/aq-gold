@@ -1,48 +1,20 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import { FaRegStar } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
 import { FaPlay } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
-import { useVideo } from "../../contexts/VideoContext";
-import { getContinueWatchingVideos, ContinueWatchingVideo } from '../../services/UserActivityService';
-import { fetchTopContent } from "../../services/VideoService";
 import MainBanner from '../../assets/images/main.png'
 import Button from "../../components/Button";
 import MainContainer from "../../components/MainContainer";
 import MovieList from "./MovieList";
 import MovieTopList from "./MovieTopList";
-import { VideoData } from "../../types";
+import { useVideo } from "../../contexts/VideoContext";
 import { useUser } from "../../contexts/UserContext";
 
 const Dashboard = () => {
     const { t } = useTranslation();
-    const { videos, topVideos, recommendVideos, newVideos, popularVideos } = useVideo();
-    const { user } = useUser();
-    const [continueVideos, setContinueVideos] = useState<ContinueWatchingVideo[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        const fetchContinueWatchingVideos = async () => {
-            if (!user) return; 
-            if (user.sub === undefined) return;
-
-        setLoading(true);
-        try {
-            const continueWatchingVideos = await getContinueWatchingVideos(user.sub);
-            const videos = await fetchTopContent(10);
-            setContinueVideos(continueWatchingVideos);
-        } catch (err) {
-            console.error('Error fetching continue watching videos:', err);
-            setError('Failed to fetch continue watching videos.');
-        } finally {
-            setLoading(false);
-        }
-        };
-
-        fetchContinueWatchingVideos();
-    }, [user]);
-
+    const { topVideos, recommendVideos, newVideos, popularVideos } = useVideo();
+    const { continueVideos } = useUser();
 
     return (
         <MainContainer>
@@ -79,7 +51,7 @@ const Dashboard = () => {
                 />
                  <MovieList
                     label={t("Continue Watching")}
-                    movieData={continueVideos.map((v) => v.video)}  
+                    movieData={continueVideos}  
                 />
                  <MovieList
                     label={t("New on AQ Gold")}
@@ -110,7 +82,5 @@ const Dashboard = () => {
         </MainContainer>
     );
 };
-
-
 
 export default Dashboard;
