@@ -84,12 +84,12 @@ const AdvancedSettings = () => {
                 />
             </div>
             <div>
-                <h6 className="sub-2r text-white mb-2">{t("Delete Your AQvr Channel")}</h6>
+                <h6 className="sub-2r text-white mb-2">{t("Delete Your AQvar Channel")}</h6>
                 <div
                     onClick={handleOpenDeleteChannel}
                     className="body-1r text-[#1570EF] underline cursor-pointer"
                 >
-                    {t("Delete Your AQvr Channel")}
+                    {t("Delete Your AQvar Channel")}
                 </div>
             </div>
             <div>

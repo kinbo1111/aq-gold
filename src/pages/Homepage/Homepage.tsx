@@ -52,7 +52,7 @@ const Homepage = () => {
               standard
               onChange={e => setEmail(e.target.value)}
               value={email}
-                placeholder={t("tamdt03@gmail.com")}
+                placeholder={t("Email address")}
                 full
                 required
               />
@@ -89,7 +89,7 @@ const Homepage = () => {
           <div className="py-[84px] flex items-center justify-center md:justify-between flex-col-reverse md:flex-row">
             <div className="w-full md:w-[48%]">
               <h6 className="h7 brand-600 mb-4">{t("Upload your 360° video contents")}</h6>
-              <p className="sub-2r text-white">{t("Be AQvr to upload and share your 360° video contents.")}</p>
+              <p className="sub-2r text-white">{t("Be AQvar to upload and share your 360° video contents.")}</p>
             </div>
             <div className="w-full md:w-[48%] rounded-3xl">
               <Slider/>
@@ -122,7 +122,7 @@ const Homepage = () => {
               value={email}
               success
               standard
-              placeholder={t("tamdt03@gmail.com")}
+              placeholder={t("Email address")}
               full
               required
             />

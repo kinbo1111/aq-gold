@@ -35,7 +35,7 @@ const SettingsModalSidebar: React.FC<SettingsModalSidebarProps> = ({ setActiveCh
                 {t("General")}
             </div>
             <div onClick={() => setActiveChannel("channel")} className={getClassNames("channel")}>
-                {t("Customize AQvr channel")}
+                {t("Customize AQvar channel")}
             </div>
             <div onClick={() => setActiveChannel("advanced")} className={getClassNames("advanced")}>
                 {t("Advanced settings")}

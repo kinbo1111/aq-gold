@@ -91,7 +91,7 @@ const CreateChannel = () => {
           &times;
         </button>
         <h6 className="sub-1b gray-800 mb-7 text-center">
-          {t("Create your AQvr channel")}
+          {t("Create your AQvar channel")}
         </h6>
         <div>
           <div className="flex items-center justify-center gap-6">
