@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import SettingsModalHeader from "./SettingsModalHeader";
 import SettingsModalSidebar from "./SettingsModalSidebar";
 import GeneralSettings from "./GeneralSettings";
@@ -11,9 +11,10 @@ import { Auth } from 'aws-amplify';
 import { uploadProfileAvatar, getProfileAvatarUrl, uploadChannelAvatar, getChannelAvatarUrl } from '../../../services/storageService';
 import { updateProfile } from '../../../services/profileService';
 import { message } from "antd";
-import { UserContext } from "../../../contexts/UserContext";
 import { MdVerified } from "react-icons/md";
 import { Button } from 'antd';
+import { useUser } from "../../../contexts/UserContext";
+import { useLocation } from "react-router-dom";
 
 export type SettingsModalProps = {
   isOpen: boolean;
@@ -23,6 +24,9 @@ export type SettingsModalProps = {
 const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
 
   const { t } = useTranslation();
+  const location  = useLocation();
+  const { user, isModalVisible, updateEmail, updatePassword, updateUserData, ModalUnvisible, updateChannelHandle, updateChannelName } = useUser();
+
   const [verificationCode, setVerificationCode] = useState<string>('')
   const [nickname, setNickname] = useState<string>('');
   const [channelHandle, setChannelHandle] = useState<string>('');
@@ -55,12 +59,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
   const handleConfirmEmailChange = (confirmEmail: string) => setConfirmEmail(confirmEmail);
   const handleAvatarRemove = () => setAvatarURL('');
   const handleChannelAvatarRemove = () => setChannelAvatarURL('');
-
-  const userContext = useContext(UserContext);
-    if (!userContext) {
-        throw new Error("userContext must be used within an AuthProvider!")
-    }
-  const { user, isModalVisible, updateEmail, updatePassword, updateUserData, updateNickname, ModalUnvisible, updateChannelHandle, updateChannelName } = userContext;
+  
 
   const validateEmail = (email: string) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -68,6 +67,12 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
   };
 
   useEffect(() => {
+
+      const params = new URLSearchParams(location.search);
+    const tabFromQuery = params.get("tab");
+    if (tabFromQuery) {
+      setActiveChannel(tabFromQuery);
+    }
     const fetchUserData = async () => {
       try {
         setNickname(user?.nickname || '');
