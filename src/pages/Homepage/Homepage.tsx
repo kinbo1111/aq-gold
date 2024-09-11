@@ -10,7 +10,6 @@ import { FieldValues, useForm } from "react-hook-form";
 import Video02 from "../../assets/images/movie02.png"
 import Footer from "../../components/footer/Footer";
 import { useTranslation } from "react-i18next";
-import { ReactHTMLElement } from "react";
 
 const Homepage = () => {
   const {
@@ -28,7 +27,7 @@ const Homepage = () => {
   const navigate = useNavigate();
 
   const handleStart = () => {
-    navigate('/auth/signup/create-account');
+    navigate('/auth/signup/create-account?email=' + encodeURIComponent(email));
   }
   
   return (
