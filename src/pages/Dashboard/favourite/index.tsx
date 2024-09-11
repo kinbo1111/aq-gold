@@ -60,7 +60,7 @@ const Favourite = () => {
                 />
                 <MovieList
                     movieData={newVideos}
-                    label={t("New on AQvr")}
+                    label={t("New on AQvar")}
                 />
                 <MovieList
                     movieData={popularVideos}

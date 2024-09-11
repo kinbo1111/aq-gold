@@ -8,18 +8,19 @@ import Button from "../Button";
 import SidebarMenu from "../Sidebar";
 import SearchBox from "../SearchBox";
 import UserNav from "./UserNav";
-import { error } from "console";
+import { useTranslation } from "react-i18next";
 
 const Header: React.FC<{ onToggleModal: () => void }> = ({ onToggleModal }) => {
     
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const userContext = useContext(UserContext);
     if (!userContext) {
         throw new Error("UserContext must be used within an AuthProvider")
     }
     const { isAuthenticated } = userContext;
     return(
-       <div className="fixed w-full top-0 left-0 z-[888]">
+       <div className="absolute w-full top-0 left-0 z-[888]">
         <Container>
             <SupportNav/>
         </Container>
@@ -38,13 +39,13 @@ const Header: React.FC<{ onToggleModal: () => void }> = ({ onToggleModal }) => {
             ) : (
                 <Container>
                     <div className="flex items-center justify-between">
-                            <Logo />
-                            <Button
-                                label="Sign in"
-                                onClick={() => navigate('/auth/signin')}
-                                small
-                                full
-                            />
+                        <Logo />
+                        <Button
+                            label={t("Sign in")}
+                            onClick={() => navigate('/auth/signin')}
+                            small
+                            full
+                        />
                     </div>
                 </Container>
             )}

@@ -14,23 +14,23 @@ export const faqData = [
     },
     {
         question: 'Where can I watch?',
-        answer: `second`
+        answer: `third`
     },
     {
         question: 'How do I delete my AQ account?',
-        answer: `second`
+        answer: `forth`
     },
     {
         question: 'What can I watch on AQ GOLD?',
-        answer: `second`
+        answer: `fiveth`
     },
     {
-        question: 'What is AQvr?',
-        answer: `second`
+        question: 'What is AQvar?',
+        answer: `sixth`
     },
     {
         question: 'How do I upload my 360° video content?',
-        answer: `second`
+        answer: `seventh`
     },
 ]
 
