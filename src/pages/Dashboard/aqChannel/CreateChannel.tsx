@@ -1,14 +1,14 @@
-import React, { useRef, useState, useEffect, ChangeEvent } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import Input from "../../../components/inputs/Input";
 import { Button } from "antd";
 import { useTranslation } from 'react-i18next';
-import { API } from 'aws-amplify';
-import { createChannel } from '../../../graphql/mutations';
+import { DefaultAvatar } from '../../../const';
+import { useChannel } from "../../../contexts/ChannelContext";
+import { useUser } from "../../../contexts/UserContext";
 import { uploadChannelAvatar } from '../../../services/storageService';
 import { message } from "antd";
-import { DefaultAvatar } from '../../../const';
 
 const CreateChannel = () => {
   const navigate = useNavigate();
@@ -18,6 +18,7 @@ const CreateChannel = () => {
     formState: { errors },
   } = useForm();
 
+  const { channelData, hasChannel, createChannel } = useChannel();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string | undefined>('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -51,35 +52,40 @@ const CreateChannel = () => {
       }
   };
 
+
   const handleCreateChannel = async () => {
+    setIsLoading(true);
     try {
-      setIsLoading(true)
       if (!name || !selectedFile) {
         message.warning('Name and avatar are required.');
         return;
       }
 
-      const avatarUrl = await uploadChannelAvatar(selectedFile.name, selectedFile);
+      const avatarUrl = await uploadChannelAvatar(selectedFile?.name, selectedFile);
 
-      await API.graphql({
-        query: createChannel,
-        variables: {
-          input: {
-            name,
-            description,
-            avatarUrl,
-            subscribersCount: 0,
-          },
-        },
-        authMode: 'AMAZON_COGNITO_USER_POOLS',
-      });
+      const newChannel = {
+        name,
+        description,
+        avatarUrl,
+        subscribersCount: 0,
+      };
+      await createChannel(newChannel);
       message.success('Channel created successfully!');
-    } catch (error: any) {
-      message.warning('Error creating channel: ' + error.message);
-    } finally{
+      navigate('/aq-studio');
+    } finally {
       setIsLoading(false);
     }
   };
+  
+    if (hasChannel) {
+    return (
+      <div>
+        <h1>{channelData.name}</h1>
+        <p>{channelData.description}</p>
+      </div>
+    );
+  }
+
 
   return (
     <div className="relative w-full flex items-center justify-center py-24">

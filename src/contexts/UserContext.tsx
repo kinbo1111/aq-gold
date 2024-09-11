@@ -3,7 +3,7 @@ import { Auth } from 'aws-amplify';
 import { message } from 'antd';
 import { getChannelAvatarUrl, getProfileAvatarUrl } from '../services/storageService';
 import { getContinueWatchingVideos } from '../services/UserActivityService';
-import { VideoData } from '../types';
+import { VideoData, FavoriteChannel } from '../types';
 
 
 export type CustomUser = {

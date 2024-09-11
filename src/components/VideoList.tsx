@@ -11,7 +11,6 @@ const VideoList: React.FC<{ className?: string, videoData: VideoData[] }> = ({ c
     const loadVideos = async () => {
       try {
         const videoList = await fetchVideos();
-        console.log(videoList)
         setVideos(videoList);
       } catch (error) {
         console.error('Error fetching videos:', error);

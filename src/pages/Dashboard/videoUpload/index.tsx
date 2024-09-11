@@ -10,7 +10,6 @@ import { saveVideoMetadata } from '../../../services/VideoService';
 import { message } from 'antd';
 import { title } from 'process';
 
-
 export type VideoDetailData =  {
   title: string;
   description?: string;
@@ -19,6 +18,7 @@ export type VideoDetailData =  {
   isForKids: boolean;
   isRestricted: boolean;
   playlist: string;
+  channelId: string;
 }
 
 export type Thumbnail = {
@@ -33,7 +33,6 @@ export type ScheduleDataProps = {
   timezone: string;
 }
 
-
 const VideoUpload: React.FC = () => {
   const [isUploadModalOpen, setIsUploadModalOpen]  = useState(true);
   const [isUploadDetailOpen, setIsUploadDetailOpen] = useState(false);
@@ -46,23 +45,22 @@ const VideoUpload: React.FC = () => {
   const [timezone, setTimeZone] = useState<string>('Japan (GMT＋0700)');
   const [videoUrl, setVideoUrl] = useState<string>();
   const [videoThumbnail, setVideoThumbnail] = useState<string>();
-
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const handleOpenUploadModal = () => {
-      setIsUploadModalOpen(true);
-    };
-  
-    const handleCloseUploadModal = () => {
-      setIsUploadModalOpen(false);
-      setSelectedFile(null);
-    };
-  
-    const handleUpload = (file: File) => {
-      setSelectedFile(file);
-      setIsUploadModalOpen(false);
-      setIsUploadDetailOpen(true);
-    };
+  const handleOpenUploadModal = () => {
+    setIsUploadModalOpen(true);
+  };
+
+  const handleCloseUploadModal = () => {
+    setIsUploadModalOpen(false);
+    setSelectedFile(null);
+  };
+
+  const handleUpload = (file: File) => {
+    setSelectedFile(file);
+    setIsUploadModalOpen(false);
+    setIsUploadDetailOpen(true);
+  };
   
   const handleCloseUploadDetail = () => {
       setIsUploadDetailOpen(false);

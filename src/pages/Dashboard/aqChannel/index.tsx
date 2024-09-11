@@ -20,13 +20,12 @@ const ChannelHome: React.FC = () => {
         if (!user) return;
 
         try {
-            // Fetch user's channel
             const response = await API.graphql(graphqlOperation(getUserChannel, { userId: user.sub }));
             const channelData = response;
             if (channelData) {
-            setHasChannel(true);
+                setHasChannel(true);
             } else {
-            setHasChannel(false);
+                setHasChannel(false);
             }
         } catch (error) {
             console.error('Error fetching channel:', error);
@@ -35,7 +34,6 @@ const ChannelHome: React.FC = () => {
             setLoading(false);
         }
         };
-
         fetchUserChannel();
     }, [user]);
 
@@ -44,18 +42,18 @@ const ChannelHome: React.FC = () => {
     return (
         <div>
         {hasChannel ? (
-        <DashboardContainer>
-            <div className='mb-6'>
-                <Avatar
-                    src={user?.channelAvatar }
-                    name={user?.nickname ?? 'No Name'} 
-                    intro="58 videos"
-                    icon={IoMdAdd}
-                    buttonName={t('My Favorite')}
-                />
-            </div>
-            <ChannelTab/>
-        </DashboardContainer>
+            <DashboardContainer>
+                <div className='mb-6'>
+                    <Avatar
+                        src={user?.channelAvatar }
+                        name={user?.nickname ?? 'No Name'} 
+                        intro="58 videos"
+                        icon={IoMdAdd}
+                        buttonName={t('My Favorite')}
+                    />
+                </div>
+                <ChannelTab/>
+            </DashboardContainer>
         ) : (
             <CreateChannel />
         )}
