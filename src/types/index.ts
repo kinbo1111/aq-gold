@@ -56,3 +56,26 @@ export type VideoInputData =  {
   favoriteCount: number; 
   isPublic: boolean;
 }
+
+export type FavoriteChannel = {
+  id: string;
+  channelOwner: {
+    id: string;
+    name: string;
+    avatarUrl: string;
+  };
+  createdAt: string;
+}
+
+export type Channel = {
+  id: string;
+  name: string;
+  description: string;
+  owner: string;
+  avatarUrl: string;
+  subscribersCount: number;
+  createdAt: string;
+  updatedAt: string;
+  videos: VideoData[];
+  favoriteChannels: FavoriteChannel[];
+}

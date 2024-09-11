@@ -9,9 +9,9 @@ const ContinueWatching: React.FC = () => {
 
   useEffect(() => {
     const fetchUserActivity = async () => {
-      if (!user) return;
+      if (!user || user.sub === undefined) return;
       try {
-        const activity = await getUserProgress(user.id);
+        const activity = await getUserProgress(user.sub);
         setVideos(activity);
       } catch (error) {
         console.error('Error fetching user activity:', error);

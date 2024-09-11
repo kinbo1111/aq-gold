@@ -111,7 +111,7 @@ export default function ListTab() {
         <VideoList videoData={favoriteVideos} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <FavoriteChannelList channelList={channels} />
+        <FavoriteChannelList />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
         <AQStudioUploadModal />
