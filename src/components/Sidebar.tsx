@@ -100,8 +100,8 @@ const SidebarMenu = () => {
             <MenuItem className="submenu" component={<Link to="/category/entertainment" />}>
               {t("Variety Entertainment")}
             </MenuItem>
-            <MenuItem className="submenu" component={<Link to="/category/AQvr" />}>
-              {t("AQvr")}
+            <MenuItem className="submenu" component={<Link to="/category/AQvar" />}>
+              {t("AQvar")}
             </MenuItem>
             <MenuItem className="submenu" component={<Link to="/category/kids" />}>
               {t("Kids & Family")}

@@ -19,7 +19,7 @@ const DeleteChannel: React.FC<DeleteChannelProps> = ({ isOpen, onClose }) => {
     setCheck(!check)
   }
   const handleSave = () => {
-    message.success("All data on your AQvr channel including uploaded videos are completely deleted.")
+    message.success("All data on your AQvar channel including uploaded videos are completely deleted.")
     onClose()
   }
 
@@ -30,15 +30,15 @@ const DeleteChannel: React.FC<DeleteChannelProps> = ({ isOpen, onClose }) => {
           <SettingsModalHeader
             onClose={onClose}
             showCloseButton={true}
-            label={t("Confirm delete AQvr channel")}
+            label={t("Confirm delete AQvar channel")}
           />
           <div className="p-3">
             <p className="text-white body-1r">
-              <Checkbox sx={{ color: '#9fa0a1', borderRadius: '4px', '&.Mui-checked': { color: '#9fa0a1' } }} value={check} onChange={handleChange} /> {t("Are you sure you want to delete your AQvr channel?")}
+              <Checkbox sx={{ color: '#9fa0a1', borderRadius: '4px', '&.Mui-checked': { color: '#9fa0a1' } }} value={check} onChange={handleChange} /> {t("Are you sure you want to delete your AQvar channel?")}
               <br />
               <br />
               <div className="pl-3">
-              {t("All data on your AQvr channel including uploaded videos are completely deleted.")}
+              {t("All data on your AQvar channel including uploaded videos are completely deleted.")}
               </div>
             </p>
           </div>
