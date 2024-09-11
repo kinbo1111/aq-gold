@@ -5,6 +5,7 @@ import { getChannelAvatarUrl, getProfileAvatarUrl } from '../services/storageSer
 import { getContinueWatchingVideos } from '../services/UserActivityService';
 import { VideoData } from '../types';
 
+
 export type CustomUser = {
   username: string;
   email?: string;
@@ -56,9 +57,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       const profileUrl = await getProfileAvatarUrl(avatarKey);
       const channelKey = await `avatar/channel/${currentUser.attributes.sub}.png`;
       const channelUrl = await getChannelAvatarUrl(channelKey);
-      const continueWatchingVideos = await getContinueWatchingVideos(currentUser.attributes.sub);   
-      setContinueVideos(continueWatchingVideos.map((v) => v.video))
-      
+    
       const customUser: CustomUser =  await {
         username: currentUser.username,
         email: currentUser.attributes.email,
@@ -81,8 +80,20 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     }
   }, []);
 
+  const fetchContinue = async () => {
+    try {
+      if (user?.sub === undefined) return;
+      const continueVideos = await getContinueWatchingVideos(user?.sub);
+      setContinueVideos(continueVideos.map((v) => v.video))
+    } catch (error) {
+      console.error('failed');
+    }
+
+  }
+
   useEffect(() => {
     fetchUser();
+    fetchContinue()
   }, [fetchUser]);
 
   const login = async () => {
