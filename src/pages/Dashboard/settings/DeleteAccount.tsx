@@ -19,7 +19,7 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({ isOpen, onClose }) => {
   }
 
   const handleSave = () => {
-     message.success(t("All data on your AQ account including AQvr channel are completely deleted."))
+     message.success(t("All data on your AQ account including AQvar channel are completely deleted."))
     onClose()
   }
 
@@ -39,7 +39,7 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({ isOpen, onClose }) => {
               <br />
               <br />
               <div className="pl-3">
-                {t("All data on your AQ account including AQvr channel are completely deleted.")}
+                {t("All data on your AQ account including AQvar channel are completely deleted.")}
               </div>
             </p>
           </div>

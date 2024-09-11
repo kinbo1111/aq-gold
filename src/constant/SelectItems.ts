@@ -1,7 +1,7 @@
 export const categories = [
     { value: "animal", label: "Animal" },
     { value: "aq18", label: "AQ18" },
-    { value: "aqvr", label: "AQvr" },
+    { value: "AQvar", label: "AQvar" },
     { value: "documentaries", label: "Documentaries" },
     { value: "entertainment", label: "Entertainment" },
     { value: "game", label: "Game" },

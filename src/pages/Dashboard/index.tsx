@@ -67,11 +67,11 @@ const Dashboard = () => {
                     movieData={[]}
                 />
                  <MovieTopList
-                    label={t("Top 10 Contents in AQvr")}
+                    label={t("Top 10 Contents in AQvar")}
                     movieData={topVideos}
                 />
                  <MovieList
-                    label={t("New on AQvr")}
+                    label={t("New on AQvar")}
                     movieData={newVideos}
                 />
                  <MovieList

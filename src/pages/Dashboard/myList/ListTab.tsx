@@ -91,7 +91,7 @@ export default function ListTab() {
           {[
             t("Continue Watching"),
             t("My Contents List"),
-            t("My Favorite AQvr"),
+            t("My Favorite AQvar"),
             t("AQ Studio"),
           ].map((label, index) => (
             <Tab

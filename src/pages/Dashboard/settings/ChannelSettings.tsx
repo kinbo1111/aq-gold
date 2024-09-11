@@ -86,7 +86,7 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
 
     return (
         <div>
-            <h5 className="sub-1b text-white mb-4">{t("Your AQvr Channel")}</h5>
+            <h5 className="sub-1b text-white mb-4">{t("Your AQvar Channel")}</h5>
             <div className="pb-6 border-b border-[#585a5c]">
                 <h6 className="sub-2r text-white mb-2">{t("Picture")}</h6>
                 <p className="body-1r text-white mb-4">{t("Your channel picture will appear where your channel is presented on YouTube, like next to your videos")}</p>

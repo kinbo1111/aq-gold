@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router-dom";
 import Loading from "../components/Loading";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
-import ContinueWatching from '../components/ContinueWatching';
 
 // Lazy load all pages
 const UnauthorizedPage = React.lazy(() => import("../pages/UnAuthorizedPage"));
@@ -26,7 +25,7 @@ const ChannelHome = React.lazy(() => import("../pages/Dashboard/aqChannel"));
 const VideoUpload = React.lazy(() => import("../pages/Dashboard/videoUpload"));
 const AQ18 = React.lazy(() => import("../pages/Dashboard/category/AQ18"));
 const Natural = React.lazy(() => import("../pages/Dashboard/category/Natural"));
-const AQvr = React.lazy(() => import("../pages/Dashboard/category/AQvr"));
+const AQvar = React.lazy(() => import("../pages/Dashboard/category/AQvr"));
 const Documentaries = React.lazy(() => import("../pages/Dashboard/category/Documentaries"));
 const Entertainment = React.lazy(() => import("../pages/Dashboard/category/Entertainment"));
 const Game = React.lazy(() => import("../pages/Dashboard/category/Game"));
@@ -69,7 +68,7 @@ const AppRoutes: React.FC = () => {
           <Route path="documentaries"  element={<PrivateRoute element={<Documentaries />}  />} />
           <Route path="animal"  element={<PrivateRoute element={<Animal />}  />} />
           <Route path="entertainment"  element={<PrivateRoute element={<Entertainment />}  />} />
-          <Route path="AQvr"  element={<PrivateRoute element={<AQvr />}  />} />
+          <Route path="AQvar"  element={<PrivateRoute element={<AQvar />}  />} />
           <Route path="kids"  element={<PrivateRoute element={<Kids />}  />} />
           <Route path="aq18"  element={<PrivateRoute element={<AQ18 />}  />} />
         </Route>
