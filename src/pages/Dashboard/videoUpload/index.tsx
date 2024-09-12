@@ -8,8 +8,6 @@ import VideoUploadSchedule from './VideoUploadSchedule';
 import { uploadVideo, uploadThumbnail, getVideoUrl, getThumbnailUrl } from '../../../services/storageService';
 import { saveVideoMetadata } from '../../../services/VideoService';
 import { message } from 'antd';
-import { title } from 'process';
-
 
 export type VideoDetailData =  {
   title: string;
@@ -19,6 +17,7 @@ export type VideoDetailData =  {
   isForKids: boolean;
   isRestricted: boolean;
   playlist: string;
+  channelId: string;
 }
 
 export type Thumbnail = {
@@ -33,7 +32,6 @@ export type ScheduleDataProps = {
   timezone: string;
 }
 
-
 const VideoUpload: React.FC = () => {
   const [isUploadModalOpen, setIsUploadModalOpen]  = useState(true);
   const [isUploadDetailOpen, setIsUploadDetailOpen] = useState(false);
@@ -46,23 +44,22 @@ const VideoUpload: React.FC = () => {
   const [timezone, setTimeZone] = useState<string>('Japan (GMT＋0700)');
   const [videoUrl, setVideoUrl] = useState<string>();
   const [videoThumbnail, setVideoThumbnail] = useState<string>();
-
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const handleOpenUploadModal = () => {
-      setIsUploadModalOpen(true);
-    };
-  
-    const handleCloseUploadModal = () => {
-      setIsUploadModalOpen(false);
-      setSelectedFile(null);
-    };
-  
-    const handleUpload = (file: File) => {
-      setSelectedFile(file);
-      setIsUploadModalOpen(false);
-      setIsUploadDetailOpen(true);
-    };
+  const handleOpenUploadModal = () => {
+    setIsUploadModalOpen(true);
+  };
+
+  const handleCloseUploadModal = () => {
+    setIsUploadModalOpen(false);
+    setSelectedFile(null);
+  };
+
+  const handleUpload = (file: File) => {
+    setSelectedFile(file);
+    setIsUploadModalOpen(false);
+    setIsUploadDetailOpen(true);
+  };
   
   const handleCloseUploadDetail = () => {
       setIsUploadDetailOpen(false);
@@ -85,7 +82,6 @@ const VideoUpload: React.FC = () => {
    
   const handleOpenSchedule = async (scheduleData: ScheduleDataProps | null) => {
       setVideoSchedule(scheduleData)
-      
       
       if (selectedFile === null || videoDetail?.thumbnail === undefined ) {
           message.error('Please select both a video and a thumbnail file to upload.');
@@ -117,6 +113,7 @@ const VideoUpload: React.FC = () => {
           isForKids: videoDetail?.isForKids,
           isRestricted: videoDetail?.isRestricted,
           playlist: videoDetail?.playlist,
+          channelId: videoDetail?.channelId,
           scheduleTime: scheduleTimeISO,
           timezone: timezone,
           isPublic: scheduleData?.publishNow ??  false,
@@ -136,7 +133,6 @@ const VideoUpload: React.FC = () => {
       setIsLoading(false);
       }
     };
-  
    
     return (
         <DashboardContainer>
@@ -145,7 +141,6 @@ const VideoUpload: React.FC = () => {
                 onClose={handleCloseUploadModal}
                 onUpload={handleUpload}
               />
-
         <VideoUploadDetail
                 file={selectedFile}
                 isOpen={isUploadDetailOpen}

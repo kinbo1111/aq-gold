@@ -74,10 +74,6 @@ export default function ListTab() {
     }
   }, [user]);
 
-  useEffect(() => {
-    console.log(channels)
-  },[channels])
-
   return (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "#585a5c" }}>
@@ -111,7 +107,7 @@ export default function ListTab() {
         <VideoList videoData={favoriteVideos} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <FavoriteChannelList channelList={channels} />
+        <FavoriteChannelList />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
         <AQStudioUploadModal />

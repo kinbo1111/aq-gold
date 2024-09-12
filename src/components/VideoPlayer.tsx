@@ -46,7 +46,8 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoId, videoUrl }) => {
       setProgress(currentProgress);
 
       try {
-        await updateUserProgress(user.id, videoId, currentProgress);
+        if(user.sub === undefined) return;
+        await updateUserProgress(user.sub, videoId, currentProgress);
       } catch (error) {
         console.error('Error updating progress:', error);
       }

@@ -1,0 +1,105 @@
+import { FavoriteChannel, Channel } from '../types';
+import { API, graphqlOperation } from 'aws-amplify';
+import { listFavoriteChannels, getChannel, listChannels } from '../graphql/queries';
+import { createFavoriteChannel, deleteFavoriteChannel, getUserChannel, createChannel } from '../graphql/mutations';
+
+export const fetchFavoriteChannels = async (userId: string): Promise<FavoriteChannel[]> => {
+  try {
+
+    const response = await API.graphql({
+      query: listFavoriteChannels,
+      variables: { filter: { userId: { eq: userId } } },
+      authMode: "AMAZON_COGNITO_USER_POOLS"
+    }) as { data: { listFavoriteChannels: { items: FavoriteChannel[] } } };
+    return response.data.listFavoriteChannels.items;
+  } catch (error) {
+    console.error('Error fetching favorite channels:', error);
+    throw new Error('Failed to fetch favorite channels');
+  }
+};
+
+export const createNewChannel = async (channelData: any) => {
+  try {
+    const response = await API.graphql({
+      query: createChannel,
+      variables: { input: channelData },
+      authMode: 'AMAZON_COGNITO_USER_POOLS',
+    }) as { data: { createChannel: any } };
+
+    return response.data.createChannel;
+  } catch (error) {
+    console.error('Error creating channel:', error);
+    throw new Error('Failed to create channel');
+  }
+};
+
+export const fetchUserChannel = async (userId: string) => {
+  try {
+    const response = await API.graphql({
+      query: listChannels,
+      variables: { userId },
+      authMode: 'AMAZON_COGNITO_USER_POOLS',
+    }) as { data: { getUserChannel: any } };
+
+    return response.data.getUserChannel;  // Return the channel data if it exists
+  } catch (error) {
+    console.error('Error fetching user channel:', error);
+    throw new Error('Failed to fetch channel');
+  }
+};
+
+export const fetchChannelById = async (channelId: string): Promise<Channel | null> => {
+  try {
+    const response = await API.graphql(
+      graphqlOperation(getChannel, { id: channelId })
+    ) as { data: { getChannel: Channel } };
+    return response.data.getChannel || null;
+  } catch (error) {
+    console.error(`Error fetching channel with ID ${channelId}:`, error);
+    throw new Error('Failed to fetch channel');
+  }
+};
+
+export const addChannelToFavorites = async (userId: string, channelOwnerId: string): Promise<FavoriteChannel> => {
+  try {
+    const response = await API.graphql(
+      graphqlOperation(createFavoriteChannel, {
+        input: {
+          userId,
+          channelOwnerId,
+        },
+      })
+    ) as { data: { createFavoriteChannel: FavoriteChannel } };
+    return response.data.createFavoriteChannel;
+  } catch (error) {
+    console.error('Error adding channel to favorites:', error);
+    throw new Error('Failed to add channel to favorites');
+  }
+};
+
+export const removeChannelFromFavorites = async (favoriteChannelId: string): Promise<void> => {
+  try {
+    await API.graphql(
+      graphqlOperation(deleteFavoriteChannel, {
+        input: {
+          id: favoriteChannelId,
+        },
+      })
+    );
+  } catch (error) {
+    console.error('Error removing channel from favorites:', error);
+    throw new Error('Failed to remove channel from favorites');
+  }
+};
+
+export const fetchAllChannels = async (): Promise<Channel[]> => {
+  try {
+    const response = await API.graphql(
+      graphqlOperation(listChannels)
+    ) as { data: { listChannels: { items: Channel[] } } };
+    return response.data.listChannels.items;
+  } catch (error) {
+    console.error('Error fetching channels:', error);
+    throw new Error('Failed to fetch channels');
+  }
+};

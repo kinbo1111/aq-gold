@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
@@ -15,6 +15,7 @@ import SelectBox from "../../../components/inputs/Select";
 import { useTranslation } from 'react-i18next';
 import { VideoDetailData, Thumbnail } from ".";
 import { categories, playlist } from '../../../constant/SelectItems';
+import { useChannel } from "../../../contexts/ChannelContext";
 
 interface VideoUploadDetailProps {
   isOpen: boolean;
@@ -47,6 +48,13 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
   const [restrict, setRestrict] = useState<boolean>(true);
   const [isDescriptionVisible, setDescriptionVisible] = useState(false);
   const [isFormComplete, setIsFormComplete] = useState(false);
+
+  const { hasChannel, channelData, loadingChannel, checkUserChannel } = useChannel();
+
+  useEffect(() => {
+    console.log(hasChannel, channelData)
+    checkUserChannel();
+  }, []);
 
   const toggleDescription = () => {
     setDescriptionVisible(!isDescriptionVisible);
@@ -92,13 +100,25 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
 
     setIsFormComplete(
       isTitleFilled &&
-        isDescriptionFilled &&
-        isThumbnailUploaded &&
-        isOptionSelected
+      isDescriptionFilled &&
+      isThumbnailUploaded &&
+      isOptionSelected
     );
   };
+  console.log(channelData)
 
+  console.log({
+    title: title,
+    description: description,
+    category: selectedCategory,
+    thumbnail: thumbnailFile,
+    isForKids: forKid,
+    isRestricted: restrict,
+    playlist: selectedPlaylist,
+    channelId: channelData?.id
+  })
   const handleClick = () => {
+    if (!channelData || channelData.id == undefined) return;
     onSubmit({
       title: title,
       description: description,
@@ -107,10 +127,10 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
       isForKids: forKid,
       isRestricted: restrict,
       playlist: selectedPlaylist,
+      channelId: channelData.id
     }); 
   }
   
-
   if (!isOpen) return null;
 
   return (
@@ -421,7 +441,6 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
               full
               small
               type="submit"
-              // disabled={!isFormComplete}
             />
           </div>
         </form>
