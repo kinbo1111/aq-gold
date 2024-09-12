@@ -62,8 +62,6 @@ const CreateChannel = () => {
       }
 
       const avatarUrl = await uploadChannelAvatar(selectedFile?.name, selectedFile);
-      getVideoUrl(avatarUrl)
-
       const newChannel = {
         name,
         description,
