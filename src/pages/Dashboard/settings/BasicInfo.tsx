@@ -88,8 +88,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
                             onLoad={handleImageLoad}
                             onError={handleImageError}
                             alt="Current Avatar" 
-                            className="avatar relative w-[100px] h-[100px] rounded-full bg-[#6b6b6b] flex items-center justify-center bg-cover bg-center"
-                            style={{ maxWidth: '100px', maxHeight: '100px' }} 
+                            className="w-[100px] h-[100px] rounded-full bg-[#6b6b6b] items-center justify-center bg-cover bg-center"
                         />
                         <div>
                             <p className="text-white body-1r mb-3">{t("It’s recommended to use a picture that’s at least 98 x 98 pixels and 4MB or less. Use a PNG or GIF (no animations) file.")} </p>
