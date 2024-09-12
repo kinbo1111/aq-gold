@@ -16,6 +16,7 @@ import "./App.css";
 import "./assets/css/color.css";
 import "./assets/css/typography.css";
 import "./assets/css/sidebar.css";
+import { ChannelProvider } from "./contexts/ChannelContext";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
       <Provider store={store}>
         <UserProvider>
           <VideoProvider>
+            <ChannelProvider>
             <ProSidebarProvider>
               <I18nextProvider i18n={i18n}>
               <Router>
@@ -34,6 +36,7 @@ function App() {
                 </Router>
                 </I18nextProvider>
               </ProSidebarProvider>
+              </ChannelProvider>
             </VideoProvider>
           </UserProvider>
         </Provider>

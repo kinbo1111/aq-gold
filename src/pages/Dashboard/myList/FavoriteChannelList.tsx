@@ -1,24 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Avatar from '../../../components/Avatar';
 import { useUser } from '../../../contexts/UserContext';
+import { useChannel } from '../../../contexts/ChannelContext';
 
-export type channelProps = {
+const FavoriteChannelList = () => {
   
-}
+  const { favoriteChannels, loadingFavorites, fetchFavoriteChannels } = useChannel();
 
-export type FavoriteChannelListProps = {
-  channelList: channelProps[]
-}
-
-const FavoriteChannelList: React.FC<FavoriteChannelListProps> = ({channelList}) => {
-    const { user } = useUser();
+  useEffect(() => {
+        fetchFavoriteChannels();
+  }, []);
+  
+  if (loadingFavorites) return <div className='text-white'>Loading favorite channels...</div>;
+  
   return (
     <div className="user-list grid grid-cols-1 md:grid-cols-2 gap-12">
-        {channelList.map((item, index) => (
+        {favoriteChannels.map((item, index) => (
           <Avatar
             key={index}
-            src={user?.profileAvatar} 
-            name={''}
+            src={item.channelOwner.avatarUrl} 
+            name={item.channelOwner.name}
         />
         ))}
     </div>
