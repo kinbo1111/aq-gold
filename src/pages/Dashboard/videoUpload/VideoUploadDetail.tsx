@@ -52,8 +52,8 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
   const { hasChannel, channelData, loadingChannel, checkUserChannel } = useChannel();
 
   useEffect(() => {
-      console.log(hasChannel, channelData)
-      checkUserChannel();
+    console.log(hasChannel, channelData)
+    checkUserChannel();
   }, []);
 
   const toggleDescription = () => {
@@ -100,13 +100,25 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
 
     setIsFormComplete(
       isTitleFilled &&
-        isDescriptionFilled &&
-        isThumbnailUploaded &&
-        isOptionSelected
+      isDescriptionFilled &&
+      isThumbnailUploaded &&
+      isOptionSelected
     );
   };
+  console.log(channelData)
 
+  console.log({
+    title: title,
+    description: description,
+    category: selectedCategory,
+    thumbnail: thumbnailFile,
+    isForKids: forKid,
+    isRestricted: restrict,
+    playlist: selectedPlaylist,
+    channelId: channelData?.id
+  })
   const handleClick = () => {
+    if (!channelData || channelData.id == undefined) return;
     onSubmit({
       title: title,
       description: description,
@@ -119,7 +131,6 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
     }); 
   }
   
-
   if (!isOpen) return null;
 
   return (

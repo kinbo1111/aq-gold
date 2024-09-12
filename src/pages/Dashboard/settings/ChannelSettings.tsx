@@ -4,7 +4,6 @@ import { DefaultAvatar } from '../../../const';
 import Input from "../../../components/inputs/Input";
 import { useTranslation } from "react-i18next";
 import { useUser } from '../../../contexts/UserContext';
-import { useChannel } from '../../../contexts/ChannelContext';
 
 interface ChannelSettingsProps {
     channelAvatar?: string;
@@ -21,6 +20,7 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
     onChannelName,
     onAvatarRemove
 }) => {
+
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [imageUrl, setImageUrl] = useState<string | undefined>(channelAvatar);
     const [channelName, setChannelName] = useState<string>("");
@@ -32,9 +32,7 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
     const { register, formState: { errors } } = useForm();
     const { t } = useTranslation();
     const { user } = useUser();
-    const {  } = useChannel();
 
-    // Handlers
     const handleImageLoad = () => setIsLoaded(true);
     const handleImageError = () => setIsLoaded(false);
     
@@ -68,7 +66,6 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
         onChannelHandle(channelHandle);
         onChannelName(channelName);
     }, [channelHandle, channelName, onChannelHandle, onChannelName]);
-
 
     return (
         <div>

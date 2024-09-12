@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { DefaultAvatar } from '../../../const';
 import { useChannel } from "../../../contexts/ChannelContext";
 import { useUser } from "../../../contexts/UserContext";
-import { uploadChannelAvatar } from '../../../services/storageService';
+import { getVideoUrl, uploadChannelAvatar } from '../../../services/storageService';
 import { message } from "antd";
 
 const CreateChannel = () => {
@@ -62,11 +62,12 @@ const CreateChannel = () => {
       }
 
       const avatarUrl = await uploadChannelAvatar(selectedFile?.name, selectedFile);
+      getVideoUrl(avatarUrl)
 
       const newChannel = {
         name,
         description,
-        avatarUrl,
+        avatarUrl: getVideoUrl(avatarUrl),
         subscribersCount: 0,
       };
       await createChannel(newChannel);
