@@ -15,7 +15,7 @@ import { MdVerified } from "react-icons/md";
 import { Button } from 'antd';
 import { useUser } from "../../../contexts/UserContext";
 import { useChannel } from "../../../contexts/ChannelContext"
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export type SettingsModalProps = {
   isOpen: boolean;
@@ -25,9 +25,10 @@ export type SettingsModalProps = {
 const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
 
   const { t } = useTranslation();
-  const location  = useLocation();
+  const location = useLocation();
+  const navigate = useNavigate();
   const { user, isModalVisible, updateEmail, updatePassword, updateUserData, ModalUnvisible } = useUser();
-  const { channelData, updateChannel } = useChannel();
+  const { channelData, updateChannel, hasChannel } = useChannel();
 
   const [verificationCode, setVerificationCode] = useState<string>('')
   const [nickname, setNickname] = useState<string>('');
@@ -62,7 +63,6 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
   const handleAvatarRemove = () => setAvatarURL('');
   const handleChannelAvatarRemove = () => setChannelAvatarURL('');
 
-  console.log(channelData)
   
   const validateEmail = (email: string) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -80,11 +80,9 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
       try {
         setNickname(user?.nickname || '');
         const profielAvatarKey = `avatar/profile/${user?.sub}.png`;
-        const channelAvatarKey = `avatar/channel/${user?.sub}.png`;
         const profileUrl = await getProfileAvatarUrl(profielAvatarKey);
-        const channelUrl = await getChannelAvatarUrl(channelAvatarKey);
         setAvatarURL(profileUrl);
-        setChannelAvatarURL(channelUrl)
+        setChannelAvatarURL(channelData?.avatarUrl)
       } catch (err) {
         console.error('Error fetching user data:', err);
         setError('You are not authenticated. Please log in.');
@@ -99,7 +97,15 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
     } else {
       setIsDisable(true);
     }
-  },[nickname,avatarURL])
+  }, [nickname, avatarURL])
+  
+  useEffect(() => {
+    if (activeSection === 'channel') {
+      if (!hasChannel) {
+        navigate('/create-channel')
+      }
+    }
+  }, [activeSection])
 
   const handleAvatarChange = (file: File) => {
     if (file && file.type.startsWith('image/')) {
@@ -196,17 +202,17 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
         if (channelAvatar) {
             const avatarKey = `${user?.sub}.png`;
           const avatarUrl = await uploadChannelAvatar(avatarKey, channelAvatar);
-          console.log(channelData)
-            // await updateChannel({
-            //   id: channelData.id,
-            //   name: channelName,
-            //   description: channelHandle,
-            //   avatarUrl: avatarUrl,
-            // });
-            message.success('Your AQVar Channel Info updated successfully');
-          } else {
-            message.warning('Please select the avatr')
-          }
+          await updateChannel({
+                id: channelData?.id,
+                owner: user?.sub,
+                name: channelName,
+                description: channelHandle,
+                avatarUrl: avatarUrl,
+              });
+              message.success('Your AQVar Channel Info updated successfully');
+            } else {
+              message.warning('Please select the avatr')
+            }
         } catch (error) {
           message.error(`Error changing password: ${(error as Error).message}`);
         } finally {

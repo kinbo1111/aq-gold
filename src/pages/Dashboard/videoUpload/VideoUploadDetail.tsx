@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-
 import Button from "../../../components/Button";
 import SettingsModalHeader from "../settings/SettingsModalHeader";
 import { MdAddPhotoAlternate } from "react-icons/md";
@@ -105,18 +104,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
       isOptionSelected
     );
   };
-  console.log(channelData)
-
-  console.log({
-    title: title,
-    description: description,
-    category: selectedCategory,
-    thumbnail: thumbnailFile,
-    isForKids: forKid,
-    isRestricted: restrict,
-    playlist: selectedPlaylist,
-    channelId: channelData?.id
-  })
+  
   const handleClick = () => {
     if (!channelData || channelData.id == undefined) return;
     onSubmit({
