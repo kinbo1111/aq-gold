@@ -2,15 +2,16 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { useUser } from './UserContext';
 import * as ChannelService from '../services/ChannelService';
-import { FavoriteChannel } from '../types';
-import { fetchUserChannel, createNewChannel } from '../services/ChannelService';
+import { FavoriteChannel, channelInputProps, channleDataProps } from '../types';
+import { fetchUserChannel, createNewChannel, updateChannelDetails  } from '../services/ChannelService';
 
-interface ChannelContextProps {
+export type ChannelContextProps = {
   hasChannel: boolean;
   channelData: any;
   loadingChannel: boolean;
   favoriteChannels: FavoriteChannel[];
   loadingFavorites: boolean;
+  updateChannel: (channelData: any) => Promise<void>;
   createChannel: (channelData: any) => Promise<void>;
   checkUserChannel: () => Promise<void>;
   fetchFavoriteChannels: () => Promise<void>;
@@ -85,7 +86,7 @@ export const ChannelProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }
   };
 
-  const createChannel = async (channelData: any) => {
+  const createChannel = async (channelData: channelInputProps) => {
     try {
       const newChannel = await createNewChannel({
         ...channelData,
@@ -95,6 +96,16 @@ export const ChannelProvider: React.FC<{ children: React.ReactNode }> = ({ child
       setHasChannel(true);
     } catch (error) {
       console.error('Error creating channel:', error);
+    }
+  };
+
+  const updateChannel = async (channelData: channleDataProps) => {
+    try {
+      await updateChannelDetails(channelData);
+      setChannelData(channelData);
+    } catch (error) {
+      console.error('Error updating channel:', error);
+      throw new Error('Failed to update channel');
     }
   };
 
@@ -113,6 +124,7 @@ export const ChannelProvider: React.FC<{ children: React.ReactNode }> = ({ child
         loadingChannel,
         favoriteChannels,
         loadingFavorites,
+        updateChannel,
         createChannel,
         checkUserChannel,
         fetchFavoriteChannels,

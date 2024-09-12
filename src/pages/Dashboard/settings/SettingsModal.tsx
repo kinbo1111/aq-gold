@@ -14,6 +14,7 @@ import { message } from "antd";
 import { MdVerified } from "react-icons/md";
 import { Button } from 'antd';
 import { useUser } from "../../../contexts/UserContext";
+import { useChannel } from "../../../contexts/ChannelContext"
 import { useLocation } from "react-router-dom";
 
 export type SettingsModalProps = {
@@ -25,7 +26,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
 
   const { t } = useTranslation();
   const location  = useLocation();
-  const { user, isModalVisible, updateEmail, updatePassword, updateUserData, ModalUnvisible, updateChannelHandle, updateChannelName } = useUser();
+  const { user, isModalVisible, updateEmail, updatePassword, updateUserData, ModalUnvisible } = useUser();
+  const { channelData, updateChannel } = useChannel();
 
   const [verificationCode, setVerificationCode] = useState<string>('')
   const [nickname, setNickname] = useState<string>('');
@@ -59,20 +61,21 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
   const handleConfirmEmailChange = (confirmEmail: string) => setConfirmEmail(confirmEmail);
   const handleAvatarRemove = () => setAvatarURL('');
   const handleChannelAvatarRemove = () => setChannelAvatarURL('');
-  
 
+  console.log(channelData)
+  
   const validateEmail = (email: string) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(String(email).toLowerCase());
   };
 
   useEffect(() => {
-
-      const params = new URLSearchParams(location.search);
-    const tabFromQuery = params.get("tab");
+    const params = new URLSearchParams(location.search);
+    const tabFromQuery = params.get("tab");    
     if (tabFromQuery) {
       setActiveChannel(tabFromQuery);
     }
+
     const fetchUserData = async () => {
       try {
         setNickname(user?.nickname || '');
@@ -80,7 +83,6 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
         const channelAvatarKey = `avatar/channel/${user?.sub}.png`;
         const profileUrl = await getProfileAvatarUrl(profielAvatarKey);
         const channelUrl = await getChannelAvatarUrl(channelAvatarKey);
-        console.log(channelUrl, profileUrl)
         setAvatarURL(profileUrl);
         setChannelAvatarURL(channelUrl)
       } catch (err) {
@@ -183,11 +185,28 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
         }
     } else {
       try {
+        if (channelName === '') {
+          message.warning("Please input your channel name!");
+          return;
+        }
+        if (channelHandle === '') {
+          message.warning("Please input your channel handle!");
+          return;
+        } 
         if (channelAvatar) {
             const avatarKey = `${user?.sub}.png`;
-            await uploadChannelAvatar(avatarKey, channelAvatar);
+          const avatarUrl = await uploadChannelAvatar(avatarKey, channelAvatar);
+          console.log(channelData)
+            // await updateChannel({
+            //   id: channelData.id,
+            //   name: channelName,
+            //   description: channelHandle,
+            //   avatarUrl: avatarUrl,
+            // });
             message.success('Your AQVar Channel Info updated successfully');
-        }
+          } else {
+            message.warning('Please select the avatr')
+          }
         } catch (error) {
           message.error(`Error changing password: ${(error as Error).message}`);
         } finally {
@@ -253,21 +272,22 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
         onOk={handleVerifyEmail}
         footer={
           <div className="flex flex-row gap-5 justify-end mt-4">
-          <Button
-          className='btnClose w-[140px] bg-[#181A1B] border-[#DDB951] border-solid text-[#DDB951] button-1b h-10 relative disabled:cursor-not-allowed disabled:text-[#DDB951] rounded hover:bg-blue-500 transition px-4 py-2 flex items-center justify-center'
-          onClick={ModalUnvisible}
-      >Cancel
-      </Button>
-      <Button
-        className='btnOk w-[140px] brand-gradient text-white border-none button-2b h-10 relative disabled:cursor-not-allowed disabled:bg-[#ceac02] disabled:text-gray-00 rounded  transition px-4 py-2 flex items-center justify-center'
-        icon={<MdVerified />}
-        onClick={handleVerifyEmail}>
-        Verify Email
+            <Button
+              className='btnClose w-[140px] bg-[#181A1B] border-[#DDB951] border-solid text-[#DDB951] button-1b h-10 relative disabled:cursor-not-allowed disabled:text-[#DDB951] rounded hover:bg-blue-500 transition px-4 py-2 flex items-center justify-center'
+              onClick={ModalUnvisible}
+            >            
+              Cancel
             </Button>
-            </div>
-        }
-          onCancel={() => ModalUnvisible()}
-        >
+            <Button
+              className='btnOk w-[140px] brand-gradient text-white border-none button-2b h-10 relative disabled:cursor-not-allowed disabled:bg-[#ceac02] disabled:text-gray-00 rounded  transition px-4 py-2 flex items-center justify-center'
+              icon={<MdVerified />}
+              onClick={handleVerifyEmail}>
+              Verify Email
+            </Button>  
+          </div>
+        }  
+        onCancel={() => ModalUnvisible()}
+      >
         <Input
           placeholder="Verification code"
           value={verificationCode}

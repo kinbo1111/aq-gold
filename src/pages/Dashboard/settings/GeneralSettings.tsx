@@ -4,15 +4,14 @@ import SelectBox from "../../../components/inputs/Select";
 import BasicInfo from "./BasicInfo";
 import ChangeEmail from "./ChangeEmail";
 import ChangePassword from "./ChangePassword";
-import { UserContext, CustomUser } from "../../../contexts/UserContext";
+import { UserContext } from "../../../contexts/UserContext";
 import { useTranslation } from 'react-i18next';
-
 
 export type GeneralSettingsProps = {
   activeSection: string;
   nickname: string;
-  onSectionChange: (section: string) => void;
   currentAvatarUrl: string | undefined;
+  onSectionChange: (section: string) => void;
   onAvatarChange: (file: File) => void;
   onAvatarRemove: () => void;
   onChangNickname: (nickname: string) => void;
@@ -39,7 +38,6 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({
   onEmailChange,
   onConfirmEmailChange,
 }) => {
-
 
   const userContext = useContext(UserContext);
    if (!userContext) {

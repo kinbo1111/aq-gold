@@ -53,6 +53,7 @@ export type VideoInputData =  {
   timezone: string;
   duration: number, 
   viewCount: number, 
+  channelId: string,
   favoriteCount: number; 
   isPublic: boolean;
 }
@@ -78,4 +79,17 @@ export type Channel = {
   updatedAt: string;
   videos: VideoData[];
   favoriteChannels: FavoriteChannel[];
+}
+
+export type channleDataProps = {
+  name: string;
+  description: string;
+  avatarUrl: string;
+  owner: string | undefined;
+}
+
+export type channelInputProps = {
+  name: string;
+  description: string;
+  avatarUrl: string;
 }
