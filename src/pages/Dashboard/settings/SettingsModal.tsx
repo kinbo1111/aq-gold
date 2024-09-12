@@ -8,7 +8,7 @@ import AdvancedSettings from "./AdvancedSettings";
 import { Modal, Input } from 'antd';
 import { useTranslation } from "react-i18next";
 import { Auth } from 'aws-amplify';
-import { uploadProfileAvatar, getProfileAvatarUrl, uploadChannelAvatar, getChannelAvatarUrl } from '../../../services/storageService';
+import { uploadProfileAvatar, getProfileAvatarUrl, uploadChannelAvatar, getChannelAvatarUrl, getVideoUrl } from '../../../services/storageService';
 import { updateProfile } from '../../../services/profileService';
 import { message } from "antd";
 import { MdVerified } from "react-icons/md";
@@ -201,18 +201,20 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
         } 
         if (channelAvatar) {
             const avatarKey = `${user?.sub}.png`;
-          const avatarUrl = await uploadChannelAvatar(avatarKey, channelAvatar);
+            const url = await uploadChannelAvatar(avatarKey, channelAvatar);
+            const avatarUrl = await getVideoUrl(url)
+
           await updateChannel({
-                id: channelData?.id,
-                owner: user?.sub,
-                name: channelName,
-                description: channelHandle,
-                avatarUrl: avatarUrl,
-              });
-              message.success('Your AQVar Channel Info updated successfully');
-            } else {
-              message.warning('Please select the avatr')
-            }
+                  id: channelData?.id,
+                  owner: user?.sub,
+                  name: channelName,
+                  description: channelHandle,
+                  avatarUrl,
+                });
+                message.success('Your AQVar Channel Info updated successfully');
+              } else {
+                message.warning('Please select the avatr')
+              }
         } catch (error) {
           message.error(`Error changing password: ${(error as Error).message}`);
         } finally {
@@ -254,7 +256,6 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
             )}
             {activeChannel === "channel" && (
               <ChannelSettings
-                channelAvatar={channleAvatarURL}
                 onAvatarChange={handleChannelAvatarChange}
                 onAvatarRemove={handleChannelAvatarRemove}
                 onChannelHandle={handleChangeChannelHandle}

@@ -21,16 +21,16 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
     onChannelName,
     onAvatarRemove
 }) => {
+    
+    const { t } = useTranslation();
     const { channelData } = useChannel();
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
-    const [imageUrl, setImageUrl] = useState<string | undefined>(channelAvatar);
+    const [imageUrl, setImageUrl] = useState<string | undefined>('');
     const [channelName, setChannelName] = useState<string>('');
     const [channelHandle, setChannelHandle] = useState<string>('');
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const { register, formState: { errors } } = useForm();
-    const { t } = useTranslation();
-
     const handleImageLoad = () => setIsLoaded(true);
     const handleImageError = () => setIsLoaded(false);
     
@@ -65,27 +65,25 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
             setChannelName(channelData?.name)
             setChannelHandle(channelData?.description)  
             setImageUrl(channelData?.avatarUrl)
+            console.log(channelData?.avatarUrl)
         }
     },[channelData])
 
     return (
         <div>
             <h5 className="sub-1b text-white mb-4">{t("Your AQvar Channel")}</h5>
-
             <div className="pb-6 border-b border-[#585a5c]">
                 <h6 className="sub-2r text-white mb-2">{t("Picture")}</h6>
                 <p className="body-1r text-white mb-4">
                     {t("Your channel picture will appear where your channel is presented on YouTube, like next to your videos")}
                 </p>
-
                 <div className="flex items-center gap-6">
-                   
                     <img 
-                            src={selectedFile? URL.createObjectURL(selectedFile) : imageUrl} 
-                            onLoad={handleImageLoad}
-                            onError={handleImageError}
-                            alt="Current Avatar" 
-                            className="avatar relative w-[100px] h-[100px] rounded-full bg-[#6b6b6b] flex items-center justify-center bg-cover bg-center"
+                        src={selectedFile? URL.createObjectURL(selectedFile) : imageUrl} 
+                        onLoad={handleImageLoad}
+                        onError={handleImageError}
+                        alt="Current Avatar" 
+                        className="avatar relative w-[100px] h-[100px] rounded-full bg-[#6b6b6b] flex items-center justify-center bg-cover bg-center"
                         />
                     <div>
                         <p className="text-white body-1r mb-3">{t("eleven")}</p>
@@ -107,7 +105,6 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
                     style={{ display: 'none' }}
                 />
             </div>
-
             <div className="py-3 flex flex-col gap-3">
                 <h6 className="sub-2r text-white">{t("Your account")}</h6>
                 <Input
