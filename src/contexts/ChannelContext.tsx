@@ -11,7 +11,7 @@ export type ChannelContextProps = {
   loadingChannel: boolean;
   favoriteChannels: FavoriteChannel[];
   loadingFavorites: boolean;
-  updateChannel: (channelData: any) => Promise<void>;
+  updateChannel: (channelData: channleDataProps) => Promise<void>;
   createChannel: (channelData: any) => Promise<void>;
   checkUserChannel: () => Promise<void>;
   fetchFavoriteChannels: () => Promise<void>;

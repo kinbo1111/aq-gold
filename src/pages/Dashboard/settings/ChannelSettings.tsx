@@ -4,6 +4,7 @@ import { DefaultAvatar } from '../../../const';
 import Input from "../../../components/inputs/Input";
 import { useTranslation } from "react-i18next";
 import { useUser } from '../../../contexts/UserContext';
+import { useChannel } from "../../../contexts/ChannelContext";
 
 interface ChannelSettingsProps {
     channelAvatar?: string;
@@ -20,18 +21,15 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
     onChannelName,
     onAvatarRemove
 }) => {
-
+    const { channelData } = useChannel();
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [imageUrl, setImageUrl] = useState<string | undefined>(channelAvatar);
-    const [channelName, setChannelName] = useState<string>("");
-    const [channelHandle, setChannelHandle] = useState<string>("");
+    const [channelName, setChannelName] = useState<string>('');
+    const [channelHandle, setChannelHandle] = useState<string>('');
     const [isLoaded, setIsLoaded] = useState<boolean>(false);
-
     const fileInputRef = useRef<HTMLInputElement>(null);
-
     const { register, formState: { errors } } = useForm();
     const { t } = useTranslation();
-    const { user } = useUser();
 
     const handleImageLoad = () => setIsLoaded(true);
     const handleImageError = () => setIsLoaded(false);
@@ -52,20 +50,23 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
     const triggerFileInput = () => fileInputRef.current?.click();
 
     useEffect(() => {
-        setChannelHandle(user?.channelHandle ?? '');
-        setChannelName(user?.channelName ?? '');
-    }, [user]);
-
-    useEffect(() => {
         if (!isLoaded && selectedFile) {
-            setImageUrl(DefaultAvatar);
+            setImageUrl(DefaultAvatar)
         }
-    }, [isLoaded, selectedFile]);
+    }, [isLoaded])
 
     useEffect(() => {
         onChannelHandle(channelHandle);
         onChannelName(channelName);
     }, [channelHandle, channelName, onChannelHandle, onChannelName]);
+
+    useEffect(() => {
+        if (channelData !== null) {
+            setChannelName(channelData?.name)
+            setChannelHandle(channelData?.description)  
+            setImageUrl(channelData?.avatarUrl)
+        }
+    },[channelData])
 
     return (
         <div>
@@ -78,13 +79,14 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
                 </p>
 
                 <div className="flex items-center gap-6">
+                   
                     <img 
-                        src={selectedFile ? URL.createObjectURL(selectedFile) : imageUrl} 
-                        onLoad={handleImageLoad}
-                        onError={handleImageError}
-                        alt="Current Avatar" 
-                        className="rounded-full w-[100px] h-[100px]"
-                    />
+                            src={selectedFile? URL.createObjectURL(selectedFile) : imageUrl} 
+                            onLoad={handleImageLoad}
+                            onError={handleImageError}
+                            alt="Current Avatar" 
+                            className="avatar relative w-[100px] h-[100px] rounded-full bg-[#6b6b6b] flex items-center justify-center bg-cover bg-center"
+                        />
                     <div>
                         <p className="text-white body-1r mb-3">{t("eleven")}</p>
                         <div>

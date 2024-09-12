@@ -1,7 +1,7 @@
-import { FavoriteChannel, Channel } from '../types';
+import { FavoriteChannel, Channel, channelInputProps } from '../types';
 import { API, graphqlOperation } from 'aws-amplify';
 import { listFavoriteChannels, getChannel, listChannels } from '../graphql/queries';
-import { createFavoriteChannel, deleteFavoriteChannel, getUserChannel, createChannel } from '../graphql/mutations';
+import { createFavoriteChannel, deleteFavoriteChannel, createChannel, updateChannel } from '../graphql/mutations';
 
 export const fetchFavoriteChannels = async (userId: string): Promise<FavoriteChannel[]> => {
   try {
@@ -39,9 +39,8 @@ export const fetchUserChannel = async (userId: string) => {
       query: listChannels,
       variables: { userId },
       authMode: 'AMAZON_COGNITO_USER_POOLS',
-    }) as { data: { getUserChannel: any } };
-
-    return response.data.getUserChannel;  // Return the channel data if it exists
+    }) as { data: { listChannels: any } };
+    return response.data.listChannels.items[0];  // Return the channel data if it exists
   } catch (error) {
     console.error('Error fetching user channel:', error);
     throw new Error('Failed to fetch channel');
@@ -101,5 +100,19 @@ export const fetchAllChannels = async (): Promise<Channel[]> => {
   } catch (error) {
     console.error('Error fetching channels:', error);
     throw new Error('Failed to fetch channels');
+  }
+};
+
+export const updateChannelDetails = async (channelData: channelInputProps) => {
+  try {
+    const response = await API.graphql({
+      query: updateChannel,
+      variables: { input: channelData },
+      authMode: 'AMAZON_COGNITO_USER_POOLS',
+    }) as { data: { updateChannel: channelInputProps } };
+    return response.data.updateChannel;
+  } catch (error) {
+    console.error('Error updating channel:', error);
+    throw new Error('Failed to update channel');
   }
 };
