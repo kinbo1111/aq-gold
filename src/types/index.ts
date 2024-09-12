@@ -82,6 +82,7 @@ export type Channel = {
 }
 
 export type channleDataProps = {
+  id: string;
   name: string;
   description: string;
   avatarUrl: string;
