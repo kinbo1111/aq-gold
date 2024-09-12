@@ -13,22 +13,16 @@ const AQStudioHome = () => {
     const { hasChannel, channelData, loadingChannel, checkUserChannel } = useChannel();
 
     useEffect(() => {
-         console.log(hasChannel, channelData)
         checkUserChannel();
     }, []);
-  
-    // if (loadingChannel) return <div>Loading...</div>;
-  
-    // if (!hasChannel) {
-    //     return <div>No channel found. Create your channel now!</div>;
-    // }
+
    
     return hasChannel ?
         <DashboardContainer>
             <div className='mb-6'>
                 <Avatar
-                    src={user?.channelAvatar}
-                    name={user?.nickname ?? 'No Name'}
+                    src={channelData?.avatarUrl}
+                    name={channelData.name ?? 'No Name'}
                     intro={t("handle") + "(＠〜〜〜)"}
                     buttonName={t('Customize channel')}
                 />

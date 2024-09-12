@@ -74,10 +74,8 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
 
     const {
         register,
-        handleSubmit,
         formState: { errors },
     } = useForm();
-
 
     return (
         <div>
