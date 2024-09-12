@@ -23,12 +23,9 @@ const Header: React.FC<{ onToggleModal: () => void }> = ({ onToggleModal }) => {
         {isAuthenticated ? (
                 <>
                     <SidebarMenu/>
-                    <div className="fixed top-10 right-0 w-full">
+                    <div className="fixed top-0 py-2 bg-[#131515] right-0 w-full">
                         <Container>
-                            <div className="flex items-center justify-end gap-6">
-                                <SearchBox/>
                                 <UserNav/>
-                            </div>
                         </Container>
                     </div>
                 </>
