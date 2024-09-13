@@ -36,9 +36,9 @@ const UserNav = () => {
                     className="w-[70px] h-12 cursor-pointer bg-transparent flex items-center justify-center border-l border-[#585a5c]"
                     onClick={() => navigate("/my-list")}
                 >
-                    <MdOutlineAccountCircle size={28} className="text-white" /></div>
+                    <MdOutlineAccountCircle size={28} className="text-white" />
+                </div>
             </div>
-            
         </div>
     );
 };

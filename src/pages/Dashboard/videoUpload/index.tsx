@@ -80,31 +80,33 @@ const VideoUpload: React.FC = () => {
       setIsUploadScheduleOpen(false);
     }
    
-  const handleOpenSchedule = async (scheduleData: ScheduleDataProps | null) => {
-      setVideoSchedule(scheduleData)
-      
-      if (selectedFile === null || videoDetail?.thumbnail === undefined ) {
-          message.error('Please select both a video and a thumbnail file to upload.');
-          return;
-      }
+  const handleOpenSchedule = async (scheduleData: ScheduleDataProps | null) => {  
     try {
+      setVideoSchedule(scheduleData)
+      if (selectedFile === null || videoDetail?.thumbnail === undefined) {
+        message.error('Please select both a video and a thumbnail file to upload.');
+        return;
+      }
       setIsLoading(true);
       const scheduleTimeISO = scheduleData?.scheduleDate 
       ? new Date(scheduleData.scheduleDate + ' ' + scheduleData?.scheduleTime).toISOString() 
       : new Date().toISOString();
+      
       const videoKey = await uploadVideo(selectedFile);
       const videoUrl = await getVideoUrl(videoKey);
       const thumbnailKey = await uploadThumbnail(videoDetail?.thumbnail);
       const thumbnailUrl = await getThumbnailUrl(thumbnailKey);
       const videoElement = document.createElement('video');
+      
       setTimeZone(scheduleData?.timezone ?? 'Japan (GMT＋0700)')
       videoElement.src = URL.createObjectURL(selectedFile); 
+      
       videoElement.onloadedmetadata = async () => {
         const duration = Math.floor(videoElement.duration);
         setVideoScheduleTime(scheduleTimeISO);
         setVideoUrl(videoUrl);        
         setVideoThumbnail(thumbnailUrl);
-      await saveVideoMetadata({
+        await saveVideoMetadata({
           title: videoDetail?.title,
           description: videoDetail?.description,
           category: videoDetail?.category,
@@ -120,14 +122,13 @@ const VideoUpload: React.FC = () => {
           duration,
           viewCount: 0,
           favoriteCount: 0,
-      });
+        });
+
         message.success('Video and thumbnail uploaded successfully!');
         setIsUploadScheduleOpen(true);
-
       }
     } catch (error: any) {
       message.warning(error.message || 'An unexpected error occurred.');
-      console.error('Error:', error);
     } finally {
       setIsUploadVisibilityOpen(false);
       setIsLoading(false);
@@ -135,33 +136,33 @@ const VideoUpload: React.FC = () => {
     };
    
     return (
-        <DashboardContainer>
-             <VideoUploadModal
-                isOpen={isUploadModalOpen}
-                onClose={handleCloseUploadModal}
-                onUpload={handleUpload}
-              />
+        <DashboardContainer>  
+        <VideoUploadModal
+          isOpen={isUploadModalOpen}      
+          onClose={handleCloseUploadModal}    
+          onUpload={handleUpload}
+        />
         <VideoUploadDetail
-                file={selectedFile}
-                isOpen={isUploadDetailOpen}
-                onClose={handleCloseUploadDetail}
-                onNext={handleNextUploadDetail} 
-              />
+          file={selectedFile}
+          isOpen={isUploadDetailOpen}
+          onClose={handleCloseUploadDetail}
+          onNext={handleNextUploadDetail} 
+        />
         <VideoUploadVisibility
-            videoTitle={videoDetail?.title ?? ''}
-                isOpen={isUploadVisibilityOpen}
-                onClose={handleCloseUploadVisibility}
-                onSchedule={handleOpenSchedule}
-                isLoading = {isLoading}
-             />
+          videoTitle={videoDetail?.title ?? ''}
+          isOpen={isUploadVisibilityOpen}
+          onClose={handleCloseUploadVisibility}
+          onSchedule={handleOpenSchedule}
+          isLoading = {isLoading}
+        />
         <VideoUploadSchedule
-              isOpen={isUploadScheduleOpen}
-              onClose={handleCloseUploadSchedule}
-              videoScheduleTime={videoScheduleTime ?? ''}
-              videoUrl={videoUrl ?? ''}
-                videoTitle={videoDetail?.title ?? ''}
-                thumbnailUrl={videoThumbnail ?? ''}
-            />
+          isOpen={isUploadScheduleOpen}
+          onClose={handleCloseUploadSchedule}
+          videoScheduleTime={videoScheduleTime ?? ''}
+          videoUrl={videoUrl ?? ''}
+          videoTitle={videoDetail?.title ?? ''}
+          thumbnailUrl={videoThumbnail ?? ''}  
+        />
         </DashboardContainer>
     );
 };

@@ -15,12 +15,13 @@ const Header: React.FC<{ onToggleModal: () => void }> = ({ onToggleModal }) => {
     const navigate = useNavigate();
     const { t } = useTranslation();
     const { isAuthenticated } = useUser();
+ 
     return(
        <div className="absolute w-full top-0 left-0 z-[888]">
         <Container>
             <SupportNav/>
         </Container>
-        {isAuthenticated ? (
+             {isAuthenticated ? (
                 <>
                     <SidebarMenu/>
                     <div className="fixed top-0 py-2 bg-[#131515] right-0 w-full">

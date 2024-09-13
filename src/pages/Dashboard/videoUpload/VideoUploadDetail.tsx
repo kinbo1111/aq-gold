@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
 import Button from "../../../components/Button";
 import SettingsModalHeader from "../settings/SettingsModalHeader";
+import Input from "../../../components/inputs/Input";
+import Textarea from "../../../components/inputs/Textarea";
+import SelectBox from "../../../components/inputs/Select";
+import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { MdAddPhotoAlternate } from "react-icons/md";
 import { RiCheckboxBlankCircleFill } from "react-icons/ri";
 import { CiCircleInfo } from "react-icons/ci";
 import { IoMdArrowDropdown } from "react-icons/io";
-import Input from "../../../components/inputs/Input";
-import Textarea from "../../../components/inputs/Textarea";
-import DetailImg from "../../../assets/images/default_image.png";
-import SelectBox from "../../../components/inputs/Select";
 import { useTranslation } from 'react-i18next';
 import { VideoDetailData, Thumbnail } from ".";
 import { categories, playlist } from '../../../constant/SelectItems';
 import { useChannel } from "../../../contexts/ChannelContext";
+import { message } from "antd";
+import DetailImg from "../../../assets/images/default_image.png";
 
 interface VideoUploadDetailProps {
   isOpen: boolean;
@@ -31,7 +32,6 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
 }) => {
   const {
     register,
-    handleSubmit,
     formState: { errors },
   } = useForm();
   
@@ -51,7 +51,6 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
   const { hasChannel, channelData, loadingChannel, checkUserChannel } = useChannel();
 
   useEffect(() => {
-    console.log(hasChannel, channelData)
     checkUserChannel();
   }, []);
 
@@ -63,9 +62,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
     onNext(data);
   };
 
-  const handleThumbnailUpload = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleThumbnailUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files && files.length > 0) {
       setThumbnailFile(files[0])
@@ -77,9 +74,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
     }
   };
 
-  const handleVThumbnailUpload = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleVThumbnailUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files && files.length > 0) {
       const newVThumbnails = Array.from(files).map((file) => ({
@@ -90,22 +85,27 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
     }
   };
 
-  const checkFormCompletion = () => {
+  const checkFormCompletion = async () => {
     const isTitleFilled = !!register("videoTitle");
     const isDescriptionFilled = !!register("videoDescription");
     const isThumbnailUploaded = thumbnails.length > 0;
     const isVThumbnailUploaded = vthumbnails.length > 0;
     const isOptionSelected = selectedPlaylist !== "";
-
     setIsFormComplete(
       isTitleFilled &&
       isDescriptionFilled &&
       isThumbnailUploaded &&
-      isOptionSelected
+      isOptionSelected &&
+      isVThumbnailUploaded
     );
   };
   
-  const handleClick = () => {
+  const handleClick = async () => {
+    await checkFormCompletion();
+    if (!isFormComplete) {
+      message.warning("Please input files and options!");
+      return;
+    }
     if (!channelData || channelData.id == undefined) return;
     onSubmit({
       title: title,
