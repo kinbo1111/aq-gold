@@ -10,10 +10,12 @@ import MovieList from "../MovieList";
 import { useTranslation } from "react-i18next";
 import { useVideo } from "../../../contexts/VideoContext";
 import { useUser } from "../../../contexts/UserContext";
+import { useSidebar } from "../../../contexts/SidebarContext";
 
 const Romance = () => {
     const { t } = useTranslation();
     const { filterVideosByCategory } = useVideo();
+    const { collapsed } = useSidebar();
     const { filteredNewVideos, filteredPopularVideos, filteredRecommendVideos, filteredMyList } = filterVideosByCategory('romance');
     const { continueVideos } = useUser();
 
@@ -25,7 +27,7 @@ const Romance = () => {
         <MainContainer>
             <div className="relative main-video w-full">
                 <img src={MainBanner} alt="" className="w-full h-auto" />
-                <div className="absolute bottom-14 left-16 z-50" >
+                <div className={`absolute left-16 z-50 ${collapsed ? 'bottom-80' : 'bottom-14'}`} >
                     <h1 className="h4 text-white mb-4">One Piece</h1>
                     <p className="sub-2r text-white mb-4">
                         {t("ten")}

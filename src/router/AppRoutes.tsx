@@ -16,7 +16,7 @@ const AuthenticateCode = React.lazy(() => import("../pages/auth/signup/Authentic
 const ForgotPassword = React.lazy(() => import("../pages/auth/forgot-password"));
 const Dashboard = React.lazy(() => import("../pages/Dashboard"));
 const MyList = React.lazy(() => import("../pages/Dashboard/myList"));
-const Favourite = React.lazy(() => import("../pages/Dashboard/favourite"));
+const Favorite = React.lazy(() => import("../pages/Dashboard/favorite"));
 const AQStudioHome = React.lazy(() => import("../pages/Dashboard/aqStudio"));
 const Settings = React.lazy(() => import("../pages/Dashboard/settings"));
 const Search = React.lazy(() => import("../pages/Dashboard/search"));
@@ -47,7 +47,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
         <Route path="/search/:keyword" element={<PrivateRoute element={<Search />}  />} />
         <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
-        <Route path="/favourite" element={<PrivateRoute element={<Favourite />} />} />
+        <Route path="/favorite" element={<PrivateRoute element={<Favorite />} />} />
         <Route path="/create-channel" element={<PrivateRoute element={<CreateChannel />} />} />
         <Route path="/aq-channel" element={<PrivateRoute element={<ChannelHome />} />} />
         <Route path="/my-list" element={<PrivateRoute element={<MyList />}  />} />
