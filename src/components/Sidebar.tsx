@@ -45,19 +45,19 @@ const SidebarMenu = () => {
           <MenuItem
             component={<Link to="/" className="link" />}
             className="logo-menu menu1"
-            icon={
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }} // Ensure single-row layout
+          >
+            <div style={{ display: 'flex', alignItems: 'center' }}>  {/* Wrap icon and logo in a flex container */}
               <MenuRoundedIcon
                 onClick={() => {
                   collapseSidebar();
                 }}
-                className="hamburger"
+                style={{ marginRight: '10px', fontSize: '24px' }} // Adjust spacing and size
               />
-            }
-          >
-            <Logo />
-          </MenuItem>
-          <hr className="mb-6" />
-          <MenuItem component={<Link to="/dashboard" />} icon={<GoHome size={24} className="text-white" />}>
+              <Logo />
+          </div>
+        </MenuItem>
+          <MenuItem component={<Link to="/dashboard" />} icon={<GoHome size={24} className="text-white" />} className="logo-menu">
             {t("Home")}
           </MenuItem>
           <MenuItem component={ <Link to="/favourite"/>} icon={<AiFillHeart size={24} className="text-white" />}>
@@ -110,7 +110,7 @@ const SidebarMenu = () => {
               {t("AQ18+")}
             </MenuItem>
           </SubMenu>
-          <MenuItem component={<Link to="/my-list" />} icon={<MdAddToQueue size={24} className="text-white" />}>
+          <MenuItem component={<Link to="/my-list" />} icon={<MdAddToQueue size={24} className="text-white " />}>
             {t("My List")}
           </MenuItem>
           <MenuItem component={<Link to="/aq-studio" />} icon={<MdVideoLibrary size={24} className="text-white" />}>

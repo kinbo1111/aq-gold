@@ -44,7 +44,7 @@ const ConfirmEmail = () => {
             id="email"
             type="email"
             label={t("Email address")}
-            placeholder="Email"
+            placeholder={t("Email")}
             register={register}
             errors={errors}
             value={code}

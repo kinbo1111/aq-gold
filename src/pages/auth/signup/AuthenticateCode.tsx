@@ -64,7 +64,7 @@ const AuthenticateCode = () => {
                 <p className="body-2r gray-400 mb-4">Step<span className="body-1b gray-800 ml-1">2/2</span></p>
                 <h6 className="sub-1r gray-800 mb-10 text-center">{t("Enter Authentication Code")}</h6>
                 <p className='text-[20px] text-black mb-10'>
-                   {t("Please enter the authentication code (6 numbers) that sent to your email address")}<br/>
+                   {t("Please enter the authentication code (6 numbers) sent to your email address")}<br/>
                    {t("and press the Start AQ GOLD button")}
                 </p>
                 <div className="flex flex-col gap-10">

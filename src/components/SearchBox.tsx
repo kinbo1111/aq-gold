@@ -46,7 +46,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ initialHistory = [] }) => {
           value={keyword}
           onChange={handleInputChange}
           placeholder={t("search")}
-          className="w-[424px] h-[52px] b-gray-700 border border-[#c7a76b] rounded-[74px] px-[18px] body-1b text-white"
+          className="w-[424px] h-12 b-gray-700 border border-[#cec9bf] rounded-[74px] px-[18px] body-1b text-white"
         />
         <button
           type="submit"
