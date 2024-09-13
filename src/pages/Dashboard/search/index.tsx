@@ -11,7 +11,7 @@ const Search = () => {
 
     return (
         <DashboardContainer>
-            <div className='b-gray-800 m-3'>
+            <div className='b-gray-800 m-3 min-h-70p'>
                 <SearchKeywordResult keyword={keyword ?? ''} />
                 <VideoList className='p-5' videoData={searchedVideos}/>
             </div>
