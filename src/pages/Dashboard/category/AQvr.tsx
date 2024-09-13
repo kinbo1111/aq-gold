@@ -11,10 +11,12 @@ import Button from "../../../components/Button";
 import MainContainer from "../../../components/MainContainer";
 import MovieList from "../MovieList";
 import DeleteChannel from "../settings/DeleteChannel";
+import { useSidebar } from "../../../contexts/SidebarContext";
 
 const AQvar = () => {
     const [isDeleteChannelOpen, setIsDeleteChannelOpen] = useState(false);
     const { t } = useTranslation();
+    const { collapsed } = useSidebar();
     const { filterVideosByCategory } = useVideo();
     const { filteredNewVideos, filteredPopularVideos, filteredRecommendVideos, filteredMyList } = filterVideosByCategory('AQvar');
     const { continueVideos } = useUser();
@@ -40,7 +42,7 @@ const AQvar = () => {
                     <IoCloseCircle className="w-6 h-6"/>
                   </button>
               </div>  
-              <div className="absolute bottom-14 left-16 z-50" >
+              <div className={`absolute left-16 z-50 ${collapsed ? 'bottom-80' : 'bottom-14'}`} >
                 <h1 className="h4 text-white mb-4">One Piece</h1>
                 <p className="sub-2r text-white mb-4">
                     {t("ten")}
