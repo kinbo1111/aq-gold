@@ -1,22 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineVideoCall } from "react-icons/md";
 import { IoNotificationsCircle } from "react-icons/io5";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import Notification from "./Notification";
 import SearchBox from "../SearchBox";
+import { useSidebar } from "../../contexts/SidebarContext"; 
+import Logo from "../header/Logo";
 
 const UserNav = () => {
     const navigate = useNavigate();
-    const [isOpen, setIsOpen] = useState(false);
+    const { collapsed } = useSidebar();
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const notificationRef = useRef<HTMLDivElement | null>(null);
 
     const handleOpen = () => {
         setIsOpen(!isOpen);
     }
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                notificationRef.current &&
+                !notificationRef.current.contains(event.target as Node)
+            ) {
+                setIsOpen(false);
+            }
+        };
+
+        if (isOpen) {
+            document.addEventListener("mousedown", handleClickOutside);
+        } else {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isOpen]);
+
     return (
-        <div>
+        <div className="flex flex-row">
+            {collapsed &&
+                <div className="absolute left-20">
+                    <Logo />
+                </div>
+            }
             <div className="relative flex items-center justify-center h-12">
-                <div className="flex items-center justify-center mr-7">
+                <div className="flex items-center justify-center ml-80 mr-7">
                     <SearchBox/>
                 </div>
                 <div
@@ -25,7 +56,7 @@ const UserNav = () => {
                 >
                     <MdOutlineVideoCall size={28} className="text-white" />
                 </div>
-                <div className="relative">
+                <div className="relative" ref={notificationRef}>
                     <div onClick={handleOpen} className="w-[70px] h-12 cursor-pointer bg-transparent flex items-center justify-center border-l border-[#585a5c]">
                         <span className="w-2 h-2 rounded-full bg-red-500 relative bottom-2 left-7"></span>
                         <IoNotificationsCircle size={28} className="text-white" />

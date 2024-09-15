@@ -75,7 +75,7 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
             <div className="pb-6 border-b border-[#585a5c]">
                 <h6 className="sub-2r text-white mb-2">{t("Picture")}</h6>
                 <p className="body-1r text-white mb-4">
-                    {t("Your channel picture will appear where your channel is presented on YouTube, like next to your videos")}
+                    {t("Your channel picture will appear where your channel is presented on AQ GOLD, like next to your videos.")}
                 </p>
                 <div className="flex items-center gap-6">
                     <img 
@@ -106,10 +106,10 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
                 />
             </div>
             <div className="py-3 flex flex-col gap-3">
-                <h6 className="sub-2r text-white">{t("Your account")}</h6>
+                <h6 className="sub-2r text-white">{t("Your Channel")}</h6>
                 <Input
                     id="channelName"
-                    label={t("Name")}
+                    label={t("Channel Name")}
                     type="text"
                     onChange={(e) => setChannelName(e.target.value)}
                     value={channelName}
@@ -120,16 +120,23 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
                     small
                 />
                 <Input
-                    id="handle"
-                    label={t("Handle")}
-                    type="text"
-                    onChange={(e) => setChannelHandle(e.target.value)}
-                    value={channelHandle}
-                    placeholder="@HARUOGOLD"
-                    register={register}
-                    errors={errors}
-                    required
-                    small
+                id="handle"
+                label={t("Handle")}
+                type="text"
+                onChange={(e) => {
+                    const value = e.target.value;
+                    if (!value.startsWith("@")) {
+                    setChannelHandle("@" + value);
+                    } else {
+                    setChannelHandle(value);
+                    }
+                }}
+                value={channelHandle}
+                placeholder="@HARUOGOLD"
+                register={register}
+                errors={errors}
+                required
+                small
                 />
             </div>
         </div>

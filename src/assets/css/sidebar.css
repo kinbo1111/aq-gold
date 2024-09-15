@@ -148,22 +148,21 @@
 .css-1tqrhto>.ps-menu-button {
     height: unset !important;
 }
+
 .ps-sidebar-container {
-    /* Firefox scrollbar styling */
-    scrollbar-width: thin; /* Makes scrollbar thin */
-    scrollbar-color: #9fa0a1 #212324; /* Thumb and track color */
+    scrollbar-width: thin;
+    scrollbar-color: #9fa0a1 #212324;
 }
 
-/* WebKit-based browsers (Chrome, Safari) scrollbar styling */
 .ps-sidebar-container::-webkit-scrollbar {
-    width: 8px; /* Scrollbar width */
+    width: 8px;
 }
 
 .ps-sidebar-container::-webkit-scrollbar-thumb {
-    background-color: #9fa0a1; /* Thumb color */
-    border-radius: 8px; /* Rounded corners for thumb */
+    background-color: #9fa0a1;
+    border-radius: 4px;
 }
 
 .ps-sidebar-container::-webkit-scrollbar-track {
-    background-color: #212324; /* Track color */
+    background-color: #212324;
 }
