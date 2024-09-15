@@ -1,9 +1,12 @@
+import React, { useState } from 'react';
 import SettingsFooter from "./SettingsFooter";
 import SettingsModalHeader from "./SettingsModalHeader";
-import { useState } from "react";
 import { Checkbox } from "@mui/material";
 import { useTranslation } from 'react-i18next';
 import { message } from "antd";
+import { Auth } from 'aws-amplify';
+import { useNavigate } from "react-router-dom";
+import { useUser } from '../../../contexts/UserContext';
 
 interface DeleteAccountProps {
   isOpen: boolean;
@@ -13,15 +16,32 @@ interface DeleteAccountProps {
 const DeleteAccount: React.FC<DeleteAccountProps> = ({ isOpen, onClose }) => {
   const { t } = useTranslation();
   const [check, setCheck] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const { setUnAuth } = useUser()
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
   if (!isOpen) return null;
   const handleChange = () => {
     setCheck(!check)
   }
 
-  const handleSave = () => {
-     message.success(t("All data on your AQ account including AQvar channel are completely deleted."))
-    onClose()
-  }
+
+  const handleDeleteAccount = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      await Auth.deleteUser();
+      message.success("Account deleted successfully!");
+      setUnAuth();
+      navigate('/');
+    } catch (err) {
+      console.log("Error deleting account:", err);
+      message.warning("Failed to delete account. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-[999] bg-black bg-opacity-70">
@@ -43,7 +63,7 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({ isOpen, onClose }) => {
               </div>
             </p>
           </div>
-          <SettingsFooter onClose={onClose} isDelete isDisable={check} handleSave={handleSave}/>
+          <SettingsFooter onClose={onClose} isDelete isDisable={check} handleSave={handleDeleteAccount} isLoading={loading} />
         </div>
       </div>
     </div>

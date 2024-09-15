@@ -8,6 +8,7 @@ import VideoUploadSchedule from './VideoUploadSchedule';
 import { uploadVideo, uploadThumbnail, getVideoUrl, getThumbnailUrl } from '../../../services/storageService';
 import { saveVideoMetadata } from '../../../services/VideoService';
 import { message } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 export type VideoDetailData =  {
   title: string;
@@ -33,6 +34,7 @@ export type ScheduleDataProps = {
 }
 
 const VideoUpload: React.FC = () => {
+  const navigate = useNavigate();
   const [isUploadModalOpen, setIsUploadModalOpen]  = useState(true);
   const [isUploadDetailOpen, setIsUploadDetailOpen] = useState(false);
   const [isUploadVisibilityOpen, setIsUploadVisibilityOpen] = useState(false);
@@ -53,6 +55,8 @@ const VideoUpload: React.FC = () => {
   const handleCloseUploadModal = () => {
     setIsUploadModalOpen(false);
     setSelectedFile(null);
+    navigate('/aq-studio?tab=1')
+
   };
 
   const handleUpload = (file: File) => {
@@ -63,21 +67,25 @@ const VideoUpload: React.FC = () => {
   
   const handleCloseUploadDetail = () => {
       setIsUploadDetailOpen(false);
+      navigate('/aq-studio?tab=1')
       setSelectedFile(null);
     };
 
   const handleNextUploadDetail = (detail: VideoDetailData | null) => {
     setVideoDetail(detail)
-      setIsUploadDetailOpen(false);
-      setIsUploadVisibilityOpen(true);
-    };
+    setIsUploadDetailOpen(false);
+    setIsUploadVisibilityOpen(true);
+  };
 
-    const handleCloseUploadVisibility = () => {
-      setIsUploadVisibilityOpen(false);
+  const handleCloseUploadVisibility = () => {
+    setIsUploadVisibilityOpen(false);
+    setIsUploadDetailOpen(true);
+    setIsUploadVisibilityOpen(false);
     }
   
     const handleCloseUploadSchedule = () => {
       setIsUploadScheduleOpen(false);
+      navigate('/aq-studio?tab=1')
     }
    
   const handleOpenSchedule = async (scheduleData: ScheduleDataProps | null) => {  

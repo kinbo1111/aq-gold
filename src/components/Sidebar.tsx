@@ -35,7 +35,7 @@ const SidebarMenu: React.FC = () => {
   };
 
   return (
-    <div className="onCollapseToggle h-screen fixed bottom-0 left-0 sidebar z-50">
+    <div className="onCollapseToggle h-screen fixed overflow-y-scroll bottom-0 left-0 sidebar z-50">
       <Sidebar className="app" rtl={false} collapsed={collapsed}>
         <Menu>
           <MenuItem

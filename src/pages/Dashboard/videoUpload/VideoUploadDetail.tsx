@@ -102,10 +102,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
   
   const handleClick = async () => {
     await checkFormCompletion();
-    if (!isFormComplete) {
-      message.warning("Please input files and options!");
-      return;
-    }
+  
     if (!channelData || channelData.id == undefined) return;
     onSubmit({
       title: title,
@@ -207,24 +204,26 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                         className="w-full max-w-[150px] rounded-lg"
                       />
                     ))}
-                    <label className="max-w-[150px] w-full h-20 border border-dashed border-gray-500 flex items-center justify-center cursor-pointer rounded-lg">
-                      <input
-                        type="file"
-                        className="hidden"
-                        accept="image/*"
-                        multiple
-                        onChange={handleThumbnailUpload}
-                      />
-                      <div className="text-gray-500 text-center flex flex-col items-center justify-center">
-                        <MdAddPhotoAlternate
-                          size={24}
-                          className="gray-200 mb-2"
+                    {!thumbnails.length &&
+                      <label className="max-w-[150px] w-full h-20 border border-dashed border-gray-500 flex items-center justify-center cursor-pointer rounded-lg">
+                        <input
+                          type="file"
+                          className="hidden"
+                          accept="image/*"
+                          multiple
+                          onChange={handleThumbnailUpload}
                         />
-                        <p className="body-2r gray-200 text-center">
-                          {t("Upload image")}
-                        </p>
-                      </div>
-                    </label>
+                        <div className="text-gray-500 text-center flex flex-col items-center justify-center">
+                          <MdAddPhotoAlternate
+                            size={24}
+                            className="gray-200 mb-2"
+                          />
+                          <p className="body-2r gray-200 text-center">
+                            {t("Upload image")}
+                          </p>
+                        </div>
+                      </label>
+                    }
                   </div>
                   <div className="flex items-start justify-start gap-4">
                     {vthumbnails.map((vthumbnail, index) => (
@@ -235,24 +234,26 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                         className="w-full max-w-[132px] rounded-lg"
                       />
                     ))}
-                    <label className="max-w-[132px] w-full h-[185px] border border-dashed border-gray-500 flex items-center justify-center cursor-pointer rounded-lg">
-                      <input
-                        type="file"
-                        className="hidden"
-                        accept="image/*"
-                        multiple
-                        onChange={handleVThumbnailUpload}
-                      />
-                      <div className="text-center flex flex-col items-center justify-center">
-                        <MdAddPhotoAlternate
-                          size={24}
-                          className="gray-200 mb-2"
+                    {!vthumbnails.length &&
+                      <label className="max-w-[132px] w-full h-[185px] border border-dashed border-gray-500 flex items-center justify-center cursor-pointer rounded-lg">
+                        <input
+                          type="file"
+                          className="hidden"
+                          accept="image/*"
+                          multiple
+                          onChange={handleVThumbnailUpload}
                         />
-                        <p className="body-2r gray-200 text-center">
-                          {t("Upload image")}
-                        </p>
-                      </div>
-                    </label>
+                        <div className="text-center flex flex-col items-center justify-center">
+                          <MdAddPhotoAlternate
+                            size={24}
+                            className="gray-200 mb-2"
+                          />
+                          <p className="body-2r gray-200 text-center">
+                            {t("Upload image")}
+                          </p>
+                        </div>
+                      </label>
+                    }
                   </div>
                 </div>
                 <div className="mt-6 flex flex-col gap-4">
@@ -289,9 +290,9 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                     {t("Is this video made for kids? (required)")}
                   </p>
                   <p className="body-1r gray-200">
-                  {t("forth")}
+                  {t("Regardless")}
                     <Link
-                      to="https://support.google.com/youtube/answer/9528076?hl=en"
+                      to="https::/aqgold.net/faq"
                       className="underline"
                     >
                       {("What's content made for kids?")}
@@ -303,9 +304,9 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                       className="body-1r gray-200"
                       style={{ width: "calc(100% - 24px)" }}
                     >
-                      {t("forth")}
+                      {t("Regardless")}
                       <Link
-                        to="https://support.google.com/youtube/answer/9528076?hl=en"
+                        to="https::/aqgold.net/faq"
                         className="underline"
                       >
                         {t("What's content made for kids?")}
@@ -367,7 +368,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                     <p className="body-1r gray-200">
                       {t("Age-restricted videos are shown only in AQ18+.")}
                       <Link
-                        to="https://support.google.com/youtube/answer/2950063?hl=en"
+                        to="/learn-more"
                         className="underline text-[#1570EF]"
                       >
                         {t("Learn more")}
@@ -378,7 +379,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                         checked={restrict}
                         id="age-yes"
                         type="radio"
-                        value="yes"
+                        value="no"
                         name="age"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
                         onChange={() => setRestrict(true)}
@@ -422,7 +423,6 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
             </div>
           </div>
           <div className="w-full relative flex items-center justify-end px-6 py-2 gap-2 border-t border-[#585a5c]">
-            <Button onClick={onClose} label={t("back")} outline full small />
             <Button
               onClick={handleClick}
               label={t("Next")}
