@@ -1,7 +1,7 @@
 import { FavoriteChannel, Channel, channelInputProps } from '../types';
 import { API, graphqlOperation } from 'aws-amplify';
-import { listFavoriteChannels, getChannel, listChannels } from '../graphql/queries';
-import { createFavoriteChannel, deleteFavoriteChannel, createChannel, updateChannel } from '../graphql/mutations';
+import { listFavoriteChannels, getChannel, listChannels, listVideos} from '../graphql/queries';
+import { createFavoriteChannel, deleteFavoriteChannel, createChannel, updateChannel, deleteChannel, deleteVideo } from '../graphql/mutations';
 
 export const fetchFavoriteChannels = async (userId: string): Promise<FavoriteChannel[]> => {
   try {
@@ -114,5 +114,38 @@ export const updateChannelDetails = async (channelData: channelInputProps) => {
   } catch (error) {
     console.error('Error updating channel:', error);
     throw new Error('Failed to update channel');
+  }
+};
+
+const deleteChannelVideos = async (channelId: string) => {
+  const response = await API.graphql({
+    query: listVideos,
+    variables: { filter: { channelId: { eq: channelId } } },
+    authMode: 'AMAZON_COGNITO_USER_POOLS',
+  }) as { data: { listVideos: { items: any[] } } };
+
+  const videos = response.data.listVideos.items;
+  for (const video of videos) {
+    await API.graphql({
+      query: deleteVideo,
+      variables: { input: { id: video.id } },
+      authMode: 'AMAZON_COGNITO_USER_POOLS',
+    });
+  }
+};
+
+export const deleteChannelById = async (channelId: string) => {
+  try {
+    await deleteChannelVideos(channelId);
+    await API.graphql({
+      query: deleteChannel,
+      variables: { input: { id: channelId } },
+      authMode: 'AMAZON_COGNITO_USER_POOLS',
+    });
+    
+    alert("Channel deleted successfully!");
+  } catch (error) {
+    console.error('Error deleting channel:', error);
+    throw new Error('Failed to delete channel');
   }
 };

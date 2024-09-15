@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
@@ -7,8 +7,9 @@ import FilterList from "../aqChannel/FilterList";
 import ContentList from "./ContentList";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 
-interface TabPanelProps {
+export type TabPanelProps = {
   children?: React.ReactNode;
   index: number;
   value: number;
@@ -41,12 +42,21 @@ export default function StudioTab() {
   const [value, setValue] = React.useState(0);
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const location = useLocation();
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
     if (newValue === 3) {
       navigate('/video-upload');
     }
   };
+  
+  useEffect(() => {
+      const params = new URLSearchParams(location.search);
+      const tabFromQuery = params.get("tab");
+      if (tabFromQuery) {
+          setValue(2);
+      }
+  }, [location]);
 
   return (
     <Box sx={{ width: "100%" }}>

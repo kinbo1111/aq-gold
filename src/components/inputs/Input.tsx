@@ -95,7 +95,7 @@ const Input: React.FC<InputProps> = ({
                     ${getHeightClass()}
                     ${full ? 'w-[320px]' : 'w-full'}
                     ${background ? 'bg-white' : 'bg-transparent'}
-                    ${background ? 'gray-200' : 'text-white'}
+                    ${background ? 'gray-900' : 'text-white'}
                     ${success ? 'border-[#12B76A]' : 'border-[#9fa0a1]'}
                     ${error ? 'focus:border-[#F04438]' : 'focus:border-white'}`}
         onChange={(e) => {

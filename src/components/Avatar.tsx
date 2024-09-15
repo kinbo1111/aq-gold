@@ -34,7 +34,7 @@ const Avatar: React.FC<AvatarProps> = ({
   return (
     <div className="flex items-center justify-start gap-4" >
       <img
-        className="rounded-full w-[100px] h-[100px]"
+        className="rounded-full w-[100px] h-[100px] object-cover"
         alt="Avatar"
         onError={handleError}
         src={image ?? DefaultAvatar} 

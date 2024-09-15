@@ -3,6 +3,7 @@ import React from "react";
 import Button from "./Button";
 import SettingsModalHeader from "../pages/Dashboard/settings/SettingsModalHeader";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 interface AgeConfirmModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -10,7 +11,13 @@ interface AgeConfirmModalProps {
 
 const AgeConfirmModal: React.FC<AgeConfirmModalProps> = ({ isOpen, onClose }) => {
   const { t } = useTranslation();
-  
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/category/aq18');
+    onClose();
+  }
+    
   if (!isOpen) return null;
   
   return (
@@ -35,7 +42,7 @@ const AgeConfirmModal: React.FC<AgeConfirmModalProps> = ({ isOpen, onClose }) =>
               full
               small
             />
-            <Button onClick={() => {}} label={t("Enter")} full small />
+            <Button onClick={handleClick} label={t("Enter")} full small />
           </div>
         </div>
       </div>

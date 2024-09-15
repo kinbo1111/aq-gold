@@ -6,10 +6,10 @@ import { RiCheckboxBlankCircleFill } from "react-icons/ri";
 import { GiCheckMark } from "react-icons/gi";
 import { IoIosHelpCircle } from "react-icons/io";
 import { useTranslation } from 'react-i18next';
-import {Button, message} from "antd";
-import { Select, Button as Btn, Input, Divider, DatePicker } from 'antd';
+import { Select, Button, message, DatePicker } from 'antd';
 import { GoTriangleDown } from "react-icons/go";
 import { ScheduleDataProps } from ".";
+import dayjs, { Dayjs } from 'dayjs';
 
 export type VideoUploadVisibilityProps = {
   videoTitle: string,
@@ -72,10 +72,29 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
   }
 
   const handleChangeTimeZone = (value: string) => setTimeZone(value); 
-  // const handleScheduleDate = (e: React.ChangeEvent<HTMLInputElement>) => setScheduleDate(e.target.value); 
   const handleScheduleTime = (e: React.ChangeEvent<HTMLInputElement>) => setScheduleTime(e.target.value); 
   const handlePublishNow = (value: boolean) => setPublishNow(value); 
   const onChange = (dateString: string) => setScheduleDate(dateString);
+
+   const disabledDate = (current: Dayjs) => {
+    // Can not select days before today
+    return current && current < dayjs().startOf('day');
+  };
+
+  // Disable times for today
+  const disabledDateTime = () => {
+    const currentHour = dayjs().hour();
+    const currentMinute = dayjs().minute();
+
+    return {
+      disabledHours: () =>
+       Array.from({ length: 24 }, (_, i) => i).filter((hour) => hour < currentHour),
+      disabledMinutes: (selectedHour: number) =>
+        selectedHour === currentHour
+          ? Array.from({ length: 24 }, (_, i) => i).filter((hour) => hour < currentHour)
+          : [],
+    };
+  };
 
   
   if (!isOpen) return null;
@@ -151,8 +170,10 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
                   <div className="flex items-center justify-start gap-4">
                     <DatePicker
                       onChange={onChange}
-                      className="relative w-[170px] h-10 text-center date-input px-2 rounded bg-transparent text-white border border-[#9fa0a1]"
+                      className="custom-datepicker relative w-[170px] h-10 text-center date-input px-2 rounded bg-transparent text-white border border-[#9fa0a1]"
                       placeholder="Select Date"
+                      disabledDate={disabledDate}
+                      disabledTime={disabledDateTime}
                     />
               
                         <input
@@ -166,7 +187,7 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
                     <Select                      
                       onChange={handleChangeTimeZone}
                       defaultValue="japan"
-                      dropdownStyle={{ backgroundColor: '#212324', borderRadius: '10px', width: "300px", border: "1px #C7A76B solid" }}
+                      dropdownStyle={{ backgroundColor: '#212324', borderRadius: '10px', width: "300px", border: "1px #C7A76B solid", color: "white" }}
                       popupClassName="custom-dropdown"
                       suffixIcon={<GoTriangleDown className="text-[#9fa0a1] text-sm" />}
                       options={[
@@ -199,14 +220,14 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
               <p className="mb-2 body-2r text-white">{t("Do kids appear in this video?")}</p>
               <p className="mb-4 gray-200 body-2r">
                {t("seven")}
-                <Link to="https://support.google.com/youtube/answer/2801999?hl=en" className="underline ml-1">
+                <Link to="/learn-more" className="underline ml-1">
                   {t("Learn more")}
                 </Link>
               </p>
               <p className="mb-2 body-2r text-white">{t("Looking for overall content guidance?")}</p>
               <p className="mb-4 gray-200 body-2r">
               {t("Our Community Guidelines can help you avoid trouble and ensure that AQ GOLD remains a safe and vibrant community.")}
-                <Link to="https://www.youtube.com/yt/about/policies#community-guidelines" className="underline ml-1">
+                <Link to="/learn-more" className="underline ml-1">
                   {t("Learn more")}
                 </Link>
               </p>
