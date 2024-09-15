@@ -99,15 +99,16 @@ const CreateChannel = () => {
           {t("Create your AQvar channel")}
         </h6>
         <div>
-          <div className="flex items-center justify-center gap-6">
+          <div className="flex flex-col items-center justify-center gap-6">
               <img 
                   src={selectedFile ? imageUrl : DefaultAvatar } 
                   onLoad={handleImageLoad}
                   onError={handleImageError}
                   alt="Current Avatar" 
-                  className="rounded-full w-52 h-52 cursor-pointer"
+                  className="rounded-full w-52 h-52 cursor-pointer shadow-md shadow-gray-400"
                   onClick={handleChangeClick}
-              />
+            />
+            <a className="text-blue-500 underline text-center cursor-pointer" onClick={handleChangeClick}>{ t('Select Picture')}</a>
           </div>
           <input
               ref={fileInputRef}
@@ -116,6 +117,7 @@ const CreateChannel = () => {
               onChange={handleFileChange}
               style={{ display: 'none' }}
           />
+          
         </div>
         <div className="flex flex-col gap-8 mt-6">
           <Input
@@ -138,7 +140,14 @@ const CreateChannel = () => {
             placeholder="＠"
             register={register}
             errors={errors}
-            onChange={(e) => setDescription(e.target.value)}
+             onChange={(e) => {
+                    const value = e.target.value;
+                    if (!value.startsWith("@")) {
+                    setDescription("@" + value);
+                    } else {
+                    setDescription(value);
+                    }
+                }}
             value={description}
             small
             background

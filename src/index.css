@@ -84,3 +84,51 @@ body {
   background-color: #2e3133 !important;
   color: #DDB951 !important;
 }
+
+.custom-datepicker input::placeholder {
+   
+    color: white !important; 
+    opacity: 1;
+  }
+
+.custom-datepicker {
+   padding-left: 10px !important;
+}
+
+.custom-datepicker:hover {
+    background-color: transparent !important;
+    color: gray; 
+}
+
+.custom-datepicker:focus {
+  background-color: transparent !important;
+  color: gray; 
+}
+
+
+.custom-datepicker :focus::placeholder{
+  background-color: transparent !important;
+  color: gray; 
+}
+
+
+/* Scrollbar width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track (the background of the scrollbar) */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle (the part that you move) */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

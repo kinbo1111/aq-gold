@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Avatar from "../../../components/Avatar";
 import DashboardContainer from "../../../components/DashboardContainer";
 import StudioTab from './StudioTab';
@@ -15,7 +15,6 @@ const AQStudioHome = () => {
     useEffect(() => {
         checkUserChannel();
     }, []);
-
    
     return hasChannel ?
         <DashboardContainer>

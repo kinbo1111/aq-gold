@@ -11,7 +11,6 @@ const ProfileEditPage = React.lazy(() => import("../components/ProfileEdit"));
 const HomePage = React.lazy(() => import("../pages/Homepage/Homepage"));
 const SignIn = React.lazy(() => import("../pages/auth/signin/index"));
 const CreateAccount = React.lazy(() => import("../pages/auth/signup/CreateAccount"));
-const ConfirmEmail = React.lazy(() => import("../pages/auth/signup/ConfirmEmail"));
 const AuthenticateCode = React.lazy(() => import("../pages/auth/signup/AuthenticateCode"));
 const ForgotPassword = React.lazy(() => import("../pages/auth/forgot-password"));
 const Dashboard = React.lazy(() => import("../pages/Dashboard"));
@@ -77,7 +76,6 @@ const AppRoutes: React.FC = () => {
         <Route path="auth">
           <Route path="signin" element={<PublicRoute element={<SignIn />} />} />
           <Route path="signup/create-account" element={<PublicRoute element={<CreateAccount />} />} />
-          <Route path="signup/confirm-email" element={<PublicRoute element={<ConfirmEmail />} />} />
           <Route path="signup/authenticate-code" element={<PublicRoute element={<AuthenticateCode />} />} />
           <Route path="forgot-password" element={<PublicRoute element={<ForgotPassword />} />} />
         </Route>

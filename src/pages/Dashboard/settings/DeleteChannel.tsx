@@ -4,6 +4,9 @@ import { Checkbox } from "@mui/material";
 import { message } from "antd";
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
+import { useChannel } from "../../../contexts/ChannelContext";
+import { deleteChannelById } from '../../../services/ChannelService';
+import { useNavigate } from "react-router-dom";
 
 interface DeleteChannelProps {
   isOpen: boolean;
@@ -13,15 +16,32 @@ interface DeleteChannelProps {
 const DeleteChannel: React.FC<DeleteChannelProps> = ({ isOpen, onClose }) => {
   const [check, setCheck] = useState(true);
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { channelData } = useChannel();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   if (!isOpen) return null;
 
   const handleChange = () => {
     setCheck(!check)
   }
-  const handleSave = () => {
-    message.success("All data on your AQvar channel including uploaded videos are completely deleted.")
-    onClose()
-  }
+  
+  const handleDeleteChannel = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      await deleteChannelById(channelData.id);
+      message.success("Channel deleted successfully!");
+      navigate('/create-channel')
+    } catch (err) {
+      console.error('Error deleting channel:', err);
+      message.warning("Failed to delete channel. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-[999] bg-black bg-opacity-70">
@@ -42,7 +62,7 @@ const DeleteChannel: React.FC<DeleteChannelProps> = ({ isOpen, onClose }) => {
               </div>
             </p>
           </div>
-          <SettingsFooter onClose={onClose} isDelete isDisable={check} handleSave={handleSave} />
+          <SettingsFooter onClose={onClose} isDelete isDisable={check} handleSave={handleDeleteChannel} isLoading={loading} />
         </div>
       </div>
     </div>

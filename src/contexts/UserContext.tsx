@@ -27,6 +27,7 @@ export type UserContextType = {
   continueVideos: VideoData[];
   login: () => void;
   logout: () => void;
+  setUnAuth: () => void;
   ModalUnvisible: () => void;
   updateEmail: (newEmail: string) => Promise<void>;
   updatePassword: (oldPassword: string, newPassword: string) => Promise<void>;
@@ -116,6 +117,15 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       message.error('Logout failed');
     }
   };
+  
+const setUnAuth = async () => {
+    try {
+      setUser(null);
+      setIsAuthenticated(false);
+    } catch (error) {
+      console.error('Logout failed');
+    }
+  };
 
   const ModalUnvisible = async () => {
      try {
@@ -187,7 +197,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const updateUserData = () => fetchUser();
   
   return (
-    <UserContext.Provider value={{ user, setUser, loading, isAuthenticated, isModalVisible, continueVideos, login, logout, updateEmail, updatePassword, updateNickname, updateUserData, ModalUnvisible, updateChannelHandle, updateChannelName}}>
+    <UserContext.Provider value={{ user, setUser, loading, isAuthenticated, isModalVisible, continueVideos, login, setUnAuth, logout, updateEmail, updatePassword, updateNickname, updateUserData, ModalUnvisible, updateChannelHandle, updateChannelName}}>
       {children}
     </UserContext.Provider>
   );

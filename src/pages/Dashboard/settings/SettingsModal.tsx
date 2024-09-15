@@ -102,6 +102,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
   useEffect(() => {
     if (activeSection === 'channel') {
       if (!hasChannel) {
+        message.warning(t("You do not have channel yet.Create AQvar Channel from here!"))
         navigate('/create-channel')
       }
     }
@@ -124,6 +125,11 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
       setError('Please select a valid image file');
     }
   };
+
+  const handleActiveChannel = (activeChannel: string) => {
+    setActiveChannel(activeChannel)
+    if (activeChannel === 'general') setActiveSection('');
+  }
 
   const handleVerifyEmail = async () => {
     try {
@@ -234,7 +240,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
         <SettingsModalHeader onClose={onClose} showCloseButton={false} label={t("Settings")} />
         <div className="relative w-full flex justify-between">
           <div className="w-[30%]">
-            <SettingsModalSidebar setActiveChannel={setActiveChannel} activeChannel={activeChannel} />
+            <SettingsModalSidebar setActiveChannel={handleActiveChannel} activeChannel={activeChannel} />
           </div>
           <div className="w-[70%] py-4 px-6 min-h-[550px] border-l border-[#585a5c]">
             {activeChannel === "general" && (
@@ -266,7 +272,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
             {activeChannel === "advanced" && <AdvancedSettings />}
           </div>
         </div>
-        {(activeChannel==="channel" || activeSection === "basicInfo" || activeSection === "changeEmail" || activeSection === "changePassword") && (
+        {(activeChannel==="channel" || activeSection === "basicInfo" || activeSection === "changeEmail" || activeSection === "changePassword" || activeChannel === "advanced") && (
           <SettingsFooter isDisable={isDisable} onClose={onClose} isLoading={loading} activeChannel={activeChannel} handleSave={handleSave} />
         )}
 
