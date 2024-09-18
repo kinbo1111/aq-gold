@@ -20,6 +20,7 @@ export const createVideo = /* GraphQL */ `mutation CreateVideo(
     category
     videoUrl
     thumbnailUrl
+    vThumbnailUrl
     isForKids
     isRestricted
     playlist
@@ -72,6 +73,7 @@ export const updateVideo = /* GraphQL */ `mutation UpdateVideo(
     category
     videoUrl
     thumbnailUrl
+    vThumbnailUrl
     isForKids
     isRestricted
     playlist
@@ -124,6 +126,7 @@ export const deleteVideo = /* GraphQL */ `mutation DeleteVideo(
     category
     videoUrl
     thumbnailUrl
+    vThumbnailUrl
     isForKids
     isRestricted
     playlist
@@ -330,6 +333,7 @@ export const createFavorite = /* GraphQL */ `mutation CreateFavorite(
       category
       videoUrl
       thumbnailUrl
+      vThumbnailUrl
       isForKids
       isRestricted
       playlist
@@ -372,6 +376,7 @@ export const updateFavorite = /* GraphQL */ `mutation UpdateFavorite(
       category
       videoUrl
       thumbnailUrl
+      vThumbnailUrl
       isForKids
       isRestricted
       playlist
@@ -414,6 +419,7 @@ export const deleteFavorite = /* GraphQL */ `mutation DeleteFavorite(
       category
       videoUrl
       thumbnailUrl
+      vThumbnailUrl
       isForKids
       isRestricted
       playlist
@@ -543,6 +549,7 @@ export const createUserActivity = /* GraphQL */ `mutation CreateUserActivity(
       category
       videoUrl
       thumbnailUrl
+      vThumbnailUrl
       isForKids
       isRestricted
       playlist
@@ -587,6 +594,7 @@ export const updateUserActivity = /* GraphQL */ `mutation UpdateUserActivity(
       category
       videoUrl
       thumbnailUrl
+      vThumbnailUrl
       isForKids
       isRestricted
       playlist
@@ -631,6 +639,7 @@ export const deleteUserActivity = /* GraphQL */ `mutation DeleteUserActivity(
       category
       videoUrl
       thumbnailUrl
+      vThumbnailUrl
       isForKids
       isRestricted
       playlist

@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 import { useChannel } from "../../../contexts/ChannelContext";
 import { deleteChannelById } from '../../../services/ChannelService';
 import { useNavigate } from "react-router-dom";
-
 interface DeleteChannelProps {
   isOpen: boolean;
   onClose: () => void;

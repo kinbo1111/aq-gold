@@ -10,6 +10,7 @@ export type VideoProps = {
     title: string;
     description?: string;
     videoUrl: string;
+    vThumbnailUrl: string;
     thumbnailUrl?: string;
     duration: number;
     isPublic: boolean;
@@ -25,6 +26,7 @@ export type VideoData = {
   category?: string;
   videoUrl: string;
   thumbnailUrl?: string;
+  vThumbnailUrl?: string;
   isForKids: boolean;
   isRestricted: boolean;
   playlist: string;
@@ -46,6 +48,7 @@ export type VideoInputData =  {
   category?: string;
   videoUrl: string;
   thumbnailUrl?: string;
+  vThumbnailUrl?: string;
   isForKids: boolean;
   isRestricted: boolean;
   playlist: string;

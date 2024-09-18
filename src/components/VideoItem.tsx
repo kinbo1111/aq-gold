@@ -25,8 +25,6 @@ export type VideoItemProps = {
 
 const VideoItem: React.FC<VideoItemProps> = ({ id, imageSrc, title, description, icon, videos, videoUrl, viewCount, duration, favoriteCount, owner, channelId }) => {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [isFavorited, setIsFavorited] = useState<boolean>(false);
-  const [hasIncremented, setHasIncremented] = useState(false);
 
   const { user } = useUser();
 
