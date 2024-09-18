@@ -28,7 +28,7 @@ const ContentList: React.FC = () => {
         <ContentItem
           id={item.id}
           key={index}
-          image={item.thumbnailUrl}
+          image={item.vThumbnailUrl}
           title={item.title}
           description={item.description}
           visibility="show"

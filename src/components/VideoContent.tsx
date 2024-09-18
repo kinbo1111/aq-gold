@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { API } from 'aws-amplify';
-import { useParams } from 'react-router-dom';
+import { message } from 'antd'; // Import message from antd
 import videojs from 'video.js';
 import 'videojs-vr';
 import 'videojs-vr/dist/videojs-vr.css';
@@ -8,14 +9,12 @@ import 'video.js/dist/video-js.css';
 import { getUserActivity, createUserProgress, updateUserProgress } from '../graphql/mutations';
 import { useUser } from '../contexts/UserContext';
 
-export type VideoModalProps = {
-  show: boolean;
-  onClose: () => void;
-  videoUrl: string;
-  videoId: string;
+// Define the type for the VR plugin object
+type VideoJsVrPlugin = {
+  getProjection: () => string;
 };
 
-const VideoModal: React.FC<VideoModalProps> = ({ show, onClose, videoUrl, videoId }) => {
+const VideoContent: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const playerRef = useRef<videojs.Player | null>(null);
 
@@ -23,10 +22,20 @@ const VideoModal: React.FC<VideoModalProps> = ({ show, onClose, videoUrl, videoI
   const [progress, setProgress] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const { videoId } = useParams<{ videoId: string }>();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const videoUrl = location.state?.videoUrl;
 
-  
+  const handleCloseModal = () => {
+    message.destroy(); // Clear any existing messages
+    message.info('Video closed'); // Info message on modal close
+    navigate(-1); // Navigate back to the previous page
+  };
+
+  // Initialize video.js with VR and handle potential errors
   useEffect(() => {
-    if (show && videoRef.current && videoUrl) {
+    if (videoRef.current && videoUrl) {
       const player = videojs(videoRef.current, {
         controls: true,
         autoplay: false,
@@ -34,14 +43,33 @@ const VideoModal: React.FC<VideoModalProps> = ({ show, onClose, videoUrl, videoI
       });
 
       try {
-        player.vr({
+        const vrOptions = {
           projection: 'AUTO',
           debug: true,
+        };
+
+        // Initialize VR
+        player.vr(vrOptions);
+
+        // Wait for VR to initialize
+        player.on('loadedmetadata', () => {
+          // Type assertion: tell TypeScript this is a VR plugin
+          const vrPlugin = player.vr() as unknown as VideoJsVrPlugin;
+
+          // Check if the video is not VR
+          const vrProjection = vrPlugin && vrPlugin.getProjection ? vrPlugin.getProjection() : 'NONE';
+
+          if (vrProjection === 'NONE') {
+            message.warning('This video is not VR-supported.'); // Show warning message for non-VR video
+          }
         });
+
         player.src(videoUrl);
         playerRef.current = player;
       } catch (error) {
+        message.destroy(); // Clear previous messages
         console.error('VR setup failed:', error);
+        message.error('VR setup failed.'); // Show error message for VR setup failure
         setError('VR setup failed.');
       }
 
@@ -52,12 +80,16 @@ const VideoModal: React.FC<VideoModalProps> = ({ show, onClose, videoUrl, videoI
         }
       };
     }
-  }, [videoUrl]); 
+  }, [videoUrl]);
 
+  // Fetch user progress and handle errors
   useEffect(() => {
     if (user && videoId) {
       const fetchUserProgress = async () => {
         setIsLoading(true);
+        message.destroy(); // Clear previous messages
+        message.loading('Fetching video progress...'); // Loading message when fetching progress
+
         try {
           const progressData = await API.graphql({
             query: getUserActivity,
@@ -67,9 +99,13 @@ const VideoModal: React.FC<VideoModalProps> = ({ show, onClose, videoUrl, videoI
 
           if (progressData.data.listUserActivities.items.length > 0) {
             setProgress(progressData.data.listUserActivities.items[0].progress);
+            message.destroy(); // Clear the loading message before showing success
+            message.success('Video progress fetched successfully!'); // Success message
           }
         } catch (error) {
+          message.destroy(); // Clear previous messages
           console.error('Error fetching user progress:', error);
+          message.error('Error fetching user progress.'); // Error message
           setError('Error fetching user progress.');
         } finally {
           setIsLoading(false);
@@ -80,7 +116,7 @@ const VideoModal: React.FC<VideoModalProps> = ({ show, onClose, videoUrl, videoI
     }
   }, [videoId, user]);
 
-  // Debounced progress update handler
+  // Handle progress updates and API errors
   const handleProgressUpdate = useCallback(
     async (currentTime: number) => {
       if (typeof currentTime === 'number' && !isNaN(currentTime)) {
@@ -114,21 +150,29 @@ const VideoModal: React.FC<VideoModalProps> = ({ show, onClose, videoUrl, videoI
             authMode: 'AMAZON_COGNITO_USER_POOLS',
           });
         } catch (error) {
-          console.error('Error updating user progress:', error);
-          setError('Error updating user progress.');
+          message.destroy(); // Clear previous messages
+          console.error('Error updating video progress:', error);
+          message.error('Error updating video progress.'); // Error message
+          setError('Error updating video progress.');
         }
       }
     },
     [user, videoId]
   );
 
+  if (!videoUrl) {
+    message.destroy(); // Clear previous messages
+    message.error('Video URL is missing.'); // Error message if video URL is missing
+    return <div>Loading...</div>;
+  }
+
   if (isLoading) return <div>Loading video...</div>;
   if (error) return <div>{error}</div>;
 
-  return show ? (
+  return (
     <div style={styles.modalOverlay}>
       <div style={styles.modalContent}>
-        <button onClick={onClose} style={styles.closeButton}>X</button>
+        <button onClick={handleCloseModal} style={styles.closeButton}>X</button>
         <video
           ref={videoRef}
           className="video-js vjs-default-skin"
@@ -138,7 +182,7 @@ const VideoModal: React.FC<VideoModalProps> = ({ show, onClose, videoUrl, videoI
         />
       </div>
     </div>
-  ) : null;
+  );
 };
 
 const styles = {
@@ -155,9 +199,9 @@ const styles = {
     zIndex: 1000,
   },
   modalContent: {
-    position: 'relative' as 'relative',
-    width: '100%',
-    height: '100%',
+    position: 'absolute' as 'absolute',
+    width: '100vw',
+    height: '100vh',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -179,4 +223,4 @@ const styles = {
   },
 };
 
-export default VideoModal;
+export default VideoContent;

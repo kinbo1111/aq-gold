@@ -5,7 +5,6 @@ import { getChannelAvatarUrl, getProfileAvatarUrl } from '../services/storageSer
 import { getContinueWatchingVideos } from '../services/UserActivityService';
 import { VideoData, FavoriteChannel } from '../types';
 
-
 export type CustomUser = {
   username: string;
   email?: string;

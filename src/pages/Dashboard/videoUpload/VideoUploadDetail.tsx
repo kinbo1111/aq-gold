@@ -14,7 +14,6 @@ import { useTranslation } from 'react-i18next';
 import { VideoDetailData, Thumbnail } from ".";
 import { categories, playlist } from '../../../constant/SelectItems';
 import { useChannel } from "../../../contexts/ChannelContext";
-import { message } from "antd";
 import DetailImg from "../../../assets/images/default_image.png";
 
 interface VideoUploadDetailProps {
@@ -43,6 +42,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
   const [thumbnails, setThumbnails] = useState<Thumbnail[]>([]);
   const [thumbnailFile, setThumbnailFile] = useState<File>();
   const [vthumbnails, setVThumbnails] = useState<Thumbnail[]>([]);
+  const [vThumbnailFile, setVthumbnailFile] = useState<File>();
   const [forKid, setForKid] = useState<boolean>(false);
   const [restrict, setRestrict] = useState<boolean>(true);
   const [isDescriptionVisible, setDescriptionVisible] = useState(false);
@@ -77,6 +77,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
   const handleVThumbnailUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files && files.length > 0) {
+      setVthumbnailFile(files[0])
       const newVThumbnails = Array.from(files).map((file) => ({
         src: URL.createObjectURL(file),
         alt: file.name,
@@ -109,6 +110,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
       description: description,
       category: selectedCategory,
       thumbnail: thumbnailFile,
+      vThumbnail: vThumbnailFile,
       isForKids: forKid,
       isRestricted: restrict,
       playlist: selectedPlaylist,

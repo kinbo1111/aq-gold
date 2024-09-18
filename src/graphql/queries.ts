@@ -17,6 +17,7 @@ export const getVideo = /* GraphQL */ `query GetVideo($id: ID!) {
     category
     videoUrl
     thumbnailUrl
+    vThumbnailUrl
     isForKids
     isRestricted
     playlist
@@ -68,6 +69,7 @@ export const listVideos = /* GraphQL */ `query ListVideos(
       category
       videoUrl
       thumbnailUrl
+      vThumbnailUrl
       isForKids
       isRestricted
       playlist
@@ -116,6 +118,7 @@ export const videosByChannelIdAndCreatedAt = /* GraphQL */ `query VideosByChanne
       category
       videoUrl
       thumbnailUrl
+      vThumbnailUrl
       isForKids
       isRestricted
       playlist
@@ -240,6 +243,7 @@ export const getFavorite = /* GraphQL */ `query GetFavorite($id: ID!) {
       category
       videoUrl
       thumbnailUrl
+      vThumbnailUrl
       isForKids
       isRestricted
       playlist
@@ -483,6 +487,7 @@ export const getUserActivity = /* GraphQL */ `query GetUserActivity($id: ID!) {
       category
       videoUrl
       thumbnailUrl
+      vThumbnailUrl
       isForKids
       isRestricted
       playlist

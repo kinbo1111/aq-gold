@@ -2,6 +2,7 @@ import { FavoriteChannel, Channel, channelInputProps } from '../types';
 import { API, graphqlOperation } from 'aws-amplify';
 import { listFavoriteChannels, getChannel, listChannels, listVideos} from '../graphql/queries';
 import { createFavoriteChannel, deleteFavoriteChannel, createChannel, updateChannel, deleteChannel, deleteVideo } from '../graphql/mutations';
+import { message } from 'antd';
 
 export const fetchFavoriteChannels = async (userId: string): Promise<FavoriteChannel[]> => {
   try {
@@ -143,7 +144,7 @@ export const deleteChannelById = async (channelId: string) => {
       authMode: 'AMAZON_COGNITO_USER_POOLS',
     });
     
-    alert("Channel deleted successfully!");
+    message.success("Channel deleted successfully!");
   } catch (error) {
     console.error('Error deleting channel:', error);
     throw new Error('Failed to delete channel');
