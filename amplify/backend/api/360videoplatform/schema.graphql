@@ -13,6 +13,7 @@ type Video @model
   category: String
   videoUrl: String!
   thumbnailUrl: String
+  vThumbnailUrl: String
   isForKids: Boolean
   isRestricted: Boolean
   playlist: String
