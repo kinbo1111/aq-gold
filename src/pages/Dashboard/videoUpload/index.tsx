@@ -5,7 +5,7 @@ import VideoUploadModal from './VideoUploadModal';
 import VideoUploadDetail from './VideoUploadDetail';
 import VideoUploadVisibility from './VideoUploadVisibility';
 import VideoUploadSchedule from './VideoUploadSchedule';
-import { uploadVideo, uploadThumbnail, getVideoUrl, getThumbnailUrl } from '../../../services/storageService';
+import { uploadVideo, uploadThumbnail,uploadVthumbnail, getVideoUrl, getThumbnailUrl } from '../../../services/storageService';
 import { saveVideoMetadata } from '../../../services/VideoService';
 import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +14,7 @@ export type VideoDetailData =  {
   title: string;
   description?: string;
   category?: string;
+  vThumbnail?: File;
   thumbnail?: File;
   isForKids: boolean;
   isRestricted: boolean;
@@ -91,7 +92,7 @@ const VideoUpload: React.FC = () => {
   const handleOpenSchedule = async (scheduleData: ScheduleDataProps | null) => {  
     try {
       setVideoSchedule(scheduleData)
-      if (selectedFile === null || videoDetail?.thumbnail === undefined) {
+      if (selectedFile === null || videoDetail?.thumbnail === undefined || videoDetail?.vThumbnail === undefined) {
         message.error('Please select both a video and a thumbnail file to upload.');
         return;
       }
@@ -105,6 +106,8 @@ const VideoUpload: React.FC = () => {
       const thumbnailKey = await uploadThumbnail(videoDetail?.thumbnail);
       const thumbnailUrl = await getThumbnailUrl(thumbnailKey);
       const videoElement = document.createElement('video');
+      const vThumbnailKey = await uploadVthumbnail(videoDetail?.vThumbnail);
+      const vThumbnailUrl = await getThumbnailUrl(vThumbnailKey);
       
       setTimeZone(scheduleData?.timezone ?? 'Japan (GMT＋0700)')
       videoElement.src = URL.createObjectURL(selectedFile); 
@@ -120,6 +123,7 @@ const VideoUpload: React.FC = () => {
           category: videoDetail?.category,
           videoUrl,
           thumbnailUrl,
+          vThumbnailUrl,
           isForKids: videoDetail?.isForKids,
           isRestricted: videoDetail?.isRestricted,
           playlist: videoDetail?.playlist,

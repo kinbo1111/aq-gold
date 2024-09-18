@@ -14,6 +14,7 @@ export type MovieTopListProp = {
 }
 
 const MovieTopList: React.FC<MovieTopListProp> = ({ label, movieData }) => {
+
   return (
     <div className="py-12 px-4 border-b-4 border-[#2a2d2e]">
       <h5 className="text-white sub-1b pl-8 mb-6">{label}</h5>
@@ -43,7 +44,7 @@ const MovieTopList: React.FC<MovieTopListProp> = ({ label, movieData }) => {
             <SwiperSlide  key={index}>
               <div className="flex flex-row">
                   <span className="order-num">{index + 1}</span>
-                  <MovieTopItem imgSrc={item.thumbnailUrl ?? ''} />
+              <MovieTopItem imgSrc={item.vThumbnailUrl ?? ''}  videoId={item.id} videoUrl={item.videoUrl}/>
               </div>
             </SwiperSlide >
         ))}

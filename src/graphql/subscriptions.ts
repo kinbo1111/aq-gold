@@ -20,6 +20,7 @@ export const onCreateVideo = /* GraphQL */ `subscription OnCreateVideo(
     category
     videoUrl
     thumbnailUrl
+    vThumbnailUrl
     isForKids
     isRestricted
     playlist
@@ -72,6 +73,7 @@ export const onUpdateVideo = /* GraphQL */ `subscription OnUpdateVideo(
     category
     videoUrl
     thumbnailUrl
+    vThumbnailUrl
     isForKids
     isRestricted
     playlist
@@ -124,6 +126,7 @@ export const onDeleteVideo = /* GraphQL */ `subscription OnDeleteVideo(
     category
     videoUrl
     thumbnailUrl
+    vThumbnailUrl
     isForKids
     isRestricted
     playlist
@@ -330,6 +333,7 @@ export const onCreateFavorite = /* GraphQL */ `subscription OnCreateFavorite(
       category
       videoUrl
       thumbnailUrl
+      vThumbnailUrl
       isForKids
       isRestricted
       playlist
@@ -372,6 +376,7 @@ export const onUpdateFavorite = /* GraphQL */ `subscription OnUpdateFavorite(
       category
       videoUrl
       thumbnailUrl
+      vThumbnailUrl
       isForKids
       isRestricted
       playlist
@@ -414,6 +419,7 @@ export const onDeleteFavorite = /* GraphQL */ `subscription OnDeleteFavorite(
       category
       videoUrl
       thumbnailUrl
+      vThumbnailUrl
       isForKids
       isRestricted
       playlist
@@ -543,6 +549,7 @@ export const onCreateUserActivity = /* GraphQL */ `subscription OnCreateUserActi
       category
       videoUrl
       thumbnailUrl
+      vThumbnailUrl
       isForKids
       isRestricted
       playlist
@@ -587,6 +594,7 @@ export const onUpdateUserActivity = /* GraphQL */ `subscription OnUpdateUserActi
       category
       videoUrl
       thumbnailUrl
+      vThumbnailUrl
       isForKids
       isRestricted
       playlist
@@ -631,6 +639,7 @@ export const onDeleteUserActivity = /* GraphQL */ `subscription OnDeleteUserActi
       category
       videoUrl
       thumbnailUrl
+      vThumbnailUrl
       isForKids
       isRestricted
       playlist

@@ -52,7 +52,6 @@ const CreateChannel = () => {
       }
   };
 
-
   const handleCreateChannel = async () => {
     setIsLoading(true);
     try {

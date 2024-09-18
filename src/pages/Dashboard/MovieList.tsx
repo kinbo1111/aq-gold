@@ -41,7 +41,7 @@ const MovieList: React.FC<MovieListProp> = ({ label, movieData}) => {
       >
         {movieData.map((item, index) => (
           <SwiperSlide  key={index} >
-            <MovieItem imgSrc={item.thumbnailUrl ?? ''} />
+            <MovieItem imgSrc={item.thumbnailUrl ?? ''} videoId={item.id} videoUrl={item.videoUrl}/>
           </SwiperSlide>
         ))}
       </Swiper>

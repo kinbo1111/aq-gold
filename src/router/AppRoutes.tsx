@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Loading from "../components/Loading";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
+import VideoContent from "../components/VideoContent";
 
 // Lazy load all pages
 const UnauthorizedPage = React.lazy(() => import("../pages/UnAuthorizedPage"));
@@ -37,6 +38,7 @@ const Travel = React.lazy(() => import("../pages/Dashboard/category/Travel"));
 const Animal = React.lazy(() => import("../pages/Dashboard/category/Animal"));
 const Kids = React.lazy(() => import("../pages/Dashboard/category/Kids"));
 const ContinueWatchingPage = React.lazy(() => import("../components/ContinueWatching"));
+const VideoModal = React.lazy(() => import("../components/VideoModal"));
 
 const AppRoutes: React.FC = () => {
 
@@ -53,6 +55,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/aq-studio" element={<PrivateRoute element={<AQStudioHome />} />} />
         <Route path="/settings" element={<PrivateRoute element={<Settings />} />} />
         <Route path="/video-upload" element={<PrivateRoute element={<VideoUpload />} />} />
+        <Route path="/video/:videoId"element={<PrivateRoute element={<VideoContent />} />} />
         <Route path="/profile" element={<PrivateRoute element={<ProfileEditPage />} />} />
         <Route path="/continue-watching" element={<PrivateRoute element={<ContinueWatchingPage />} />} />
         <Route path="/category">
