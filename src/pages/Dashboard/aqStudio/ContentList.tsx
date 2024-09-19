@@ -5,28 +5,18 @@ import ContentHeader from './ContentHeader';
 import { fetchVideos } from '../../../services/ApiService';
 import Item from "../../../assets/images/content.png"
 import { useVideo } from '../../../contexts/VideoContext';
+import { useUser } from '../../../contexts/UserContext';
 
 const ContentList: React.FC = () => {
-  const [videos, setVideos] = useState<any[]>([]);
   const [isReload, setIsReload] = useState(false);
-  const { myVideos } = useVideo();
-
-  useEffect(() => {
-    const loadVideos = async () => {
-      try {
-        const videoList = await fetchVideos();
-        setVideos(videoList);
-      } catch (error) {
-        console.error('Error fetching videos:', error);
-      }
-    };
-    loadVideos();
-  }, [isReload]);
+  const { videos } = useVideo();
+  const { user } = useUser();
   
+  console.log(videos)
   return (
     <Box>
       <ContentHeader />
-      {myVideos.map((item, index) => (
+      {videos.filter(video => video.owner === user?.sub).map((item, index) => (
         <ContentItem
           id={item.id}
           key={index}
