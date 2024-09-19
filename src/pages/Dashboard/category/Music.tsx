@@ -2,14 +2,11 @@ import React from "react";
 import { FaRegStar } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
 import { FaPlay } from "react-icons/fa";
-
-
 import Button from "../../../components/Button";
 import MainContainer from "../../../components/MainContainer";
 import MovieList from "../MovieList";
 import { useTranslation } from "react-i18next";
 import { useVideo } from "../../../contexts/VideoContext";
-import { useUser } from "../../../contexts/UserContext";
 import { useSidebar } from "../../../contexts/SidebarContext";
 import { useNavigate } from "react-router-dom";
 
@@ -17,8 +14,8 @@ const Music = () => {
     const { t } = useTranslation();
     const { topVideos, filterVideosByCategory } = useVideo();
     const { collapsed } = useSidebar();
-    const { filteredNewVideos, filteredPopularVideos, filteredRecommendVideos, filteredMyList } = filterVideosByCategory('music');
-    const { continueVideos } = useUser();
+    const { filteredNewVideos, filteredPopularVideos, filteredRecommendVideos, filteredMyVideos, filteredContinueVideos } = filterVideosByCategory('music');
+    
 
     const navigate = useNavigate();
 
@@ -26,9 +23,7 @@ const Music = () => {
         navigate(`/video/${topVideos[0]?.id}`, { state: { videoUrl:topVideos[0]?.videoUrl } });
     };
 
-    const filterContinueWatching = () => {
-      return continueVideos.filter(video => video.category && video.category.toLowerCase() === 'music');
-    };
+ 
 
     return (
         <MainContainer>
@@ -76,15 +71,15 @@ const Music = () => {
                 />
                  <MovieList
                     label={t("Continue Watching")}
-                    movieData={filterContinueWatching()}
+                    movieData={filteredContinueVideos}
                 />
                  <MovieList
                     label={t("AQvar Contents")}
-                    movieData={[]}
+                    movieData={filteredMyVideos}
                 />
                  <MovieList
                     label={t("My List")}
-                    movieData={filteredMyList}
+                    movieData={filteredMyVideos}
                 />
             </div>
         </MainContainer>

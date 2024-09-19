@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { useState } from 'react';
-import DashboardContainer from "../../../components/DashboardContainer";
+import { message, Progress } from 'antd';
+import DashboardContainer from '../../../components/DashboardContainer';
 import VideoUploadModal from './VideoUploadModal';
 import VideoUploadDetail from './VideoUploadDetail';
 import VideoUploadVisibility from './VideoUploadVisibility';
 import VideoUploadSchedule from './VideoUploadSchedule';
-import { uploadVideo, uploadThumbnail,uploadVthumbnail, getVideoUrl, getThumbnailUrl } from '../../../services/storageService';
+import { uploadVideoWithProgress, uploadThumbnail, getVideoUrl, getThumbnailUrl } from '../../../services/storageService';
 import { saveVideoMetadata } from '../../../services/VideoService';
-import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
 export type VideoDetailData =  {
@@ -36,28 +36,24 @@ export type ScheduleDataProps = {
 
 const VideoUpload: React.FC = () => {
   const navigate = useNavigate();
-  const [isUploadModalOpen, setIsUploadModalOpen]  = useState(true);
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(true);
   const [isUploadDetailOpen, setIsUploadDetailOpen] = useState(false);
   const [isUploadVisibilityOpen, setIsUploadVisibilityOpen] = useState(false);
   const [isUploadScheduleOpen, setIsUploadScheduleOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [videoDetail, setVideoDetail] = useState<VideoDetailData | null>(null);
-  const [videoSchedule, setVideoSchedule] = useState<ScheduleDataProps | null>(null);
   const [videoScheduleTime, setVideoScheduleTime] = useState<string>();
   const [timezone, setTimeZone] = useState<string>('Japan (GMT＋0700)');
   const [videoUrl, setVideoUrl] = useState<string>();
   const [videoThumbnail, setVideoThumbnail] = useState<string>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const handleOpenUploadModal = () => {
-    setIsUploadModalOpen(true);
-  };
+  const [videoProgress, setVideoProgress] = useState<number>(0);
+  const [thumbnailProgress, setThumbnailProgress] = useState<number>(0);
 
   const handleCloseUploadModal = () => {
     setIsUploadModalOpen(false);
     setSelectedFile(null);
-    navigate('/aq-studio?tab=1')
-
+    navigate('/aq-studio?tab=1');
   };
 
   const handleUpload = (file: File) => {
@@ -65,72 +61,57 @@ const VideoUpload: React.FC = () => {
     setIsUploadModalOpen(false);
     setIsUploadDetailOpen(true);
   };
-  
-  const handleCloseUploadDetail = () => {
-      setIsUploadDetailOpen(false);
-      navigate('/aq-studio?tab=1')
-      setSelectedFile(null);
-    };
 
   const handleNextUploadDetail = (detail: VideoDetailData | null) => {
-    setVideoDetail(detail)
+    setVideoDetail(detail);
     setIsUploadDetailOpen(false);
     setIsUploadVisibilityOpen(true);
   };
 
-  const handleCloseUploadVisibility = () => {
-    setIsUploadVisibilityOpen(false);
-    setIsUploadDetailOpen(true);
-    setIsUploadVisibilityOpen(false);
-    }
-  
-    const handleCloseUploadSchedule = () => {
-      setIsUploadScheduleOpen(false);
-      navigate('/aq-studio?tab=1')
-    }
-   
-  const handleOpenSchedule = async (scheduleData: ScheduleDataProps | null) => {  
+  const handleOpenSchedule = async (scheduleData: ScheduleDataProps | null) => {
     try {
-      setVideoSchedule(scheduleData)
-      if (selectedFile === null || videoDetail?.thumbnail === undefined || videoDetail?.vThumbnail === undefined) {
+      if (selectedFile === null || !videoDetail?.thumbnail) {
         message.error('Please select both a video and a thumbnail file to upload.');
         return;
       }
+
       setIsLoading(true);
+
       const scheduleTimeISO = scheduleData?.scheduleDate 
-      ? new Date(scheduleData.scheduleDate + ' ' + scheduleData?.scheduleTime).toISOString() 
-      : new Date().toISOString();
-      
-      const videoKey = await uploadVideo(selectedFile);
+        ? new Date(scheduleData.scheduleDate + ' ' + scheduleData.scheduleTime).toISOString() 
+        : new Date().toISOString();
+
+      // Upload video with progress tracking
+      const videoKey = await uploadVideoWithProgress(selectedFile, setVideoProgress);
       const videoUrl = await getVideoUrl(videoKey);
-      const thumbnailKey = await uploadThumbnail(videoDetail?.thumbnail);
+
+      // Upload thumbnail with progress tracking
+      const thumbnailKey = await uploadThumbnail(videoDetail.thumbnail);
       const thumbnailUrl = await getThumbnailUrl(thumbnailKey);
+
+      setVideoScheduleTime(scheduleTimeISO);
+      setVideoUrl(videoUrl);
+      setVideoThumbnail(thumbnailUrl);
+
       const videoElement = document.createElement('video');
-      const vThumbnailKey = await uploadVthumbnail(videoDetail?.vThumbnail);
-      const vThumbnailUrl = await getThumbnailUrl(vThumbnailKey);
-      
-      setTimeZone(scheduleData?.timezone ?? 'Japan (GMT＋0700)')
-      videoElement.src = URL.createObjectURL(selectedFile); 
-      
+      videoElement.src = URL.createObjectURL(selectedFile);
+
       videoElement.onloadedmetadata = async () => {
         const duration = Math.floor(videoElement.duration);
-        setVideoScheduleTime(scheduleTimeISO);
-        setVideoUrl(videoUrl);        
-        setVideoThumbnail(thumbnailUrl);
+
         await saveVideoMetadata({
-          title: videoDetail?.title,
-          description: videoDetail?.description,
-          category: videoDetail?.category,
+          title: videoDetail.title,
+          description: videoDetail.description,
+          category: videoDetail.category,
           videoUrl,
           thumbnailUrl,
-          vThumbnailUrl,
-          isForKids: videoDetail?.isForKids,
-          isRestricted: videoDetail?.isRestricted,
-          playlist: videoDetail?.playlist,
-          channelId: videoDetail?.channelId,
+          isForKids: videoDetail.isForKids,
+          isRestricted: videoDetail.isRestricted,
+          playlist: videoDetail.playlist,
+          channelId: videoDetail.channelId,
           scheduleTime: scheduleTimeISO,
-          timezone: timezone,
-          isPublic: scheduleData?.publishNow ??  false,
+          timezone,
+          isPublic: scheduleData?.publishNow ?? false,
           duration,
           viewCount: 0,
           favoriteCount: 0,
@@ -138,45 +119,47 @@ const VideoUpload: React.FC = () => {
 
         message.success('Video and thumbnail uploaded successfully!');
         setIsUploadScheduleOpen(true);
-      }
-    } catch (error: any) {
-      message.warning(error.message || 'An unexpected error occurred.');
+      };
+    } catch (error) {
+      message.error('Error uploading video or thumbnail.');
+      console.error('Error:', error);
     } finally {
-      setIsUploadVisibilityOpen(false);
       setIsLoading(false);
-      }
-    };
-   
-    return (
-        <DashboardContainer>  
-        <VideoUploadModal
-          isOpen={isUploadModalOpen}      
-          onClose={handleCloseUploadModal}    
-          onUpload={handleUpload}
-        />
-        <VideoUploadDetail
-          file={selectedFile}
-          isOpen={isUploadDetailOpen}
-          onClose={handleCloseUploadDetail}
-          onNext={handleNextUploadDetail} 
-        />
-        <VideoUploadVisibility
-          videoTitle={videoDetail?.title ?? ''}
-          isOpen={isUploadVisibilityOpen}
-          onClose={handleCloseUploadVisibility}
-          onSchedule={handleOpenSchedule}
-          isLoading = {isLoading}
-        />
-        <VideoUploadSchedule
-          isOpen={isUploadScheduleOpen}
-          onClose={handleCloseUploadSchedule}
-          videoScheduleTime={videoScheduleTime ?? ''}
-          videoUrl={videoUrl ?? ''}
-          videoTitle={videoDetail?.title ?? ''}
-          thumbnailUrl={videoThumbnail ?? ''}  
-        />
-        </DashboardContainer>
-    );
+      setIsUploadVisibilityOpen(false);
+    }
+  };
+
+  return (
+    <DashboardContainer>
+      <VideoUploadModal
+        isOpen={isUploadModalOpen}
+        onClose={handleCloseUploadModal}
+        onUpload={handleUpload}
+      />
+      <VideoUploadDetail
+        file={selectedFile}
+        isOpen={isUploadDetailOpen}
+        onClose={() => setIsUploadDetailOpen(false)}
+        onNext={handleNextUploadDetail}
+      />
+      <VideoUploadVisibility
+        videoTitle={videoDetail?.title ?? ''}
+        isOpen={isUploadVisibilityOpen}
+        onClose={() => setIsUploadVisibilityOpen(false)}
+        onSchedule={handleOpenSchedule}
+        isLoading={isLoading}
+        uploadProgress={videoProgress}
+      />
+      <VideoUploadSchedule
+        isOpen={isUploadScheduleOpen}
+        onClose={() => setIsUploadScheduleOpen(false)}
+        videoScheduleTime={videoScheduleTime ?? ''}
+        videoUrl={videoUrl ?? ''}
+        videoTitle={videoDetail?.title ?? ''}
+        thumbnailUrl={videoThumbnail ?? ''}
+      />
+    </DashboardContainer>
+  );
 };
 
 export default VideoUpload;

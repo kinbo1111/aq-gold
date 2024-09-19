@@ -6,7 +6,6 @@ export type DashboardContainerProps = {
 
 const DashboardContainer: React.FC<DashboardContainerProps> = ({ children }) => {
     const { collapsed } = useSidebar();
-    console.log(collapsed)
 
   return (
     <div

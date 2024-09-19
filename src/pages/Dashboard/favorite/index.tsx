@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 const Favorite = () => {
     const { t } = useTranslation();
     const { collapsed } = useSidebar()
-    const { videos, topVideos, recommendVideos, popularVideos, newVideos } = useVideo();
+    const { videos, topVideos, recommendVideos, popularVideos, newVideos, favoriteVideos } = useVideo();
     const navigate = useNavigate();
     const handleShow = () => {
         navigate(`/video/${topVideos[0]?.id}`, { state: { videoUrl:topVideos[0]?.videoUrl } });
