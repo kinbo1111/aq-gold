@@ -12,11 +12,10 @@ const ContentList: React.FC = () => {
   const { videos } = useVideo();
   const { user } = useUser();
   
-  console.log(videos)
   return (
     <Box>
       <ContentHeader />
-      {videos.filter(video => video.owner === user?.sub).map((item, index) => (
+      {videos.filter(video => video.owner === user?.username).map((item, index) => (
         <ContentItem
           id={item.id}
           key={index}

@@ -9,7 +9,6 @@ import CreateChannel from '../aqChannel/CreateChannel';
 
 const AQStudioHome = () => {
     const { t } = useTranslation();
-    const { user } = useUser();
     const { hasChannel, channelData, loadingChannel, checkUserChannel } = useChannel();
 
     useEffect(() => {
