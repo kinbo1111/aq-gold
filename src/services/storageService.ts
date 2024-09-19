@@ -1,10 +1,14 @@
 import { Storage } from 'aws-amplify';
 import { cloudFrontDomain } from '../const';
 
-export async function uploadVideo(file: File): Promise<string> {
+export async function uploadVideoWithProgress(file: File, onProgress: (progress: number) => void): Promise<string> {
   try {
     const result = await Storage.put(`videos/${file.name}`, file, {
       contentType: file.type,
+      progressCallback(progressEvent) {
+        const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
+        onProgress(progress);
+      },
     });
     return result.key;
   } catch (error) {

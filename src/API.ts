@@ -2,6 +2,7 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
+
 export type CreateVideoInput = {
   id?: string | null,
   title: string,
@@ -25,6 +26,13 @@ export type CreateVideoInput = {
   updatedAt?: string | null,
   isPublic: boolean,
   owner?: string | null,
+};
+export type CreateNotificationInput = {
+  id?: string | null,
+  message: string,
+  userId: string,
+  read: boolean,
+  createdAt?: string | null,
 };
 
 export type ModelVideoConditionInput = {
@@ -52,6 +60,17 @@ export type ModelVideoConditionInput = {
   and?: Array< ModelVideoConditionInput | null > | null,
   or?: Array< ModelVideoConditionInput | null > | null,
   not?: ModelVideoConditionInput | null,
+};
+
+export type ModelNotificationConditionInput = {
+  message?: ModelStringInput | null,
+  userId?: ModelIDInput | null,
+  read?: ModelBooleanInput | null,
+  createdAt?: ModelStringInput | null,
+  and?: Array< ModelNotificationConditionInput | null > | null,
+  or?: Array< ModelNotificationConditionInput | null > | null,
+  not?: ModelNotificationConditionInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type ModelStringInput = {
@@ -94,12 +113,38 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
+
+
 export type ModelBooleanInput = {
   ne?: boolean | null,
   eq?: boolean | null,
   attributeExists?: boolean | null,
   attributeType?: ModelAttributeTypes | null,
 };
+
+export type Notification = {
+  __typename: "Notification",
+  id: string,
+  message: string,
+  userId: string,
+  read: boolean,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateNotificationInput = {
+  id: string,
+  message?: string | null,
+  userId?: string | null,
+  read?: boolean | null,
+  createdAt?: string | null,
+};
+
+export type DeleteNotificationInput = {
+  id: string,
+};
+
+
 
 export type ModelIntInput = {
   ne?: number | null,
@@ -430,6 +475,24 @@ export type DeleteUserActivityInput = {
   id: string,
 };
 
+export type ModelNotificationFilterInput = {
+  id?: ModelIDInput | null,
+  message?: ModelStringInput | null,
+  userId?: ModelIDInput | null,
+  read?: ModelBooleanInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelNotificationFilterInput | null > | null,
+  or?: Array< ModelNotificationFilterInput | null > | null,
+  not?: ModelNotificationFilterInput | null,
+};
+
+export type ModelNotificationConnection = {
+  __typename: "ModelNotificationConnection",
+  items:  Array<Notification | null >,
+  nextToken?: string | null,
+};
+
 export type ModelVideoFilterInput = {
   id?: ModelIDInput | null,
   title?: ModelStringInput | null,
@@ -587,6 +650,17 @@ export type ModelSubscriptionVideoFilterInput = {
   owner?: ModelStringInput | null,
 };
 
+export type ModelSubscriptionNotificationFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  message?: ModelSubscriptionStringInput | null,
+  userId?: ModelSubscriptionIDInput | null,
+  read?: ModelSubscriptionBooleanInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionNotificationFilterInput | null > | null,
+  or?: Array< ModelSubscriptionNotificationFilterInput | null > | null,
+};
+
 export type ModelSubscriptionIDInput = {
   ne?: string | null,
   eq?: string | null,
@@ -621,6 +695,8 @@ export type ModelSubscriptionBooleanInput = {
   ne?: boolean | null,
   eq?: boolean | null,
 };
+
+
 
 export type ModelSubscriptionIntInput = {
   ne?: number | null,
@@ -691,6 +767,57 @@ export type ModelSubscriptionUserActivityFilterInput = {
   and?: Array< ModelSubscriptionUserActivityFilterInput | null > | null,
   or?: Array< ModelSubscriptionUserActivityFilterInput | null > | null,
   owner?: ModelStringInput | null,
+};
+
+export type CreateNotificationMutationVariables = {
+  input: CreateNotificationInput,
+  condition?: ModelNotificationConditionInput | null,
+};
+
+export type CreateNotificationMutation = {
+  createNotification?:  {
+    __typename: "Notification",
+    id: string,
+    message: string,
+    userId: string,
+    read: boolean,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateNotificationMutationVariables = {
+  input: UpdateNotificationInput,
+  condition?: ModelNotificationConditionInput | null,
+};
+
+export type UpdateNotificationMutation = {
+  updateNotification?:  {
+    __typename: "Notification",
+    id: string,
+    message: string,
+    userId: string,
+    read: boolean,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteNotificationMutationVariables = {
+  input: DeleteNotificationInput,
+  condition?: ModelNotificationConditionInput | null,
+};
+
+export type DeleteNotificationMutation = {
+  deleteNotification?:  {
+    __typename: "Notification",
+    id: string,
+    message: string,
+    userId: string,
+    read: boolean,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
 };
 
 export type CreateVideoMutationVariables = {
@@ -1335,6 +1462,44 @@ export type DeleteUserActivityMutation = {
   } | null,
 };
 
+export type GetNotificationQueryVariables = {
+  id: string,
+};
+
+export type GetNotificationQuery = {
+  getNotification?:  {
+    __typename: "Notification",
+    id: string,
+    message: string,
+    userId: string,
+    read: boolean,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListNotificationsQueryVariables = {
+  filter?: ModelNotificationFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListNotificationsQuery = {
+  listNotifications?:  {
+    __typename: "ModelNotificationConnection",
+    items:  Array< {
+      __typename: "Notification",
+      id: string,
+      message: string,
+      userId: string,
+      read: boolean,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type GetVideoQueryVariables = {
   id: string,
 };
@@ -1887,6 +2052,104 @@ export type UserActivitiesByVideoIdAndUserIdQuery = {
       owner?: string | null,
     } | null >,
     nextToken?: string | null,
+  } | null,
+};
+
+export type OnNewVideoUploadedSubscriptionVariables = {
+};
+
+export type OnNewVideoUploadedSubscription = {
+  onNewVideoUploaded?:  {
+    __typename: "Video",
+    id: string,
+    title: string,
+    description?: string | null,
+    tags?: Array< string | null > | null,
+    category?: string | null,
+    videoUrl: string,
+    thumbnailUrl?: string | null,
+    vThumbnailUrl?: string | null,
+    isForKids?: boolean | null,
+    isRestricted?: boolean | null,
+    playlist?: string | null,
+    scheduleTime?: string | null,
+    timezone?: string | null,
+    duration: number,
+    viewCount: number,
+    favoriteCount: number,
+    channelId: string,
+    channel?:  {
+      __typename: "Channel",
+      id: string,
+      name: string,
+      description?: string | null,
+      owner?: string | null,
+      avatarUrl?: string | null,
+      subscribersCount: number,
+      createdAt?: string | null,
+      updatedAt?: string | null,
+    } | null,
+    isAQOriginal?: boolean | null,
+    createdAt?: string | null,
+    updatedAt?: string | null,
+    isPublic: boolean,
+    owner?: string | null,
+    favorites?:  {
+      __typename: "ModelFavoriteConnection",
+      nextToken?: string | null,
+    } | null,
+    userActivity?:  {
+      __typename: "ModelUserActivityConnection",
+      nextToken?: string | null,
+    } | null,
+  } | null,
+};
+
+export type OnCreateNotificationSubscriptionVariables = {
+  filter?: ModelSubscriptionNotificationFilterInput | null,
+};
+
+export type OnCreateNotificationSubscription = {
+  onCreateNotification?:  {
+    __typename: "Notification",
+    id: string,
+    message: string,
+    userId: string,
+    read: boolean,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateNotificationSubscriptionVariables = {
+  filter?: ModelSubscriptionNotificationFilterInput | null,
+};
+
+export type OnUpdateNotificationSubscription = {
+  onUpdateNotification?:  {
+    __typename: "Notification",
+    id: string,
+    message: string,
+    userId: string,
+    read: boolean,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteNotificationSubscriptionVariables = {
+  filter?: ModelSubscriptionNotificationFilterInput | null,
+};
+
+export type OnDeleteNotificationSubscription = {
+  onDeleteNotification?:  {
+    __typename: "Notification",
+    id: string,
+    message: string,
+    userId: string,
+    read: boolean,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 

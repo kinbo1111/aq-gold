@@ -7,14 +7,14 @@ import EditContent from './editContent';
 
 interface ContentItemProps {
   onReload: () => void;
-  image: string;
+  image: string | undefined;
   title: string;
-  description: string;
+  description: string | undefined;
   visibility: string;
   date: string;
   id: string;
-  views: string;
-  likes: string;
+  views: number;
+  likes: number;
 }
 
 const ContentItem: React.FC<ContentItemProps> = ({ id, image, title, description, visibility, date, views, likes, onReload }) => {

@@ -54,7 +54,7 @@ export const getContinueWatchingVideos = async (userId: string): Promise<Continu
     }) as { data: { listUserActivities: { items: ContinueWatchingVideo[] } } };
 
     const continueWatchingVideos = result.data.listUserActivities.items.filter(
-      (activity) => activity.progress > 0 && activity.progress < activity.video.duration
+      (activity) => activity?.progress > 0 && activity?.progress < activity?.video?.duration
     );
 
     const uniqueVideos = Array.from(

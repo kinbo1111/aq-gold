@@ -6,28 +6,28 @@ import { RiCheckboxBlankCircleFill } from "react-icons/ri";
 import { GiCheckMark } from "react-icons/gi";
 import { IoIosHelpCircle } from "react-icons/io";
 import { useTranslation } from 'react-i18next';
-import { Select, Button, message, DatePicker } from 'antd';
+import { Select, Button, message, DatePicker, Progress } from 'antd';
 import { GoTriangleDown } from "react-icons/go";
 import { ScheduleDataProps } from ".";
 import dayjs, { Dayjs } from 'dayjs';
 
 export type VideoUploadVisibilityProps = {
-  videoTitle: string,
+  videoTitle: string;
   isOpen: boolean;
   isLoading: boolean;
   onClose: () => void;
-  onSchedule: (data: ScheduleDataProps | null) => void
-}
-
+  onSchedule: (data: ScheduleDataProps | null) => void;
+  uploadProgress: number;  // Add this prop to control the progress bar
+};
 
 const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
   videoTitle,
   isOpen,
   isLoading,
   onClose,
-  onSchedule
+  onSchedule,
+  uploadProgress  // Use this prop to track the progress percentage
 }) => {
-
   const { register, handleSubmit, watch, setValue } = useForm<ScheduleDataProps>({
     defaultValues: {
       publishNow: true,
@@ -35,32 +35,32 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
       scheduleTime: "",
     },
   });
-  const [timezone, setTimeZone] = useState<string>('')
-  const [publishNow, setPublishNow] = useState<boolean>(true);
-  const [scheduleDate, setScheduleDate] = useState<string>('');
-  const [scheduleTime, setScheduleTime] = useState<string>('10:00');
 
+  const [timezone, setTimeZone] = useState<string>("");
+  const [publishNow, setPublishNow] = useState<boolean>(true);
+  const [scheduleDate, setScheduleDate] = useState<string>("");
+  const [scheduleTime, setScheduleTime] = useState<string>("10:00");
 
   const [selectedValue, setSelectedValue] = useState(null);
-  const options = ['Japan (GMT＋0700)','US (GMT＋0700)','UK (GMT＋0700)'];
+  const options = ['Japan (GMT＋0700)', 'US (GMT＋0700)', 'UK (GMT＋0700)'];
 
   const { t } = useTranslation();
 
   const handleClick = () => {
     if (!publishNow) {
       if (timezone === '') {
-        message.warning('please select timezone!')
-        return;      
+        message.warning('please select timezone!');
+        return;
       }
 
       if (scheduleDate === '') {
-        message.warning('please select schedule date!')
-        return;      
+        message.warning('please select schedule date!');
+        return;
       }
 
       if (scheduleTime === '') {
-        message.warning('Please select schedule time!')
-        return;      
+        message.warning('Please select schedule time!');
+        return;
       }
     }
     onSchedule({
@@ -68,15 +68,15 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
       scheduleDate: scheduleDate,
       scheduleTime: scheduleTime,
       timezone: timezone
-    })
-  }
+    });
+  };
 
-  const handleChangeTimeZone = (value: string) => setTimeZone(value); 
-  const handleScheduleTime = (e: React.ChangeEvent<HTMLInputElement>) => setScheduleTime(e.target.value); 
-  const handlePublishNow = (value: boolean) => setPublishNow(value); 
+  const handleChangeTimeZone = (value: string) => setTimeZone(value);
+  const handleScheduleTime = (e: React.ChangeEvent<HTMLInputElement>) => setScheduleTime(e.target.value);
+  const handlePublishNow = (value: boolean) => setPublishNow(value);
   const onChange = (dateString: string) => setScheduleDate(dateString);
 
-   const disabledDate = (current: Dayjs) => {
+  const disabledDate = (current: Dayjs) => {
     // Can not select days before today
     return current && current < dayjs().startOf('day');
   };
@@ -88,7 +88,7 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
 
     return {
       disabledHours: () =>
-       Array.from({ length: 24 }, (_, i) => i).filter((hour) => hour < currentHour),
+        Array.from({ length: 24 }, (_, i) => i).filter((hour) => hour < currentHour),
       disabledMinutes: (selectedHour: number) =>
         selectedHour === currentHour
           ? Array.from({ length: 24 }, (_, i) => i).filter((hour) => hour < currentHour)
@@ -96,12 +96,14 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
     };
   };
 
-  
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-[999] bg-black bg-opacity-70 py-4">
       <div className="relative w-11/12 md:w-3/4 lg:w-2/3 b-gray-600 rounded-lg h-fit max-h-[90vh] overflow-y-auto videoUploadDetail">
+
+    
+
         <SettingsModalHeader
           onClose={onClose}
           showCloseButton={true}
@@ -140,6 +142,7 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
                 </div>
               </div>
             </div>
+            <div className="flex flex-row justify-between">
             <div className="mt-6">
               <h6 className="sub-2b text-white mb-2">{t("Visibility")}</h6>
               <p className="body-1r text-white mb-2">{t("Choose when to publish your video")}</p>
@@ -176,24 +179,24 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
                       disabledTime={disabledDateTime}
                     />
               
-                        <input
-                            type="time"
-                           {...register("scheduleTime")}
-                           onChange={handleScheduleTime}
-                           className="relative w-[140px] h-10 text-center date-input px-2 rounded bg-transparent text-white border border-[#9fa0a1] "
-                        />
-                    </div>
-                    <div className="flex items-center gap-2 gray-200 body-1r">
-                    <Select                      
+                    <input
+                      type="time"
+                      {...register("scheduleTime")}
+                      onChange={handleScheduleTime}
+                      className="relative w-[140px] h-10 text-center date-input px-2 rounded bg-transparent text-white border border-[#9fa0a1]"
+                    />
+                  </div>
+                  <div className="flex items-center gap-2 gray-200 body-1r">
+                    <Select
                       onChange={handleChangeTimeZone}
                       defaultValue="japan"
                       dropdownStyle={{ backgroundColor: '#212324', borderRadius: '10px', width: "300px", border: "1px #C7A76B solid", color: "white" }}
                       popupClassName="custom-dropdown"
                       suffixIcon={<GoTriangleDown className="text-[#9fa0a1] text-sm" />}
                       options={[
-                          { value: 'japan', label: 'Japan (GMT＋0700)' },
-                          { value: 'us', label: 'US (GMT＋0700)' },
-                          { value: 'uk', label: 'UK (GMT＋0700)' },
+                        { value: 'japan', label: 'Japan (GMT＋0700)' },
+                        { value: 'us', label: 'US (GMT＋0700)' },
+                        { value: 'uk', label: 'UK (GMT＋0700)' },
                       ]}
                       
                         >
@@ -213,20 +216,29 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
                 </div>
               )}
             </div>
+            <Progress
+                type="dashboard"
+                className="text-white"
+                      steps={12}
+                      percent={uploadProgress}
+                      trailColor="rgba(0, 0, 0, 0.06)"
+                      strokeWidth={20}
+            />
+            </div>
             <div className="b-gray-700 p-6 rounded-lg mt-4">
               <p className="mb-2">
                 <strong className="body-1r text-white">{t("Before you publish, check the following:")}</strong>
               </p>
               <p className="mb-2 body-2r text-white">{t("Do kids appear in this video?")}</p>
               <p className="mb-4 gray-200 body-2r">
-               {t("seven")}
+                {t("seven")}
                 <Link to="/learn-more" className="underline ml-1">
                   {t("Learn more")}
                 </Link>
               </p>
               <p className="mb-2 body-2r text-white">{t("Looking for overall content guidance?")}</p>
               <p className="mb-4 gray-200 body-2r">
-              {t("Our Community Guidelines can help you avoid trouble and ensure that AQ GOLD remains a safe and vibrant community.")}
+                {t("Our Community Guidelines can help you avoid trouble and ensure that AQ GOLD remains a safe and vibrant community.")}
                 <Link to="/learn-more" className="underline ml-1">
                   {t("Learn more")}
                 </Link>
@@ -244,11 +256,11 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
               <Button
                 className={`btnOk flex-row brand-gradient text-white border-none button-2b h-10 relative disabled:cursor-not-allowed disabled:bg-[#ceac02] disabled:text-gray-00 rounded  transition px-4 py-2 flex items-center justify-center ${publishNow ? 'w-30' : 'w-40'}`}
                 onClick={handleClick}
-                loading={isLoading} >
+                loading={isLoading}
+              >
                 {publishNow ? t("Publish Now") : t("Schedule")}
               </Button>
             </div>
-
           </div>
         </form>
       </div>

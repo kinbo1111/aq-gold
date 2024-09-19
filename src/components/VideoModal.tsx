@@ -80,7 +80,6 @@ const VideoModal: React.FC<VideoModalProps> = ({ show, onClose, videoUrl, videoI
     }
   }, [videoId, user]);
 
-  // Debounced progress update handler
   const handleProgressUpdate = useCallback(
     async (currentTime: number) => {
       if (typeof currentTime === 'number' && !isNaN(currentTime)) {
