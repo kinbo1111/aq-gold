@@ -53,7 +53,7 @@ export const VideoProvider: React.FC<{ children: ReactNode }> = ({ children }) =
      
       setFavoriteVideos(favorites);
       setVideos(allVideos);
-      setMyVideos(allVideos.filter(video => video.owner === user?.sub));
+      setMyVideos(allVideos.filter(video => video.owner === user?.username));
       setNewVideos(allVideos.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 5));
       setPopularVideos(allVideos.sort((a, b) => b.viewCount - a.viewCount).slice(0, 5));
       setTopVideos(allVideos.sort((a, b) => b.favoriteCount - a.favoriteCount).slice(0, 5));
