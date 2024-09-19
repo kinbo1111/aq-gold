@@ -8,6 +8,107 @@ type GeneratedSubscription<InputType, OutputType> = string & {
   __generatedSubscriptionOutput: OutputType;
 };
 
+export const onNewVideoUploaded = /* GraphQL */ `subscription OnNewVideoUploaded {
+  onNewVideoUploaded {
+    id
+    title
+    description
+    tags
+    category
+    videoUrl
+    thumbnailUrl
+    vThumbnailUrl
+    isForKids
+    isRestricted
+    playlist
+    scheduleTime
+    timezone
+    duration
+    viewCount
+    favoriteCount
+    channelId
+    channel {
+      id
+      name
+      description
+      owner
+      avatarUrl
+      subscribersCount
+      createdAt
+      updatedAt
+      __typename
+    }
+    isAQOriginal
+    createdAt
+    updatedAt
+    isPublic
+    owner
+    favorites {
+      nextToken
+      __typename
+    }
+    userActivity {
+      nextToken
+      __typename
+    }
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnNewVideoUploadedSubscriptionVariables,
+  APITypes.OnNewVideoUploadedSubscription
+>;
+export const onCreateNotification = /* GraphQL */ `subscription OnCreateNotification(
+  $filter: ModelSubscriptionNotificationFilterInput
+) {
+  onCreateNotification(filter: $filter) {
+    id
+    message
+    userId
+    read
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateNotificationSubscriptionVariables,
+  APITypes.OnCreateNotificationSubscription
+>;
+export const onUpdateNotification = /* GraphQL */ `subscription OnUpdateNotification(
+  $filter: ModelSubscriptionNotificationFilterInput
+) {
+  onUpdateNotification(filter: $filter) {
+    id
+    message
+    userId
+    read
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateNotificationSubscriptionVariables,
+  APITypes.OnUpdateNotificationSubscription
+>;
+export const onDeleteNotification = /* GraphQL */ `subscription OnDeleteNotification(
+  $filter: ModelSubscriptionNotificationFilterInput
+) {
+  onDeleteNotification(filter: $filter) {
+    id
+    message
+    userId
+    read
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteNotificationSubscriptionVariables,
+  APITypes.OnDeleteNotificationSubscription
+>;
 export const onCreateVideo = /* GraphQL */ `subscription OnCreateVideo(
   $filter: ModelSubscriptionVideoFilterInput
   $owner: String

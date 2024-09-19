@@ -2,7 +2,6 @@ import React, { createContext, useState, useEffect, ReactNode, useContext, useCa
 import { Auth } from 'aws-amplify';
 import { message } from 'antd';
 import { getChannelAvatarUrl, getProfileAvatarUrl } from '../services/storageService';
-import { getContinueWatchingVideos } from '../services/UserActivityService';
 import { VideoData, FavoriteChannel } from '../types';
 
 export type CustomUser = {
@@ -23,7 +22,6 @@ export type UserContextType = {
   loading: boolean;
   isAuthenticated: boolean;
   isModalVisible: boolean;
-  continueVideos: VideoData[];
   login: () => void;
   logout: () => void;
   setUnAuth: () => void;
@@ -47,7 +45,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [continueVideos, setContinueVideos] = useState<VideoData[]>([]);
 
   const fetchUser = useCallback(async () => {
     try {
@@ -80,20 +77,10 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     }
   }, []);
 
-  const fetchContinue = async () => {
-    try {
-      if (user?.sub === undefined) return;
-      const continueVideos = await getContinueWatchingVideos(user?.sub);
-      setContinueVideos(continueVideos.map((v) => v.video))
-    } catch (error) {
-      console.error('failed');
-    }
-
-  }
+  
 
   useEffect(() => {
     fetchUser();
-    fetchContinue()
   }, [fetchUser]);
 
   const login = async () => {
@@ -196,7 +183,7 @@ const setUnAuth = async () => {
   const updateUserData = () => fetchUser();
   
   return (
-    <UserContext.Provider value={{ user, setUser, loading, isAuthenticated, isModalVisible, continueVideos, login, setUnAuth, logout, updateEmail, updatePassword, updateNickname, updateUserData, ModalUnvisible, updateChannelHandle, updateChannelName}}>
+    <UserContext.Provider value={{ user, setUser, loading, isAuthenticated, isModalVisible, login, setUnAuth, logout, updateEmail, updatePassword, updateNickname, updateUserData, ModalUnvisible, updateChannelHandle, updateChannelName}}>
       {children}
     </UserContext.Provider>
   );

@@ -5,30 +5,37 @@ import SlideImg01 from "../assets/images/Image01.png"
 
 export const faqData = [
     {
+        index: 0,
         question: 'What is AQ GOLD？',
         answer: `first`
     },
     {
+        index: 2,
         question: 'Is AQ GOLD free to use?',
         answer: `second`
     },
     {
+        index: 3,
         question: 'Where can I watch?',
         answer: `third`
     },
     {
+        index: 4,
         question: 'How do I delete my AQ account?',
         answer: `forth`
     },
     {
+        index: 5,
         question: 'What can I watch on AQ GOLD?',
         answer: `fiveth`
     },
     {
+        index: 6,
         question: 'What is AQvar?',
         answer: `sixth`
     },
     {
+        index: 7,
         question: 'How do I upload my 360° video content?',
         answer: `seventh`
     },
@@ -152,59 +159,5 @@ export const MovieData = [
 ]
 
 export const NotificationData = [
-    {
-        imgSrc: Item,
-        title: "video description video description video description ",
-        time: "1weeks ago"
-    },
-    {
-        imgSrc: Item,
-        title: "video description video description video description ",
-        time: "2weeks ago"
-    },
-    {
-        imgSrc: Item,
-        title: "video description video description video description ",
-        time: "1weeks ago"
-    },
-    {
-        imgSrc: Item,
-        title: "video description video description video description ",
-        time: "2weeks ago"
-    },
-    {
-        imgSrc: Item,
-        title: "video description video description video description ",
-        time: "1weeks ago"
-    },
-    {
-        imgSrc: Item,
-        title: "video description video description video description ",
-        time: "2weeks ago"
-    },
-    {
-        imgSrc: Item,
-        title: "video description video description video description ",
-        time: "2weeks ago"
-    },
-    {
-        imgSrc: Item,
-        title: "video description video description video description ",
-        time: "1weeks ago"
-    },
-    {
-        imgSrc: Item,
-        title: "video description video description video description ",
-        time: "2weeks ago"
-    },
-    {
-        imgSrc: Item,
-        title: "video description video description video description ",
-        time: "1weeks ago"
-    },
-    {
-        imgSrc: Item,
-        title: "video description video description video description ",
-        time: "2weeks ago"
-    },
+
 ]

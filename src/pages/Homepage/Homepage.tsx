@@ -38,7 +38,11 @@ const Homepage = () => {
           <Container>
           <h6 className="h6 text-center text-white mb-6">{t("Unlimited 360° video contents")}</h6>
           <p className="sub-1r text-center text-white mb-6">{t("Watch anywhere anytime with Free.")}</p>
-            <p className="sub-1r text-center text-white">{t("Ready to watch? Enter your email to create or restart your AQ account.")}</p>
+          <p className="sub-1r text-center text-white">
+            {t("Ready to watch?")}
+            <br />
+            {t("Enter your email to create or restart your AQ account.")}
+          </p>
             <div className="flex items-center justify-center flex-col md:flex-row gap-4 mt-9">
               <Input
                 register={register}
@@ -108,7 +112,11 @@ const Homepage = () => {
       <div className="relative py-[80px] border-b-4 border-[#2a2d2e]">
         <Container>
           <FaqList />
-          <p className="sub-1r text-center text-white mt-12">{t("Ready to watch? Enter your email to create or restart your AQ account.")}</p>
+          <p className="sub-1r text-center text-white mt-20">
+            {t("Ready to watch?")}
+            <br />
+            {t("Enter your email to create or restart your AQ account.")}
+          </p>
           <div className="flex items-center justify-center flex-col md:flex-row gap-4 mt-9">
             <Input
               register={register}
