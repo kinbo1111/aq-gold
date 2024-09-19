@@ -15,6 +15,7 @@ import { VideoDetailData, Thumbnail } from ".";
 import { categories, playlist } from '../../../constant/SelectItems';
 import { useChannel } from "../../../contexts/ChannelContext";
 import DetailImg from "../../../assets/images/default_image.png";
+import ProgressBar from "../../../components/ProgressBar";
 
 interface VideoUploadDetailProps {
   isOpen: boolean;

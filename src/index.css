@@ -91,6 +91,10 @@ body {
     opacity: 1;
   }
 
+  .ant-progress-text{
+    color: white !important;
+  }
+
 .custom-datepicker {
    padding-left: 10px !important;
 }

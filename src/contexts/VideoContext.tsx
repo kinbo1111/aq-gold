@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode, useCallback, useEffect } from 'react';
+import { getContinueWatchingVideos } from '../services/UserActivityService';
 import { fetchAllVideos, getFavoriteVideos } from '../services/VideoService';
+import { useUser } from './UserContext';
 import { VideoData } from '../types';
 
 export type VideoContextType = {
@@ -10,12 +12,16 @@ export type VideoContextType = {
   recommendVideos: VideoData[];
   searchedVideos: VideoData[];
   favoriteVideos: VideoData[];
+  continueVideos: VideoData[];
+  myVideos: VideoData[];
   filterVideosByCategory: (category: string) => {
     filteredNewVideos: VideoData[];
     filteredPopularVideos: VideoData[];
     filteredTopVideos: VideoData[];
     filteredRecommendVideos: VideoData[];
-    filteredMyList: VideoData[];
+    filteredMyVideos: VideoData[];
+    filteredFavoriteVideos: VideoData[];
+    filteredContinueVideos: VideoData[];
   };
   searchVideo: (keyword: string) => void;
 }
@@ -23,8 +29,8 @@ export type VideoContextType = {
 const VideoContext = createContext<VideoContextType | undefined>(undefined);
 
 
-
 export const VideoProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const { user } = useUser(); 
   const [videos, setVideos] = useState<VideoData[]>([]);
   const [newVideos, setNewVideos] = useState<VideoData[]>([]);
   const [popularVideos, setPopularVideos] = useState<VideoData[]>([]);
@@ -32,19 +38,23 @@ export const VideoProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const [recommendVideos, setRecommendVideos] = useState<VideoData[]>([]);
   const [searchedVideos, setSearchedVideos] = useState<VideoData[]>([]);
   const [favoriteVideos, setFavoriteVideos] = useState<VideoData[]>([]);
+  const [myVideos, setMyVideos] = useState<VideoData[]>([]);
+  const [continueVideos, setContinueVideos] = useState<VideoData[]>([]);
 
-  
   const fetchVideo = useCallback(async () => {
     try {
+       if (!user || user.sub === undefined) return;
       const allVideos = await fetchAllVideos(); 
       const favoriteList = await getFavoriteVideos(); 
- 
+      const videos = await getContinueWatchingVideos(user?.sub);
+      setContinueVideos(videos.map((v) => v.video))
       const favorites = await allVideos.filter(video => 
         favoriteList.some(favorite => favorite === video.id)
       );
      
       setFavoriteVideos(favorites);
       setVideos(allVideos);
+      setMyVideos(allVideos.filter(video => video.owner === user?.sub));
       setNewVideos(allVideos.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 5));
       setPopularVideos(allVideos.sort((a, b) => b.viewCount - a.viewCount).slice(0, 5));
       setTopVideos(allVideos.sort((a, b) => b.favoriteCount - a.favoriteCount).slice(0, 5));
@@ -56,7 +66,8 @@ export const VideoProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   useEffect(() => {
     fetchVideo();
-  }, [fetchVideo]);
+  }, [fetchVideo, user]);
+
 
   const filterVideosByCategory = (category: string) => {
     const filterByCategory = (videos: VideoData[]) => {
@@ -68,7 +79,9 @@ export const VideoProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       filteredPopularVideos: filterByCategory(popularVideos),
       filteredTopVideos: filterByCategory(topVideos),
       filteredRecommendVideos: filterByCategory(recommendVideos),
-      filteredMyList: filterByCategory(favoriteVideos)
+      filteredMyVideos: filterByCategory(myVideos),
+      filteredFavoriteVideos: filterByCategory(favoriteVideos),
+      filteredContinueVideos: filterByCategory(continueVideos)
     };
   };
 
@@ -85,6 +98,8 @@ export const VideoProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       recommendVideos, 
       searchedVideos, 
       favoriteVideos,
+      myVideos,
+      continueVideos,
       filterVideosByCategory, 
       searchVideo   
     }}>

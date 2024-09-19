@@ -7,12 +7,21 @@ import Notification from "./Notification";
 import SearchBox from "../SearchBox";
 import { useSidebar } from "../../contexts/SidebarContext"; 
 import Logo from "../header/Logo";
+import { subscribeToVideoUploads } from "../../services/NotificationService";
+
+export type NotificationData = {
+  id: string;
+  title: string;
+  time: string;
+  imgSrc: string;
+}
 
 const UserNav = () => {
     const navigate = useNavigate();
     const { collapsed } = useSidebar();
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const notificationRef = useRef<HTMLDivElement | null>(null);
+    const [notifications, setNotifications] = useState<NotificationData[]>([]);
 
     const handleOpen = () => {
         setIsOpen(!isOpen);
@@ -20,10 +29,8 @@ const UserNav = () => {
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (
-                notificationRef.current &&
-                !notificationRef.current.contains(event.target as Node)
-            ) {
+            if ( notificationRef.current &&
+                !notificationRef.current.contains(event.target as Node)) {
                 setIsOpen(false);
             }
         };
@@ -38,6 +45,13 @@ const UserNav = () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [isOpen]);
+
+   useEffect(() => {
+    const subscription = subscribeToVideoUploads(setNotifications);
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
 
     return (
         <div className="flex flex-row">
@@ -61,7 +75,7 @@ const UserNav = () => {
                         <span className="w-2 h-2 rounded-full bg-red-500 relative bottom-2 left-7"></span>
                         <IoNotificationsCircle size={28} className="text-white" />
                     </div>
-                    <Notification isOpen={isOpen}/>
+                    <Notification isOpen={isOpen} notifications={notifications}/>
                 </div>
                 <div
                     className="w-[70px] h-12 cursor-pointer bg-transparent flex items-center justify-center border-l border-[#585a5c]"

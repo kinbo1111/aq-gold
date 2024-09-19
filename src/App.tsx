@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, RouterProvider } from "react-router-dom";
 import AppRoutes from "./router/AppRoutes";
 import Header from "./components/header/Header";
@@ -22,9 +22,8 @@ import "./assets/css/sidebar.css";
 function App() {
   const [showModal, setShowModal] = useState(false);
   const handleToggleModal = () => setShowModal(!showModal);
-  
 
-    return (
+  return (
       <Provider store={store}>
         <UserProvider>
           <SidebarProvider>

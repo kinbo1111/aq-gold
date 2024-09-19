@@ -4,7 +4,7 @@ import { getUserProgress } from '../services/UserActivityService';
 import VideoPlayer from './VideoPlayer';
 
 const ContinueWatching: React.FC = () => {
-    const { user } = useUser();
+  const { user } = useUser();
   const [videos, setVideos] = useState<any[]>([]);
 
   useEffect(() => {
@@ -12,6 +12,7 @@ const ContinueWatching: React.FC = () => {
       if (!user || user.sub === undefined) return;
       try {
         const activity = await getUserProgress(user.sub);
+        console.log(activity)
         setVideos(activity);
       } catch (error) {
         console.error('Error fetching user activity:', error);

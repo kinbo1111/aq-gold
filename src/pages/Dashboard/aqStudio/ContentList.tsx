@@ -4,10 +4,12 @@ import ContentItem from './ContentItem';
 import ContentHeader from './ContentHeader';
 import { fetchVideos } from '../../../services/ApiService';
 import Item from "../../../assets/images/content.png"
+import { useVideo } from '../../../contexts/VideoContext';
 
 const ContentList: React.FC = () => {
   const [videos, setVideos] = useState<any[]>([]);
   const [isReload, setIsReload] = useState(false);
+  const { myVideos } = useVideo();
 
   useEffect(() => {
     const loadVideos = async () => {
@@ -18,17 +20,17 @@ const ContentList: React.FC = () => {
         console.error('Error fetching videos:', error);
       }
     };
-
     loadVideos();
   }, [isReload]);
+  
   return (
     <Box>
       <ContentHeader />
-      {videos.map((item, index) => (
+      {myVideos.map((item, index) => (
         <ContentItem
           id={item.id}
           key={index}
-          image={item.vThumbnailUrl}
+          image={item.thumbnailUrl}
           title={item.title}
           description={item.description}
           visibility="show"

@@ -5,8 +5,6 @@ import { FaPlay } from "react-icons/fa";
 import { IoCloseCircle } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 import { useVideo } from "../../../contexts/VideoContext";
-import { useUser } from "../../../contexts/UserContext";
-
 import Button from "../../../components/Button";
 import MainContainer from "../../../components/MainContainer";
 import MovieList from "../MovieList";
@@ -19,17 +17,12 @@ const AQvar = () => {
     const { t } = useTranslation();
     const { collapsed } = useSidebar();
     const { topVideos, filterVideosByCategory } = useVideo();
-    const { filteredNewVideos, filteredPopularVideos, filteredRecommendVideos, filteredMyList } = filterVideosByCategory('AQvar');
-    const { continueVideos } = useUser();
+    const { filteredNewVideos, filteredPopularVideos, filteredRecommendVideos, filteredMyVideos, filteredContinueVideos } = filterVideosByCategory('AQvar');
 
     const navigate = useNavigate();
 
     const handleShow = () => {
         navigate(`/video/${topVideos[0]?.id}`, { state: { videoUrl:topVideos[0]?.videoUrl } });
-    };
-
-    const filterContinueWatching = () => {
-      return continueVideos.filter(video => video.category && video.category.toLowerCase() === 'AQvar');
     };
     
     const handleOpenDeleteChannel = () => {
@@ -66,7 +59,7 @@ const AQvar = () => {
                 <Button 
                     label="見る"
                     icon={FaPlay}
-                    onClick={() => {}}
+                    onClick={handleShow}
                     iconExist
                     full
                 />
@@ -92,15 +85,15 @@ const AQvar = () => {
                 />
                  <MovieList
                     label={t("Continue Watching")}
-                    movieData={filterContinueWatching()}
+                    movieData={filteredContinueVideos}
                 />
                  <MovieList
                     label={t("AQvar Contents")}
-                    movieData={[]}
+                    movieData={filteredMyVideos}
                 />
                  <MovieList
                     label={t("My List")}
-                    movieData={filteredMyList}
+                    movieData={filteredMyVideos}
                 />
             </div>
             {isDeleteChannelOpen && <DeleteChannel isOpen={isDeleteChannelOpen} onClose={handleCloseDeleteChannel} />}
