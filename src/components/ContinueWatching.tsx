@@ -12,7 +12,6 @@ const ContinueWatching: React.FC = () => {
       if (!user || user.sub === undefined) return;
       try {
         const activity = await getUserProgress(user.sub);
-        console.log(activity)
         setVideos(activity);
       } catch (error) {
         console.error('Error fetching user activity:', error);

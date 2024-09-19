@@ -47,6 +47,7 @@ export async function getUserProgress(userId: string): Promise<any[]> {
 
 export const getContinueWatchingVideos = async (userId: string): Promise<ContinueWatchingVideo[]> => {
   try {
+    if (userId === '') return [];
     const result = await API.graphql({
       query: listUserActivities,
       variables: { userId },

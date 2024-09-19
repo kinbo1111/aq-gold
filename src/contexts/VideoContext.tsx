@@ -43,10 +43,9 @@ export const VideoProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   const fetchVideo = useCallback(async () => {
     try {
-       if (!user || user.sub === undefined) return;
       const allVideos = await fetchAllVideos(); 
       const favoriteList = await getFavoriteVideos(); 
-      const videos = await getContinueWatchingVideos(user?.sub);
+      const videos = await getContinueWatchingVideos(user?.sub?? '');
       setContinueVideos(videos.map((v) => v.video))
       const favorites = await allVideos.filter(video => 
         favoriteList.some(favorite => favorite === video.id)
