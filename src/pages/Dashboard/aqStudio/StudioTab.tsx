@@ -8,6 +8,8 @@ import ContentList from "./ContentList";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
+import { useVideo } from "../../../contexts/VideoContext";
+import { useUser } from "../../../contexts/UserContext";
 
 export type TabPanelProps = {
   children?: React.ReactNode;
@@ -17,6 +19,8 @@ export type TabPanelProps = {
 
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
+  const { videos } = useVideo();
+  const { user } = useUser();
 
   return (
     <div
@@ -39,16 +43,22 @@ function a11yProps(index: number) {
 }
 
 export default function StudioTab() {
+  const { videos } = useVideo();
+  const { user } = useUser();
   const [value, setValue] = React.useState(0);
   const navigate = useNavigate();
   const { t } = useTranslation();
   const location = useLocation();
+
+  console.log(user)
+
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
     if (newValue === 3) {
       navigate('/video-upload');
     }
   };
+
   
   useEffect(() => {
       const params = new URLSearchParams(location.search);
@@ -111,11 +121,11 @@ export default function StudioTab() {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <VideoList videoData={[]} />
+        <VideoList videoData={videos.filter(video => video.owner === user?.username)} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <FilterList />
-        <VideoList videoData={[]} />
+        <VideoList videoData={videos.filter(video => video.owner === user?.username)} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         <ContentList />
