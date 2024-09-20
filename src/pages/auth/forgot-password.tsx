@@ -91,11 +91,11 @@ const ForgotPassword: React.FC = () => {
             {step === 1 && (
               <div className="relative w-full h-screen flex items-center justify-center py-20">    
                   <div className="max-w-[600px] w-full b-brand-50 rounded-lg p-12 flex flex-col gap-5">
-                      <h2 className='sub-1r gray-800 mb-10'>Forgot Password</h2>
+                      <h2 className='sub-1r gray-800 mb-10'>{t("Forgot Password")}</h2>
                       <Input
                         id='email'
                         type='email'
-                        label={t("User Name")}
+                        label={t("Email")}
                         placeholder="Email"
                         register={register}
                         errors={errors}
