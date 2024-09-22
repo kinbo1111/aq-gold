@@ -39,13 +39,6 @@ const VideoUploadModal: React.FC<VideoUploadModalProps> = ({
     setSelectedFile(null);
   };
 
-  // const handleSelectFile = () => {
-  //   if (selectedFile) {
-  //     console.log(selectedFile)
-      
-  //   }
-  // };
-
   if (!isOpen) {
     return null;
   }
