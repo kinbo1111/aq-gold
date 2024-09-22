@@ -50,8 +50,6 @@ export default function StudioTab() {
   const { t } = useTranslation();
   const location = useLocation();
 
-  console.log(user)
-
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
     if (newValue === 3) {

@@ -23,7 +23,6 @@ const Dashboard = () => {
     const { t } = useTranslation();
     const { collapsed } = useSidebar();
     const { topVideos, recommendVideos, newVideos, popularVideos, continueVideos } = useVideo();
-    console.log(topVideos)
     const navigate = useNavigate();
 
     const handleShow = () => {
