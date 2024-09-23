@@ -63,11 +63,12 @@ export type VideoInputData =  {
 
 export type FavoriteChannel = {
   id: string;
-  channelOwner: {
-    id: string;
-    name: string;
+  channel: {
     avatarUrl: string;
-  };
+    description: string;
+  }
+  channelId: string;
+  owner: string;
   createdAt: string;
 }
 
