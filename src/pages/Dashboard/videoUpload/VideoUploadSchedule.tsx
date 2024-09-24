@@ -1,7 +1,8 @@
 import React, { useState, useRef } from "react";
 import Button from "../../../components/Button";
-import uploadedImg from '../../../assets/images/Image.png'
+import { HiClipboardDocument } from "react-icons/hi2";
 import { useTranslation } from 'react-i18next';
+import { message } from "antd";
 
 export type VideoUploadScheduleProps = {
   videoUrl: string;
@@ -39,6 +40,10 @@ const VideoUploadSchedule: React.FC<VideoUploadScheduleProps> = ({
     setSelectedFile(null);
   };
 
+   const handleCopy = (fieldId: string) => {
+     message.success(`${t('copied to clipboard!')}`);
+  };
+
   if (!isOpen) {
     return null;
   }
@@ -69,7 +74,12 @@ const VideoUploadSchedule: React.FC<VideoUploadScheduleProps> = ({
                   </div>
                   <div className="bg-[#2E3133] w-full rounded-md my-2 text-white p-5 text-sm" >
                       <p>動画リンク</p>
-                      <a className="text-blue-500 underline" href={videoUrl}>Here is a link.</a>  
+                  <a className="text-blue-500 underline" href={videoUrl}>Here is a link.</a>
+                  <HiClipboardDocument
+                          size={16}
+                          className="gray-200 absolute bottom-[12px] right-3 transform cursor-pointer"
+                          onClick={() => handleCopy("channelId")}
+                      />
                   </div>
               </div>
               <div className="w-full relative flex items-center justify-end px-6 py-2 gap-2 border-t border-[#585a5c]">

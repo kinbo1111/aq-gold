@@ -10,16 +10,16 @@ const FavoriteChannelList = () => {
   useEffect(() => {
         fetchFavoriteChannels();
   }, []);
-  
+
   if (loadingFavorites) return <div className='text-white'>Loading favorite channels...</div>;
   
   return (
     <div className="user-list grid grid-cols-1 md:grid-cols-2 gap-12">
-        {favoriteChannels.map((item, index) => (
+      {favoriteChannels.map((channel, index) => (
           <Avatar
             key={index}
-            src={item.channelOwner.avatarUrl} 
-            name={item.channelOwner.name}
+            src={channel.channel.avatarUrl} 
+            name={channel.owner}
         />
         ))}
     </div>

@@ -7,7 +7,6 @@ import MainContainer from "../../../components/MainContainer";
 import MovieList from "../MovieList";
 import { useTranslation } from "react-i18next";
 import { useVideo } from "../../../contexts/VideoContext";
-
 import { useSidebar } from "../../../contexts/SidebarContext";
 import { useNavigate } from "react-router-dom";
 
@@ -24,12 +23,10 @@ const Documentaries = () => {
         navigate(`/video/${topVideos[0]?.id}`, { state: { videoUrl:topVideos[0]?.videoUrl } });
     };
 
-   
-
    return (
         <MainContainer>
             <div className="relative main-video w-full">
-                <img src={topVideos[0]?.thumbnailUrl} alt="" className="w-full h-40" />
+                <img src={topVideos[0]?.thumbnailUrl} alt="" className="w-full" />
                 <div className={`absolute left-16 z-50 ${collapsed ? 'bottom-80' : 'bottom-14'}`} >
                     <h1 className="h4 text-white mb-4">{topVideos[0]?.title}</h1>
                     <p className="sub-2r text-white mb-4">

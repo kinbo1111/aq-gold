@@ -5,6 +5,7 @@ import { HiClipboardDocument } from "react-icons/hi2";
 import DeleteChannel from "./DeleteChannel";
 import DeleteAccount from "./DeleteAccount";
 import { useTranslation } from "react-i18next";
+import { message } from "antd";
 
 const AdvancedSettings = () => {
     const [isDeleteChannelOpen, setIsDeleteChannelOpen] = useState(false);
@@ -21,6 +22,7 @@ const AdvancedSettings = () => {
         if (value) {
             navigator.clipboard.writeText(value)
                 .then(() => {
+                    message.success("copied to clipboard!")
                     console.log(`Copied: ${value}`);
                 })
                 .catch(err => {

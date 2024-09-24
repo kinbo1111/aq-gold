@@ -6,18 +6,19 @@ import { message } from 'antd';
 
 export const fetchFavoriteChannels = async (userId: string): Promise<FavoriteChannel[]> => {
   try {
-
     const response = await API.graphql({
       query: listFavoriteChannels,
       variables: { filter: { userId: { eq: userId } } },
-      authMode: "AMAZON_COGNITO_USER_POOLS"
+      authMode: "AMAZON_COGNITO_USER_POOLS",
     }) as { data: { listFavoriteChannels: { items: FavoriteChannel[] } } };
+
     return response.data.listFavoriteChannels.items;
   } catch (error) {
     console.error('Error fetching favorite channels:', error);
     throw new Error('Failed to fetch favorite channels');
   }
 };
+
 
 export const createNewChannel = async (channelData: any) => {
   try {
@@ -44,18 +45,6 @@ export const fetchUserChannel = async (userId: string) => {
     return response.data.listChannels.items[0];  // Return the channel data if it exists
   } catch (error) {
     console.error('Error fetching user channel:', error);
-    throw new Error('Failed to fetch channel');
-  }
-};
-
-export const fetchChannelById = async (channelId: string): Promise<Channel | null> => {
-  try {
-    const response = await API.graphql(
-      graphqlOperation(getChannel, { id: channelId })
-    ) as { data: { getChannel: Channel } };
-    return response.data.getChannel || null;
-  } catch (error) {
-    console.error(`Error fetching channel with ID ${channelId}:`, error);
     throw new Error('Failed to fetch channel');
   }
 };
