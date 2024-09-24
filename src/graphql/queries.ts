@@ -432,6 +432,10 @@ export const listFavoriteChannels = /* GraphQL */ `query ListFavoriteChannels(
     items {
       id
       userId
+      channel {
+        avatarUrl
+        description
+      }
       channelId
       createdAt
       updatedAt

@@ -91,8 +91,8 @@ const Homepage = () => {
           </div>
           <div className="py-[84px] flex items-center justify-center md:justify-between flex-col-reverse md:flex-row">
             <div className="w-full md:w-[48%]">
-              <h6 className="h7 brand-600 mb-4">{t("Upload your 360° video contents")}</h6>
-              <p className="sub-2r text-white">{t("Be AQvar to upload and share your 360° video contents.")}</p>
+              <h6 className="h7 brand-600 mb-4">{t("Watch everywhere")}</h6>
+              <p className="sub-2r text-white">{t("Stream unlimited 360° video contents on your phone, tablet, laptop, and VR goggle.")}</p>
             </div>
             <div className="w-full md:w-[48%] rounded-3xl">
               <Slider/>
@@ -103,8 +103,8 @@ const Homepage = () => {
               <img src={Video02} alt="" />
             </div>
             <div className="w-full md:w-[48%]">
-              <h6 className="h7 brand-600 mb-4">{t("Watch everywhere")}</h6>
-              <p className="sub-2r text-white">{t("Stream unlimited 360° video contents on your phone, tablet, laptop, and VR goggle.")}</p>
+              <h6 className="h7 brand-600 mb-4">{t("Upload your 360° video contents")}</h6>
+              <p className="sub-2r text-white">{t("Be AQvar to upload and share your 360° video contents.")}</p>
             </div>
           </div>
         </Container>

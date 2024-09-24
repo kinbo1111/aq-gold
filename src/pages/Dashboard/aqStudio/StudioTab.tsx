@@ -19,8 +19,6 @@ export type TabPanelProps = {
 
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
-  const { videos } = useVideo();
-  const { user } = useUser();
 
   return (
     <div

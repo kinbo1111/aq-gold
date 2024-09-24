@@ -1,4 +1,3 @@
-// src/context/ChannelContext.tsx
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { useUser } from './UserContext';
 import * as ChannelService from '../services/ChannelService';
@@ -21,10 +20,9 @@ export type ChannelContextProps = {
 
 const ChannelContext = createContext<ChannelContextProps | undefined>(undefined);
 
-
 export const ChannelProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { user } = useUser(); // Assuming AuthContext provides the authenticated user
-  const [favoriteChannels, setFavoriteChannels] = useState<FavoriteChannel[]>([]);
+  const { user } = useUser();
+  const [favoriteChannels, setFavoriteChannels] = useState<any[]>([]);
   const [loadingFavorites, setLoadingFavorites] = useState(true);
   const [hasChannel, setHasChannel] = useState<boolean>(false);
   const [channelData, setChannelData] = useState<any>(null);
@@ -55,9 +53,11 @@ export const ChannelProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const fetchFavoriteChannels = async () => {
     try {
       if (!user || user?.sub === undefined) return;
+
       setLoadingFavorites(true);
-      const channels = await ChannelService.fetchFavoriteChannels(user.sub);
-      setFavoriteChannels(channels);
+      const favoriteChannels = await ChannelService.fetchFavoriteChannels(user.sub);
+      console.log(favoriteChannels)
+      setFavoriteChannels(favoriteChannels);    
     } catch (error) {
       console.error('Error fetching favorite channels:', error);
     } finally {

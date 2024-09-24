@@ -21,7 +21,7 @@ const AQStudioHome = () => {
                 <Avatar
                     src={channelData?.avatarUrl}
                     name={channelData.name ?? 'No Name'}
-                    intro={t("handle") + "(＠〜〜〜)"}
+                    intro={t("handle") + '('+ channelData?.description + ')'}
                     buttonName={t('Customize channel')}
                 />
             </div>

@@ -35,26 +35,34 @@ const SearchBox: React.FC<SearchBoxProps> = ({ initialHistory = [] }) => {
   };
 
   const handleSearch = async () => {
-    await searchVideo(keyword)
-    navigate('/search/' + keyword)
-  }
+    await searchVideo(keyword);
+    navigate('/search/' + keyword);
+  };
+
+  // Enterキー押下時に検索実行
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
   return (
     <div className="relative">
-        <input
-          type="text"
-          value={keyword}
-          onChange={handleInputChange}
-          placeholder={t("search")}
-          className="w-[424px] h-12 b-gray-700 border border-[#cec9bf] rounded-[74px] px-[18px] body-1b text-white"
-        />
-        <button
-          type="submit"
-          onClick={handleSearch}
-          className="absolute top-1/2 right-1 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center brand-gradient"
-        >
-          <AiOutlineSearch size={20} className="text-white" />
-        </button>
+      <input
+        type="text"
+        value={keyword}
+        onChange={handleInputChange}
+        onKeyDown={handleKeyDown} 
+        placeholder={t("search")}
+        className="w-[424px] h-12 b-gray-700 border border-[#cec9bf] rounded-[74px] px-[18px] body-1b text-white"
+      />
+      <button
+        type="submit"
+        onClick={handleSearch}
+        className="absolute top-1/2 right-1 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center brand-gradient"
+      >
+        <AiOutlineSearch size={20} className="text-white" />
+      </button>
       {filteredHistory.length > 0 && (
         <div className="search-history overflow-y-scroll b-gray-700 border border-[#c7a76b] rounded-lg mt-1 p-1 h-[240px] relative">
           <ul>
