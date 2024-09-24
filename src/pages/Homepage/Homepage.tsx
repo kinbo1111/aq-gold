@@ -7,7 +7,10 @@ import FaqList from "../../components/faq/FaqList";
 import Slider from "./Slider";
 import { SlArrowRight } from "react-icons/sl";
 import { FieldValues, useForm } from "react-hook-form";
-import Video02 from "../../assets/images/movie02.png"
+import Video01 from "../../assets/images/movie_1.avif"
+import Video02 from "../../assets/images/movie_2.jpg"
+import Video03 from "../../assets/images/movie_3.avif"
+import Video04 from "../../assets/images/movie_4.jpeg"
 import Footer from "../../components/footer/Footer";
 import { useTranslation } from "react-i18next";
 
@@ -77,7 +80,7 @@ const Homepage = () => {
               <p className="sub-2r text-white">{t("Watch 360° video contents such as Natural view, relaxation, travel adventure, sport, games and more.")}</p>
             </div>
             <div className="w-full md:w-[48%] rounded-3xl">
-              <Slider/>
+              <img src={Video01} alt="" />
             </div>
           </div>
           <div className="py-[84px] flex items-center justify-center md:justify-between flex-col md:flex-row">
@@ -90,17 +93,18 @@ const Homepage = () => {
             </div>
           </div>
           <div className="py-[84px] flex items-center justify-center md:justify-between flex-col-reverse md:flex-row">
+            
             <div className="w-full md:w-[48%]">
               <h6 className="h7 brand-600 mb-4">{t("Watch everywhere")}</h6>
               <p className="sub-2r text-white">{t("Stream unlimited 360° video contents on your phone, tablet, laptop, and VR goggle.")}</p>
             </div>
-            <div className="w-full md:w-[48%] rounded-3xl">
-              <Slider/>
+             <div className="w-full md:w-[48%] rounded-3xl">
+              <img src={Video03} alt="" />
             </div>
           </div>
           <div className="py-[84px] flex items-center justify-center md:justify-between flex-col md:flex-row">
             <div className="w-full md:w-[48%] rounded-3xl">
-              <img src={Video02} alt="" />
+              <img src={Video04} alt="" />
             </div>
             <div className="w-full md:w-[48%]">
               <h6 className="h7 brand-600 mb-4">{t("Upload your 360° video contents")}</h6>
