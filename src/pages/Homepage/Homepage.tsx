@@ -10,7 +10,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import Video01 from "../../assets/images/movie_1.avif"
 import Video02 from "../../assets/images/movie_2.jpg"
 import Video03 from "../../assets/images/movie_3.avif"
-import Video04 from "../../assets/images/movie_4.jpeg"
+import Video04 from "../../assets/images/movie_4.jpg"
 import Footer from "../../components/footer/Footer";
 import { useTranslation } from "react-i18next";
 
