@@ -24,6 +24,7 @@ export type VideoContextType = {
     filteredContinueVideos: VideoData[];
   };
   searchVideo: (keyword: string) => void;
+  fetchVideo: () => void;
 }
 
 const VideoContext = createContext<VideoContextType | undefined>(undefined);
@@ -65,7 +66,7 @@ export const VideoProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   useEffect(() => {
     fetchVideo();
-  }, [fetchVideo, user]);
+  }, [fetchVideo]);
 
 
   const filterVideosByCategory = (category: string) => {
@@ -100,6 +101,7 @@ export const VideoProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       myVideos,
       continueVideos,
       filterVideosByCategory, 
+      fetchVideo,
       searchVideo   
     }}>
       {children}

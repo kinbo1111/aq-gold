@@ -125,7 +125,7 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({
             <h6 className="sub-2r text-white mb-3">
               {t("Your AQ account is only you can see.")}
             </h6>
-            <p className="body-1r gray-200">{t("Signed in")} as { user?.email}</p>
+            <p className="body-1r gray-200">{t("Signed in")} as {user?.email} {t("registered.")}</p>
           </div>
           <div className="py-4 border-b border-[#585a5c]">
             <h6 className="text-white sub-2r mb-3">{t("Your Account")}</h6>

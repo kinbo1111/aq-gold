@@ -272,7 +272,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
             {activeChannel === "advanced" && <AdvancedSettings />}
           </div>
         </div>
-        {(activeChannel==="channel" || activeSection === "basicInfo" || activeSection === "changeEmail" || activeSection === "changePassword" || activeChannel === "advanced") && (
+        {(activeChannel==="channel" || activeSection === "basicInfo" || activeSection === "changeEmail" || activeSection === "changePassword") && (
           <SettingsFooter isDisable={isDisable} onClose={onClose} isLoading={loading} activeChannel={activeChannel} handleSave={handleSave} />
         )}
 

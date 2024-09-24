@@ -3,7 +3,6 @@ import { Box } from '@mui/material';
 import ContentItem from './ContentItem';
 import ContentHeader from './ContentHeader';
 import { fetchVideos } from '../../../services/ApiService';
-import Item from "../../../assets/images/content.png"
 import { useVideo } from '../../../contexts/VideoContext';
 import { useUser } from '../../../contexts/UserContext';
 
@@ -17,16 +16,9 @@ const ContentList: React.FC = () => {
       <ContentHeader />
       {videos.filter(video => video.owner === user?.username).map((item, index) => (
         <ContentItem
-          id={item.id}
-          key={index}
-          image={item.thumbnailUrl}
-          title={item.title}
-          description={item.description}
           visibility="show"
           onReload={() => setIsReload(!isReload)}
-          date={item.createdAt.slice(0,10)}
-          views={item.viewCount}
-          likes={item.favoriteCount}
+          videoData = {item}  
         />
       ))}
     </Box>
