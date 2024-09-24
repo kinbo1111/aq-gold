@@ -4,16 +4,15 @@ import FilterItem from './FilterItem';
 const FilterList = () => {
     return (
         <div className='flex items-center justify-start gap-2 mb-4'>
-            <p className='body-1r text-white'>動画の並び順</p>
-            <FilterItem
-                label='Latest'
+         <FilterItem
+                label='新しい順'
                 color
             />
             <FilterItem
-                label='Popular'
+                label='人気の動画'
             />
             <FilterItem
-                label='Oldest'
+                label='古い順'
             />
         </div>
     );

@@ -169,28 +169,36 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
             <div className="flex items-start justify-between gap-6 flex-col-reverse md:flex-row">
               <div className="w-full md:w-2/3 mt-6 md:mt-0">
                 <div className="flex flex-col gap-6">
-                  <Input
-                    id="videoTitle"
-                    label={t("Title")}
-                    redRequired
-                    placeholder={t("Add a title that describes your video")}
-                    type="text"
-                    value={title}
-                    onChange={e => setTitle(e.target.value)}
-                    register={register}
-                    errors={errors}
-                    small
-                  />
-                  <Textarea
-                    id="videoDescription"
-                    label={t("Description")}
-                    placeholder={t("Tell viewers about your video")}
-                    register={register}
-                    value={description}
-                    onChange={e => setDescription(e.target.value)}
-                    errors={errors}
-                    small
-                  />
+                 
+                   <div className="relative">
+                      <Input
+                        id="videoTitle"
+                        label={t("Title")}
+                        redRequired
+                        placeholder={t("Add a title that describes your video")}
+                        type="text"
+                        value={title}
+                        onChange={e => setTitle(e.target.value)}
+                        register={register}
+                        errors={errors}
+                        small
+                      />
+                    <p className="absolute top-9 text-gray-500 text-xs right-3">{'['+ title.length +'/ 100]'}</p>
+                  </div>
+                  <div className="relative">
+                    <Textarea
+                      id="videoDescription"
+                      label={t("Description")}
+                      placeholder={t("Tell viewers about your video")}
+                      register={register}
+                      value={description}
+                      onChange={e => setDescription(e.target.value)}
+                      errors={errors}
+                      small
+                    />
+                    <p className="absolute top-10 text-gray-500 text-xs right-3">{'['+ description.length +'/ 100]'}</p>
+                  </div>
+                 
                 </div>
                 <div className="mt-8 flex flex-col gap-2">
                   <h6 className="body-1b text-white">{t("Thumbnail")}</h6>

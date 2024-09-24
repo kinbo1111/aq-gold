@@ -91,7 +91,7 @@ const ForgotPassword: React.FC = () => {
             {step === 1 && (
               <div className="relative w-full h-screen flex items-center justify-center py-20">    
                   <div className="max-w-[600px] w-full b-brand-50 rounded-lg p-12 flex flex-col gap-5">
-                      <h2 className='sub-1r gray-800 mb-10'>{t("Forgot Password")}</h2>
+                      <h2 className='sub-1r gray-800'>{t("Forgot Password")}</h2>
                       <Input
                         id='email'
                         type='email'
@@ -104,7 +104,8 @@ const ForgotPassword: React.FC = () => {
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                      />
+                        />
+                        <h2 className='text-sm gray-800'>{t("You will receive an email with instructions on how to reset your password.")}</h2>
                       <div className='flex items-center justify-center'>
                           <Button
                               className='w-[320px] btnOk flex-row brand-gradient text-gray-200 border-none button-2b h-10 relative disabled:cursor-not-allowed rounded hover:opacity-80 transition px-4 py-2 flex items-center justify-center'
@@ -113,7 +114,7 @@ const ForgotPassword: React.FC = () => {
                               onClick={handleSendCode}
                               loading={isVerifyLoading}
                           >
-                              Send Verification Code
+                              {t("Send Verification Code")}
                           </Button>
                       </div>
                   </div>

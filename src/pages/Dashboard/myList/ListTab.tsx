@@ -45,7 +45,11 @@ function a11yProps(index: number) {
 export default function ListTab() {
   const { t } = useTranslation();
   const { user } = useUser();
-  const { favoriteVideos, continueVideos } = useVideo();
+  const { favoriteVideos, continueVideos, fetchVideo } = useVideo();
+
+  useEffect(() => {
+    fetchVideo()
+  },[])
 
   const [value, setValue] = useState(0);
   const [channels, setChannels] = useState<FavoriteChannel[]>([]);
