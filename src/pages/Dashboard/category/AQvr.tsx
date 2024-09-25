@@ -72,7 +72,7 @@ const AQvar = () => {
                     movieData={filteredRecommendVideos}
                 />
                  <MovieList
-                    label={t("New on AQ Gold")}
+                    label={t("New on AQvar")}
                     movieData={filteredNewVideos}
                 />
                  <MovieList
@@ -80,15 +80,15 @@ const AQvar = () => {
                     movieData={[]}
                 />
                  <MovieList
-                    label={t("Popular on AQ Gold")}
+                    label={t("Popular AQ AQvar")}
                     movieData={filteredPopularVideos}
                 />
                  <MovieList
-                    label={t("Continue Watching")}
+                    label={t("Trend AQvar Contents")}
                     movieData={filteredContinueVideos}
                 />
                  <MovieList
-                    label={t("AQvar Contents")}
+                    label={t("Continue Watching")}
                     movieData={filteredMyVideos}
                 />
                  <MovieList
@@ -97,7 +97,6 @@ const AQvar = () => {
                 />
             </div>
             {isDeleteChannelOpen && <DeleteChannel isOpen={isDeleteChannelOpen} onClose={handleCloseDeleteChannel} />}
-
         </MainContainer>
     );
 };

@@ -23,7 +23,6 @@ const AdvancedSettings = () => {
             navigator.clipboard.writeText(value)
                 .then(() => {
                     message.success("copied to clipboard!")
-                    console.log(`Copied: ${value}`);
                 })
                 .catch(err => {
                     console.error('Failed to copy: ', err);

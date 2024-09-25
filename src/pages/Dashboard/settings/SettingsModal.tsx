@@ -19,10 +19,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 export type SettingsModalProps = {
   isOpen: boolean;
-  onClose: () => void;
 }
 
-const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
+const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen }) => {
 
   const { t } = useTranslation();
   const location = useLocation();
@@ -62,6 +61,13 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
   const handleConfirmEmailChange = (confirmEmail: string) => setConfirmEmail(confirmEmail);
   const handleAvatarRemove = () => setAvatarURL('');
   const handleChannelAvatarRemove = () => setChannelAvatarURL('');
+
+  const onClose = () => {
+    setActiveChannel('general');
+    setActiveSection('')
+    setChannelName('');
+    setChannelHandle('');
+  } 
 
   
   const validateEmail = (email: string) => {
@@ -273,7 +279,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
           </div>
         </div>
         {(activeChannel==="channel" || activeSection === "basicInfo" || activeSection === "changeEmail" || activeSection === "changePassword") && (
-          <SettingsFooter isDisable={isDisable} onClose={onClose} isLoading={loading} activeChannel={activeChannel} handleSave={handleSave} />
+          <SettingsFooter onClose={onClose} isDisable={isDisable} isLoading={loading} activeChannel={activeChannel} handleSave={handleSave} />
         )}
 
       </div>

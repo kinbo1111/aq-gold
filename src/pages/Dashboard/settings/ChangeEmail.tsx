@@ -6,12 +6,14 @@ import { useTranslation } from 'react-i18next';
 import { useUser } from '../../../contexts/UserContext';
 
 export type ChangeEmailProps = {
+  currentEmail: string;
   onNewEmailChange: (newEmail: string) => void;
   onEmailChange: (passwod: string) => void;
   onConfirmEmailChange: (currentPasswod: string) =>  void;
 }
 
 const ChangeEmail: React.FC<ChangeEmailProps> = ({
+  currentEmail,
   onNewEmailChange,
   onEmailChange,
   onConfirmEmailChange,
@@ -22,7 +24,7 @@ const ChangeEmail: React.FC<ChangeEmailProps> = ({
     formState: { errors },
   } = useForm();
 
-  const [Email, setEmail] = useState<string>("");
+  const [Email, setEmail] = useState<string>(currentEmail);
   const [newEmail, setNewEmail] = useState<string>("");
   const [confirmEmail, setConfirmEmail] = useState<string>("");
   const { t } = useTranslation();
@@ -50,7 +52,6 @@ const ChangeEmail: React.FC<ChangeEmailProps> = ({
           type="email"
           value={Email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="abcdefg@hijklmn"
           register={register}
           errors={errors}
           required
@@ -60,7 +61,6 @@ const ChangeEmail: React.FC<ChangeEmailProps> = ({
           id="new-email"
           label={t("New Email addrerss")}
           type="email"
-          placeholder="abcdefg@hijklmn"
           value={newEmail}
           onChange={(e) => setNewEmail(e.target.value)}
           register={register}
@@ -72,7 +72,6 @@ const ChangeEmail: React.FC<ChangeEmailProps> = ({
           id="confirm-email"
           label={t("New Email addrerss Confirm")}
           type="email"
-          placeholder="abcdefg@hijklmn"
           onChange={(e) => setConfirmEmail(e.target.value)}
           value={confirmEmail}
           register={register}
