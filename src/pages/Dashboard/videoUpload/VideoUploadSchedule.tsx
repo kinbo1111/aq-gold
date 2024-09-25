@@ -40,7 +40,17 @@ const VideoUploadSchedule: React.FC<VideoUploadScheduleProps> = ({
     setSelectedFile(null);
   };
 
-   const handleCopy = (fieldId: string) => {
+  const handleCopy = (fieldId: string) => {
+    const textarea = document.createElement('textarea');
+    const field = document.getElementById(fieldId);
+
+    if (!field) return;
+
+    textarea.value = field.textContent as string;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    textarea.remove();
      message.success(`${t('copied to clipboard!')}`);
   };
 
@@ -74,12 +84,13 @@ const VideoUploadSchedule: React.FC<VideoUploadScheduleProps> = ({
                   </div>
                   <div className="bg-[#2E3133] w-full rounded-md my-2 text-white p-5 text-sm" >
                       <p>動画リンク</p>
-                  <a className="text-blue-500 underline" href={videoUrl}>Here is a link.</a>
-                  <HiClipboardDocument
-                          size={16}
-                          className="gray-200 absolute bottom-[12px] right-3 transform cursor-pointer"
-                          onClick={() => handleCopy("channelId")}
-                      />
+                  <a className="text-blue-500 underline" href={videoUrl}>Here is a link.
+                    <HiClipboardDocument
+                            size={16}
+                            className="gray-200 inline ml-2 transform cursor-pointer"
+                            onClick={() => handleCopy(videoUrl)}
+                     />
+                 </a>
                   </div>
               </div>
               <div className="w-full relative flex items-center justify-end px-6 py-2 gap-2 border-t border-[#585a5c]">

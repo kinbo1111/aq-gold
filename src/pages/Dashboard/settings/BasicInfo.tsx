@@ -22,8 +22,8 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
 }) => {
 
     const { user } = useUser();
-    const [name, setNickname] = useState<string>('');
-    const [imageUrl, setImageUrl] = useState<string | undefined>(currentAvatarUrl);
+    const [name, setNickname] = useState<string | undefined>(nickname);
+    const [imageUrl, setImageUrl] = useState<string | undefined>(currentAvatarUrl ? currentAvatarUrl : DefaultAvatar);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [isLoaded, setIsLoaded] = useState<boolean>(false); // null: loading, true: loaded, false: error
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -56,6 +56,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
     },[])
 
     useEffect(() => {
+        if(name !== undefined)
         onChangeNickname && onChangeNickname(name)
     }, [name])
     
@@ -82,15 +83,17 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
             <h5 className="sub-1b text-white mb-4">{t("Account basic info")}</h5>
             <div className="pb-6 border-b border-[#585a5c]">
                 <div>
-                    <div className="flex items-center justify-start gap-6">
-                        <img 
+                    <div className="grid grid-cols-12">
+                    <div className="col-span-3 space-x-1">
+                       <img 
                             src={selectedFile? currentAvatarUrl : imageUrl} 
                             onLoad={handleImageLoad}
                             onError={handleImageError}
                             alt="Current Avatar" 
                             className="w-[100px] h-[100px] rounded-full bg-[#6b6b6b] items-center justify-center bg-cover bg-center"
                         />
-                        <div>
+                    </div>
+                        <div className="col-span-9">
                             <p className="text-white body-1r mb-3">{t("It’s recommended to use a picture that’s at least 98 x 98 pixels and 4MB or less. Use a PNG or GIF (no animations) file.")} </p>
                             <div>
                                 <button onClick={handleChangeClick} className="py-3 px-4 brand-600 button-2b">
@@ -118,7 +121,6 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
                     onChange={handleChange}
                     value={name}
                     type="text"
-                    placeholder="Maruko"
                     register={register}
                     errors={errors}
                     required
