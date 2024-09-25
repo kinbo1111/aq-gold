@@ -26,9 +26,9 @@ const Header: React.FC<{ onToggleModal: () => void }> = ({ onToggleModal }) => {
                 <>
                     <SidebarMenu />
                     <div className="fixed top-0 py-2 bg-[#131515] right-0 w-full">
-                        <Container>
+                       <div className="max-w-[1240px] mx-auto ">
                             <UserNav />
-                        </Container>
+                        </div>
                     </div>
                 </>
             ) : (

@@ -65,7 +65,6 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
             setChannelName(channelData?.name)
             setChannelHandle(channelData?.description)  
             setImageUrl(channelData?.avatarUrl)
-            console.log(channelData?.avatarUrl)
         }
     },[channelData])
 
@@ -77,15 +76,17 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
                 <p className="body-1r text-white mb-4">
                     {t("Your channel picture will appear where your channel is presented on AQ GOLD, like next to your videos.")}
                 </p>
-                <div className="flex items-center gap-6">
-                    <img 
-                        src={selectedFile? URL.createObjectURL(selectedFile) : imageUrl} 
-                        onLoad={handleImageLoad}
-                        onError={handleImageError}
-                        alt="Current Avatar" 
-                        className="avatar relative w-[100px] h-[100px] rounded-full bg-[#6b6b6b] flex items-center justify-center bg-cover bg-center"
+                <div className="grid grid-cols-12">
+                    <div className="col-span-3 space-x-1">
+                        <img 
+                            src={selectedFile? URL.createObjectURL(selectedFile) : imageUrl} 
+                            onLoad={handleImageLoad}
+                            onError={handleImageError}
+                            alt="Current Avatar" 
+                            className="w-[100px] h-[100px] rounded-full object-cover bg-[#6b6b6b]"
                         />
-                    <div>
+                    </div>
+                    <div className="col-span-9">
                         <p className="text-white body-1r mb-3">{t("eleven")}</p>
                         <div>
                             <button onClick={triggerFileInput} className="py-3 px-4 brand-600 button-2b">
@@ -113,7 +114,6 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
                     type="text"
                     onChange={(e) => setChannelName(e.target.value)}
                     value={channelName}
-                    placeholder="HARUO GOLD"
                     register={register}
                     errors={errors}
                     required
@@ -132,7 +132,6 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
                     }
                 }}
                 value={channelHandle}
-                placeholder="@HARUOGOLD"
                 register={register}
                 errors={errors}
                 required

@@ -61,7 +61,7 @@ const DeleteChannel: React.FC<DeleteChannelProps> = ({ isOpen, onClose }) => {
               </div>
             </p>
           </div>
-          <SettingsFooter onClose={onClose} isDelete isDisable={check} handleSave={handleDeleteChannel} isLoading={loading} />
+          <SettingsFooter onClose={onClose} isDelete handleSave={handleDeleteChannel} isLoading={loading} />
         </div>
       </div>
     </div>

@@ -50,7 +50,6 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
   const { t } = useTranslation();
   const { user } = useUser();
   const navigate = useNavigate();
-
   const [isDescriptionVisible, setDescriptionVisible] = useState<boolean>(false);
   const [isFavorited, setIsFavorited] = useState<boolean>(false);
   const [hasIncremented, setHasIncremented] = useState<boolean>(false);
@@ -58,12 +57,12 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
   const [isMyVideo, setIsMyVideo] = useState<boolean>(false);
   const [favCnt, setFavCnt] = useState<number>(favoriteCount);
   const [viewCnt, setViewCnt] = useState<number>(viewCount);
-
   
   const handleOpenModal = () => {
     incrementVideoViewCount();
     setShowModal(true);
   };
+
   const handleCloseModal = () => setShowModal(false);
   const toggleDescription = () => setDescriptionVisible(!isDescriptionVisible);
 
@@ -100,8 +99,6 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
     if (!user) return;
     try {
       if (isFavorited) {
-        console.log('Removing from favorites');
-        // Remove from favorites
         const favoritesData = await API.graphql({
           query: listFavorites,
           variables: {
@@ -115,7 +112,6 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
 
         if (favoritesData.data.listFavorites.items.length > 0) {
           const favoriteId = favoritesData.data.listFavorites.items[0].id;
-          console.log(`Deleting favorite with id: ${favoriteId}`);
           await API.graphql({
             query: deleteFavorite,
             variables: { input: { id: favoriteId } },
@@ -173,15 +169,14 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
         },
         authMode: 'AMAZON_COGNITO_USER_POOLS',
       });
-      setHasIncremented(true); // Ensure it only increments once per play
+      setHasIncremented(true);
     } catch (error) {
       console.error('Error incrementing view count:', error);
     }
   };
 
   if (!isOpen) return null;
-
-  return (
+  else  return (
     <div className="fixed inset-0 flex items-center justify-center z-[999] bg-black bg-opacity-70 pt-[120px] pb-[80px]">
       <div className="relative bg-[#131515] w-11/12 md:w-3/4 lg:w-2/3 rounded-lg h-full overflow-y-scroll video-modal">
         <div className='relative video-detail'>

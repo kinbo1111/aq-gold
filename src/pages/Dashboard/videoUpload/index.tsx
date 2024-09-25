@@ -6,7 +6,7 @@ import VideoUploadModal from './VideoUploadModal';
 import VideoUploadDetail from './VideoUploadDetail';
 import VideoUploadVisibility from './VideoUploadVisibility';
 import VideoUploadSchedule from './VideoUploadSchedule';
-import { uploadVideoWithProgress, uploadThumbnail, getVideoUrl, getThumbnailUrl } from '../../../services/storageService';
+import { uploadVideoWithProgress, uploadThumbnail, uploadVthumbnail, getVideoUrl, getThumbnailUrl } from '../../../services/storageService';
 import { saveVideoMetadata } from '../../../services/VideoService';
 import { useNavigate } from 'react-router-dom';
 
@@ -49,6 +49,7 @@ const VideoUpload: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [videoProgress, setVideoProgress] = useState<number>(0);
   const [thumbnailProgress, setThumbnailProgress] = useState<number>(0);
+  const [videoVthumbnail, setVideoVthumbnail] = useState<string>();
 
   const handleCloseUploadModal = () => {
     setIsUploadModalOpen(false);
@@ -70,7 +71,7 @@ const VideoUpload: React.FC = () => {
 
   const handleOpenSchedule = async (scheduleData: ScheduleDataProps | null) => {
     try {
-      if (selectedFile === null || !videoDetail?.thumbnail) {
+      if (selectedFile === null || !videoDetail?.thumbnail || !videoDetail?.vThumbnail) {
         message.error('Please select both a video and a thumbnail file to upload.');
         return;
       }
@@ -88,10 +89,14 @@ const VideoUpload: React.FC = () => {
       // Upload thumbnail with progress tracking
       const thumbnailKey = await uploadThumbnail(videoDetail.thumbnail);
       const thumbnailUrl = await getThumbnailUrl(thumbnailKey);
-
+      
+      const vThumbnailKey = await uploadVthumbnail(videoDetail.vThumbnail);
+      const vThumbnailUrl = await getThumbnailUrl(vThumbnailKey);
+    
       setVideoScheduleTime(scheduleTimeISO);
       setVideoUrl(videoUrl);
       setVideoThumbnail(thumbnailUrl);
+      setVideoVthumbnail(vThumbnailUrl);
 
       const videoElement = document.createElement('video');
       videoElement.src = URL.createObjectURL(selectedFile);
@@ -105,6 +110,7 @@ const VideoUpload: React.FC = () => {
           category: videoDetail.category,
           videoUrl,
           thumbnailUrl,
+          vThumbnailUrl,
           isForKids: videoDetail.isForKids,
           isRestricted: videoDetail.isRestricted,
           playlist: videoDetail.playlist,

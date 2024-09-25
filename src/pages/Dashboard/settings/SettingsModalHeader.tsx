@@ -20,7 +20,7 @@ const SettingsModalHeader: React.FC<SettingsModalHeaderProps> = ({
       {showCloseButton && (
         <button
           onClick={onClose}
-          className="close-button gray-200 absolute top-1/2 right-6 -translate-y-1/2 text-3xl font-normal"
+          className="close-button gray-200 absolute top-1/2 right-3 -translate-y-1/2 text-3xl font-normal"
         >
           &times;
         </button>

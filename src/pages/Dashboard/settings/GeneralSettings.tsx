@@ -175,6 +175,7 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({
       {
         activeSection === "changeEmail" &&
         <ChangeEmail
+          currentEmail={user?.email ?? ''}
           onNewEmailChange = {onNewEmailChange}
           onEmailChange={onEmailChange}
           onConfirmEmailChange = {onConfirmEmailChange}

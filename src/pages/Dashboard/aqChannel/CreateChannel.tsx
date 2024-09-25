@@ -52,28 +52,36 @@ const CreateChannel = () => {
       }
   };
 
-  const handleCreateChannel = async () => {
-    setIsLoading(true);
-    try {
-      if (!name || !selectedFile) {
-        message.warning('Name and avatar are required.');
-        return;
-      }
+    const handleCreateChannel = async () => {
+      setIsLoading(true);
+      try {
+        if (!name) {
+          message.warning('Name is required.');
+          return;
+        }
 
-      const avatarUrl = await uploadChannelAvatar(selectedFile?.name, selectedFile);
-      const newChannel = {
-        name,
-        description,
-        avatarUrl: getVideoUrl(avatarUrl),
-        subscribersCount: 0,
-      };
-      await createChannel(newChannel);
-      message.success('Channel created successfully!');
-      navigate('/aq-studio');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+        let avatarUrl: string = '';
+
+        if (selectedFile) {
+          const uploadedAvatarUrl = await uploadChannelAvatar(selectedFile?.name, selectedFile);
+          avatarUrl = await getVideoUrl(uploadedAvatarUrl); 
+        }
+
+        const newChannel = {
+          name,
+          description,
+          avatarUrl, 
+          subscribersCount: 0,
+        };
+
+        await createChannel(newChannel);
+        message.success('Channel created successfully!');
+        
+        navigate('/aq-studio');
+      } finally {
+        setIsLoading(false);
+      }
+    };
   
     if (hasChannel) {
     return (

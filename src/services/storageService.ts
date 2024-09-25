@@ -28,7 +28,7 @@ export async function getVideoUrl(key: string): Promise<string> {
 
 export async function uploadThumbnail(file: File): Promise<string> {
   try {
-    const result = await Storage.put(`vThumbnails/${file.name}`, file, {
+    const result = await Storage.put(`Thumbnails/${file.name}`, file, {
       contentType: file.type,
     });
     return result.key;
@@ -40,7 +40,7 @@ export async function uploadThumbnail(file: File): Promise<string> {
 
 export async function uploadVthumbnail(file: File): Promise<string> {
   try {
-    const result = await Storage.put(`thumbnails/${file.name}`, file, {
+    const result = await Storage.put(`Vthumbnails/${file.name}`, file, {
       contentType: file.type,
     });
     return result.key;
