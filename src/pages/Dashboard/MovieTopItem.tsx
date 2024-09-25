@@ -5,18 +5,17 @@ interface MovieTopItemProps {
     videoId: string;
     imgSrc: string;
     videoUrl: string;
+    onClick: void;
 }
 
 const MovieTopItem: React.FC<MovieTopItemProps> = ({
-    videoId,
     imgSrc,
-    videoUrl
 }) => {
 
     const navigate = useNavigate();
 
     const handleShow = () => {
-        navigate(`/video/${videoId}`, { state: { videoUrl:videoUrl } });
+        
     };
     return (
         <div className="w-full overflow-hidden flex justify-center">

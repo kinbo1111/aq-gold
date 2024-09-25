@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import VideoItem from './VideoItem';
 import { fetchVideos } from '../services/ApiService';
 import { VideoData } from '../types';
-import { useVideo } from '../contexts/VideoContext';
 
 const VideoList: React.FC<{ className?: string, videoData: VideoData[] }> = ({ className, videoData }) => {
   const [videos, setVideos] = useState<any[]>([]);
