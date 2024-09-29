@@ -1,10 +1,9 @@
-// src/services/VideoService.ts
-import { API, graphqlOperation } from 'aws-amplify';
+import { API } from 'aws-amplify';
 import { createVideo } from '../graphql/mutations';
-import { videosByFavoriteCount } from '../graphql/mutations';
+import { videosByFavoriteCount, updateVideo } from '../graphql/mutations';
 import { listVideos } from '../graphql/queries';
 import { getVideo } from '../graphql/queries';
-import { VideoData, VideoInputData } from '../types';
+import { VideoData, VideoInputData, VideoUpdateData} from '../types';
 import { listFavorites } from '../graphql/queries';
 
 export type GetVideoResponse = {
@@ -13,18 +12,30 @@ export type GetVideoResponse = {
 
 export async function saveVideoMetadata(videoData: VideoInputData): Promise<void> {
   try {
-
-    const response = await API.graphql({
+    await API.graphql({
       query: createVideo, 
       variables: { input: videoData },
       authMode: 'AMAZON_COGNITO_USER_POOLS',
-
     });
   } catch (error) {
     console.error('Error saving video metadata:', error);
     throw new Error('Failed to save video metadata.');
   }
 }
+
+export async function updateVideoMetadata(videoData: VideoUpdateData): Promise<void> {
+  try {
+    await API.graphql({
+      query: updateVideo,
+      variables: { input: videoData },
+      authMode: 'AMAZON_COGNITO_USER_POOLS'
+    });
+  } catch (error) {
+    console.error('Error updating video metadata:', error);
+  }
+}
+
+
 
 export async function fetchVideoById(id: string): Promise<VideoInputData> {
   try {

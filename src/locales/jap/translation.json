@@ -38,7 +38,7 @@
   "help":"ヘルプ", 
   "Send Verification Code":"送信",
   "Get Started":"今すぐ始める",
-  "Email address":"現在のメールアドレス",
+  "Email address":"メールアドレス",
   "What is AQ GOLD？": "AQ GOLDってなんですか？",
   "Enjoy 360° video contents":"無限の360°動画を体験しよう！",
   "Watch 360° video contents such as Natural view, relaxation, travel adventure, sport, games and more.": "迫力満点な大自然や旅行、スポーツやゲームなど、360°動画コンテンツが盛りだくさん！",
@@ -64,7 +64,7 @@
   "How do I upload my 360° video content?":"AQ GOLD内に360°動画をアップロードしたいのですが、方法を教えて下さい",
   "Step": "ステップ",
   "Creat your AQ Account": "AQアカウントを作成",
-  "Username": "メールアドレスまたはユーザー名",
+  "Username": "ユーザー名",
   "Your Birthday": "生年月日",
   "Gender": "性別",
   "Male": "男性",
@@ -227,5 +227,6 @@
   "By clicking Create Channel you agree to":"チャンネルを作成するとAQ GOLD の利用規約に同意したことになります。",
   "AQ GOLD’s Terms of Service.":"詳細",
   "Changes made to your name and profile picture are visible on AQ GOLD.":"チャンネル名とプロフィール写真はAQ GOLD内に表示され、いつでも変更が可能です。",
-  "Frequently Asked Questions":"よくあるご質問"
+  "Frequently Asked Questions":"よくあるご質問",
+  "Saving...":"保存中..."
 }

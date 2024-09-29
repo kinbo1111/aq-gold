@@ -8,7 +8,7 @@ import Slider from "./Slider";
 import { SlArrowRight } from "react-icons/sl";
 import { FieldValues, useForm } from "react-hook-form";
 import Video01 from "../../assets/images/movie_1.png"
-import Video02 from "../../assets/images/movie_2.jpg"
+import Video02 from "../../assets/images/movie_2.png"
 import Video03 from "../../assets/images/movie_3.png"
 import Video04 from "../../assets/images/movie_4.png"
 import Footer from "../../components/footer/Footer";

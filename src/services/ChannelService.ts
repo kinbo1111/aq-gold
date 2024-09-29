@@ -19,7 +19,6 @@ export const fetchFavoriteChannels = async (userId: string): Promise<FavoriteCha
   }
 };
 
-
 export const createNewChannel = async (channelData: any) => {
   try {
     const response = await API.graphql({
@@ -39,10 +38,10 @@ export const fetchUserChannel = async (userId: string) => {
   try {
     const response = await API.graphql({
       query: listChannels,
-      variables: { userId },
+      variables: { filter: { owner: { eq: userId } } },
       authMode: 'AMAZON_COGNITO_USER_POOLS',
     }) as { data: { listChannels: any } };
-    return response.data.listChannels.items[0];  // Return the channel data if it exists
+    return response.data.listChannels.items[0]; 
   } catch (error) {
     console.error('Error fetching user channel:', error);
     throw new Error('Failed to fetch channel');
