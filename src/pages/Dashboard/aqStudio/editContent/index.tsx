@@ -9,6 +9,8 @@ import { useTranslation } from 'react-i18next';
 import { VideoDetailData, Thumbnail } from "../../videoUpload";
 import { categories, playlist } from '../../../../constant/SelectItems';
 import { useChannel } from "../../../../contexts/ChannelContext";
+import { uploadThumbnail, uploadVthumbnail } from "../../../../services/storageService";
+import { updateVideoMetadata } from '../../../../services/VideoService'; 
 import Button from "../../../../components/Button";
 import SettingsModalHeader from "../../settings/SettingsModalHeader";
 import Input from "../../../../components/inputs/Input";
@@ -46,8 +48,8 @@ const VideoDetail: React.FC<VideoDetailProps> = ({
   const [restrict, setRestrict] = useState<boolean>(videoData.isRestricted);
   const [isDescriptionVisible, setDescriptionVisible] = useState(false);
   const [isFormComplete, setIsFormComplete] = useState(false);
-
-  const { hasChannel, channelData, loadingChannel, checkUserChannel } = useChannel();
+  const [loading, setLoading] = useState(false);
+  const { channelData, checkUserChannel } = useChannel();
 
   useEffect(() => {
     checkUserChannel();
@@ -85,37 +87,34 @@ const VideoDetail: React.FC<VideoDetailProps> = ({
     }
   };
 
-  const checkFormCompletion = async () => {
-    const isTitleFilled = !!register("videoTitle");
-    const isDescriptionFilled = !!register("videoDescription");
-    const isThumbnailed = thumbnails.length > 0;
-    const isVThumbnailed = vthumbnails.length > 0;
-    const isOptionSelected = selectedPlaylist !== "";
-    setIsFormComplete(
-      isTitleFilled &&
-      isDescriptionFilled &&
-      isThumbnailed &&
-      isOptionSelected &&
-      isVThumbnailed
-    );
+
+   const handleSaveVideo = async () => {
+    if (!channelData || !channelData.id) return;
+
+    try {
+      setLoading(true);
+      const thumbnailUrl = thumbnailFile ? await uploadThumbnail(thumbnailFile) : videoData.thumbnailUrl;
+      const vThumbnailUrl = vThumbnailFile ? await uploadVthumbnail(vThumbnailFile) : videoData.vThumbnailUrl;
+      const updatedVideoData = {
+        id: videoData.id,
+        title,
+        description,
+        category: selectedCategory,
+        thumbnailUrl,
+        vThumbnailUrl,
+        isForKids: forKid,
+        isRestricted: restrict,
+        playlist: selectedPlaylist,
+        channelId: videoData.channelId
+      };
+
+      await updateVideoMetadata(updatedVideoData);  
+    } catch (error) {
+      console.error('Error updating video:', error);
+    } finally {
+      setLoading(false);
+    }
   };
-  
-  const handleClick = async () => {
-    await checkFormCompletion();
-  
-    if (!channelData || channelData.id == undefined) return;
-    onSubmit({
-      title: title,
-      description: description,
-      category: selectedCategory,
-      thumbnail: thumbnailFile,
-      vThumbnail: vThumbnailFile,
-      isForKids: forKid,
-      isRestricted: restrict,
-      playlist: selectedPlaylist,
-      channelId: channelData.id
-    }); 
-  }
 
   if (!isOpen) return null;
   
@@ -128,7 +127,6 @@ const VideoDetail: React.FC<VideoDetailProps> = ({
           showCloseButton={true}
           label={title?.length ? title : 'NO TITLE'}
         />
-        <form className="w-full">
           <div className="p-6">
             <div className="flex items-center justify-center">
               <div className="flex items-center justify-center">
@@ -417,14 +415,12 @@ const VideoDetail: React.FC<VideoDetailProps> = ({
           </div>
           <div className="w-full relative flex items-center justify-end px-6 py-2 gap-2 border-t border-[#585a5c]">
             <Button
-              onClick={handleClick}
-              label={t("Edit")}
+              onClick={handleSaveVideo}
               full
               small
-              type="submit"
+              label={loading ? t("Saving...") : t("Edit")}
             />
           </div>
-        </form>
       </div>
     </div>
   );

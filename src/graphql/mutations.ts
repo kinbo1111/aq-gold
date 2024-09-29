@@ -137,17 +137,17 @@ export const updateVideo = /* GraphQL */ `mutation UpdateVideo(
     viewCount
     favoriteCount
     channelId
-    channel {
-      id
-      name
-      description
-      owner
-      avatarUrl
-      subscribersCount
-      createdAt
-      updatedAt
-      __typename
-    }
+    # channel {
+    #   id
+    #   name
+    #   description
+    #   owner
+    #   avatarUrl
+    #   subscribersCount
+    #   createdAt
+    #   updatedAt
+    #   __typename
+    # }
     isAQOriginal
     createdAt
     updatedAt

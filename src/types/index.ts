@@ -98,3 +98,16 @@ export type channelInputProps = {
   description: string;
   avatarUrl: string;
 }
+
+export type VideoUpdateData = {
+  id: string; 
+  title: string;
+  description?: string;
+  category?: string;
+  thumbnailUrl?: string;
+  vThumbnailUrl?: string;
+  isForKids: boolean;
+  isRestricted: boolean;
+  playlist: string;
+  channelId: string;  
+};
