@@ -73,7 +73,7 @@ const CreateAccount: React.FC = () => {
       return;
     }
 
-    const birthday = `${selectedYear}-${selectedMonth}-${selectedDay}`;
+    const birthday = dayjs(`${selectedYear}-${selectedMonth}-${selectedDay}`).format('YYYY-MM-DD');
 
     if (password !== passwordConfirm) {
       message.warning('Passwords do not match. Please confirm your password.');

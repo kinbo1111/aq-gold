@@ -48,7 +48,6 @@ const VideoUpload: React.FC = () => {
   const [videoThumbnail, setVideoThumbnail] = useState<string>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [videoProgress, setVideoProgress] = useState<number>(0);
-  const [thumbnailProgress, setThumbnailProgress] = useState<number>(0);
   const [videoVthumbnail, setVideoVthumbnail] = useState<string>();
 
   const handleCloseUploadModal = () => {
@@ -82,11 +81,9 @@ const VideoUpload: React.FC = () => {
         ? new Date(scheduleData.scheduleDate + ' ' + scheduleData.scheduleTime).toISOString() 
         : new Date().toISOString();
 
-      // Upload video with progress tracking
       const videoKey = await uploadVideoWithProgress(selectedFile, setVideoProgress);
       const videoUrl = await getVideoUrl(videoKey);
 
-      // Upload thumbnail with progress tracking
       const thumbnailKey = await uploadThumbnail(videoDetail.thumbnail);
       const thumbnailUrl = await getThumbnailUrl(thumbnailKey);
       
@@ -103,7 +100,7 @@ const VideoUpload: React.FC = () => {
 
       videoElement.onloadedmetadata = async () => {
         const duration = Math.floor(videoElement.duration);
-
+       
         await saveVideoMetadata({
           title: videoDetail.title,
           description: videoDetail.description,
@@ -122,6 +119,7 @@ const VideoUpload: React.FC = () => {
           viewCount: 0,
           favoriteCount: 0,
         });
+
 
         message.success('Video and thumbnail uploaded successfully!');
         setIsUploadScheduleOpen(true);
