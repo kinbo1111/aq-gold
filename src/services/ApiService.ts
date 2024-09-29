@@ -1,27 +1,23 @@
 import { API, graphqlOperation } from 'aws-amplify';
-import { createVideo, updateVideo } from '../graphql/mutations';
+import { createVideo } from '../graphql/mutations';
 import { listVideos } from '../graphql/queries';
 
-// Define the type for a Video item
 interface Video {
   id: string;
   title: string;
   thumbnailUrl: string;
 }
 
-// Define the type for the response when creating a video
 interface CreateVideoResponse {
   createVideo: Video;
 }
 
-// Define the type for the response when listing videos
 interface ListVideosResponse {
   listVideos: {
     items: Video[];
   };
 }
 
-// Function to create a new video
 export async function createNewVideo(videoData: any): Promise<Video> {
   try {
     const response = (await API.graphql(graphqlOperation(createVideo, { input: videoData }))) as { data: CreateVideoResponse };
@@ -37,7 +33,6 @@ export async function createNewVideo(videoData: any): Promise<Video> {
   }
 }
 
-// Function to fetch a list of videos
 export async function fetchVideos(): Promise<Video[]> {
   try {
     const response = await API.graphql({

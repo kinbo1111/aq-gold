@@ -184,7 +184,6 @@ const CreateChannel = () => {
            <Button 
               className='w-[320px] btnOk flex-row brand-gradient text-gray-200 border-none button-2b h-10 relative disabled:cursor-not-allowed rounded hover:opacity-80 transition px-4 py-2 flex items-center justify-center'
               loading={isLoading}
-              disabled={!selectedFile}
               onClick={handleCreateChannel}
             >
               {t("Create Channel")}
