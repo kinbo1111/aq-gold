@@ -85,6 +85,12 @@ body {
   color: #DDB951 !important;
 }
 
+.email-input input::placeholder {
+   
+    color: white !important; 
+    opacity: 1;
+  }
+
 .custom-datepicker input::placeholder {
    
     color: white !important; 
