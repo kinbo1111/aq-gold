@@ -90,7 +90,7 @@ const Input: React.FC<InputProps> = ({
         type={type}
         value={value}
         {...register(id, { required })}
-        className={`px-3 body-2r bg-transparent border rounded outline-none transition disabled:opacity-70
+        className={`email-input px-3 body-2r bg-transparent border rounded outline-none transition disabled:opacity-70
                     disabled:cursor-not-allowed 
                     ${getHeightClass()}
                     ${full ? 'w-[320px]' : 'w-full'}

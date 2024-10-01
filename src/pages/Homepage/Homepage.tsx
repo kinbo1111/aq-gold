@@ -50,7 +50,7 @@ const Homepage = () => {
               <Input
                 register={register}
                 id="email"
-                type="email"
+                type="text"
                 label=""
                 disabled={false}
                 errors={errors}
@@ -107,7 +107,7 @@ const Homepage = () => {
               <img src={Video04} alt="" />
             </div>
             <div className="w-full md:w-[48%]">
-              <h6 className="h7 brand-600 mb-4">{t("Upload your 360° video contents")}</h6>
+              <h6 className="h7 brand-600 mb-4">{t("Upload your 360° video contents")}<br/>{t("upload your video")}</h6>
               <p className="sub-2r text-white">{t("Be AQvar to upload and share your 360° video contents.")}</p>
             </div>
           </div>
@@ -125,7 +125,7 @@ const Homepage = () => {
             <Input
               register={register}
               id="email"
-              type="email"
+              type="text"
               label=""
               disabled={false}
               errors={errors}

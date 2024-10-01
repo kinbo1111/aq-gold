@@ -282,7 +282,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                   />
                 </div>
                 <div className="mt-6 flex flex-col gap-4">
-                  <h6 className="body-1b text-white">{("Category")}</h6>
+                  <h6 className="body-1b text-white">{t("Category")}</h6>
                   <p className="body-1r gray-200">
                     {t("Please choose the category that best describes your video.")}
                   </p>
