@@ -1,7 +1,5 @@
 import Item from "../assets/images/detail.png";
 import Avatar from "../assets/images/placeholder.png"
-import SlideImg from "../assets/images/Image.png"
-import SlideImg01 from "../assets/images/Image01.png"
 
 export const faqData = [
     {
@@ -129,35 +127,4 @@ export const UserListData = [
     {
         name: "Anna Nguyen"
     },
-]
-
-export const MovieData = [
-    {
-        imgSrc: SlideImg
-    },
-    {
-        imgSrc: SlideImg01
-    },
-    {
-        imgSrc: SlideImg01
-    },
-    {
-        imgSrc: SlideImg
-    },
-    {
-        imgSrc: SlideImg01
-    },
-    {
-        imgSrc: SlideImg
-    },
-    {
-        imgSrc: SlideImg01
-    },
-    {
-        imgSrc: SlideImg
-    },
-]
-
-export const NotificationData = [
-
 ]
