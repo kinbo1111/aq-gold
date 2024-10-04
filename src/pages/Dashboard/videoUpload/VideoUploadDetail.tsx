@@ -303,7 +303,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                   <p className="body-1r gray-200">
                   {t("Regardless")}
                     <Link
-                      to="https::/aqgold.net/faq"
+                      to="#"
                       className="underline"
                     >
                       {("What's content made for kids?")}
@@ -317,7 +317,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                     >
                       {t("Regardless")}
                       <Link
-                        to="https::/aqgold.net/faq"
+                        to="#"
                         className="underline"
                       >
                         {t("What's content made for kids?")}
@@ -379,7 +379,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                     <p className="body-1r gray-200">
                       {t("Age-restricted videos are shown only in AQ18+.")}
                       <Link
-                        to="/learn-more"
+                        to="#"
                         className="underline text-[#1570EF]"
                       >
                         {t("Learn more")}

@@ -61,7 +61,7 @@ const VideoItem: React.FC<VideoItemProps> = ({ id, imageSrc, title, description,
         <img src={imageSrc} alt={title} className="rounded-xl w-full h-72" />
         <div className="px-1">
           <div className="body-1b mt-3 mb-2 text-white flex flex-row justify-between">
-            {title}
+            {title.length > 23 ? `${title.slice(0, 23)}。。。` : title}
             <div className='flex flex-row'>
               <div className='flex flex-row'>
                 <span className='w-6 h-6 flex items-center justify-center'>
