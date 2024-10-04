@@ -66,7 +66,6 @@ const VideoModal: React.FC<VideoModalProps> = ({ show, onClose, videoUrl, videoI
       const videoTexture = new THREE.VideoTexture(videoRef.current);
       videoTexture.minFilter = THREE.LinearFilter;
       videoTexture.magFilter = THREE.LinearFilter;
-      videoTexture.format = THREE.RGBFormat;
 
       const material = new THREE.MeshBasicMaterial({ map: videoTexture });
       const sphere = new THREE.Mesh(geometry, material);
