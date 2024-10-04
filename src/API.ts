@@ -2,64 +2,12 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-
-export type CreateVideoInput = {
-  id?: string | null,
-  title: string,
-  description?: string | null,
-  tags?: Array< string | null > | null,
-  category?: string | null,
-  videoUrl: string,
-  thumbnailUrl?: string | null,
-  vThumbnailUrl?: string | null,
-  isForKids?: boolean | null,
-  isRestricted?: boolean | null,
-  playlist?: string | null,
-  scheduleTime?: string | null,
-  timezone?: string | null,
-  duration: number,
-  viewCount: number,
-  favoriteCount: number,
-  channelId: string,
-  isAQOriginal?: boolean | null,
-  createdAt?: string | null,
-  updatedAt?: string | null,
-  isPublic: boolean,
-  owner?: string | null,
-};
 export type CreateNotificationInput = {
   id?: string | null,
   message: string,
   userId: string,
   read: boolean,
   createdAt?: string | null,
-};
-
-export type ModelVideoConditionInput = {
-  title?: ModelStringInput | null,
-  description?: ModelStringInput | null,
-  tags?: ModelStringInput | null,
-  category?: ModelStringInput | null,
-  videoUrl?: ModelStringInput | null,
-  thumbnailUrl?: ModelStringInput | null,
-  vThumbnailUrl?: ModelStringInput | null,
-  isForKids?: ModelBooleanInput | null,
-  isRestricted?: ModelBooleanInput | null,
-  playlist?: ModelStringInput | null,
-  scheduleTime?: ModelStringInput | null,
-  timezone?: ModelStringInput | null,
-  duration?: ModelIntInput | null,
-  viewCount?: ModelIntInput | null,
-  favoriteCount?: ModelIntInput | null,
-  channelId?: ModelIDInput | null,
-  isAQOriginal?: ModelBooleanInput | null,
-  createdAt?: ModelStringInput | null,
-  updatedAt?: ModelStringInput | null,
-  isPublic?: ModelBooleanInput | null,
-  owner?: ModelStringInput | null,
-  and?: Array< ModelVideoConditionInput | null > | null,
-  or?: Array< ModelVideoConditionInput | null > | null,
-  not?: ModelVideoConditionInput | null,
 };
 
 export type ModelNotificationConditionInput = {
@@ -113,7 +61,21 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-
+export type ModelIDInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  size?: ModelSizeInput | null,
+};
 
 export type ModelBooleanInput = {
   ne?: boolean | null,
@@ -144,7 +106,57 @@ export type DeleteNotificationInput = {
   id: string,
 };
 
+export type CreateVideoInput = {
+  id?: string | null,
+  title: string,
+  description?: string | null,
+  tags?: Array< string | null > | null,
+  category?: string | null,
+  videoUrl: string,
+  thumbnailUrl?: string | null,
+  vThumbnailUrl?: string | null,
+  isForKids?: boolean | null,
+  isRestricted?: boolean | null,
+  playlist?: string | null,
+  scheduleTime?: string | null,
+  timezone?: string | null,
+  duration: number,
+  viewCount: number,
+  favoriteCount: number,
+  channelId: string,
+  isAQOriginal?: boolean | null,
+  createdAt?: string | null,
+  updatedAt?: string | null,
+  isPublic: boolean,
+  owner?: string | null,
+};
 
+export type ModelVideoConditionInput = {
+  title?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  tags?: ModelStringInput | null,
+  category?: ModelStringInput | null,
+  videoUrl?: ModelStringInput | null,
+  thumbnailUrl?: ModelStringInput | null,
+  vThumbnailUrl?: ModelStringInput | null,
+  isForKids?: ModelBooleanInput | null,
+  isRestricted?: ModelBooleanInput | null,
+  playlist?: ModelStringInput | null,
+  scheduleTime?: ModelStringInput | null,
+  timezone?: ModelStringInput | null,
+  duration?: ModelIntInput | null,
+  viewCount?: ModelIntInput | null,
+  favoriteCount?: ModelIntInput | null,
+  channelId?: ModelIDInput | null,
+  isAQOriginal?: ModelBooleanInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  isPublic?: ModelBooleanInput | null,
+  owner?: ModelStringInput | null,
+  and?: Array< ModelVideoConditionInput | null > | null,
+  or?: Array< ModelVideoConditionInput | null > | null,
+  not?: ModelVideoConditionInput | null,
+};
 
 export type ModelIntInput = {
   ne?: number | null,
@@ -156,22 +168,6 @@ export type ModelIntInput = {
   between?: Array< number | null > | null,
   attributeExists?: boolean | null,
   attributeType?: ModelAttributeTypes | null,
-};
-
-export type ModelIDInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  size?: ModelSizeInput | null,
 };
 
 export type Video = {
@@ -623,33 +619,6 @@ export type ModelUserActivityFilterInput = {
   owner?: ModelStringInput | null,
 };
 
-export type ModelSubscriptionVideoFilterInput = {
-  id?: ModelSubscriptionIDInput | null,
-  title?: ModelSubscriptionStringInput | null,
-  description?: ModelSubscriptionStringInput | null,
-  tags?: ModelSubscriptionStringInput | null,
-  category?: ModelSubscriptionStringInput | null,
-  videoUrl?: ModelSubscriptionStringInput | null,
-  thumbnailUrl?: ModelSubscriptionStringInput | null,
-  vThumbnailUrl?: ModelSubscriptionStringInput | null,
-  isForKids?: ModelSubscriptionBooleanInput | null,
-  isRestricted?: ModelSubscriptionBooleanInput | null,
-  playlist?: ModelSubscriptionStringInput | null,
-  scheduleTime?: ModelSubscriptionStringInput | null,
-  timezone?: ModelSubscriptionStringInput | null,
-  duration?: ModelSubscriptionIntInput | null,
-  viewCount?: ModelSubscriptionIntInput | null,
-  favoriteCount?: ModelSubscriptionIntInput | null,
-  channelId?: ModelSubscriptionIDInput | null,
-  isAQOriginal?: ModelSubscriptionBooleanInput | null,
-  createdAt?: ModelSubscriptionStringInput | null,
-  updatedAt?: ModelSubscriptionStringInput | null,
-  isPublic?: ModelSubscriptionBooleanInput | null,
-  and?: Array< ModelSubscriptionVideoFilterInput | null > | null,
-  or?: Array< ModelSubscriptionVideoFilterInput | null > | null,
-  owner?: ModelStringInput | null,
-};
-
 export type ModelSubscriptionNotificationFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   message?: ModelSubscriptionStringInput | null,
@@ -696,7 +665,32 @@ export type ModelSubscriptionBooleanInput = {
   eq?: boolean | null,
 };
 
-
+export type ModelSubscriptionVideoFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  title?: ModelSubscriptionStringInput | null,
+  description?: ModelSubscriptionStringInput | null,
+  tags?: ModelSubscriptionStringInput | null,
+  category?: ModelSubscriptionStringInput | null,
+  videoUrl?: ModelSubscriptionStringInput | null,
+  thumbnailUrl?: ModelSubscriptionStringInput | null,
+  vThumbnailUrl?: ModelSubscriptionStringInput | null,
+  isForKids?: ModelSubscriptionBooleanInput | null,
+  isRestricted?: ModelSubscriptionBooleanInput | null,
+  playlist?: ModelSubscriptionStringInput | null,
+  scheduleTime?: ModelSubscriptionStringInput | null,
+  timezone?: ModelSubscriptionStringInput | null,
+  duration?: ModelSubscriptionIntInput | null,
+  viewCount?: ModelSubscriptionIntInput | null,
+  favoriteCount?: ModelSubscriptionIntInput | null,
+  channelId?: ModelSubscriptionIDInput | null,
+  isAQOriginal?: ModelSubscriptionBooleanInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  isPublic?: ModelSubscriptionBooleanInput | null,
+  and?: Array< ModelSubscriptionVideoFilterInput | null > | null,
+  or?: Array< ModelSubscriptionVideoFilterInput | null > | null,
+  owner?: ModelStringInput | null,
+};
 
 export type ModelSubscriptionIntInput = {
   ne?: number | null,

@@ -18,8 +18,8 @@ const FavoriteChannelList = () => {
       {favoriteChannels.map((channel, index) => (
           <Avatar
             key={index}
-            src={channel.channel.avatarUrl} 
-            name={channel.owner}
+            src={channel?.channel?.avatarUrl} 
+            name={channel?.owner}
         />
         ))}
     </div>

@@ -247,7 +247,6 @@ export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
   }
 }
 ` as GeneratedQuery<APITypes.GetUserQueryVariables, APITypes.GetUserQuery>;
-
 export const listUsers = /* GraphQL */ `query ListUsers(
   $filter: ModelUserFilterInput
   $limit: Int
@@ -432,10 +431,6 @@ export const listFavoriteChannels = /* GraphQL */ `query ListFavoriteChannels(
     items {
       id
       userId
-      channel {
-        avatarUrl
-        description
-      }
       channelId
       createdAt
       updatedAt

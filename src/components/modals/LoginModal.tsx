@@ -25,63 +25,32 @@ const LoginModal = () => {
   const [isLoading, setIsLoading] = useState(false);     
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  // const [msg, setMessage] = useState('');
-
-   
-  // const handleLogIn = () => {
-  //   setIsLoading(true);
-  //   signIn(username, password, (err, accessToken) => {
-  //     if (err) {
-  //       message.error(t("Login successful"));
-  //       setIsLoading(false);
-  //        if (err.message.length > 40) message.warning(err.message.slice(0, 40) + '...')
-  //        else message.warning(err.message);
-  //     }
-  //     message.success(t("Login successful"));
-  //     setIsLoading(false);
-  //   });
-  // };
-
-    const handleLogIn = async () => {
-      setIsLoading(true);
-      try {
-        if (!username) {
-          message.warning('Username is required.');
-          setIsLoading(false);
-          return;
-        }
-        if (!password) {
-          message.warning('Password is required.');
-          setIsLoading(false);
-          return;
-        }
-
-        await Auth.signIn(username, password);
-        login();
-        navigate('/dashboard');
-        setIsLoading(false);
-
-      } catch (err) {
-        message.warning('Failed to login. Please check your username and password.');
-        setIsLoading(false);
-     }
-  };
-
-  // const handleLogIn = async () => {
-  //     try {
-  //         setIsLoading(true);
-  //         await signIn({ username, password });
-  //         setError('');
-  //         setIsLoading(false);
-  //         message.success(t("Login successful"));
-  //   } catch (err: any) {
-  //         if (err.message.length > 40) setError(err.message.slice(0, 40) + '...')
-  //         else message.warning(err.message);
-  //         setIsLoading(false);
-  //   }
-  // };
   
+  const handleLogIn = async () => {
+    setIsLoading(true);
+    try {
+      if (!username) {
+        message.warning('Username is required.');
+        setIsLoading(false);
+        return;
+      }
+      if (!password) {
+        message.warning('Password is required.');
+        setIsLoading(false);
+        return;
+      }
 
+      await Auth.signIn(username, password);
+      login();
+      navigate('/dashboard');
+      setIsLoading(false);
+
+    } catch (err) {
+      message.warning('Failed to login. Please check your username and password.');
+      setIsLoading(false);
+    }
+  };
+  
   return (
     <div className='fixed top-0 left-0 bottom-0 right-0 flex items-center justify-center z-50'>
         <div className='bg-[rgba(19,21,21,0.95)] rounded-2xl max-w-[420px] p-12 border border-[#737576]'>

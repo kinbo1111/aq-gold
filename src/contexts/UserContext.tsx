@@ -66,7 +66,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         channelAvatar: channelUrl,
         favoriteCount: currentUser.favoriteCount
       };
-
       await setUser(customUser);
       await setIsAuthenticated(true);
     } catch (error) {
