@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { API } from 'aws-amplify';
 import { useParams } from 'react-router-dom';
-import videojs from 'video.js';
-import 'videojs-vr';
-import 'videojs-vr/dist/videojs-vr.css';
-import 'video.js/dist/video-js.css';
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { getUserActivity, createUserProgress, updateUserProgress } from '../graphql/mutations';
 import { useUser } from '../contexts/UserContext';
 
@@ -16,43 +14,14 @@ export type VideoModalProps = {
 };
 
 const VideoModal: React.FC<VideoModalProps> = ({ show, onClose, videoUrl, videoId }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const playerRef = useRef<videojs.Player | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null); 
+  const containerRef = useRef<HTMLDivElement>(null); 
+  const rendererRef = useRef<THREE.WebGLRenderer | null>(null); 
 
   const { user } = useUser();
   const [progress, setProgress] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
-  
-  useEffect(() => {
-    if (show && videoRef.current && videoUrl) {
-      const player = videojs(videoRef.current, {
-        controls: true,
-        autoplay: false,
-        preload: 'auto',
-      });
-
-      try {
-        player.vr({
-          projection: 'AUTO',
-          debug: true,
-        });
-        player.src(videoUrl);
-        playerRef.current = player;
-      } catch (error) {
-        console.error('VR setup failed:', error);
-        setError('VR setup failed.');
-      }
-
-      return () => {
-        if (playerRef.current) {
-          playerRef.current.dispose();
-          playerRef.current = null;
-        }
-      };
-    }
-  }, [videoUrl]); 
 
   useEffect(() => {
     if (user && videoId) {
@@ -79,6 +48,56 @@ const VideoModal: React.FC<VideoModalProps> = ({ show, onClose, videoUrl, videoI
       fetchUserProgress();
     }
   }, [videoId, user]);
+
+  useEffect(() => {
+    if (show && containerRef.current && videoRef.current && videoUrl) {
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.set(0, 0, 0.1);
+
+      const renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      containerRef.current.appendChild(renderer.domElement);
+      rendererRef.current = renderer;
+
+      const geometry = new THREE.SphereGeometry(500, 60, 40);
+      geometry.scale(-1, 1, 1); 
+
+      const videoTexture = new THREE.VideoTexture(videoRef.current);
+      videoTexture.minFilter = THREE.LinearFilter;
+      videoTexture.magFilter = THREE.LinearFilter;
+      videoTexture.format = THREE.RGBFormat;
+
+      const material = new THREE.MeshBasicMaterial({ map: videoTexture });
+      const sphere = new THREE.Mesh(geometry, material);
+      scene.add(sphere);
+
+      const controls = new OrbitControls(camera, renderer.domElement);
+      controls.enableZoom = false;
+      controls.enablePan = false;
+
+      const animate = () => {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+      };
+      animate();
+
+      const handleResize = () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      };
+      window.addEventListener('resize', handleResize);
+
+      return () => {
+        window.removeEventListener('resize', handleResize);
+        if (rendererRef.current) {
+          rendererRef.current.dispose();
+        }
+      };
+    }
+  }, [show, videoUrl]);
 
   const handleProgressUpdate = useCallback(
     async (currentTime: number) => {
@@ -125,36 +144,40 @@ const VideoModal: React.FC<VideoModalProps> = ({ show, onClose, videoUrl, videoI
   if (error) return <div>{error}</div>;
 
   return show ? (
-    <div style={styles.modalOverlay}>
-      <div style={styles.modalContent}>
+    <div style={styles.overlay}>
+      <div style={styles.contentWrapper}>
         <button onClick={onClose} style={styles.closeButton}>X</button>
+        <div ref={containerRef} style={{ width: '100%', height: '100%' }}>
         <video
-          ref={videoRef}
-          className="video-js vjs-default-skin"
-          playsInline
-          autoPlay
-          onTimeUpdate={(e) => handleProgressUpdate((e.target as HTMLVideoElement).currentTime)}
-        />
+           style={styles.videoElement}
+            ref={videoRef}
+            src={videoUrl}
+            muted
+            autoPlay
+            onTimeUpdate={(e) => handleProgressUpdate((e.target as HTMLVideoElement).currentTime)}
+          />
+        </div>
+       
       </div>
     </div>
   ) : null;
 };
 
-const styles = {
-  modalOverlay: {
-    position: 'fixed' as 'fixed',
+const styles: { [key: string]: React.CSSProperties } = {
+  overlay: {
+    position: 'fixed',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+    backgroundColor: 'rgba(0, 0, 0, 0.9)', 
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 1000,
   },
-  modalContent: {
-    position: 'relative' as 'relative',
+  contentWrapper: {
+    position: 'relative',
     width: '100%',
     height: '100%',
     display: 'flex',
@@ -162,19 +185,24 @@ const styles = {
     alignItems: 'center',
   },
   closeButton: {
-    position: 'absolute' as 'absolute',
+    position: 'absolute',
     top: '10px',
     right: '10px',
-    background: 'rgba(0, 0, 0, 0.5)',
-    color: 'white',
+    backgroundColor: 'rgba(50, 50, 50, 0.7)',
+    color: '#fff',
     border: 'none',
     borderRadius: '50%',
-    width: '40px',
-    height: '40px',
+    width: '35px',
+    height: '35px',
     cursor: 'pointer',
-    fontSize: '20px',
-    fontWeight: 'bold' as 'bold',
-    zIndex: 1001,
+    fontSize: '18px',
+    fontWeight: '600',
+    zIndex: 1100,
+  },
+  videoElement: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover', 
   },
 };
 

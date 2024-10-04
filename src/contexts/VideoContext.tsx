@@ -31,7 +31,7 @@ const VideoContext = createContext<VideoContextType | undefined>(undefined);
 
 
 export const VideoProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const { user } = useUser(); 
+  const { user, isAuthenticated } = useUser(); 
   const [videos, setVideos] = useState<VideoData[]>([]);
   const [newVideos, setNewVideos] = useState<VideoData[]>([]);
   const [popularVideos, setPopularVideos] = useState<VideoData[]>([]);
@@ -46,8 +46,10 @@ export const VideoProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     try {
       const allVideos = await fetchAllVideos(); 
       const favoriteList = await getFavoriteVideos(); 
-      const videos = await getContinueWatchingVideos(user?.sub?? '');
-      setContinueVideos(videos.map((v) => v.video))
+      if (user?.sub !== undefined) {
+        const videos = await getContinueWatchingVideos(user?.sub);
+        setContinueVideos(videos.map((v) => v.video))
+      }
       const favorites = await allVideos.filter(video => 
         favoriteList.some(favorite => favorite === video.id)
       );
@@ -64,9 +66,20 @@ export const VideoProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     }
   }, []);
 
+  const fetchContinueVideo = async() => {
+    try {
+       if (user?.sub !== undefined) {
+        const videos = await getContinueWatchingVideos(user?.sub);
+        setContinueVideos(videos.map((v) => v.video))
+      }
+    }catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
   useEffect(() => {
-    fetchVideo();
-  }, [fetchVideo]);
+    fetchContinueVideo()
+  }, [user,isAuthenticated]);
 
 
   const filterVideosByCategory = (category: string) => {
