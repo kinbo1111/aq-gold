@@ -222,7 +222,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
           </div>
          
           <div className='flex flex-row items-center mt-4 mb-2 gap-4'>
-             <p className='text-white body-1r flex items-center gap-4 flex-row'><span>{2005}</span><span>{Math.floor(duration / 60)}m {duration % 60}s</span></p>
+             <p className='text-white body-1r flex items-center gap-4 flex-row'><span>{Math.floor(duration / 60)}m {duration % 60}s</span></p>
               <div className='flex flex-row'>
                 <span className='w-6 h-6 flex items-center justify-center'>
                   <FaRegEye className='text-[#c7a76b]' size={12} />

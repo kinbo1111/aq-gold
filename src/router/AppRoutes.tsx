@@ -1,9 +1,10 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import Loading from "../components/Loading";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 import VideoContent from "../components/VideoContent";
+import { useVideo } from "../contexts/VideoContext";
 
 // Lazy load all pages
 const UnauthorizedPage = React.lazy(() => import("../pages/UnAuthorizedPage"));

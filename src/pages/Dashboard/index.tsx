@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState, useEffect} from "react";
 import { FaRegStar } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
 import { FaPlay } from "react-icons/fa";
@@ -22,8 +22,12 @@ export type VideoProperty = {
 const Dashboard = () => {
     const { t } = useTranslation();
     const { collapsed } = useSidebar();
-    const { topVideos, recommendVideos, newVideos, popularVideos, continueVideos } = useVideo();
+    const { topVideos, recommendVideos, newVideos, popularVideos, continueVideos, fetchVideo } = useVideo();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        fetchVideo()
+    }, []);
 
     const handleShow = () => {
         navigate(`/video/${topVideos[0]?.id}`, { state: { videoUrl:topVideos[0]?.videoUrl } });
