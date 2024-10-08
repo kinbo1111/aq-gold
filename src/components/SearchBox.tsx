@@ -16,6 +16,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ initialHistory = [] }) => {
   const [history, setHistory] = useState<string[]>(initialHistory);
   const [filteredHistory, setFilteredHistory] = useState<string[]>([]);
   const [results, setResults] = useState<string[]>([]);
+  const [isComposing, setIsComposing] = useState(false); 
 
   useEffect(() => {
     if (keyword) {       
@@ -39,12 +40,14 @@ const SearchBox: React.FC<SearchBoxProps> = ({ initialHistory = [] }) => {
     navigate('/search/' + keyword);
   };
 
-  // Enterキー押下時に検索実行
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter'  &&  !isComposing) {
       handleSearch();
     }
   };
+
+  const handleCompositionStart = () => setIsComposing(true);
+  const handleCompositionEnd = () => setIsComposing(false); 
 
   return (
     <div className="relative">
@@ -53,6 +56,8 @@ const SearchBox: React.FC<SearchBoxProps> = ({ initialHistory = [] }) => {
         value={keyword}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown} 
+        onCompositionStart={handleCompositionStart} 
+        onCompositionEnd={handleCompositionEnd} 
         placeholder={t("search")}
         className="w-[424px] h-12 b-gray-700 border border-[#cec9bf] rounded-[74px] px-[18px] body-1b text-white"
       />

@@ -12,7 +12,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: end;
-    font-size: 15rem;
+    font-size: 14rem;
     align-items: center;
     color: transparent;
     -webkit-text-stroke: 4px #2e3133
@@ -85,14 +85,13 @@ body {
   color: #DDB951 !important;
 }
 
-.email-input input::placeholder {
-   
+input[type="email"]::placeholder {
     color: white !important; 
     opacity: 1;
-  }
+}
+
 
 .custom-datepicker input::placeholder {
-   
     color: white !important; 
     opacity: 1;
   }

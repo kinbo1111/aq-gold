@@ -4,14 +4,14 @@ export const categories = [
     { value: "AQvar", label: "AQvar" },
     { value: "documentaries", label: "Documentaries" },
     { value: "entertainment", label: "Entertainment" },
-    { value: "game", label: "VR＆Game" },
-    { value: "horror", label: "horror" },
+    { value: "game", label: "VR＆Games" },
+    { value: "horror", label: "Horror" },
     { value: "kids", label: "Kids" },
-    { value: "music", label: "Music＆Musicals" },
+    { value: "music", label: "Music & Musicals" },
     { value: "relaxation", label: "Relaxation" },
     { value: "romance", label: "Romance" },
     { value: "sport", label: "Sport" },
-    { value: "travel", label: "Travel" },
+    { value: "travel", label: "Travel & Adventure" },
   ];
 
    export const playlist = [
