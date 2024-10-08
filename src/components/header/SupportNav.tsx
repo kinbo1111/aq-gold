@@ -1,11 +1,13 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
 
 const SupportNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("English");
-  const { i18n, t  } = useTranslation();
+  const { i18n, t } = useTranslation();
+  const location = useLocation();
 
   const handleLocaleChange = (locale: String) => {
     if (locale === 'jp') {
@@ -30,7 +32,11 @@ const SupportNav = () => {
         <div>
           <button
             type="button"
-            className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-trasparent px-1 body-2b  text-white border-none"
+            className={`inline-flex w-full justify-center gap-x-1.5 rounded-md bg-transparent px-1 body-2b border-none ${
+              ['/auth/signup/create-account', '/auth/signup/authenticate-code'].includes(location.pathname)
+                ? 'text-black'
+                : 'text-white'
+            }`}
             id="menu-button"
             aria-expanded={isOpen}
             aria-haspopup="true"

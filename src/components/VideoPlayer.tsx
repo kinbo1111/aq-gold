@@ -50,7 +50,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoId, videoUrl }) => {
     const videoTexture = new THREE.VideoTexture(videoRef.current);
     videoTexture.minFilter = THREE.LinearFilter;
     videoTexture.magFilter = THREE.LinearFilter;
-    videoTexture.format = THREE.RGBFormat;
 
     const material = new THREE.MeshBasicMaterial({ map: videoTexture });
     const sphere = new THREE.Mesh(geometry, material);
@@ -97,7 +96,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoId, videoUrl }) => {
     if (videoRef.current && user) {
       const currentProgress = Math.floor(videoRef.current.currentTime);
       setProgress(currentProgress);
-
       try {
         if (user.sub === undefined) return;
         await updateUserProgress(user.sub, videoId, currentProgress);

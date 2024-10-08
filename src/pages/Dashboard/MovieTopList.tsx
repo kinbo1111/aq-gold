@@ -53,7 +53,7 @@ const MovieTopList: React.FC<MovieTopListProp> = ({ label, movieData }) => {
 
   return (
     <div className="py-12 px-4 border-b-4 border-[#2a2d2e]">
-      <h5 className="text-white sub-1b pl-8 mb-6">{label}</h5>
+      <h5 className="text-white sub-1b pl-8">{label}</h5>
       <Swiper
         navigation={true}
         modules={[Navigation]}
@@ -80,11 +80,11 @@ const MovieTopList: React.FC<MovieTopListProp> = ({ label, movieData }) => {
             <SwiperSlide key={item.id}>
               <div className="flex flex-row">
                 <span className="order-num">{index + 1}</span>
-                <div className="w-full overflow-hidden flex justify-center">
+                <div className="w-full overflow-hidden flex justify-center items-center">
                   <img
                     src={item.vThumbnailUrl}
                     alt={item.title}
-                    className="h-full max-w-[250px] cursor-pointer"
+                    className="max-h-52 max-w-[250px] cursor-pointer"
                     onClick={() => handleOpenModal(item)}
                   />
                 </div>
