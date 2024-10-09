@@ -268,7 +268,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                   </div>
                 </div>
                 <div className="mt-6 flex flex-col gap-4">
-                  <h6 className="body-1b text-white">{("Playlists")}</h6>
+                  <h6 className="body-1b text-white">{t("Playlists")}</h6>
                   <p className="body-1r gray-200">
                     {t("Add your video to one or more playlists to organize your content for viewers.")}
                   </p>
@@ -299,15 +299,6 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                   <h6 className="body-1b text-white">{t("Audience")}</h6>
                   <p className="body-1r text-white">
                     {t("Is this video made for kids? (required)")}
-                  </p>
-                  <p className="body-1r gray-200">
-                  {t("Regardless")}
-                    <Link
-                      to="#"
-                      className="underline"
-                    >
-                      {("What's content made for kids?")}
-                    </Link>
                   </p>
                   <div className="px-3 py-1 border border-[#9fa0a1] rounded flex items-center justify-start">
                     <CiCircleInfo size={16} className="gray-200 mr-2" />

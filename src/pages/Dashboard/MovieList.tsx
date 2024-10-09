@@ -75,7 +75,7 @@ const MovieList: React.FC<MovieListProp> = ({ label, movieData }) => {
         {movieData.map((item, index) => (
           <SwiperSlide  key={index} >
             <div className="w-full">
-              <img src={item.thumbnailUrl} alt="" className="w-full" onClick={() => handleOpenModal(item)} />
+              <img src={item.thumbnailUrl} alt="" className="w-full max-h-40" onClick={() => handleOpenModal(item)} />
             </div>
           </SwiperSlide>
         ))}

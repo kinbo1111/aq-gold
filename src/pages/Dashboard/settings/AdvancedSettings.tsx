@@ -6,16 +6,20 @@ import DeleteChannel from "./DeleteChannel";
 import DeleteAccount from "./DeleteAccount";
 import { useTranslation } from "react-i18next";
 import { message } from "antd";
+import { useUser } from "../../../contexts/UserContext";
+import { useChannel } from "../../../contexts/ChannelContext";
 
 const AdvancedSettings = () => {
     const [isDeleteChannelOpen, setIsDeleteChannelOpen] = useState(false);
     const [isDeleteAccountOpen, setIsDeleteAccountOpen] = useState(false);
     const {
         register,
-        handleSubmit,
         getValues,
         formState: { errors },
     } = useForm();
+
+    const { user } = useUser();
+    const { channelData } = useChannel();
 
     const handleCopy = (fieldId: string) => {
         const value = getValues(fieldId);
@@ -55,9 +59,9 @@ const AdvancedSettings = () => {
                     id="userId"
                     label={t("User ID")}
                     type="text"
-                    placeholder="xbhbbdsbddmamsabc"
                     register={register}
                     errors={errors}
+                    value={user?.sub}
                     required
                     small
                 />
@@ -74,6 +78,7 @@ const AdvancedSettings = () => {
                     type="text"
                     placeholder="xbhbbdsbddmamsabc"
                     register={register}
+                    value={channelData?.id}
                     errors={errors}
                     required
                     small
