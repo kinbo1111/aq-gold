@@ -1,18 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from "../../components/Button";
 import Input from "../../components/inputs/Input";
 import Container from "../../components/Container";
 import FaqList from "../../components/faq/FaqList";
-import Slider from "./Slider";
-import { SlArrowRight } from "react-icons/sl";
-import { FieldValues, useForm } from "react-hook-form";
 import Video01 from "../../assets/images/movie_1.png"
 import Video02 from "../../assets/images/movie_2.png"
 import Video03 from "../../assets/images/movie_3.png"
 import Video04 from "../../assets/images/movie_4.png"
 import Footer from "../../components/footer/Footer";
 import { useTranslation } from "react-i18next";
+import { SlArrowRight } from "react-icons/sl";
+import { FieldValues, useForm } from "react-hook-form";
 
 const Homepage = () => {
   const {
@@ -50,7 +49,7 @@ const Homepage = () => {
               <Input
                 register={register}
                 id="email"
-                type="text"
+                type="email"
                 label=""
                 disabled={false}
                 errors={errors}
@@ -125,7 +124,7 @@ const Homepage = () => {
             <Input
               register={register}
               id="email"
-              type="text"
+              type="email"
               label=""
               disabled={false}
               errors={errors}

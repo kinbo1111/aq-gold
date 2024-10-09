@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 interface SelectBoxProps {
   options: { value: string; label: string }[];
@@ -19,6 +20,9 @@ const SelectBox: React.FC<SelectBoxProps> = ({
   detail,
   standard,
 }) => {
+
+  const { t } = useTranslation();
+  
   return (
     <div className="relative inline-block w-full">
       {label && (
@@ -29,7 +33,7 @@ const SelectBox: React.FC<SelectBoxProps> = ({
         ${border ? "mb-3" : "mb-1"}
       `}
         >
-          {label}
+          {t(label)}
         </label>
       )}
       <div className={`relative
@@ -55,7 +59,7 @@ const SelectBox: React.FC<SelectBoxProps> = ({
                 ${standard? "b-gray-600" : "bg-white"}
                 `}
             >
-              {option.label}
+              {t(option.label)}
             </option>
           ))}
         </select>
