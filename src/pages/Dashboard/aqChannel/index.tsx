@@ -46,7 +46,7 @@ const ChannelHome: React.FC = () => {
                 <div className='mb-6'>
                     <Avatar
                         src={user?.channelAvatar }
-                        name={user?.nickname ?? 'No Name'} 
+                        name={user?.nickname ?? user?.username} 
                         intro="58 videos"
                         icon={IoMdAdd}
                         buttonName={t('My Favorite')}
