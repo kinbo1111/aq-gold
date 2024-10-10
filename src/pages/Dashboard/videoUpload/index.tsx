@@ -133,6 +133,22 @@ const VideoUpload: React.FC = () => {
     }
   };
 
+  const handleCloseUploadSchedule = () => {
+    setIsUploadScheduleOpen(false)
+    navigate('/aq-studio?tab=2');
+    
+  } 
+
+  const handleCloseUploadDetail = () => {
+    setIsUploadDetailOpen(false)
+    navigate('/aq-studio?tab=2');
+  }
+
+  const handleCloseUploadVisibility = () => {
+    setIsUploadVisibilityOpen(false)
+    navigate('/aq-studio?tab=2');
+  }
+
   return (
     <DashboardContainer>
       <VideoUploadModal
@@ -143,20 +159,20 @@ const VideoUpload: React.FC = () => {
       <VideoUploadDetail
         file={selectedFile}
         isOpen={isUploadDetailOpen}
-        onClose={() => setIsUploadDetailOpen(false)}
+        onClose={handleCloseUploadDetail}
         onNext={handleNextUploadDetail}
       />
       <VideoUploadVisibility
         videoTitle={videoDetail?.title ?? ''}
         isOpen={isUploadVisibilityOpen}
-        onClose={() => setIsUploadVisibilityOpen(false)}
+        onClose={handleCloseUploadVisibility}
         onSchedule={handleOpenSchedule}
         isLoading={isLoading}
         uploadProgress={videoProgress}
       />
       <VideoUploadSchedule
         isOpen={isUploadScheduleOpen}
-        onClose={() => setIsUploadScheduleOpen(false)}
+        onClose={ handleCloseUploadSchedule}
         videoScheduleTime={videoScheduleTime ?? ''}
         videoUrl={videoUrl ?? ''}
         videoTitle={videoDetail?.title ?? ''}

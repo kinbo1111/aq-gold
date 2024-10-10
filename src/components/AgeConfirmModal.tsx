@@ -1,22 +1,39 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import Button from "./Button";
 import SettingsModalHeader from "../pages/Dashboard/settings/SettingsModalHeader";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-interface AgeConfirmModalProps {
+
+export type AgeConfirmModalProps = {
   isOpen: boolean;
   onClose: () => void;
+  onVisible: () => void;
 }
 
-const AgeConfirmModal: React.FC<AgeConfirmModalProps> = ({ isOpen, onClose }) => {
+const AgeConfirmModal: React.FC<AgeConfirmModalProps> = ({ isOpen, onClose,  onVisible }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
+
   const handleClick = () => {
     navigate('/category/aq18');
-    onClose();
+    onVisible()
   }
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      onVisible()
+      navigate('/category/aq18');    
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
     
   if (!isOpen) return null;
   

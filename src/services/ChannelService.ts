@@ -1,6 +1,6 @@
 import { FavoriteChannel, Channel, channelInputProps } from '../types';
 import { API, graphqlOperation } from 'aws-amplify';
-import { listFavoriteChannels, getChannel, listChannels, listVideos} from '../graphql/queries';
+import { listFavoriteChannels, getChannel, listChannels, listVideos } from '../graphql/queries';
 import { createFavoriteChannel, deleteFavoriteChannel, createChannel, updateChannel, deleteChannel, deleteVideo } from '../graphql/mutations';
 import { message } from 'antd';
 
@@ -18,6 +18,22 @@ export const fetchFavoriteChannels = async (userId: string): Promise<FavoriteCha
     throw new Error('Failed to fetch favorite channels');
   }
 };
+
+export const getChannelById = async (channelId: string) => {
+  try {
+    const response = await API.graphql({
+      query: getChannel,
+      variables: { id: channelId }, 
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+    }) as { data: { getChannel: Channel } };
+
+    return response.data.getChannel.description;
+  } catch (error) {
+    console.error('Error fetching channel data:', error);
+    throw new Error('Failed to fetch channel data');
+  }
+};
+
 
 export const createNewChannel = async (channelData: any) => {
   try {

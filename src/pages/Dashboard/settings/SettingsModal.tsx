@@ -68,7 +68,6 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen }) => {
     setChannelName('');
     setChannelHandle('');
   } 
-
   
   const validateEmail = (email: string) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -104,15 +103,15 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen }) => {
       setIsDisable(true);
     }
   }, [nickname, avatarURL])
-  
+
   useEffect(() => {
-    if (activeSection === 'channel') {
-      if (!hasChannel) {
+    if (activeChannel === 'channel') {
+      if (!channelData) {
         message.warning(t("You do not have channel yet.Create AQvar Channel from here!"))
         navigate('/create-channel')
       }
     }
-  }, [activeSection])
+  }, [activeChannel])
 
   const handleAvatarChange = (file: File) => {
     if (file && file.type.startsWith('image/')) {

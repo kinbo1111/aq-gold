@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { API } from 'aws-amplify';
 import Button from './Button';
 import VideoItem from './VideoItem';
@@ -6,15 +6,16 @@ import { useTranslation } from 'react-i18next';
 import VideoModal from './VideoModal';
 import { managementFavoriteCount, incrementViewCount, createFavorite, deleteFavorite } from '../graphql/mutations';
 import { listFavorites } from '../graphql/queries';
+import { getChannelById } from '../services/ChannelService';
 import { useUser } from '../contexts/UserContext';
-import { FaPlay } from "react-icons/fa";
+import { FaFlagCheckered, FaPlay } from "react-icons/fa";
 import { IoMdAdd, IoMdArrowDropdown } from "react-icons/io";
 import { MdFavoriteBorder } from "react-icons/md";
 import { MdFavorite } from "react-icons/md";
 import { MdOutlineFavorite } from "react-icons/md";
 import { FaRegEye } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
-import { IoRemove, IoTrash } from 'react-icons/io5';
+import { IoTrash } from 'react-icons/io5';
 
 export type VideoDetailModalProps = {
   id: string;
@@ -30,6 +31,7 @@ export type VideoDetailModalProps = {
   videos: any[];
   owner: string;
   favoriteCount: number;
+  channelId: string | undefined;
 }
 
 const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
@@ -45,6 +47,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
   duration,
   owner,
   videoUrl,
+  channelId,
   favoriteCount
 }) => {
   const { t } = useTranslation();
@@ -57,6 +60,38 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
   const [isMyVideo, setIsMyVideo] = useState<boolean>(false);
   const [favCnt, setFavCnt] = useState<number>(favoriteCount);
   const [viewCnt, setViewCnt] = useState<number>(viewCount);
+  const [channelHandle, setChannelHandle] = useState<string>('');
+
+  const fetchValue = async (channelId: string) => {
+    const data = await getChannelById(channelId);  
+    setChannelHandle(data);               
+  };
+
+  useEffect(() => {
+    if (channelId) {
+      fetchValue(channelId)
+    }
+  },[channelId])
+
+
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+      onClose(); 
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
   
   const handleOpenModal = () => {
     incrementVideoViewCount();
@@ -178,7 +213,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
   if (!isOpen) return null;
   else  return (
     <div className="fixed inset-0 flex items-center justify-center z-[999] bg-black bg-opacity-70 pt-[120px] pb-[80px]">
-      <div className="relative bg-[#131515] w-11/12 md:w-3/4 lg:w-2/3 rounded-lg h-full overflow-y-scroll video-modal">
+      <div className="relative bg-[#131515] w-11/12 md:w-3/4 lg:w-2/3 rounded-lg h-full overflow-y-scroll video-modal" ref={modalRef}>
         <div className='relative video-detail'>
           <img src={imgSrc} alt={videoTitle} className='w-full h-auto rounded-t-lg' />
           <div className='video-info absolute bottom-9 left-12 z-10'>
@@ -200,7 +235,9 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
                 </button>
               }
               <button className='p-3 border-[2px] border-[#c7a76b] bg-transparent absolute ml-[1000px]'>
-                <span className='text-[#c7a76b] text-nowrap'>違反報告</span>
+                <span className='text-[#c7a76b] text-nowrap'>
+                  <FaFlagCheckered />
+                </span>
               </button>
             </div>
           </div>
@@ -213,14 +250,18 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
         </button>
         <div className="px-4 md:px-8 lg:px-12 pt-5 pb-12">
           <div className='flex items-center justify-start gap-4'>
-            <h6 className='sub-2b text-white cursor-pointer' onClick={() => navigate('/aq-channel')}>{t("handle")} @~~~</h6>
+            <h6 
+              className="sub-2b text-white cursor-pointer" 
+              onClick={() => navigate('/aq-channel')}
+            >
+              {channelHandle?.length ? channelHandle : '@~~~'}
+            </h6>
             {!isMyVideo &&
               <button className='relative w-fit px-3 py-2 rounded border border-[#c7a76b] flex items-center justify-center button-4b brand-600 gap-1' onClick={handleFavoriteClick}>
                 {isFavorited ? <><IoTrash className='text-[#c7a76b]'/> {t("Remove from favorite")}</> : <><IoMdAdd className='text-[#c7a76b]' size={16} /> {t("My Favorite")}</>} 
               </button>
               }
           </div>
-         
           <div className='flex flex-row items-center mt-4 mb-2 gap-4'>
              <p className='text-white body-1r flex items-center gap-4 flex-row'><span>{Math.floor(duration / 60)}m {duration % 60}s</span></p>
               <div className='flex flex-row'>

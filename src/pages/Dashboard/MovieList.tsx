@@ -92,6 +92,7 @@ const MovieList: React.FC<MovieListProp> = ({ label, movieData }) => {
           videoUrl={selectedMovie.videoUrl}
           videoTitle={selectedMovie.title}
           owner={selectedMovie.owner}
+          channelId={selectedMovie?.channelId}
           videos={[]}
           videoDescription={selectedMovie.description ?? ''}
           duration={selectedMovie.duration ?? 0}
