@@ -59,10 +59,10 @@ const LoginModal = () => {
                   <Input
                   id="email"
                   type='email'
-                  label={t("User Name")}
+                  label={t("Email or User Name")}
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="User Name"
+                  placeholder={t("Email or User Name")}
                   register={register}
                   errors={errors}
                   small

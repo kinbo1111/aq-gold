@@ -5,7 +5,7 @@ import { DefaultAvatar } from "../const";
 import { useNavigate } from "react-router-dom";
 interface AvatarProps {
   src?: string | null | undefined;
-  name: string;
+  name: string | undefined;
   intro?: string;
   icon?: IconType;
   buttonName?: string;

@@ -99,6 +99,7 @@ const MovieTopList: React.FC<MovieTopListProp> = ({ label, movieData }) => {
           id={selectedMovie.id}
           isOpen={isModalOpen}
           onClose={handleCloseModal}
+          channelId={selectedMovie?.channelId}
           onAddChannel={() => addAQvarChannel(selectedMovie.channelId, selectedMovie.owner)}
           imgSrc={selectedMovie.thumbnailUrl ?? ''}
           viewCount={selectedMovie.viewCount ?? 0}

@@ -7,7 +7,7 @@ import {
 } from "react-pro-sidebar";
 import AgeConfirmModal from "./AgeConfirmModal";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GoHome } from "react-icons/go";
 import { AiFillHeart } from "react-icons/ai";
 import { MdFilterList, MdVideoLibrary, MdAddToQueue } from "react-icons/md";
@@ -19,6 +19,7 @@ import { useSidebar } from '../contexts/SidebarContext';
 
 
 const SidebarMenu: React.FC = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const { onCollapseToggle, collapsed } = useSidebar();
   const [isOpen, setIsOpen] = useState(false);
@@ -26,9 +27,13 @@ const SidebarMenu: React.FC = () => {
 
   const handleToggleModal = () => {
     setIsOpen(!isOpen);
+    navigate('/dashboard');
   };
 
-  
+  const handleVisible = () => {
+    setIsOpen(!isOpen);
+  }
+ 
   const isActive = (path: string): boolean => {
     const isSelected = location.pathname.includes(path);
     return isSelected;
@@ -46,7 +51,7 @@ const SidebarMenu: React.FC = () => {
           <div className={`flex items-center ${collapsed ? 'justify-center' : 'justify-start'} w-full`}>
             <MenuRoundedIcon
               onClick={onCollapseToggle}
-              className={`text-2xl ${collapsed ? 'mr-0' : 'mr-2'}`} // Adjust margin when collapsed
+              className={`text-2xl ${collapsed ? 'mr-0' : 'mr-2'}`} 
             />
             {!collapsed && <Logo />}
           </div>
@@ -68,16 +73,16 @@ const SidebarMenu: React.FC = () => {
           <SubMenu
             label={t("Categories")}
             icon={<MdFilterList size={24} className="text-white" />}
+            onClick={collapsed ? onCollapseToggle : undefined}
           >
           {categories.map((category, index) => {
             const isAQ18 = category.path === '/AQ18';
-
             return (
               <MenuItem
                 key={index}
                 component={<Link to={category.path} />}
                 className={`submenu ${isActive(category.path) ? 'selected' : ''}`}
-                onClick={isAQ18 ? handleToggleModal : undefined}  // Use onClick only for AQ18
+                onClick={isAQ18 ? handleToggleModal : undefined}  
               >
                 {t(category.name)}
               </MenuItem>
@@ -108,7 +113,7 @@ const SidebarMenu: React.FC = () => {
           </MenuItem>
         </Menu>
       </Sidebar>
-      {isOpen && <AgeConfirmModal isOpen={isOpen} onClose={handleToggleModal} />}
+      {isOpen && <AgeConfirmModal isOpen={isOpen} onClose={handleToggleModal} onVisible={handleVisible} />}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import VideoDetailModal from './VideoDetailModal';
 import { IoMdAdd, IoMdArrowDropdown } from "react-icons/io";
 import { MdOutlineFavorite } from "react-icons/md";
@@ -7,6 +7,8 @@ import { createFavoriteChannel } from '../graphql/mutations';
 import { API } from 'aws-amplify';
 import { useUser } from '../contexts/UserContext';
 import { message } from 'antd';
+import { getChannelById } from '../services/ChannelService';
+import { Channel } from '../types';
 
 export type VideoItemProps = {
   id: string;
@@ -25,8 +27,8 @@ export type VideoItemProps = {
 
 const VideoItem: React.FC<VideoItemProps> = ({ id, imageSrc, title, description, icon, videos, videoUrl, viewCount, duration, favoriteCount, owner, channelId }) => {
   const [isModalOpen, setModalOpen] = useState(false);
-
   const { user } = useUser();
+
 
   const addAQvarChannel = async () => {
     try {
@@ -102,6 +104,7 @@ const VideoItem: React.FC<VideoItemProps> = ({ id, imageSrc, title, description,
         videoUrl={videoUrl}
         videoTitle={title}
         owner={owner}
+        channelId={channelId}
         videoDescription={description}
         videos={videos ?? []}
         duration={duration ?? 0}

@@ -72,19 +72,19 @@ const VideoUploadSchedule: React.FC<VideoUploadScheduleProps> = ({
                   </button>
               </div>
               <div className="py-4 flex items-start justify-start flex-col px-5 w-full">
-                  <p className="text-white justify-start">この動画は{videoScheduleTime.slice(0,4)}年 {videoScheduleTime.slice(5,7)}月{videoScheduleTime.slice(8,10)}日に公開に設定されます</p> 
+                  <p className="text-white justify-start">{t("This video will be published ")}{videoScheduleTime.slice(0,4)}{t("年")} {videoScheduleTime.slice(5,7)}{t("月")}{videoScheduleTime.slice(8,10)}{t("に公開に設定されます")}</p> 
                   <div className="p-5 flex flex-row gap-10 bg-[#57595B] w-full rounded-md my-2">
                       <div className="">
                           <img src={thumbnailUrl} className="max-h-20" />
                       </div>
                       <div className="flex flex-col text-white">
               <p className="text-sm">{videoTitle}</p>
-                              <p className="text-[#A0A1A2] text-sm">アップロード日:{videoScheduleTime.slice(0,4)}年 {videoScheduleTime.slice(5,7)}月{videoScheduleTime.slice(8,10)}日</p>
+                              <p className="text-[#A0A1A2] text-sm">{("Upload Date")}: {videoScheduleTime.slice(0,4)}{t("年")} {videoScheduleTime.slice(5,7)}{t("月")}{videoScheduleTime.slice(8,10)}{t("日")}</p>
                       </div>
                   </div>
                   <div className="bg-[#2E3133] w-full rounded-md my-2 text-white p-5 text-sm" >
-                      <p>動画リンク</p>
-                  <a className="text-blue-500 underline" href={videoUrl}>Here is a link.
+                      <p>{t("This video link is following:")}</p>
+                  <a className="text-blue-500 underline" href={videoUrl}>{t("Here is a link.")}
                     <HiClipboardDocument
                             size={16}
                             className="gray-200 inline ml-2 transform cursor-pointer"

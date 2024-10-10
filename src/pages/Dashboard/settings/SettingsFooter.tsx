@@ -18,7 +18,6 @@ const SettingsFooter: React.FC<SettingsFooterProps> = ({
   isLoading,
   activeChannel,
   isDelete = false, 
-  isDisable = true
 }) => {
   const { t } = useTranslation();
   let rightButtonLabel = activeChannel === "channel" ? t("Public") : t("Save");
@@ -37,7 +36,6 @@ const SettingsFooter: React.FC<SettingsFooterProps> = ({
       </Button>
       <Button
         className='btnOk w-[120px] flex-row brand-gradient text-white border-none button-2b h-10 relative disabled:cursor-not-allowed disabled:bg-[#ceac02] disabled:text-gray-00 rounded  transition px-4 py-2 flex items-center justify-center'
-        disabled={isDisable}
         icon={<TfiSave />}
         onClick={handleSave}
         loading={isLoading} >

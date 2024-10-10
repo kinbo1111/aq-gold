@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { VideoDetailData, Thumbnail } from "../../videoUpload";
 import { categories, playlist } from '../../../../constant/SelectItems';
 import { useChannel } from "../../../../contexts/ChannelContext";
-import { uploadThumbnail, uploadVthumbnail } from "../../../../services/storageService";
+import { uploadThumbnail, uploadVthumbnail, getThumbnailUrl} from "../../../../services/storageService";
 import { updateVideoMetadata } from '../../../../services/VideoService'; 
 import Button from "../../../../components/Button";
 import SettingsModalHeader from "../../settings/SettingsModalHeader";
@@ -93,22 +93,28 @@ const VideoDetail: React.FC<VideoDetailProps> = ({
 
     try {
       setLoading(true);
-      const thumbnailUrl = thumbnailFile ? await uploadThumbnail(thumbnailFile) : videoData.thumbnailUrl;
-      const vThumbnailUrl = vThumbnailFile ? await uploadVthumbnail(vThumbnailFile) : videoData.vThumbnailUrl;
-      const updatedVideoData = {
+     const thumbnailUrl = thumbnailFile 
+        ? await getThumbnailUrl(await uploadThumbnail(thumbnailFile)) 
+        : videoData.thumbnailUrl;
+
+    const vThumbnailUrl = vThumbnailFile 
+        ? await getThumbnailUrl(await uploadVthumbnail(vThumbnailFile)) 
+        : videoData.vThumbnailUrl;
+
+    const updatedVideoData = {
         id: videoData.id,
         title,
         description,
         category: selectedCategory,
-        thumbnailUrl,
+        thumbnailUrl, 
         vThumbnailUrl,
         isForKids: forKid,
         isRestricted: restrict,
         playlist: selectedPlaylist,
         channelId: videoData.channelId
-      };
+    };
 
-      await updateVideoMetadata(updatedVideoData);  
+    await updateVideoMetadata(updatedVideoData);
     } catch (error) {
       console.error('Error updating video:', error);
     } finally {

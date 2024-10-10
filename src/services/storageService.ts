@@ -50,7 +50,7 @@ export async function uploadVthumbnail(file: File): Promise<string> {
   }
 }
 
-export async function getThumbnailUrl(key: string): Promise<string> {
+export async function getThumbnailUrl(key: string | undefined): Promise<string> {
   try {
     return `${cloudFrontDomain}/${key}`;
   } catch (error) {

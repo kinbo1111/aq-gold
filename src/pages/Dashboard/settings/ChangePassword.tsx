@@ -42,7 +42,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
       <div className="px-9 pb-6 border-b border-[#585a5c]">
         <Avatar
           src={user?.profileAvatar} 
-          name={user?.nickname ?? 'No Name'}
+          name={user?.nickname ?? user?.username}
         />
       </div>
       <div className="flex flex-col py-3 pb-12 gap-4">

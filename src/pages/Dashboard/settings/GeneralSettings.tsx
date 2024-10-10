@@ -4,7 +4,7 @@ import SelectBox from "../../../components/inputs/Select";
 import BasicInfo from "./BasicInfo";
 import ChangeEmail from "./ChangeEmail";
 import ChangePassword from "./ChangePassword";
-import { UserContext } from "../../../contexts/UserContext";
+import { UserContext, useUser } from "../../../contexts/UserContext";
 import { useTranslation } from 'react-i18next';
 
 export type GeneralSettingsProps = {
@@ -39,12 +39,8 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({
   onConfirmEmailChange,
 }) => {
 
-  const userContext = useContext(UserContext);
-   if (!userContext) {
-    throw new Error("UserContext must be used within a UserProvider");
-  }
   const { i18n, t } = useTranslation();
-  const { user } = userContext;
+  const { user } = useUser();
   const [image, setImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedOption, setSelectedOption] = useState<string>("");
@@ -103,23 +99,20 @@ const GeneralSettings: React.FC<GeneralSettingsProps> = ({
                     ? `url(${currentAvatarUrl})`
                     : undefined,
                 }}
+                 onClick={() => onSectionChange("basicInfo")}
+
               >
-                <div className="icon-overlay">
+                <div
+                  className="icon-overlay"
+                >
                   <MdCameraAlt
                     size={24}
                     className="gray-200 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center"
                   />
                 </div>
               </div>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                style={{ display: "none" }}
-              />
               <h6 className="text-3xl font-semibold text-white ml-3">
-                {user?.nickname}
+                {user?.nickname ?? user?.username}
               </h6>
             </div>
             <h6 className="sub-2r text-white mb-3">

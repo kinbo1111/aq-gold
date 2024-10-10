@@ -11,7 +11,7 @@ const MyList = () => {
             <div className='mb-6'>
                 <Avatar
                     src={user?.profileAvatar} 
-                    name={user?.nickname ?? 'No Name'}
+                    name={user?.nickname ?? user?.username}
                 />
             </div>
             <ListTab/>

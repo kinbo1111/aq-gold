@@ -76,10 +76,6 @@ const AQvar = () => {
                     movieData={filteredNewVideos}
                 />
                  <MovieList
-                    label={t("AQ Original Contents")}
-                    movieData={[]}
-                />
-                 <MovieList
                     label={t("Popular AQ AQvar")}
                     movieData={filteredPopularVideos}
                 />

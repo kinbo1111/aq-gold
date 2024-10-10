@@ -1,17 +1,19 @@
 export const categories = [
-    { value: "animal", label: "Animal" },
-    { value: "aq18", label: "AQ18" },
-    { value: "AQvar", label: "AQvar" },
-    { value: "documentaries", label: "Documentaries" },
-    { value: "entertainment", label: "Entertainment" },
-    { value: "game", label: "VR＆Games" },
-    { value: "horror", label: "Horror" },
-    { value: "kids", label: "Kids" },
-    { value: "music", label: "Music & Musicals" },
+    { value: 'natural', label: 'Natural' },
     { value: "relaxation", label: "Relaxation" },
-    { value: "romance", label: "Romance" },
-    { value: "sport", label: "Sport" },
+    { value: "music", label: "Music & Musicals" },
     { value: "travel", label: "Travel & Adventure" },
+    { value: "sport", label: "Sport" },
+    { value: "game", label: "VR＆Games" },
+    { value: "romance", label: "Romance" },
+    { value: "horror", label: "Horror" },
+    { value: "documentaries", label: "Documentaries" },
+    { value: "animal", label: "Animal" },
+    { value: "entertainment", label: "Entertainment" },
+    { value: "AQvar", label: "AQvar" },
+    { value: "kids", label: "Kids" },
+    { value: "aq18", label: "AQ18" },
+
   ];
 
    export const playlist = [

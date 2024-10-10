@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 import { DefaultAvatar } from '../../../const';
 import Input from "../../../components/inputs/Input";
 import { useTranslation } from "react-i18next";
-import { useUser } from '../../../contexts/UserContext';
 import { useChannel } from "../../../contexts/ChannelContext";
 
 interface ChannelSettingsProps {
@@ -15,7 +14,6 @@ interface ChannelSettingsProps {
 }
 
 const ChannelSettings: React.FC<ChannelSettingsProps> = ({
-    channelAvatar,
     onAvatarChange,
     onChannelHandle,
     onChannelName,
