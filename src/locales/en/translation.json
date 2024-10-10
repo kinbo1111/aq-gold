@@ -87,8 +87,8 @@
   "Top 10 Contents in AQ GOLD": "Top 10 Contents in AQ GOLD",                
   "AQ Original Contents":"AQ Original Contents",                
   "Top 10 Contents in AQvar":"Top 10 Contents in AQvar",                
-  "Popular on AQ Gold":"Popular on AQ Gold",
-  "Popular on AQ Gold.":"Popular on AQ Gold",
+  "Popular on AQ Gold":"Popular on AQ GOLD",
+  "Popular on AQ Gold.":"Popular on AQ GOLD",
   "btn":"AQ Studio",
   "Let’s upload and share your 360° video contents.":"Let’s upload and share your 360° video contents.",
   "My Favorite AQvar":"My Favorite AQvar",
@@ -148,6 +148,7 @@
   "Description":"Description",
   "Title":"Title",
   "User Name":"User Name",
+  "Email or User Name":"メールアドレス または ユーザー名",
   "Account basic info":"Account basic info",
   "Change Email address":"Change Email address",
   "It’s recommended to use a picture that’s at least 98 x 98 pixels and 4MB or less. Use a PNG or GIF (no animations) file.":"It’s recommended to use a picture that’s at least 98 x 98 pixels and 4MB or less. Use a PNG or GIF (no animations) file.",
@@ -209,5 +210,9 @@
   "By clicking Create Channel you agree to":"By clicking Create Channel you agree to",
   "AQ GOLD’s Terms of Service.":"AQ GOLD’s Terms of Service.",
   "Changes made to your name and profile picture are visible on AQ GOLD.":"Changes made to your name and profile picture are visible on AQ GOLD.",
-  "upload your video":""
+  "upload your video":"",
+  "年":"",
+  "月":"-",
+  "日":"",
+  "に公開に設定されます":""
 }

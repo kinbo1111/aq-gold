@@ -15,13 +15,12 @@ import { VideoDetailData, Thumbnail } from ".";
 import { categories, playlist } from '../../../constant/SelectItems';
 import { useChannel } from "../../../contexts/ChannelContext";
 import DetailImg from "../../../assets/images/default_image.png";
-import ProgressBar from "../../../components/ProgressBar";
 
 interface VideoUploadDetailProps {
   isOpen: boolean;
   file: File | null;
   onClose: () => void;
-  onNext: (detail: VideoDetailData| null) => void;
+  onNext: (detail: VideoDetailData | null) => void;
 }
 
 const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
@@ -34,7 +33,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
     register,
     formState: { errors },
   } = useForm();
-  
+
   const { t } = useTranslation();
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -66,24 +65,24 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
   const handleThumbnailUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files && files.length > 0) {
-      setThumbnailFile(files[0])
+      setThumbnailFile(files[0]);
       const newThumbnails = Array.from(files).map((file) => ({
         src: URL.createObjectURL(file),
         alt: file.name,
       }));
-      setThumbnails((prev) => [...prev, ...newThumbnails]);
+      setThumbnails(newThumbnails);
     }
   };
 
   const handleVThumbnailUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files && files.length > 0) {
-      setVthumbnailFile(files[0])
+      setVthumbnailFile(files[0]);
       const newVThumbnails = Array.from(files).map((file) => ({
         src: URL.createObjectURL(file),
         alt: file.name,
       }));
-      setVThumbnails((prev) => [...prev, ...newVThumbnails]);
+      setVThumbnails(newVThumbnails);
     }
   };
 
@@ -104,8 +103,8 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
   
   const handleClick = async () => {
     await checkFormCompletion();
-  
-    if (!channelData || channelData.id == undefined) return;
+
+    if (!channelData || channelData.id === undefined) return;
     onSubmit({
       title: title,
       description: description,
@@ -215,56 +214,52 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                         className="w-full max-w-[150px] rounded-lg"
                       />
                     ))}
-                    {!thumbnails.length &&
-                      <label className="max-w-[150px] w-full h-20 border border-dashed border-gray-500 flex items-center justify-center cursor-pointer rounded-lg">
-                        <input
-                          type="file"
-                          className="hidden"
-                          accept="image/*"
-                          multiple
-                          onChange={handleThumbnailUpload}
-                        />
-                        <div className="text-gray-500 text-center flex flex-col items-center justify-center">
-                          <MdAddPhotoAlternate
-                            size={24}
-                            className="gray-200 mb-2"
-                          />
-                          <p className="body-2r gray-200 text-center">
-                            {t("Upload image")}
-                          </p>
-                        </div>
-                      </label>
-                    }
+                    <label className={`max-w-[150px] w-full h-20 border border-dashed border-gray-500 flex items-center justify-center cursor-pointer rounded-lg ${thumbnails.length ? 'hover:bg-gray-300' : ''}`}>
+                      <input
+                        type="file"
+                        className="hidden"
+                        accept="image/*"
+                        multiple
+                        onChange={handleThumbnailUpload}
+                        onClick={(e) => {
+                          (e.target as HTMLInputElement).value = ''; // Reset file input to allow re-uploading the same file
+                        }}
+                      />
+                      <div className="text-gray-500 text-center flex flex-col items-center justify-center">
+                        <MdAddPhotoAlternate size={24} className="gray-200 mb-2" />
+                        <p className="body-2r gray-200 text-center">
+                          {t("Upload image")}
+                        </p>
+                      </div>
+                    </label>
                   </div>
                   <div className="flex items-start justify-start gap-4">
-                    {vthumbnails.map((vthumbnail, index) => (
+                    {vthumbnails.map((thumbnail, index) => (
                       <img
                         key={index}
-                        src={vthumbnail.src}
-                        alt={vthumbnail.alt}
-                        className="w-full max-w-[132px] rounded-lg"
+                        src={thumbnail.src}
+                        alt={thumbnail.alt}
+                        className="w-full max-w-[150px] rounded-lg"
                       />
                     ))}
-                    {!vthumbnails.length &&
-                      <label className="max-w-[132px] w-full h-[185px] border border-dashed border-gray-500 flex items-center justify-center cursor-pointer rounded-lg">
-                        <input
-                          type="file"
-                          className="hidden"
-                          accept="image/*"
-                          multiple
-                          onChange={handleVThumbnailUpload}
-                        />
-                        <div className="text-center flex flex-col items-center justify-center">
-                          <MdAddPhotoAlternate
-                            size={24}
-                            className="gray-200 mb-2"
-                          />
-                          <p className="body-2r gray-200 text-center">
-                            {t("Upload image")}
-                          </p>
-                        </div>
-                      </label>
-                    }
+                    <label className={`max-w-[150px] w-full h-20 border border-dashed border-gray-500 flex items-center justify-center cursor-pointer rounded-lg ${vthumbnails.length ? 'hover:bg-gray-300' : ''}`}>
+                      <input
+                        type="file"
+                        className="hidden"
+                        accept="image/*"
+                        multiple
+                        onChange={handleVThumbnailUpload}
+                        onClick={(e) => {
+                          (e.target as HTMLInputElement).value = ''; // Reset file input to allow re-uploading the same file
+                        }}
+                      />
+                      <div className="text-gray-500 text-center flex flex-col items-center justify-center">
+                        <MdAddPhotoAlternate size={24} className="gray-200 mb-2" />
+                        <p className="body-2r gray-200 text-center">
+                          {t("Upload image")}
+                        </p>
+                      </div>
+                    </label>
                   </div>
                 </div>
                 <div className="mt-6 flex flex-col gap-4">

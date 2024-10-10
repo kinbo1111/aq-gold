@@ -56,7 +56,7 @@ const SelectBox: React.FC<SelectBoxProps> = ({
               value={option.value}
               className={
                 `py-3 cursor-pointer
-                ${standard? "b-gray-600" : "bg-white"}
+                 ${standard? "b-gray-600" : "bg-white"}
                 `}
             >
               {t(option.label)}

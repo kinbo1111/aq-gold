@@ -151,13 +151,14 @@
   "Change your password.":"パスワードを変更。",
   "Setting language":"設定言語",
   "Description":"説明",
+  "This video link is following:":"この動画は",
+  "Here is a link.":"ここにリンクがあります。",
   "Title":"タイトル",
   "seven":"AQ GOLD のポリシーに従い、危害、搾取、いじめ、暴力、労働法違反から未成年を保護してください。",
   "Do kids appear in this video?":"この動画に子どもは登場しますか？",
   "Before you publish, check the following:":"公開する前に、以下の点をご確認ください。",
   "Video will be private before publishing":"動画は公開されるまで非公開となります",
   "Your channel picture will appear where your channel is presented on AQ GOLD, like next to your videos.":"プロフィール写真は動画の横など、AQ GOLD でチャンネルが表示される場所に表示されます。",
-
   "TIME ZONE":"タイムゾーン",
   "Schedule":"スケジュールを設定",
   "Publish Now":"公開",
@@ -193,7 +194,11 @@
   "Delete your Account":"AQ GOLD アカウントを削除",
   "User ID":"ユーザー ID",
   "Channel ID":"チャンネル ID",
+  "User Name":"ユーザー名",
+  "Upload Date":"アップロード日",
   "Confirm delete AQ account":"AQ アカウント削除の確認",
+  "You do not have channel yet.":"まだチャンネルがありません。",
+  "Create AQvar Channel from here!": "こちらからAQvarチャンネルを作成してください！",
   "Confirm delete AQvar channel":"AQvar チャンネル削除の確認",
   "All data on your AQvar channel including uploaded videos are completely deleted.":"アップロードされたビデオを含む、AQvar チャンネル上のすべてのデータは完全に削除されます。",
   "Are you sure you want to delete your AQvar channel?":"AQvar チャンネルを本当に削除してもよろしいですか？",
@@ -236,5 +241,6 @@
   "AQ GOLD’s Terms of Service.":"詳細",
   "Changes made to your name and profile picture are visible on AQ GOLD.":"チャンネル名とプロフィール写真はAQ GOLD内に表示され、いつでも変更が可能です。",
   "Frequently Asked Questions":"よくあるご質問",
-  "Saving...":"保存中..."
+  "Saving...":"保存中...",
+  "This video will be published ":""
 }
