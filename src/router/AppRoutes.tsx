@@ -40,6 +40,7 @@ const Animal = React.lazy(() => import("../pages/Dashboard/category/Animal"));
 const Kids = React.lazy(() => import("../pages/Dashboard/category/Kids"));
 const ContinueWatchingPage = React.lazy(() => import("../components/ContinueWatching"));
 const VideoModal = React.lazy(() => import("../components/VideoModal"));
+const VideoPlayer = React.lazy(() => import("../components/VRPlayer"));
 
 const AppRoutes: React.FC = () => {
 
@@ -58,6 +59,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/video-upload" element={<PrivateRoute element={<VideoUpload />} />} />
         <Route path="/video/:videoId"element={<PrivateRoute element={<VideoContent />} />} />
         <Route path="/profile" element={<PrivateRoute element={<ProfileEditPage />} />} />
+        <Route path="/vr-view" element={<PrivateRoute element={<VideoPlayer />} />} />
         <Route path="/continue-watching" element={<PrivateRoute element={<ContinueWatchingPage />} />} />
         <Route path="/category">
           <Route path="natural"  element={<PrivateRoute element={<Natural />} />} />
