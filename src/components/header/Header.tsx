@@ -20,9 +20,9 @@ const Header: React.FC<{ onToggleModal: () => void }> = ({ onToggleModal }) => {
     return (
         <div className="absolute w-full top-0 left-0 z-[888]">
             <Container>
-                <SupportNav />
+                {location.pathname !== '/vr-view' ? <SupportNav /> : null}
             </Container>
-            {isAuthenticated ? (
+            {location.pathname === '/vr-view' ? null :  isAuthenticated  ? (
                 <>
                     <SidebarMenu />
                     <div className="fixed top-0 py-2 bg-[#131515] right-0 w-full">

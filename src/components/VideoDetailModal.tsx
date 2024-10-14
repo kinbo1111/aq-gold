@@ -3,7 +3,6 @@ import { API } from 'aws-amplify';
 import Button from './Button';
 import VideoItem from './VideoItem';
 import { useTranslation } from 'react-i18next';
-import VideoModal from './VideoModal';
 import { managementFavoriteCount, incrementViewCount, createFavorite, deleteFavorite } from '../graphql/mutations';
 import { listFavorites } from '../graphql/queries';
 import { getChannelById } from '../services/ChannelService';
@@ -95,10 +94,9 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
   
   const handleOpenModal = () => {
     incrementVideoViewCount();
-    setShowModal(true);
+    navigate('/vr-view',  { state: videoUrl })
   };
 
-  const handleCloseModal = () => setShowModal(false);
   const toggleDescription = () => setDescriptionVisible(!isDescriptionVisible);
 
   useEffect(() => {
@@ -318,7 +316,6 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
           </div>
         </div>
       </div>
-      <VideoModal show={showModal} onClose={handleCloseModal} videoUrl={videoUrl} videoId={id} />
     </div>
   );
 };
