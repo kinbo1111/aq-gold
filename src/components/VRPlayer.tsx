@@ -1,170 +1,98 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Space, message } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { BiExitFullscreen } from "react-icons/bi";
-import { FaPause } from "react-icons/fa";
-import { IoPlay } from "react-icons/io5";
+import { useTranslation } from 'react-i18next';
 
-declare global {
-  interface Window {
-    VRView: any;
-  }
-}
+declare const Kaleidoscope: any;
 
 const VRPlayer: React.FC = () => {
+  const containerId = 'container360';
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const location = useLocation();
   const videoUrl = location.state;
-  const vrViewRef = useRef<HTMLDivElement>(null); 
-  const vrPlayerInstance = useRef<any>(null); 
-  const [isInitialized, setIsInitialized] = useState(false); 
-  const [isPlaying, setIsPlaying] = useState(false); 
-  const [hasError, setHasError] = useState(false); 
-  const [userInteracted, setUserInteracted] = useState(false); 
+  const viewerRef = useRef<HTMLDivElement | null>(null);
+  const [showOverlay, setShowOverlay] = useState(true); 
+  const [overlayVisible, setOverlayVisible] = useState(true); 
 
   useEffect(() => {
-    const initializeVRPlayer = () => {
-      if (vrViewRef.current && !vrPlayerInstance.current && window.VRView) {
-
-        const existingIframes = vrViewRef.current.querySelectorAll('iframe');
-        existingIframes.forEach((iframe) => iframe.remove());
-
-        vrPlayerInstance.current = new window.VRView.Player('#vrview', {
-          video: videoUrl,
-          is_stereo: true,
-          width: '100%',
-          height: '100%',
-          is_vr_off: false,
-          is_autopan_off: true,
-          disable_sensor: true, 
-        });
-
-        vrPlayerInstance.current.on('ready', () => {
-          console.log('VR View is ready');
-          setIsInitialized(true);
-        });
-
-        vrPlayerInstance.current.on('error', (event: any) => {
-          console.error('Error loading VR View:', event);
-          setHasError(true);
-        });
-      }
-    };
-
-    initializeVRPlayer(); 
-
-    return () => {
-      if (vrPlayerInstance.current) {
-        console.log('Cleaning up VR Player...');
-        vrPlayerInstance.current = null;
-      }
-    };
-  }, [videoUrl]);
-
-  const handlePlayPause = () => {
-    if (!userInteracted) {
-      message.warning("Please interact with the page before playing the video.");
-      return;
-    }
-
-    if (isInitialized && vrPlayerInstance.current) {
-      if (isPlaying) {
-        vrPlayerInstance.current.pause();
-        console.log('Video paused');
-      } else {
-        const playPromise = vrPlayerInstance.current.play();
-
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              console.log('Video playing');
-            })
-            .catch((error: any) => {
-              if (error.name === 'NotAllowedError') {
-                alert(
-                  'Autoplay blocked. Please click on the Play button again after interacting with the page.'
-                );
-              } else {
-                console.error('Error playing video:', error);
-                setHasError(true);
-              }
-            });
-        } else {
-          console.warn('The play method does not return a promise in this browser.');
-        }
-      }
-      setIsPlaying(!isPlaying); 
-    } else {
-      console.warn('Player is not ready yet.');
-    }
-  };
-
-  const handleUserInteraction = () => {
-    setUserInteracted(true);
-  };
-
-  const enterFullscreen = () => {
-    if (vrViewRef.current) {
-      vrViewRef.current.requestFullscreen().catch((error) => {
-        console.error('Failed to enter fullscreen:', error);
+    if (viewerRef.current) {
+      const viewer = new Kaleidoscope.Video({
+        source: videoUrl,
+        containerId: `#${containerId}`,
+        height: window.innerHeight,
+        width: window.innerWidth,
       });
+
+      viewer.render();
+
+      const canvasElements = viewerRef.current.querySelectorAll('canvas');
+      if (canvasElements.length > 0) {
+        canvasElements[0].style.display = 'none';
+      }
+
+      const handlePlay = () => {
+        setOverlayVisible(false); 
+        setTimeout(() => setShowOverlay(false), 500); 
+        viewer.play();
+      };
+
+      viewerRef.current.addEventListener('touchend', handlePlay);
+      document.body.addEventListener('click', handlePlay);
+
+      const handleResize = () => {
+        viewer.setSize({ height: window.innerHeight, width: window.innerWidth });
+      };
+      window.addEventListener('resize', handleResize);
+
+      return () => {
+        window.removeEventListener('resize', handleResize);
+        document.body.removeEventListener('click', handlePlay);
+      };
     }
-  };
+  }, [videoUrl]);
 
   const handleBack = () => {
     navigate(-1);
   };
 
   return (
-    <div
-      style={{ position: 'relative', width: '100%', height: '100vh', backgroundColor: '#000' }}
-      onClick={handleUserInteraction} 
-    >
-      <div
-        id="vrview"
-        ref={vrViewRef}
-        tabIndex={0} 
-        style={{ width: '100%', height: '100%' }}
-      />
-      <Button
-        onClick={handleBack}
-        style={{
-          position: 'absolute',
-          top: '10px',
-          right: '10px',
-          fontSize: '24px',
-          fontWeight: 'bold',
-          background: 'none',
-          border: 'none',
-          color: '#fff',
-          cursor: 'pointer',
-          zIndex: 2, 
-        }}
-      >
-        &times;
-      </Button>
-<div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 flex items-center bg-black bg-opacity-50 px-8 py-3 rounded-full z-10 shadow-lg">
-      <button
-        onClick={handlePlayPause}
-        disabled={!isInitialized || hasError}
-        className="text-white bg-white bg-opacity-10 hover:bg-opacity-30 transition-all duration-300 rounded-full p-3 focus:outline-none"
-      >
-        {isPlaying ? (
-          <FaPause className="text-3xl" />
-        ) : (
-          <IoPlay className="text-3xl" />
-        )}
-      </button>
-      
-      <button
-        onClick={enterFullscreen}
-        className="ml-6 text-white bg-white bg-opacity-10 hover:bg-opacity-30 transition-all duration-300 rounded-full p-3 focus:outline-none"
-      >
-        <BiExitFullscreen className="text-3xl" />
-      </button>
-    </div>
+<div className="relative w-full h-screen bg-gradient-to-r from-gray-900 via-black to-gray-900">
+  <div
+    id={containerId}
+    ref={viewerRef}
+    className="absolute top-0 left-0 w-full h-full cursor-pointer"
+  />
 
+  {showOverlay && (
+    <div
+      className={`absolute inset-0 flex items-center justify-center bg-black bg-opacity-70 text-white text-lg text-center transition-opacity duration-500 ease-in-out ${
+        overlayVisible ? 'opacity-100' : 'opacity-0'
+      }`}
+    >
+      <div className="text-center cursor-pointer">
+        <h1
+          className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 animate-pulse
+          transition-transform transform duration-500 ease-in-out scale-100 hover:scale-105"
+        >
+          {t("playPrompt")}
+        </h1>
+        <p className="text-gray-400 text-base md:text-lg lg:text-xl animate-fadeIn opacity-70">
+          {t("experiencePrompt")}
+        </p>
+      </div>
     </div>
+  )}
+
+  <button
+    onClick={handleBack}
+    className="absolute top-4 right-4 text-white text-3xl font-bold px-4 py-2 rounded-full 
+    bg-gradient-to-r from-red-500 to-pink-600 hover:from-pink-500 hover:to-red-600 
+    shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none z-10"
+  >
+    &times;
+  </button>
+</div>
+
   );
 };
 
