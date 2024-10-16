@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 declare const Kaleidoscope: any;
 
 const VRPlayer: React.FC = () => {
-  const containerId = 'container360';
   const navigate = useNavigate();
   const { t } = useTranslation();
   const location = useLocation();
@@ -18,17 +17,13 @@ const VRPlayer: React.FC = () => {
     if (viewerRef.current) {
       const viewer = new Kaleidoscope.Video({
         source: videoUrl,
-        containerId: `#${containerId}`,
+        containerId: `#container360`,
         height: window.innerHeight,
         width: window.innerWidth,
       });
 
       viewer.render();
 
-      const canvasElements = viewerRef.current.querySelectorAll('canvas');
-      if (canvasElements.length > 0) {
-        canvasElements[0].style.display = 'none';
-      }
 
       const handlePlay = () => {
         setOverlayVisible(false); 
@@ -58,7 +53,7 @@ const VRPlayer: React.FC = () => {
   return (
 <div className="relative w-full h-screen bg-gradient-to-r from-gray-900 via-black to-gray-900">
   <div
-    id={containerId}
+    id="container360"
     ref={viewerRef}
     className="absolute top-0 left-0 w-full h-full cursor-pointer"
   />
