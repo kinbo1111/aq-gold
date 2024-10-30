@@ -104,15 +104,6 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen }) => {
     }
   }, [nickname, avatarURL])
 
-  useEffect(() => {
-    if (activeChannel === 'channel') {
-      if (!channelData) {
-        message.warning(t("You do not have channel yet.Create AQvar Channel from here!"))
-        navigate('/create-channel')
-      }
-    }
-  }, [activeChannel])
-
   const handleAvatarChange = (file: File) => {
     if (file && file.type.startsWith('image/')) {
       setAvatar(file);

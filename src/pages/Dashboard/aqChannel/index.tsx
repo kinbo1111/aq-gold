@@ -8,12 +8,19 @@ import { useTranslation } from 'react-i18next';
 import { API, graphqlOperation } from 'aws-amplify';
 import { getUserChannel } from '../../../graphql/mutations'; 
 import CreateChannel from './CreateChannel'; 
+import { useNavigate } from 'react-router-dom';
 
 const ChannelHome: React.FC = () => {
+    
+    const navigate = useNavigate();
     const { t } = useTranslation();
     const { user } = useUser();
     const [hasChannel, setHasChannel] = useState<boolean | null>(null);
     const [loading, setLoading] = useState(true);
+
+    const handleCreateChannel = () => {
+        navigate("/create-channel")
+    }
 
     useEffect(() => {
         const fetchUserChannel = async () => {
@@ -55,7 +62,9 @@ const ChannelHome: React.FC = () => {
                 <ChannelTab/>
             </DashboardContainer>
         ) : (
-            <CreateChannel />
+            <a onClick={handleCreateChannel} className="flex text-blue-500 underline cursor-pointer text-center items-center mt-6">
+                {t("You do not have channel yet. Create AQvar Channel from here!")}
+            </a>
         )}
         </div>
     );
