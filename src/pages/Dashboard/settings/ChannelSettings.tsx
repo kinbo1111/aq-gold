@@ -4,6 +4,7 @@ import { DefaultAvatar } from '../../../const';
 import Input from "../../../components/inputs/Input";
 import { useTranslation } from "react-i18next";
 import { useChannel } from "../../../contexts/ChannelContext";
+import { useNavigate } from 'react-router-dom';
 
 interface ChannelSettingsProps {
     channelAvatar?: string;
@@ -21,6 +22,7 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
 }) => {
     
     const { t } = useTranslation();
+    const navigate = useNavigate();
     const { channelData } = useChannel();
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [imageUrl, setImageUrl] = useState<string | undefined>('');
@@ -30,8 +32,14 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
     const fileInputRef = useRef<HTMLInputElement>(null);
     const { register, formState: { errors } } = useForm();
     const handleImageLoad = () => setIsLoaded(true);
-    const handleImageError = () => setIsLoaded(false);
-    
+
+    const handleCreateChannel = () => {
+        navigate("/create-channel")
+    }
+    const handleImageError = () => {
+        setIsLoaded(false);
+        setImageUrl(DefaultAvatar)
+    }
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
@@ -43,6 +51,7 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
     const handleRemoveClick = () => {
         setSelectedFile(null);
         onAvatarRemove();
+        setImageUrl(DefaultAvatar);
     };
 
     const triggerFileInput = () => fileInputRef.current?.click();
@@ -64,80 +73,90 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
             setChannelHandle(channelData?.description)  
             setImageUrl(channelData?.avatarUrl)
         }
-    },[channelData])
+    }, [channelData])
+    
+    if (channelData === null) {
+        return (
+            <a onClick={handleCreateChannel} className="flex text-blue-500 underline cursor-pointer text-center items-center mt-6">
+                {t("You do not have channel yet. Create AQvar Channel from here!")}
+            </a>
+        );
+    } else {
+        return (
+            <div>
+                <h5 className="sub-1b text-white mb-4">{t("Your AQvar Channel")}</h5>
 
-    return (
-        <div>
-            <h5 className="sub-1b text-white mb-4">{t("Your AQvar Channel")}</h5>
-            <div className="pb-6 border-b border-[#585a5c]">
-                <h6 className="sub-2r text-white mb-2">{t("Picture")}</h6>
-                <p className="body-1r text-white mb-4">
-                    {t("Your channel picture will appear where your channel is presented on AQ GOLD, like next to your videos.")}
-                </p>
-                <div className="grid grid-cols-12">
-                    <div className="col-span-3 space-x-1">
-                        <img 
-                            src={selectedFile? URL.createObjectURL(selectedFile) : imageUrl} 
-                            onLoad={handleImageLoad}
-                            onError={handleImageError}
-                            alt="Current Avatar" 
-                            className="w-[100px] h-[100px] rounded-full object-cover bg-[#6b6b6b]"
-                        />
-                    </div>
-                    <div className="col-span-9">
-                        <p className="text-white body-1r mb-3">{t("eleven")}</p>
-                        <div>
-                            <button onClick={triggerFileInput} className="py-3 px-4 brand-600 button-2b">
-                                {t("Change")}
-                            </button>
-                            <button onClick={handleRemoveClick} className="py-3 px-4 brand-600 button-2b">
-                                {t("Remove")}
-                            </button>
+                <div className="pb-6 border-b border-[#585a5c]">
+                    <h6 className="sub-2r text-white mb-2">{t("Picture")}</h6>
+                    <p className="body-1r text-white mb-4">
+                        {t("Your channel picture will appear where your channel is presented on AQ GOLD, like next to your videos.")}
+                    </p>
+                    
+                    <div className="grid grid-cols-12">
+                        <div className="col-span-3 space-x-1">
+                            <img
+                                src={selectedFile ? URL.createObjectURL(selectedFile) : imageUrl}
+                                onLoad={handleImageLoad}
+                                onError={handleImageError}
+                                alt="Current Avatar"
+                                className="w-[100px] h-[100px] rounded-full object-cover bg-[#6b6b6b]"
+                            />
+                        </div>
+                        <div className="col-span-9">
+                            <p className="text-white body-1r mb-3">{t("eleven")}</p>
+                            <div>
+                                <button onClick={triggerFileInput} className="py-3 px-4 brand-600 button-2b">
+                                    {t("Change")}
+                                </button>
+                                <button onClick={handleRemoveClick} className="py-3 px-4 brand-600 button-2b">
+                                    {t("Remove")}
+                                </button>
+                            </div>
                         </div>
                     </div>
+                    <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                        style={{ display: 'none' }}
+                    />
                 </div>
-                <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    style={{ display: 'none' }}
-                />
+                <div className="py-3 flex flex-col gap-3">
+                    <h6 className="sub-2r text-white">{t("Your Channel")}</h6>
+                    <Input
+                        id="channelName"
+                        label={t("Channel Name")}
+                        type="text"
+                        onChange={(e) => setChannelName(e.target.value)}
+                        value={channelName}
+                        register={register}
+                        errors={errors}
+                        required
+                        small
+                    />
+                    <Input
+                        id="handle"
+                        label={t("Handle")}
+                        type="text"
+                        onChange={(e) => {
+                            const value = e.target.value;
+                            if (!value.startsWith("@")) {
+                                setChannelHandle("@" + value);
+                            } else {
+                                setChannelHandle(value);
+                            }
+                        }}
+                        value={channelHandle}
+                        register={register}
+                        errors={errors}
+                        required
+                        small
+                    />
+                </div>
             </div>
-            <div className="py-3 flex flex-col gap-3">
-                <h6 className="sub-2r text-white">{t("Your Channel")}</h6>
-                <Input
-                    id="channelName"
-                    label={t("Channel Name")}
-                    type="text"
-                    onChange={(e) => setChannelName(e.target.value)}
-                    value={channelName}
-                    register={register}
-                    errors={errors}
-                    required
-                    small
-                />
-                <Input
-                id="handle"
-                label={t("Handle")}
-                type="text"
-                onChange={(e) => {
-                    const value = e.target.value;
-                    if (!value.startsWith("@")) {
-                    setChannelHandle("@" + value);
-                    } else {
-                    setChannelHandle(value);
-                    }
-                }}
-                value={channelHandle}
-                register={register}
-                errors={errors}
-                required
-                small
-                />
-            </div>
-        </div>
-    );
+        );
+    }
 };
 
 export default ChannelSettings;

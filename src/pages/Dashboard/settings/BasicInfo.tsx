@@ -35,6 +35,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({
 
     const handleImageError = () => {
         setIsLoaded(false);
+        setImageUrl(DefaultAvatar);
     };
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
