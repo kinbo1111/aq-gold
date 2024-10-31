@@ -5,6 +5,7 @@ import Input from "../../../components/inputs/Input";
 import { useTranslation } from "react-i18next";
 import { useChannel } from "../../../contexts/ChannelContext";
 import { useNavigate } from 'react-router-dom';
+import CreateChannelButton from "../../../components/CreateChannelButton";
 
 interface ChannelSettingsProps {
     channelAvatar?: string;
@@ -76,11 +77,7 @@ const ChannelSettings: React.FC<ChannelSettingsProps> = ({
     }, [channelData])
     
     if (channelData === null) {
-        return (
-            <a onClick={handleCreateChannel} className="flex text-blue-500 underline cursor-pointer text-center items-center mt-6">
-                {t("You do not have channel yet. Create AQvar Channel from here!")}
-            </a>
-        );
+        return <CreateChannelButton />;
     } else {
         return (
             <div>

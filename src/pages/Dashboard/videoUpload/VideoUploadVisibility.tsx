@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import SettingsModalHeader from "../settings/SettingsModalHeader";
@@ -10,6 +10,8 @@ import { Select, Button, message, DatePicker, Progress } from 'antd';
 import { GoTriangleDown } from "react-icons/go";
 import { ScheduleDataProps } from ".";
 import dayjs, { Dayjs } from 'dayjs';
+import moment from 'moment-timezone';
+import { UseFormRegister } from "react-hook-form";
 
 export type VideoUploadVisibilityProps = {
   videoTitle: string;
@@ -17,7 +19,7 @@ export type VideoUploadVisibilityProps = {
   isLoading: boolean;
   onClose: () => void;
   onSchedule: (data: ScheduleDataProps | null) => void;
-  uploadProgress: number;  // Add this prop to control the progress bar
+  uploadProgress: number; 
 };
 
 const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
@@ -26,7 +28,7 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
   isLoading,
   onClose,
   onSchedule,
-  uploadProgress  // Use this prop to track the progress percentage
+  uploadProgress 
 }) => {
   const { register, handleSubmit, watch, setValue } = useForm<ScheduleDataProps>({
     defaultValues: {
@@ -40,12 +42,44 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
   const [publishNow, setPublishNow] = useState<boolean>(true);
   const [scheduleDate, setScheduleDate] = useState<string>("");
   const [scheduleTime, setScheduleTime] = useState<string>("10:00");
+  const [timeOptions, setTimeOptions] = useState<string[]>([]);
+  const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split("T")[0]);
+  const [selectedTime, setSelectedTime] = useState<string>("");
 
   const [selectedValue, setSelectedValue] = useState(null);
   const options = ['Japan (GMT＋0700)', 'US (GMT＋0700)', 'UK (GMT＋0700)'];
 
   const { t } = useTranslation();
 
+  useEffect(() => {
+    generateTimeOptions();
+  }, [selectedDate]);
+
+  const generateTimeOptions = () => {
+    const options: string[] = [];
+    const now = new Date();
+    const selected = new Date(selectedDate);
+    const isToday = selected.toDateString() === now.toDateString();
+    const startHour = isToday ? now.getHours() : 0;
+    const startMinute = isToday ? Math.ceil(now.getMinutes() / 30) * 30 : 0;
+
+    for (let hour = startHour; hour < 24; hour++) {
+      for (let min = (hour === startHour ? startMinute : 0); min < 60; min += 30) {
+        const time = `${hour.toString().padStart(2, '0')}:${min.toString().padStart(2, '0')}`;
+        options.push(time);
+      }
+    }
+    setTimeOptions(options);
+  };
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedDate(e.target.value);
+    setSelectedTime(""); 
+  };
+
+  const handleTimeChange = (value: string) => {
+    setSelectedTime(value);
+  };
   const handleClick = () => {
     if (!publishNow) {
       if (timezone === '') {
@@ -72,29 +106,16 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
   };
 
   const handleChangeTimeZone = (value: string) => setTimeZone(value);
-  const handleScheduleTime = (e: React.ChangeEvent<HTMLInputElement>) => setScheduleTime(e.target.value);
+  
   const handlePublishNow = (value: boolean) => setPublishNow(value);
   const onChange = (dateString: string) => setScheduleDate(dateString);
 
+
   const disabledDate = (current: Dayjs) => {
-    // Can not select days before today
     return current && current < dayjs().startOf('day');
   };
+  
 
-  // Disable times for today
-  const disabledDateTime = () => {
-    const currentHour = dayjs().hour();
-    const currentMinute = dayjs().minute();
-
-    return {
-      disabledHours: () =>
-        Array.from({ length: 24 }, (_, i) => i).filter((hour) => hour < currentHour),
-      disabledMinutes: (selectedHour: number) =>
-        selectedHour === currentHour
-          ? Array.from({ length: 24 }, (_, i) => i).filter((hour) => hour < currentHour)
-          : [],
-    };
-  };
 
   if (!isOpen) return null;
 
@@ -176,15 +197,22 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
                       className="custom-datepicker relative w-[170px] h-10 text-center date-input px-2 rounded bg-transparent text-white border border-[#9fa0a1]"
                       placeholder="Select Date"
                       disabledDate={disabledDate}
-                      disabledTime={disabledDateTime}
                     />
-              
-                    <input
-                      type="time"
+                     <Select
                       {...register("scheduleTime")}
-                      onChange={handleScheduleTime}
-                      className="relative w-[140px] h-10 text-center date-input px-2 rounded bg-transparent text-white border border-[#9fa0a1]"
-                    />
+                      value={selectedTime}
+                      onChange={handleTimeChange}
+                      placeholder="Select Time"
+                      dropdownStyle={{ backgroundColor: '#2e3133' }}
+                        popupClassName="custom-dropdown"
+                      className="time h-10 text-center rounded bg-transparent text-white border"
+                    >
+                      {timeOptions.map((time) => (
+                        <Select.Option key={time} value={time}>
+                          <span className="text-white">{time}</span>
+                        </Select.Option>
+                      ))}
+                    </Select>
                   </div>
                   <div className="flex items-center gap-2 gray-200 body-1r">
                     <Select
@@ -232,16 +260,16 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
               <p className="mb-2 body-2r text-white">{t("Do kids appear in this video?")}</p>
               <p className="mb-4 gray-200 body-2r">
                 {t("seven")}
-                <Link to="/learn-more" className="underline ml-1">
+                <a href="#" className="underline ml-1">
                   {t("Learn more")}
-                </Link>
+                </a>
               </p>
               <p className="mb-2 body-2r text-white">{t("Looking for overall content guidance?")}</p>
               <p className="mb-4 gray-200 body-2r">
                 {t("Our Community Guidelines can help you avoid trouble and ensure that AQ GOLD remains a safe and vibrant community.")}
-                <Link to="/learn-more" className="underline ml-1">
+                <a href="#" className="underline ml-1">
                   {t("Learn more")}
-                </Link>
+                </a>
               </p>
             </div>
           </div>
