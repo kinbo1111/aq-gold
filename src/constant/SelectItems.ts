@@ -9,9 +9,9 @@ export const categories = [
     { value: "horror", label: "Horror" },
     { value: "documentaries", label: "Documentaries" },
     { value: "animal", label: "Animal" },
-    { value: "entertainment", label: "Entertainment" },
+    { value: "entertainment", label: "Variety Entertainment" },
     { value: "AQvar", label: "AQvar" },
-    { value: "kids", label: "Kids" },
+    { value: "kids", label: "Kids & Family" },
     { value: "aq18", label: "AQ18" },
 
   ];

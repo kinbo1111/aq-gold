@@ -141,3 +141,52 @@ input[type="email"]::placeholder {
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+
+
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  color: #fff;
+}
+.playlist .ant-select-selector {
+    width: 356px !important;
+    margin-left: -17px !important;
+    margin-top: -10px !important;
+    height: 45px !important;
+}
+
+.playlist .ant-select {
+    border: none !important;
+}
+
+.playlist .ant-select-selection-item-content {
+    color: white !important;
+    font-size: 16px !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
+
+.playlist .ant-select-selection-item-remove {
+    color: white !important;
+}
+
+.playlist input[type="search"]::placeholder {
+    color: #888 !important;
+    opacity: 1 !important;
+}
+
+.playlist .ant-select-dropdown {
+    background-color: #2e3133 !important;
+}
+
+.playlist .ant-select-item {
+    color: #fff !important;
+}
+
+.playlist .ant-select-dropdown .ant-select-item-option-selected {
+    background-color: #d3d3d3 !important;
+    color: #000 !important;
+}
