@@ -172,12 +172,12 @@ const CreateChannel = () => {
             </div>
             <div className="flex items-center justify-center body-1r text-black">
              {t("Changes made to your name and profile picture are visible on AQ GOLD.")}
-              <Link
-                to="learn-more"
+              <a
+                href="#"
                 className="body-1r text-[#1570EF] underline ml-1"
               >
                 {t("Learn more")}
-              </Link>
+              </a>
             </div>
           </div>
           <div className="flex items-center justify-center">

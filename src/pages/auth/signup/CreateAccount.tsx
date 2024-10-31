@@ -114,8 +114,8 @@ const CreateAccount: React.FC = () => {
         value={selectedYear}
         onChange={(year) => {
           setSelectedYear(year);
-          setSelectedMonth(null);  // Reset month if year is changed
-          setSelectedDay(null);    // Reset day if year is changed
+          setSelectedMonth(null);  
+          setSelectedDay(null);    
         }}
         className="w-1/3 mr-2"
       >
@@ -139,7 +139,7 @@ const CreateAccount: React.FC = () => {
         value={selectedMonth}
         onChange={(month) => {
           setSelectedMonth(month);
-          setSelectedDay(null); // Reset day if month is changed
+          setSelectedDay(null); 
         }}
         className="w-1/3 mr-2"
         disabled={!selectedYear}

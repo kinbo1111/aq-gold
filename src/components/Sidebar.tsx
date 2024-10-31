@@ -27,7 +27,7 @@ const SidebarMenu: React.FC = () => {
 
   const handleToggleModal = () => {
     setIsOpen(!isOpen);
-    navigate('/dashboard');
+    navigate('/not-found');
   };
 
   const handleVisible = () => {
