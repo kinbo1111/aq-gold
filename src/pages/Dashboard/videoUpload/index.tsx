@@ -145,8 +145,8 @@ const VideoUpload: React.FC = () => {
   }
 
   const handleCloseUploadVisibility = () => {
-    setIsUploadVisibilityOpen(false)
-    navigate('/aq-studio?tab=2');
+    setIsUploadVisibilityOpen(false); 
+    setIsUploadDetailOpen(true);
   }
 
   return (

@@ -17,12 +17,19 @@ import Input from "../../../../components/inputs/Input";
 import Textarea from "../../../../components/inputs/Textarea";
 import SelectBox from "../../../../components/inputs/Select";
 import { VideoData } from "../../../../types";
+import { Select } from "antd";
 
 interface VideoDetailProps {
   isOpen: boolean;
   videoData: VideoData;
   onClose: () => void;
 }
+
+export type PlaylistOption = {
+  value: string;
+  label: string;
+}
+
 
 const VideoDetail: React.FC<VideoDetailProps> = ({
   videoData,
@@ -51,6 +58,13 @@ const VideoDetail: React.FC<VideoDetailProps> = ({
   const [loading, setLoading] = useState(false);
   const { channelData, checkUserChannel } = useChannel();
 
+  const [playlists, setPlaylists] = useState<PlaylistOption[]>([
+      { value: "1", label: "Playlist 1" },
+      { value: "2", label: "Playlist 2" },
+      { value: "3", label: "Playlist 3" },
+      { value: "4", label: "Playlist 4" },
+    ]);
+
   useEffect(() => {
     checkUserChannel();
   }, []);
@@ -63,27 +77,39 @@ const VideoDetail: React.FC<VideoDetailProps> = ({
     onClose()
   };
 
-  const handleThumbnail = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSelectChange = (value: string) => {
+    setSelectedPlaylist(value);
+  };
+
+  const handleAddPlaylist = (newValue: string) => {
+    if (!playlists.some((playlist) => playlist.label === newValue)) {
+      const newPlaylist = { value: String(playlists.length + 1), label: newValue };
+      setPlaylists([...playlists, newPlaylist]);
+    }
+    setSelectedPlaylist(newValue);
+  };
+
+ const handleThumbnailUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files && files.length > 0) {
-      setThumbnailFile(files[0])
+      setThumbnailFile(files[0]);
       const newThumbnails = Array.from(files).map((file) => ({
         src: URL.createObjectURL(file),
         alt: file.name,
       }));
-      setThumbnails((prev) => [...prev, ...newThumbnails]);
+      setThumbnails(newThumbnails);
     }
   };
 
-  const handleVThumbnail = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleVThumbnailUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files && files.length > 0) {
-      setVthumbnailFile(files[0])
+      setVthumbnailFile(files[0]);
       const newVThumbnails = Array.from(files).map((file) => ({
         src: URL.createObjectURL(file),
         alt: file.name,
       }));
-      setVThumbnails((prev) => [...prev, ...newVThumbnails]);
+      setVThumbnails(newVThumbnails);
     }
   };
 
@@ -195,10 +221,10 @@ const VideoDetail: React.FC<VideoDetailProps> = ({
                     small
                   />
                 </div>
-                <div className="mt-8 flex flex-col gap-2">
+            <div className="mt-8 flex flex-col gap-2">
                   <h6 className="body-1b text-white">{t("Thumbnail")}</h6>
                   <p className="body-1r gray-200">
-                    {t("Select or  a picture that shows what's in your video.")}
+                    {t("Select or upload a picture that shows what's in your video.")}
                     {t("A good thumbnail stands out and draws viewers' attention.")}
                   </p>
                   <div className="flex items-start justify-start gap-4">
@@ -210,56 +236,52 @@ const VideoDetail: React.FC<VideoDetailProps> = ({
                         className="w-full max-w-[150px] rounded-lg"
                       />
                     ))}
-                    {!thumbnails.length &&
-                      <label className="max-w-[150px] w-full h-20 border border-dashed border-gray-500 flex items-center justify-center cursor-pointer rounded-lg">
-                        <input
-                          type="file"
-                          className="hidden"
-                          accept="image/*"
-                          multiple
-                          onChange={handleThumbnail}
-                        />
-                        <div className="text-gray-500 text-center flex flex-col items-center justify-center">
-                          <MdAddPhotoAlternate
-                            size={24}
-                            className="gray-200 mb-2"
-                          />
-                          <p className="body-2r gray-200 text-center">
-                            {t(" image")}
-                          </p>
-                        </div>
-                      </label>
-                    }
+                    <label className={`max-w-[150px] w-full h-20 border border-dashed border-gray-500 flex items-center justify-center cursor-pointer rounded-lg ${thumbnails.length ? 'hover:bg-gray-300' : ''}`}>
+                      <input
+                        type="file"
+                        className="hidden"
+                        accept="image/*"
+                        multiple
+                        onChange={handleThumbnailUpload}
+                        onClick={(e) => {
+                          (e.target as HTMLInputElement).value = '';
+                        }}
+                      />
+                      <div className="text-gray-500 text-center flex flex-col items-center justify-center">
+                        <MdAddPhotoAlternate size={24} className="gray-200 mb-2" />
+                        <p className="body-2r gray-200 text-center">
+                          {t("Upload image")}
+                        </p>
+                      </div>
+                    </label>
                   </div>
                   <div className="flex items-start justify-start gap-4">
-                    {vthumbnails.map((vthumbnail, index) => (
+                    {vthumbnails.map((thumbnail, index) => (
                       <img
                         key={index}
-                        src={vthumbnail.src}
-                        alt={vthumbnail.alt}
-                        className="w-full max-w-[132px] rounded-lg"
+                        src={thumbnail.src}
+                        alt={thumbnail.alt}
+                        className="w-full max-w-[150px] rounded-lg"
                       />
                     ))}
-                    {!vthumbnails.length &&
-                      <label className="max-w-[132px] w-full h-[185px] border border-dashed border-gray-500 flex items-center justify-center cursor-pointer rounded-lg">
-                        <input
-                          type="file"
-                          className="hidden"
-                          accept="image/*"
-                          multiple
-                          onChange={handleVThumbnail}
-                        />
-                        <div className="text-center flex flex-col items-center justify-center">
-                          <MdAddPhotoAlternate
-                            size={24}
-                            className="gray-200 mb-2"
-                          />
-                          <p className="body-2r gray-200 text-center">
-                            {t(" image")}
-                          </p>
-                        </div>
-                      </label>
-                    }
+                    <label className={`max-w-[150px] w-full h-20 border border-dashed border-gray-500 flex items-center justify-center cursor-pointer rounded-lg ${vthumbnails.length ? 'hover:bg-gray-300' : ''}`}>
+                      <input
+                        type="file"
+                        className="hidden"
+                        accept="image/*"
+                        multiple
+                        onChange={handleVThumbnailUpload}
+                        onClick={(e) => {
+                          (e.target as HTMLInputElement).value = '';
+                        }}
+                      />
+                      <div className="text-gray-500 text-center flex flex-col items-center justify-center">
+                        <MdAddPhotoAlternate size={24} className="gray-200 mb-2" />
+                        <p className="body-2r gray-200 text-center">
+                          {t("Upload image")}
+                        </p>
+                      </div>
+                    </label>
                   </div>
                 </div>
                 <div className="mt-6 flex flex-col gap-4">
@@ -267,14 +289,20 @@ const VideoDetail: React.FC<VideoDetailProps> = ({
                   <p className="body-1r gray-200">
                     {t("Add your video to one or more playlists to organize your content for viewers.")}
                   </p>
-                  <SelectBox
-                    options={playlist}
-                    value={selectedPlaylist}
-                    onChange={setSelectedPlaylist}
-                    border
-                    standard
-                    detail
-                  />
+                      <Select
+                        mode="tags"
+                        placeholder={t("Select or add a playlist")}
+                        value={selectedPlaylist}
+                        onChange={handleSelectChange}
+                        onSelect={handleAddPlaylist}
+                        options={playlists.map((playlist) => ({
+                        value: playlist.label,
+                        label: playlist.label,
+                        }))}
+                      popupClassName="playlist"
+                      getPopupContainer={(triggerNode) => triggerNode.closest('.playlist')}
+                      className="playlist bg-[#2e3133] text-white rounded border border-[#9fa0a1] w-[356px] px-4 py-2 max-h-[44px]"
+                    />
                 </div>
                 <div className="mt-6 flex flex-col gap-4">
                   <h6 className="body-1b text-white">{t("Category")}</h6>
@@ -364,12 +392,12 @@ const VideoDetail: React.FC<VideoDetailProps> = ({
                     </p>
                     <p className="body-1r gray-200">
                       {t("Age-restricted videos are shown only in AQ18+.")}
-                      <Link
-                        to="/learn-more"
+                      <a
+                        href="#"
                         className="underline text-[#1570EF]"
                       >
                         {t("Learn more")}
-                      </Link>
+                      </a>
                     </p>
                     <div className="flex items-center">
                       <input

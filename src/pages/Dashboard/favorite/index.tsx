@@ -69,7 +69,7 @@ const Favorite = () => {
                 />
                 <MovieList
                     movieData={popularVideos}
-                    label={t("Popular on AQ Gold")}
+                    label={t("Popular on AQva")}
                 />
             </div>
         </MainContainer>

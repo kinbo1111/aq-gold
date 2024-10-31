@@ -232,7 +232,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
                   {isFavorited ? <MdFavorite className='text-[#c7a76b]' size={20} /> : <MdFavoriteBorder className='text-[#c7a76b]' size={20} />}
                 </button>
               }
-              <button className='p-3 border-[2px] border-[#c7a76b] bg-transparent absolute ml-[1000px]'>
+              <button className='p-3 border-[2px] border-[#c7a76b] bg-transparent absolute right-5'>
                 <span className='text-[#c7a76b] text-nowrap'>
                   <FaFlagCheckered />
                 </span>
@@ -279,7 +279,6 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
                 </span>
               </div>
             </div>
-          <p className='text-white text-4xl'>{videoTitle}</p>
           <p className='text-white my-2'>{videoDescription}</p>
           <div
             className='flex items-center justify-start gap-4 mb-2 cursor-pointer'

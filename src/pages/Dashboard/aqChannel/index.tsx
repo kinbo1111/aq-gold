@@ -9,6 +9,7 @@ import { API, graphqlOperation } from 'aws-amplify';
 import { getUserChannel } from '../../../graphql/mutations'; 
 import CreateChannel from './CreateChannel'; 
 import { useNavigate } from 'react-router-dom';
+import CreateChannelButton from "../../../components/CreateChannelButton";
 
 const ChannelHome: React.FC = () => {
     
@@ -61,11 +62,7 @@ const ChannelHome: React.FC = () => {
                 </div>
                 <ChannelTab/>
             </DashboardContainer>
-        ) : (
-            <a onClick={handleCreateChannel} className="flex text-blue-500 underline cursor-pointer text-center items-center mt-6">
-                {t("You do not have channel yet. Create AQvar Channel from here!")}
-            </a>
-        )}
+        ) : <CreateChannelButton/>}
         </div>
     );
 };

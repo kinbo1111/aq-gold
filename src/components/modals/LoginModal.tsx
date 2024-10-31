@@ -30,7 +30,7 @@ const LoginModal = () => {
     setIsLoading(true);
     try {
       if (!username) {
-        message.warning('Username is required.');
+        message.warning('Username or Email is required.');
         setIsLoading(false);
         return;
       }
