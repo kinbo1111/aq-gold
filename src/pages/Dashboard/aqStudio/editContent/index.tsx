@@ -65,9 +65,21 @@ const VideoDetail: React.FC<VideoDetailProps> = ({
       { value: "4", label: "Playlist 4" },
     ]);
 
-  useEffect(() => {
-    checkUserChannel();
-  }, []);
+    useEffect(() => {
+      const vThumbnails = [{ 
+        src: videoData.vThumbnailUrl ?? '', 
+        alt: "vertical thumbnail"
+      }];
+      const thumbnails = [{
+        src: videoData.thumbnailUrl ?? '', 
+        alt: "thumbnail"
+      }];
+
+      checkUserChannel();
+      setThumbnails(thumbnails);
+      setVThumbnails(vThumbnails);
+    }, []);
+
 
   const toggleDescription = () => {
     setDescriptionVisible(!isDescriptionVisible);
@@ -231,8 +243,8 @@ const VideoDetail: React.FC<VideoDetailProps> = ({
                     {thumbnails.map((thumbnail, index) => (
                       <img
                         key={index}
-                        src={thumbnail.src}
-                        alt={thumbnail.alt}
+                        src={thumbnail?.src ?? ''}
+                        alt={thumbnail?.alt ?? ''}
                         className="w-full max-w-[150px] rounded-lg"
                       />
                     ))}
@@ -259,8 +271,8 @@ const VideoDetail: React.FC<VideoDetailProps> = ({
                     {vthumbnails.map((thumbnail, index) => (
                       <img
                         key={index}
-                        src={thumbnail.src}
-                        alt={thumbnail.alt}
+                        src={thumbnail?.src ?? ''}
+                        alt={thumbnail?.alt ?? ''}
                         className="w-full max-w-[150px] rounded-lg"
                       />
                     ))}
