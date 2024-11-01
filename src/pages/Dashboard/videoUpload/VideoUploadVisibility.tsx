@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
 import SettingsModalHeader from "../settings/SettingsModalHeader";
 import { RiCheckboxBlankCircleFill } from "react-icons/ri";
 import { GiCheckMark } from "react-icons/gi";
 import { IoIosHelpCircle } from "react-icons/io";
 import { useTranslation } from 'react-i18next';
 import { Select, Button, message, DatePicker, Progress } from 'antd';
-import { GoTriangleDown } from "react-icons/go";
 import { ScheduleDataProps } from ".";
 import dayjs, { Dayjs } from 'dayjs';
-import moment from 'moment-timezone';
-import { UseFormRegister } from "react-hook-form";
+import TimeZoneSelect from "../../../components/TimeZoneSelect";
 
 export type VideoUploadVisibilityProps = {
   videoTitle: string;
@@ -35,6 +32,7 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
       publishNow: true,
       scheduleDate: "",
       scheduleTime: "",
+      timezone: "Asia/Tokyo"
     },
   });
 
@@ -46,39 +44,50 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
   const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split("T")[0]);
   const [selectedTime, setSelectedTime] = useState<string>("");
 
-  const [selectedValue, setSelectedValue] = useState(null);
-  const options = ['Japan (GMT＋0700)', 'US (GMT＋0700)', 'UK (GMT＋0700)'];
-
   const { t } = useTranslation();
 
   useEffect(() => {
     generateTimeOptions();
   }, [selectedDate]);
 
-  const generateTimeOptions = () => {
-    const options: string[] = [];
-    const now = new Date();
-    const selected = new Date(selectedDate);
-    const isToday = selected.toDateString() === now.toDateString();
-    const startHour = isToday ? now.getHours() : 0;
-    const startMinute = isToday ? Math.ceil(now.getMinutes() / 30) * 30 : 0;
+    const generateTimeOptions = () => {
+      const options: string[] = [];
+      const now = new Date();
+      const selected = new Date(selectedDate);
+      const isToday = selected.toDateString() === now.toDateString();
+      
+      const startHour = isToday ? now.getHours() : 0;
+      const startMinute = isToday ? Math.ceil(now.getMinutes() / 30) * 30 : 0;
 
-    for (let hour = startHour; hour < 24; hour++) {
-      for (let min = (hour === startHour ? startMinute : 0); min < 60; min += 30) {
-        const time = `${hour.toString().padStart(2, '0')}:${min.toString().padStart(2, '0')}`;
-        options.push(time);
+      for (let hour = startHour; hour < 24; hour++) {
+        for (let min = (hour === startHour ? startMinute : 0); min < 60; min += 30) {
+          const time = `${hour.toString().padStart(2, '0')}:${min.toString().padStart(2, '0')}`;
+          options.push(time);
+        }
       }
-    }
-    setTimeOptions(options);
-  };
 
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedDate(e.target.value);
-    setSelectedTime(""); 
-  };
+      setTimeOptions(options);
+    };
+
+
+  const handleChangeTimeZone = (value: string) => {
+    setTimeZone(value);
+};
+
+const handleDateChange = (date: any) => {
+  if (date) {
+    const formattedDate = date.toISOString(); 
+    setScheduleDate(formattedDate);
+    setSelectedDate(date)
+  } else {
+    setScheduleDate(""); 
+  }
+  setSelectedTime(""); 
+};
 
   const handleTimeChange = (value: string) => {
     setSelectedTime(value);
+    setScheduleTime(value);
   };
   const handleClick = () => {
     if (!publishNow) {
@@ -104,28 +113,19 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
       timezone: timezone
     });
   };
-
-  const handleChangeTimeZone = (value: string) => setTimeZone(value);
   
   const handlePublishNow = (value: boolean) => setPublishNow(value);
-  const onChange = (dateString: string) => setScheduleDate(dateString);
-
 
   const disabledDate = (current: Dayjs) => {
     return current && current < dayjs().startOf('day');
   };
-  
-
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-[999] bg-black bg-opacity-70 py-4">
       <div className="relative w-11/12 md:w-3/4 lg:w-2/3 b-gray-600 rounded-lg h-fit max-h-[90vh] overflow-y-auto videoUploadDetail">
-
-    
-
-        <SettingsModalHeader
+       <SettingsModalHeader
           onClose={onClose}
           showCloseButton={true}
           label={videoTitle}
@@ -193,7 +193,7 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
                 <div className="flex flex-col gap-4">
                   <div className="flex items-center justify-start gap-4">
                     <DatePicker
-                      onChange={onChange}
+                      onChange={handleDateChange}
                       className="custom-datepicker relative w-[170px] h-10 text-center date-input px-2 rounded bg-transparent text-white border border-[#9fa0a1]"
                       placeholder="Select Date"
                       disabledDate={disabledDate}
@@ -204,7 +204,7 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
                       onChange={handleTimeChange}
                       placeholder="Select Time"
                       dropdownStyle={{ backgroundColor: '#2e3133' }}
-                        popupClassName="custom-dropdown"
+                      popupClassName="custom-dropdown"
                       className="time h-10 text-center rounded bg-transparent text-white border"
                     >
                       {timeOptions.map((time) => (
@@ -215,29 +215,7 @@ const VideoUploadVisibility: React.FC<VideoUploadVisibilityProps> = ({
                     </Select>
                   </div>
                   <div className="flex items-center gap-2 gray-200 body-1r">
-                    <Select
-                      onChange={handleChangeTimeZone}
-                      defaultValue="japan"
-                      dropdownStyle={{ backgroundColor: '#212324', borderRadius: '10px', width: "300px", border: "1px #C7A76B solid", color: "white" }}
-                      popupClassName="custom-dropdown"
-                      suffixIcon={<GoTriangleDown className="text-[#9fa0a1] text-sm" />}
-                      options={[
-                        { value: 'japan', label: 'Japan (GMT＋0700)' },
-                        { value: 'us', label: 'US (GMT＋0700)' },
-                        { value: 'uk', label: 'UK (GMT＋0700)' },
-                      ]}
-                      
-                        >
-                          {options.map(option => (
-                              <Select.Option
-                                key={option}
-                                value={option}
-                                className={`custom-option ${selectedValue === option ? 'selected' : ''}`}
-                              >
-                                {option}
-                              </Select.Option>
-                            ))}
-                      </Select>
+                    <TimeZoneSelect handleChangeTimeZone={handleChangeTimeZone}/>
                       <IoIosHelpCircle size={16} className="gray-200" />
                     </div>
                     <p className="body-1r gray-200">{t("Video will be private before publishing")}</p>
