@@ -18,9 +18,13 @@ body {
     -webkit-text-stroke: 4px #2e3133
 }
 
+.custom-dropdown .ant-select-selector{
+    width: 280px !important;
+}
+
 .ant-select-selector{
     position: relative !important;
-    width: 280px !important;
+    width: 170px !important;
     height: 40px !important; 
     text-align: start !important;
     padding-left: 20px !important; 
@@ -30,6 +34,7 @@ body {
     color: gray !important;
     border: 1px solid #9fa0a1 !important;
 }
+
 
 .custom-dropdown .ant-select-item {
   color: white; /* Item text color */

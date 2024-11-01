@@ -52,6 +52,7 @@ const TimeZoneSelect: React.FC<TimeZoneSelectProps> = ({ handleChangeTimeZone })
       defaultValue="Asia/Tokyo"
       dropdownStyle={{ backgroundColor: '#212324', borderRadius: '10px', width: "300px", border: "1px #C7A76B solid", color: "white" }}
       popupClassName="custom-dropdown"
+      className='custom-dropdown'
       suffixIcon={<GoTriangleDown className="text-[#9fa0a1] text-sm" />}
       options={options}
     />
