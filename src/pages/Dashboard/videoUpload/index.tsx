@@ -24,8 +24,8 @@ export type VideoDetailData =  {
 }
 
 export type Thumbnail = {
-  src: string;
-  alt: string;
+  src: string | null;
+  alt: string | null;
 }
 
 export type ScheduleDataProps = {

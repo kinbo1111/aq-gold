@@ -232,8 +232,8 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                     {thumbnails.map((thumbnail, index) => (
                       <img
                         key={index}
-                        src={thumbnail.src}
-                        alt={thumbnail.alt}
+                        src={thumbnail?.src ?? ''}
+                        alt={thumbnail?.alt ?? ''}
                         className="w-full max-w-[150px] rounded-lg"
                       />
                     ))}
@@ -260,8 +260,8 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                     {vthumbnails.map((thumbnail, index) => (
                       <img
                         key={index}
-                        src={thumbnail.src}
-                        alt={thumbnail.alt}
+                        src={thumbnail?.src ?? ''}
+                        alt={thumbnail?.alt ?? ''}
                         className="w-full max-w-[150px] rounded-lg"
                       />
                     ))}

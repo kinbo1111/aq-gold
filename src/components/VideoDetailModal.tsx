@@ -250,7 +250,7 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
           <div className='flex items-center justify-start gap-4'>
             <h6 
               className="sub-2b text-white cursor-pointer" 
-              onClick={() => navigate('/aq-channel')}
+              onClick={() => navigate('/aq-studio')}
             >
               {channelHandle?.length ? channelHandle : '@~~~'}
             </h6>
