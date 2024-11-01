@@ -16,6 +16,7 @@ const ContentList: React.FC = () => {
       <ContentHeader />
       {videos.filter(video => video.owner === user?.username).map((item, index) => (
         <ContentItem
+          key={index}
           visibility="show"
           onReload={() => setIsReload(!isReload)}
           videoData = {item}  

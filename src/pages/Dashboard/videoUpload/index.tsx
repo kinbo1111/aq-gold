@@ -9,6 +9,7 @@ import VideoUploadSchedule from './VideoUploadSchedule';
 import { uploadVideoWithProgress, uploadThumbnail, uploadVthumbnail, getVideoUrl, getThumbnailUrl } from '../../../services/storageService';
 import { saveVideoMetadata } from '../../../services/VideoService';
 import { useNavigate } from 'react-router-dom';
+import { DateTime } from 'luxon';
 
 export type VideoDetailData =  {
   title: string;
@@ -43,7 +44,6 @@ const VideoUpload: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [videoDetail, setVideoDetail] = useState<VideoDetailData | null>(null);
   const [videoScheduleTime, setVideoScheduleTime] = useState<string>();
-  const [timezone, setTimeZone] = useState<string>('Japan (GMT＋0700)');
   const [videoUrl, setVideoUrl] = useState<string>();
   const [videoThumbnail, setVideoThumbnail] = useState<string>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -75,11 +75,18 @@ const VideoUpload: React.FC = () => {
         return;
       }
 
+    if (!scheduleData) {
+      message.error('Schedule data is missing.');
+      return;
+    }
+
       setIsLoading(true);
 
-      const scheduleTimeISO = scheduleData?.scheduleDate 
-        ? new Date(scheduleData.scheduleDate + ' ' + scheduleData.scheduleTime).toISOString() 
-        : new Date().toISOString();
+      const { publishNow, scheduleDate, scheduleTime, timezone } = scheduleData;
+
+      const validScheduleDate = typeof scheduleDate === 'string' ? scheduleDate : '2027-01-01'; 
+      const localDateTime = DateTime.fromISO(`${validScheduleDate.split('T')[0]}T${scheduleTime}`, { zone: timezone });
+      const scheduledDateTime = localDateTime.setZone('UTC+9').toISO();
 
       const videoKey = await uploadVideoWithProgress(selectedFile, setVideoProgress);
       const videoUrl = await getVideoUrl(videoKey);
@@ -90,7 +97,7 @@ const VideoUpload: React.FC = () => {
       const vThumbnailKey = await uploadVthumbnail(videoDetail.vThumbnail);
       const vThumbnailUrl = await getThumbnailUrl(vThumbnailKey);
     
-      setVideoScheduleTime(scheduleTimeISO);
+      setVideoScheduleTime(scheduledDateTime ?? "");
       setVideoUrl(videoUrl);
       setVideoThumbnail(thumbnailUrl);
       setVideoVthumbnail(vThumbnailUrl);
@@ -112,21 +119,19 @@ const VideoUpload: React.FC = () => {
           isRestricted: videoDetail.isRestricted,
           playlist: videoDetail.playlist,
           channelId: videoDetail.channelId,
-          scheduleTime: scheduleTimeISO,
+          scheduleTime: scheduledDateTime ?? "",
           timezone,
-          isPublic: scheduleData?.publishNow ?? false,
+          isPublic: publishNow ?? false,
           duration,
           viewCount: 0,
           favoriteCount: 0,
         });
-
 
         message.success('Video and thumbnail uploaded successfully!');
         setIsUploadScheduleOpen(true);
       };
     } catch (error) {
       message.error('Error uploading video or thumbnail.');
-      console.error('Error:', error);
     } finally {
       setIsLoading(false);
       setIsUploadVisibilityOpen(false);

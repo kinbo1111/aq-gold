@@ -26,6 +26,7 @@
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.13",
     "i18next": "^23.11.5",
+    "luxon": "^3.5.0",
     "moment": "^2.30.1",
     "moment-timezone": "^0.5.46",
     "react": "^18.3.1",
@@ -75,6 +76,7 @@
     ]
   },
   "devDependencies": {
+    "@types/luxon": "^3.4.2",
     "@types/video.js": "^7.3.58",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.38",
