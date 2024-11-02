@@ -9,6 +9,7 @@ export type VideoUploadScheduleProps = {
   videoScheduleTime: string;
   videoTitle: string;
   thumbnailUrl: string;
+  publishNow: boolean;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -18,6 +19,7 @@ const VideoUploadSchedule: React.FC<VideoUploadScheduleProps> = ({
   thumbnailUrl,
   videoScheduleTime,
   videoTitle,
+  publishNow,
   isOpen,
   onClose,
 }) => {
@@ -59,7 +61,6 @@ const VideoUploadSchedule: React.FC<VideoUploadScheduleProps> = ({
   }
 
   return (
-    
       <div className="relative flex items-center justify-center w-full mt-[180px]">
           <div className="max-w-[530px] w-full b-gray-600 rounded-[10px] flex items-start justify-start flex-col">
               <div className="relative w-full py-[10px] px-6 flex items-center justify-start border-b border-[#585a5c]">
@@ -72,19 +73,22 @@ const VideoUploadSchedule: React.FC<VideoUploadScheduleProps> = ({
                   </button>
               </div>
               <div className="py-4 flex items-start justify-start flex-col px-5 w-full">
-                  <p className="text-white justify-start">{t("This video will be published ")}{videoScheduleTime.slice(0,4)}{t("年")} {videoScheduleTime.slice(5,7)}{t("月")}{videoScheduleTime.slice(8,10)}{t("に公開に設定されます")}</p> 
+              {!publishNow ?
+                <p className="text-white justify-start">{t("This video will be published ")}{videoScheduleTime.slice(0, 4)}{t("年")} {videoScheduleTime.slice(5, 7)}{t("月")}{videoScheduleTime.slice(8, 10)} {videoScheduleTime.slice(11, 16)}{t("に公開に設定されます")}</p>
+            :<p className="text-white justify-start">{t("If it has already been published, see the image below.")}</p>
+                }  
                   <div className="p-5 flex flex-row gap-10 bg-[#57595B] w-full rounded-md my-2">
                       <div className="">
                           <img src={thumbnailUrl} className="max-h-20" />
                       </div>
                       <div className="flex flex-col text-white">
-              <p className="text-sm">{videoTitle}</p>
-                              <p className="text-[#A0A1A2] text-sm">{("Upload Date")}: {videoScheduleTime.slice(0,4)}{t("年")} {videoScheduleTime.slice(5,7)}{t("月")}{videoScheduleTime.slice(8,10)}{t("日")}</p>
+                      <p className="text-sm">{videoTitle}</p>
+                              <p className="text-[#A0A1A2] text-sm">{t("Upload Date")}: {videoScheduleTime.slice(0,4)}{t("年")} {videoScheduleTime.slice(5,7)}{t("月")}{videoScheduleTime.slice(8,10)}{t("日")}</p>
                       </div>
                   </div>
                   <div className="bg-[#2E3133] w-full rounded-md my-2 text-white p-5 text-sm" >
                       <p>{t("This video link is following:")}</p>
-                  <a className="text-blue-500 underline" href={videoUrl}>{t("Here is a link.")}
+                  <a className="text-blue-500 underline" href={videoUrl}>{videoUrl}
                     <HiClipboardDocument
                             size={16}
                             className="gray-200 inline ml-2 transform cursor-pointer"
