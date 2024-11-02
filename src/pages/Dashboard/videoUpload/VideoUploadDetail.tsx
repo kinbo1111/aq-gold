@@ -149,7 +149,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
         <SettingsModalHeader
           onClose={onClose}
           showCloseButton={true}
-          label={title?.length ? title : 'NO TITLE'}
+          label={title?.length ? title : t('NO TITLE')}
         />
         <form className="w-full">
           <div className="p-6">
@@ -218,7 +218,7 @@ const VideoUploadDetail: React.FC<VideoUploadDetailProps> = ({
                       errors={errors}
                       small
                     />
-                    <p className="absolute top-10 text-gray-500 text-xs right-3">{'['+ description.length +'/ 100]'}</p>
+                    <p className="absolute top-10 text-gray-500 text-xs right-3">{'['+ description.length +'/ 1000]'}</p>
                   </div>
                  
                 </div>

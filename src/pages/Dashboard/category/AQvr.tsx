@@ -76,7 +76,7 @@ const AQvar = () => {
                     movieData={filteredNewVideos}
                 />
                  <MovieList
-                    label={t("Popular AQ AQvar")}
+                    label={t("Popular on AQvar")}
                     movieData={filteredPopularVideos}
                 />
                  <MovieList
