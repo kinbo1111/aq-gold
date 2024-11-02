@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { message, Progress } from 'antd';
+import { message } from 'antd';
 import DashboardContainer from '../../../components/DashboardContainer';
 import VideoUploadModal from './VideoUploadModal';
 import VideoUploadDetail from './VideoUploadDetail';
@@ -49,6 +49,7 @@ const VideoUpload: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [videoProgress, setVideoProgress] = useState<number>(0);
   const [videoVthumbnail, setVideoVthumbnail] = useState<string>();
+  const [publishNow, setPublishNow] = useState<boolean>(false)
 
   const handleCloseUploadModal = () => {
     setIsUploadModalOpen(false);
@@ -83,6 +84,7 @@ const VideoUpload: React.FC = () => {
       setIsLoading(true);
 
       const { publishNow, scheduleDate, scheduleTime, timezone } = scheduleData;
+      setPublishNow(publishNow);
 
       const validScheduleDate = typeof scheduleDate === 'string' ? scheduleDate : '2027-01-01'; 
       const localDateTime = DateTime.fromISO(`${validScheduleDate.split('T')[0]}T${scheduleTime}`, { zone: timezone });
@@ -177,6 +179,7 @@ const VideoUpload: React.FC = () => {
       />
       <VideoUploadSchedule
         isOpen={isUploadScheduleOpen}
+        publishNow={publishNow}
         onClose={ handleCloseUploadSchedule}
         videoScheduleTime={videoScheduleTime ?? ''}
         videoUrl={videoUrl ?? ''}

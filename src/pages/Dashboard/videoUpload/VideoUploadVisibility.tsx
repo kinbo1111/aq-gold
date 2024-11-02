@@ -260,7 +260,7 @@ const handleDateChange = (date: any) => {
                 {t("BACK")}
               </Button>
               <Button
-                className={`btnOk flex-row brand-gradient text-white border-none button-2b h-10 relative disabled:cursor-not-allowed disabled:bg-[#ceac02] disabled:text-gray-00 rounded  transition px-4 py-2 flex items-center justify-center ${publishNow ? 'w-30' : 'w-40'}`}
+                className={`btnOk flex-row brand-gradient text-white border-none button-2b h-10 relative disabled:cursor-not-allowed disabled:bg-[#ceac02] disabled:text-gray-00 rounded  transition px-4 py-2 flex items-center justify-center ${publishNow ? 'w-30' : 'w-48'}`}
                 onClick={handleClick}
                 loading={isLoading}
               >
