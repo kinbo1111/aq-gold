@@ -169,7 +169,7 @@ const VideoDetail: React.FC<VideoDetailProps> = ({
         <SettingsModalHeader
           onClose={onClose}
           showCloseButton={true}
-          label={title?.length ? title : 'NO TITLE'}
+          label={title?.length ? title : t('NO TITLE')}
         />
           <div className="p-6">
             <div className="flex items-center justify-center">
