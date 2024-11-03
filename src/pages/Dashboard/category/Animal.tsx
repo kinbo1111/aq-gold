@@ -18,7 +18,7 @@ const Animal = () => {
     const navigate = useNavigate();
 
     const handleShow = () => {
-        navigate(`/video/${topVideos[0]?.id}`, { state: { videoUrl:topVideos[0]?.videoUrl } });
+        navigate('/vr-view', { state: topVideos[0]?.videoUrl });
     };
 
     return (

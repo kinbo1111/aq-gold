@@ -18,7 +18,7 @@ const Favorite = () => {
     const { videos, topVideos, recommendVideos, popularVideos, newVideos, favoriteVideos } = useVideo();
     const navigate = useNavigate();
     const handleShow = () => {
-        navigate(`/video/${topVideos[0]?.id}`, { state: { videoUrl:topVideos[0]?.videoUrl } });
+        navigate('/vr-view', { state: topVideos[0]?.videoUrl });
     };
     return (
         <MainContainer>
