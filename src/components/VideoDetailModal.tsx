@@ -212,11 +212,12 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
   else  return (
     <div className="fixed inset-0 flex items-center justify-center z-[999] bg-black bg-opacity-70 pt-[120px] pb-[80px]">
       <div className="relative bg-[#131515] w-11/12 md:w-3/4 lg:w-2/3 rounded-lg h-full overflow-y-scroll video-modal" ref={modalRef}>
-        <div className='relative video-detail'>
-          <img src={imgSrc} alt={videoTitle} className='w-full h-auto rounded-t-lg' />
-          <div className='video-info absolute bottom-9 left-12 z-10'>
-            <h6 className='h6 text-white mb-4'>{videoTitle}</h6>
-            <div className='flex items-center justify-start gap-4 flex-row'>
+        <div className='relative video-detail overflow-hidden'>
+        <img src={imgSrc} alt={videoTitle} className='w-full h-auto rounded-t-lg' />
+        <div className='video-info absolute bottom-9 left-12 z-10 w-full'>
+          <h6 className='h6 text-white mb-4'>{videoTitle}</h6>
+          <div className='flex items-center justify-between gap-4 flex-row w-full'>
+            <div className='flex flex-row gap-4'>
               <Button 
                 label={t('Play')}
                 icon={FaPlay}
@@ -224,15 +225,29 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
                 iconExist
                 full
               />
-              <button className='w-12 h-12 border border-[#c7a76b] rounded-full flex items-center justify-center' onClick={onAddChannel}>
+              <button 
+                className='w-12 h-12 border border-[#c7a76b] rounded-full flex items-center justify-center' 
+                onClick={onAddChannel}
+              >
                 <IoMdAdd className='text-[#c7a76b]' size={20} />
               </button>
               {!isMyVideo &&
-                <button className={`w-12 h-12 border border-[#c7a76b] rounded-full flex items-center justify-center`} onClick={handleFavoriteClick}>
-                  {isFavorited ? <MdFavorite className='text-[#c7a76b]' size={20} /> : <MdFavoriteBorder className='text-[#c7a76b]' size={20} />}
+                <button 
+                  className='w-12 h-12 border border-[#c7a76b] rounded-full flex items-center justify-center' 
+                  onClick={handleFavoriteClick}
+                >
+                  {isFavorited ? (
+                    <MdFavorite className='text-[#c7a76b]' size={20} />
+                  ) : (
+                    <MdFavoriteBorder className='text-[#c7a76b]' size={20} />
+                  )}
                 </button>
               }
-              <button className='p-3 border-[2px] border-[#c7a76b] bg-transparent absolute right-5'>
+            </div>
+            <div className='relative w-full'>
+              <button 
+                className='absolute p-3 border-[2px] border-[#c7a76b] bg-transparent right-24'
+              >
                 <span className='text-[#c7a76b] text-nowrap'>
                   <FaFlagCheckered />
                 </span>
@@ -240,6 +255,8 @@ const VideoDetailModal: React.FC<VideoDetailModalProps> = ({
             </div>
           </div>
         </div>
+      </div>
+
         <button
           onClick={onClose}
           className="text-white hover:opacity-90 focus:outline-none absolute top-4 right-4 w-8 h-8 rounded-full b-gray-800 z-20 flex items-center justify-center transition-opacity"
