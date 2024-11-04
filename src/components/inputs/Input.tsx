@@ -89,7 +89,13 @@ const Input: React.FC<InputProps> = ({
         placeholder={placeholder}
         type={type}
         value={value}
-        {...register(id, { required })}
+        {...register(id, { 
+          required,
+          pattern: type === 'email' ? {
+            value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+            message: 'Please enter a valid email address (English letters only)',
+          } : undefined
+        })}
         className={`px-3 body-2r bg-transparent border rounded outline-none transition disabled:opacity-70
                     disabled:cursor-not-allowed 
                     ${getHeightClass()}
