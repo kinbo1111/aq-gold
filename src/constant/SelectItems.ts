@@ -12,7 +12,7 @@ export const categories = [
     { value: "entertainment", label: "Variety Entertainment" },
     { value: "AQvar", label: "AQvar" },
     { value: "kids", label: "Kids & Family" },
-    { value: "aq18", label: "AQ18" },
+    { value: "aq18", label: "AQ18+" },
 
   ];
 
