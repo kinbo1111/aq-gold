@@ -10,6 +10,7 @@ import { uploadVideoWithProgress, uploadThumbnail, uploadVthumbnail, getVideoUrl
 import { saveVideoMetadata } from '../../../services/VideoService';
 import { useNavigate } from 'react-router-dom';
 import { DateTime } from 'luxon';
+import { now } from 'moment';
 
 export type VideoDetailData =  {
   title: string;
@@ -85,10 +86,15 @@ const VideoUpload: React.FC = () => {
 
       const { publishNow, scheduleDate, scheduleTime, timezone } = scheduleData;
       setPublishNow(publishNow);
+     const scheduledDateTime = publishNow 
+      ? DateTime.now().setZone('UTC+9').toISO()
+      : (() => {
+          const validScheduleDate = typeof scheduleDate === 'string' ? scheduleDate : '2027-01-01';
+          return DateTime.fromISO(`${validScheduleDate.split('T')[0]}T${scheduleTime}`, { zone: timezone })
+            .setZone('UTC+9')
+            .toISO();
+        })();
 
-      const validScheduleDate = typeof scheduleDate === 'string' ? scheduleDate : '2027-01-01'; 
-      const localDateTime = DateTime.fromISO(`${validScheduleDate.split('T')[0]}T${scheduleTime}`, { zone: timezone });
-      const scheduledDateTime = localDateTime.setZone('UTC+9').toISO();
 
       const videoKey = await uploadVideoWithProgress(selectedFile, setVideoProgress);
       const videoUrl = await getVideoUrl(videoKey);
