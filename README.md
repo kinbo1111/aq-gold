@@ -6,7 +6,8 @@
 
 ## 🌐 Project Overview
 
-AQ GOLD is a serverless web application built entirely on AWS. It provides users with a responsive and immersive experience for uploading, sharing, and viewing 360° video content across desktop and mobile platforms.
+AQ GOLD is a serverless web application built entirely on AWS. 
+It provides users with a responsive and immersive experience for uploading, sharing, and viewing 360° video content across desktop and mobile platforms.
 
 ---
 
