@@ -1,46 +1,125 @@
-# Getting Started with Create React App
+# AQ GOLD
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**AQ GOLD** is a cutting-edge web platform designed for the search, upload, and viewing of 360° videos—aiming to become the world’s largest 360° video sharing service. 
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🌐 Project Overview
 
-### `npm start`
+AQ GOLD is a serverless web application built entirely on AWS. It provides users with a responsive and immersive experience for uploading, sharing, and viewing 360° video content across desktop and mobile platforms.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+---
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 🛠 Tech Stack
 
-### `npm test`
+* **Frontend:** React, AWS Amplify
+* **Backend:** AWS AppSync (GraphQL), AWS Lambda
+* **Storage:** Amazon S3, DynamoDB
+* **Authentication:** Amazon Cognito
+* **CDN:** Amazon CloudFront
+* **CI/CD:** AWS Amplify with GitHub integration
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## ✅ Core Features
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 🔐 User Management
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+* User registration and login via Amazon Cognito
+* Profile settings and account management
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 📦 Content Delivery
 
-### `npm run eject`
+* Fast video streaming using CloudFront CDN
+* Caching and automatic content updates
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### 💾 Data Storage
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+* Amazon S3 for video and static asset storage
+* DynamoDB for structured metadata
+* Upload/download functionality
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### 🔄 Real-Time Data Sync
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+* AWS AppSync + GraphQL for real-time data updates between frontend and backend
 
-## Learn More
+### 🔧 API
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+* Secure GraphQL APIs for data fetch and mutation
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 🚀 CI/CD & Deployment
+
+* Auto build, test, and deploy with Amplify
+* Separate pipelines for development and production environments
+
+### 🎨 UI/UX
+
+* Responsive design optimized for both desktop and mobile
+* Built with React for a dynamic and interactive interface
+
+### 🔒 Security
+
+* Data encryption in transit and at rest
+* Secure API access and permission control
+
+### 📈 Monitoring & Logging
+
+* Integrated logging and monitoring tools for system and user activity
+
+### 🧩 Data Integrity & Validation
+
+* Input validation and data consistency checks
+
+### 👥 Multi-Tenant Support
+
+* Support for multiple independent user groups or organizations
+
+### 🌀 Optional Features
+
+* 360° spatial audio support
+* Ad-insertion (pre-roll, mid-roll ads like YouTube)
+* Recommendation engine using ML (based on user viewing history and preferences)
+
+---
+
+## 📋 Non-Functional Requirements
+
+* **Performance:** Low latency, scalable infrastructure via AWS
+* **High Availability:** Robust failover and disaster recovery
+* **Security:** OAuth/OpenID Connect, regular audits
+* **Maintainability:** Modular codebase and full documentation
+* **Compatibility:** Works across modern browsers and devices
+* **Extensibility:** Designed for future feature integration
+* **Accessibility:** UX designed for all users
+* **Observability:** Real-time system monitoring and alerting
+
+---
+
+## 🗂 Architecture Highlights
+
+* **Frontend Hosting:** AWS Amplify
+* **Authentication:** Amazon Cognito
+* **API Gateway:** AWS AppSync with GraphQL
+* **Data Layer:** DynamoDB
+* **File Storage:** Two separate S3 buckets (content & app assets)
+* **CDN:** Two CloudFront distributions for fast delivery
+* **CI/CD:** GitHub integration with Amplify pipelines
+* **Environments:** Support for `dev` and `prod` environments
+
+---
+
+## 🧪 MVP Features (Initial Release)
+
+* User sign-up / login
+* User dashboard and personal video list
+* 360° video upload
+* Video player with play/pause, skip, volume
+* Video search
+
+---
+
+## 🔍 Optional Advanced Features
+
+* Spatial 360° audio
+* Video ad insertion
+* Personalized recommendations via ML
